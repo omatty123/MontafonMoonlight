@@ -1,26 +1,47 @@
 /* assets/fonts.css */
-/* Ensure all titles (site title, chapter titles, headers) use the same font */
+/* One place to control site fonts + chapter image sizing */
 
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
-:root {
+:root{
   --title-font: 'Crimson Text', Georgia, serif;
-  --body-font: 'Inter', system-ui, sans-serif;
+  --body-font: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-/* Apply serif font to all headings and titles */
-h1, h2, h3, h4, h5, h6,
-.site-title,
-.chapter-title,
-.card-title {
-  font-family: var(--title-font) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.2px;
-}
-
-/* Body text stays clean sans-serif */
-body, p, li, span {
-  font-family: var(--body-font);
-  font-weight: 400;
+/* Body/content defaults */
+html, body,
+p, li, a, small, span, input, textarea, button,
+.ui-text, .chapter-content, .chapter-text, .prose p, .prose li {
+  font-family: var(--body-font) !important;
   line-height: 1.7;
 }
+
+/* Titles/headings ALWAYS serif */
+h1, h2, h3, h4, h5, h6,
+.site-title, .brand-title, .nav-title,
+.chapter-title, .card-title, .chapter-card h4,
+.prose h1, .prose h2, .prose h3 {
+  font-family: var(--title-font) !important;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+h1, .chapter-title, .site-title { font-weight: 700; }
+
+/* Keep hero/chapter images sane across the site */
+img.hero, .chapter-hero, #heroImg, .chapter-image,
+.chapter-text img {
+  max-width: min(90vw, 820px);
+  width: 100%;
+  height: auto !important;
+  display: block;
+  margin: 1.25rem auto;
+  border-radius: 8px;
+}
+
+/* Normalize pasted Google Docs inline fonts to body font */
+.chapter-text [style*="font-family"] { font-family: var(--body-font) !important; }
+.chapter-text em, .chapter-text i { font-style: italic; }
+.chapter-text strong, .chapter-text b { font-weight: 600; }
+
+/* Tighten up empty/BR-only paragraphs from Google Docs */
+.chapter-text p:empty { display:none; }
