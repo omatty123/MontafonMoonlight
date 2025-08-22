@@ -23,7 +23,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
       <div class="flex items-center justify-between">
         <div class="min-w-0">
-          <h1 class="text-xl sm:text-2xl font-bold ui" style="color: var(--primary);"><i class="fas fa-book mr-2"></i> <a href="index.html" class="hover:underline" style="color: var(--primary);">Moonlight of Montafon</a></h1>
+          <h1 class="text-xl sm:text-2xl font-bold ui" style="color: var(--primary);">
+            <i class="fas fa-book mr-2"></i>
+            <a href="index.html" class="hover:underline" style="color: var(--primary);">Moonlight of Montafon</a>
+          </h1>
           <p class="text-xs sm:text-sm ui" style="color: var(--secondary);">Translated from Korean • Updates weekly</p>
         </div>
         <div class="flex items-center space-x-3">
@@ -85,19 +88,36 @@
       btn.addEventListener('click', ()=>{ const isDark=root.getAttribute('data-theme')==='dark'; if(isDark){root.removeAttribute('data-theme'); localStorage.setItem('theme','light');} else {root.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark');} });
     })();
 
-    // Date helpers
-    function parseDateLocal(iso) {
-      const [y, m, d] = iso.split('-').map(Number);
-      return new Date(y, m - 1, d);
-    }
-    function fmtLong(iso) {
-      return parseDateLocal(iso).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
-    }
+    const fmtLong=(d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
     const num=(n)=> (n||0).toLocaleString();
-
     async function loadChapters(){ try{ const r=await fetch('chapters.json',{cache:'no-store'}); if(!r.ok) throw 0; return await r.json(); } catch(e){ return []; } }
     async function loadHtml(url){ try{ const r=await fetch(url,{cache:'no-store'}); return r.ok ? (await r.text()) : ''; } catch(e){ return ''; } }
 
     (async function(){
       const list = await loadChapters();
-      list.sort
+      list.sort((a,b)=> new Date(a.date)-new Date(b.date));
+      const p=new URLSearchParams(location.search);
+      const slug=p.get('slug'); let idx=list.findIndex(c=>c.slug===slug); if(idx<0) idx=0; const ch=list[idx];
+
+      document.getElementById('chapterTitle').textContent = ch.title;
+      document.getElementById('crumbTitle').textContent = ch.title;
+      const d=new Date(ch.date); document.getElementById('pubDate').dateTime = d.toISOString().slice(0,10); document.getElementById('pubDate').textContent = fmtLong(ch.date);
+      document.getElementById('readTime').textContent = '~'+ch.readTime+' minutes';
+      document.getElementById('wordCount').textContent = num(ch.words)+' words';
+      if(ch.hero){ const f=document.getElementById('heroBlock'); f.hidden=false; document.getElementById('heroImg').src=ch.hero; document.getElementById('heroCaption').textContent=ch.caption||''; }
+
+      if(ch.contentHtml){ const html = await loadHtml(ch.contentHtml); document.getElementById('contentRoot').innerHTML = html; }
+      else { document.getElementById('contentRoot').innerHTML = '<p>Chapter content coming soon.</p>'; }
+
+      const prev=list[idx-1]; const next=list[idx+1];
+      const prevEl=document.getElementById('prevLink'); const nextEl=document.getElementById('nextLink');
+      if(prev){ prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.innerHTML = '<i class="fas fa-arrow-left mr-2"></i>'+prev.title; } else { prevEl.href='index.html'; prevEl.innerHTML='<i class="fas fa-arrow-left mr-2"></i>Home'; }
+      if(next){ nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.innerHTML = next.title + '<i class="fas fa-arrow-right ml-2"></i>'; } else { nextEl.href='index.html'; nextEl.innerHTML='Index<i class="fas fa-arrow-right ml-2"></i>'; }
+
+      const bar=document.getElementById('progress-bar'); const txt=document.getElementById('reading-progress');
+      function up(){ const s=document.documentElement.scrollTop||document.body.scrollTop; const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight)||1; const pct=Math.round(s/h*100); bar.style.width=pct+'%'; txt.textContent=pct+'%'; }
+      window.addEventListener('scroll', up); up();
+    })();
+  </script>
+</body>
+</html>
