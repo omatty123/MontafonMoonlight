@@ -26,3 +26,15 @@ img.chapter-image, .chapter-image img, img.hero, .hero img {
   margin: 2rem auto !important;
   border-radius: 6px;
 }
+
+/* Cap chapter images */
+.chapter-text img, 
+img.chapter-image, 
+.hero img {
+  max-width: 600px !important;   /* or 500px if you prefer smaller */
+  width: 100%;
+  height: auto !important;
+  display: block;
+  margin: 2rem auto;             /* center and add breathing room */
+  border-radius: 6px;            /* soften corners */
+}
