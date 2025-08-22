@@ -5,6 +5,26 @@
   <title>Three Phonecalls • Moonlight of Montafon</title>
   <link rel="stylesheet" href="../assets/all-serif.css">
   <style>
+  /* Normalize Google Docs export */
+  .chapter-text p { 
+    margin: 0 0 1em !important;   /* single, consistent gap */
+    line-height: 1.7 !important;  /* readable line spacing */
+  }
+  .chapter-text p:empty { display: none; } /* truly empty paras */
+</style>
+
+<script>
+  // Remove paragraphs that contain only a <br> (or are effectively blank)
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.chapter-text p').forEach(p => {
+      const html = (p.innerHTML || '').replace(/&nbsp;/g, ' ').trim().toLowerCase();
+      if (html === '' || html === '<br>' || html === '<br/>' || html === '<br />') {
+        p.remove();
+      }
+    });
+  });
+</script>
+  <style>
     body { max-width: 820px; margin: 40px auto; padding: 0 20px; background: #fafafa; color: #111; }
     .caption { text-align: center; font-size: .9rem; color: #666; margin-top: -1rem; margin-bottom: 2rem; }
     nav.top, nav.bottom { text-align:center; margin: 12px 0 24px; }
@@ -78,6 +98,5 @@
   </div>
 
  
-  </nav>
 </body>
 </html>
