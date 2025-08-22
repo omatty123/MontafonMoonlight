@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://omatty123.github.io/MontafonMoonlight/sitemap.xml

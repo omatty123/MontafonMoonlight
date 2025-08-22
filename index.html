@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home • The Chronicles of Ethereal Realm</title>
+
+  <!-- Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root { --primary-color:#2563eb; --secondary-color:#64748b; --text-color:#1f2937; --bg-color:#ffffff; --border-color:#e5e7eb; --accent-color:#f3f4f6; }
+    [data-theme="dark"] { --primary-color:#3b82f6; --secondary-color:#94a3b8; --text-color:#f9fafb; --bg-color:#111827; --border-color:#374151; --accent-color:#1f2937; }
+
+    body { font-family:'Crimson Text', serif; color:var(--text-color); background:var(--bg-color); transition: background .2s, color .2s; }
+    .ui-text { font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; }
+
+    .chapter-card { background:var(--accent-color); border:1px solid var(--border-color); border-radius:.75rem; overflow:hidden; display:flex; flex-direction:column; transition:transform .2s, box-shadow .2s; }
+    .chapter-card:hover { transform: translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.12); }
+    [data-theme="dark"] .chapter-card:hover { box-shadow:0 10px 25px rgba(0,0,0,.35); }
+
+    .cover { aspect-ratio: 3 / 2; width:100%; object-fit:cover; display:block; }
+    @media print { .no-print { display:none !important; } }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="sticky top-0 z-40 no-print" style="background:var(--bg-color); border-bottom:1px solid var(--border-color);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center justify-between">
+        <div class="min-w-0">
+          <h1 class="ui-text font-bold text-2xl" style="color:var(--primary-color);"><i class="fas fa-book mr-2"></i> The Chronicles of Ethereal Realm</h1>
+          <p class="ui-text text-sm" style="color:var(--secondary-color);">Translated from Chinese | Updates weekly</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="theme-toggle" class="p-2 rounded" style="background:var(--accent-color);" aria-label="Toggle theme"><i class="fas fa-moon" style="color:var(--text-color);"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Intro -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="text-center mb-6">
+      <h2 class="text-4xl font-bold mb-3" style="color:var(--text-color);">Welcome</h2>
+      <p class="ui-text text-base sm:text-lg mx-auto max-w-3xl" style="color:var(--secondary-color);">A serial translation project. New chapters post on Mondays. Browse below and jump in.</p>
+    </div>
+    <div class="ui-text text-sm flex flex-wrap items-center justify-center gap-6" style="color:var(--secondary-color);">
+      <span id="statChapters">Chapters: 0</span>
+      <span id="statWords">Total words: 0</span>
+      <span id="statUpdated">Last updated: —</span>
+    </div>
+  </section>
+
+  <!-- Grid -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="ui-text text-sm mb-4 flex items-center gap-3">
+      <label class="inline-flex items-center gap-2"><input id="toggleDrafts" type="checkbox" class="form-checkbox"> <span>Show drafts</span></label>
+    </div>
+
+    <h3 class="text-2xl font-bold mb-6" style="color:var(--text-color);">Latest chapters</h3>
+    <div id="grid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3"></div>
+  </main>
+
+  <footer class="border-t py-8" style="border-color:var(--border-color);">
+    <div class="text-center">
+      <p class="ui-text mb-2" style="color:var(--secondary-color);">Translation © 2025 • <a href="#" class="hover:underline" style="color:var(--primary-color);">Support the original author</a></p>
+      <nav class="ui-text text-sm" aria-label="Footer">
+        <a href="index.html" class="hover:underline" style="color:var(--primary-color);">Home</a> · 
+        <a id="startLink" href="#" class="hover:underline" style="color:var(--primary-color);">Start reading</a> · 
+        <a id="downloadRSS" href="#" class="hover:underline" style="color:var(--primary-color);">Download RSS</a> ·
+        <a id="downloadSitemap" href="#" class="hover:underline" style="color:var(--primary-color);">Download sitemap</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Fallback inline data for local preview (remove if using chapters.json) -->
+  <script id="chapters-data" type="application/json">[
+    {"title":"Chapter 3: First Encounter","slug":"chapter-3-first-encounter","href":"chapter.html?slug=chapter-3-first-encounter","date":"2024-01-29","readTime":12,"words":3891,"cover":"assets/placeholder-600x400.jpg","summary":"Late-blooming power and rumors of Ethereal Walkers.","status":"published"},
+    {"title":"Chapter 2: The Academy","slug":"chapter-2-the-academy","href":"chapter.html?slug=chapter-2-the-academy","date":"2024-01-22","readTime":10,"words":3234,"cover":"assets/placeholder-600x400.jpg","summary":"Arrival at Celestial Harmony and a first glimpse of the Sky Realm.","status":"published"},
+    {"title":"Chapter 1: The Awakening","slug":"chapter-1-the-awakening","href":"chapter.html?slug=chapter-1-the-awakening","date":"2024-01-15","readTime":8,"words":2847,"cover":"assets/placeholder-600x400.jpg","summary":"The first stirrings of the Ethereal Realm and a new path for Lin Wei.","status":"published"},
+    {"title":"Chapter 0: Draft Teaser","slug":"chapter-0-draft","href":"chapter.html?slug=chapter-0-draft","date":"2024-01-10","readTime":3,"words":620,"cover":"assets/placeholder-600x400.jpg","summary":"A brief glimpse ahead.","status":"draft"}
+  ]</script>
+
+  <script>
+    // ====== Site config (edit to taste) ======
+    const SITE = {
+      title: 'The Chronicles of Ethereal Realm',
+      description: 'Serialized translation project — new chapters every Monday.',
+      baseUrl: 'https://omatty123.github.io/MontafonMoonlight/',
+    };
+
+    // ---------- Theme toggle ----------
+    (function(){
+      const tt = document.getElementById('theme-toggle');
+      const icon = tt.querySelector('i');
+      const saved = localStorage.getItem('theme') || 'light';
+      if (saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); icon.className = 'fas fa-sun'; }
+      tt.addEventListener('click', ()=>{
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) { document.documentElement.removeAttribute('data-theme'); icon.className = 'fas fa-moon'; localStorage.setItem('theme','light'); }
+        else { document.documentElement.setAttribute('data-theme','dark'); icon.className = 'fas fa-sun'; localStorage.setItem('theme','dark'); }
+      });
+    })();
+
+    // ---------- Data loading ----------
+    async function loadChapters(){
+      try {
+        const res = await fetch('chapters.json', {cache:'no-store'});
+        if (!res.ok) throw new Error('No chapters.json');
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+      } catch(e){
+        const fallback = document.getElementById('chapters-data');
+        return fallback ? JSON.parse(fallback.textContent) : [];
+      }
+    }
+
+    // ---------- Helpers ----------
+    const slugify = (s) => (s||'chapter')
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g,'')
+      .trim()
+      .replace(/\s+/g,'-')
+      .replace(/-+/g,'-');
+
+    const fmtDate = (iso) => {
+      try { return new Date(iso).toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'}); }
+      catch(e){ return iso || '—'; }
+    };
+    const commas = (x)=> (x||0).toLocaleString();
+
+    function cardHTML(c){
+      const cover = c.cover || 'assets/placeholder-600x400.jpg';
+      const slug = c.slug || slugify(c.title);
+      const href = c.href || `chapter.html?slug=${encodeURIComponent(slug)}`;
+      const badge = (c.status && c.status !== 'published') ? `<span class="absolute top-2 left-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded ui-text">${c.status}</span>` : '';
+      return `
+        <article class="chapter-card relative">
+          ${badge}
+          <a href="${href}"><img class="cover" src="${cover}" alt="${(c.title||'Chapter')} cover" loading="lazy" /></a>
+          <div class="p-4">
+            <h4 class="text-lg font-semibold mb-1">
+              <a class="hover:underline" href="${href}" style="color:var(--text-color);">${c.title||''}</a>
+            </h4>
+            <p class="ui-text text-sm mb-2" style="color:var(--secondary-color);">
+              <i class="fas fa-calendar mr-1"></i> ${fmtDate(c.date)} ·
+              <i class="fas fa-clock ml-3 mr-1"></i> ~${c.readTime||''} min ·
+              <i class="fas fa-eye ml-3 mr-1"></i> ${commas(c.words)} words
+            </p>
+            <p class="ui-text text-sm" style="color:var(--text-color);">${c.summary||''}</p>
+          </div>
+        </article>`;
+    }
+
+    function updateStats(list){
+      const statC = document.getElementById('statChapters');
+      const statW = document.getElementById('statWords');
+      const statU = document.getElementById('statUpdated');
+      const count = list.length;
+      const words = list.reduce((s,c)=> s + (c.words||0), 0);
+      const last = list[0] ? new Date(list[0].date) : null; // list sorted newest first
+      if (statC) statC.textContent = `Chapters: ${count}`;
+      if (statW) statW.textContent = `Total words: ${commas(words)}`;
+      if (statU && last) statU.textContent = `Last updated: ${last.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}`;
+    }
+
+    function setStartLink(list){
+      const start = document.getElementById('startLink');
+      if (!start) return;
+      const newest = list[0];
+      if (newest){
+        const slug = newest.slug || slugify(newest.title);
+        start.href = newest.href || `chapter.html?slug=${encodeURIComponent(slug)}`;
+      }
+    }
+
+    function download(filename, text){
+      const blob = new Blob([text], {type: 'application/xml'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+      setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
+    }
+
+    function makeRSS(list){
+      const now = new Date().toUTCString();
+      const items = list.map(c=>{
+        const slug = c.slug || slugify(c.title);
+        const url = (SITE.baseUrl ? SITE.baseUrl : '') + (c.href || `chapter.html?slug=${encodeURIComponent(slug)}`);
+        const pub = new Date(c.date||Date.now()).toUTCString();
+        const desc = (c.summary||'').replace(/[&<>]/g, s=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[s]));
+        return `
+    <item>
+      <title>${c.title}</title>
+      <link>${url}</link>
+      <guid>${url}</guid>
+      <pubDate>${pub}</pubDate>
+      <description>${desc}</description>
+    </item>`;
+      }).join('');
+      return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>${SITE.title}</title>
+    <link>${SITE.baseUrl}</link>
+    <description>${SITE.description}</description>
+    <lastBuildDate>${now}</lastBuildDate>${items}
+  </channel>
+</rss>`;
+    }
+
+    function makeSitemap(list){
+      const urls = list.map(c=>{
+        const slug = c.slug || slugify(c.title);
+        const loc = (SITE.baseUrl ? SITE.baseUrl : '') + (c.href || `chapter.html?slug=${encodeURIComponent(slug)}`);
+        const lastmod = (c.date || new Date().toISOString().slice(0,10));
+        return `
+  <url>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod}</lastmod>
+  </url>`;
+      }).join('');
+      const home = SITE.baseUrl ? `
+  <url>
+    <loc>${SITE.baseUrl}</loc>
+    <lastmod>${new Date().toISOString().slice(0,10)}</lastmod>
+  </url>` : '';
+      return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${home}${urls}
+</urlset>`;
+    }
+
+    // ---------- Boot ----------
+    (async function(){
+      // set baseUrl placeholder into runtime if left empty
+      if (!SITE.baseUrl || SITE.baseUrl.indexOf('http') !== 0) {
+        try {
+          SITE.baseUrl = location.origin + location.pathname.replace(/index\.html?$/i, '');
+        } catch (e) {}
+      }
+
+      const list = await loadChapters();
+      list.sort((a,b)=> new Date(b.date) - new Date(a.date)); // newest first
+
+      const published = list.filter(c => (c.status||'published') === 'published');
+      const showDraftsBox = document.getElementById('toggleDrafts');
+      const grid = document.getElementById('grid');
+
+      function render(showDrafts){
+        const visible = showDrafts ? list : published;
+        grid.innerHTML = visible.map(cardHTML).join('');
+        updateStats(published);
+        setStartLink(published);
+      }
+
+      render(false);
+      showDraftsBox.addEventListener('change', () => render(showDraftsBox.checked));
+
+      // Wire download buttons
+      document.getElementById('downloadRSS').addEventListener('click', e => {
+        e.preventDefault(); download('feed.xml', makeRSS(published));
+      });
+      document.getElementById('downloadSitemap').addEventListener('click', e => {
+        e.preventDefault(); download('sitemap.xml', makeSitemap(list));
+      });
+    })();
+  </script>
+</body>
+</html>
