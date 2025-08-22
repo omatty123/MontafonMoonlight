@@ -4,42 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home • Moonlight of Montafon</title>
+
+  <!-- Fonts + global font rules -->
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/fonts.css">
+
+  <!-- UI libs -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
   <style>
     :root { --primary-color:#2563eb; --secondary-color:#64748b; --text-color:#1f2937; --bg-color:#ffffff; --card:#f9fafb; --border-color:#e5e7eb; }
     [data-theme="dark"] { --secondary-color:#94a3b8; --text-color:#f9fafb; --bg-color:#0b1220; --card:#111827; --border-color:#374151; }
-    body { font-family:'Crimson Text', serif; color:var(--text-color); background:var(--bg-color); transition: background .2s, color .2s; }
-    .ui-text { font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; }
+    body { color:var(--text-color); background:var(--bg-color); transition: background .2s, color .2s; }
     .chapter-card { background:var(--card); border:1px solid var(--border-color); border-radius:.75rem; overflow:hidden; display:flex; flex-direction:column; transition:transform .2s, box-shadow .2s; }
     .chapter-card:hover { transform: translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.15); }
     .cover { aspect-ratio: 3 / 2; width:100%; object-fit:cover; display:block; }
   </style>
 </head>
 <body>
+  <!-- Header brand -->
   <header class="sticky top-0 z-40" style="background:var(--bg-color); border-bottom:1px solid var(--border-color);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div class="flex items-center justify-between">
         <div class="min-w-0">
-          <h1 class="ui-text font-bold text-2xl" style="color:#3b82f6;">
+          <!-- site-title ensures serif -->
+          <h1 class="site-title font-bold text-2xl" style="color:#3b82f6;">
             <i class="fas fa-book mr-2"></i> Moonlight of Montafon
           </h1>
           <p class="ui-text text-sm" style="color:var(--secondary-color);">Translated from Korean | Updates weekly</p>
         </div>
         <div class="flex items-center gap-3">
-          <button id="theme-toggle" class="p-2 rounded" style="background:var(--card);" aria-label="Toggle theme">
-            <i class="fas fa-moon"></i>
-          </button>
+          <button id="theme-toggle" class="p-2 rounded" style="background:var(--card);" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
         </div>
       </div>
     </div>
   </header>
 
+  <!-- Hero block -->
   <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
     <div class="text-center">
-      <h2 class="text-4xl font-bold mb-2">Moonlight of Montafon</h2>
+      <h2 class="site-title text-4xl font-bold mb-2">Moonlight of Montafon</h2>
       <p class="ui-text text-xl mb-4" style="color:var(--secondary-color);">몬타폰의 달빛 (Original Korean Title)</p>
+
       <div class="ui-text text-sm flex flex-wrap items-center justify-center gap-6" style="color:var(--secondary-color);">
         <span><i class="fas fa-user mr-1"></i> Author: Jeong Chanju</span>
         <span><i class="fas fa-language mr-1"></i> Translator: Matty Wegehaupt</span>
@@ -48,6 +55,7 @@
     </div>
   </section>
 
+  <!-- Site stats -->
   <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
     <p class="ui-text text-base sm:text-lg text-center mb-4" style="color:var(--secondary-color);">
       A serial translation project. New chapters weekly. Browse below and jump in.
@@ -58,11 +66,13 @@
     </div>
   </section>
 
+  <!-- Cards -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
     <div class="ui-text text-sm mb-4 flex items-center gap-3">
       <label class="inline-flex items-center gap-2"><input id="toggleDrafts" type="checkbox" class="form-checkbox"> <span>Show drafts</span></label>
     </div>
-    <h3 class="text-2xl font-bold mb-6">Latest chapters</h3>
+    <!-- section title uses serif via h3 -->
+    <h3 class="site-title text-2xl font-bold mb-6">Latest chapters</h3>
     <div id="grid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3"></div>
   </main>
 
@@ -71,13 +81,15 @@
       <p class="ui-text mb-2" style="color:var(--secondary-color);">Translation © 2025 • <a href="#" class="hover:underline" style="color:#3b82f6;">Support the original author</a></p>
       <nav class="ui-text text-sm">
         <a href="index.html" class="hover:underline" style="color:#3b82f6;">Home</a> · 
-        <a id="startLink" href="#" class="hover:underline" style="color:#3b82f6;">Start reading</a>
+        <a id="startLink" href="#" class="hover:underline" style="color:#3b82f6;">Start reading</a> · 
+        <a id="downloadRSS" href="#" class="hover:underline" style="color:#3b82f6;">Download RSS</a> ·
+        <a id="downloadSitemap" href="#" class="hover:underline" style="color:#3b82f6;">Download sitemap</a>
       </nav>
     </div>
   </footer>
 
   <script>
-    // THEME
+    // Theme (default light)
     (function(){
       const btn=document.getElementById('theme-toggle');
       const root=document.documentElement;
@@ -90,104 +102,44 @@
       });
     })();
 
-    // ---- Helpers ----
-    function parseDateLocal(iso){ const [y,m,d]=iso.split('-').map(Number); return new Date(y,m-1,d); }
-    function fmt(iso){ return parseDateLocal(iso).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
-    const commas = n => (n||0).toLocaleString();
-    const minutesFromWords = w => Math.max(1, Math.ceil((w||0)/250));
-    async function httpText(url){ try{ const r=await fetch(url,{cache:'no-store'}); return r.ok?await r.text():''; }catch(e){ return ''; } }
-
-    // Small Markdown → HTML
-    function mdToHtml(md){
-      let h = md
-        .replace(/\r\n/g,'\n')
-        .replace(/^\s*#{3}\s?(.*)$/gm,'<h3>$1</h3>')
-        .replace(/^\s*#{2}\s?(.*)$/gm,'<h2>$1</h2>')
-        .replace(/^\s*#\s?(.*)$/gm,'<h1>$1</h1>')
-        .replace(/^\s*>\s?(.*)$/gm,'<blockquote><p>$1</p></blockquote>')
-        .replace(/^\s*\d+\.\s+(.*)$/gm,'<li>$1</li>')
-        .replace(/^\s*-\s+(.*)$/gm,'<li>$1</li>')
-        .replace(/(<li>.*<\/li>)(\n(?!<li>))/gs,'<ol>$1</ol>\n')
-        .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-        .replace(/(?:^|[\s(])\*(.+?)\*(?=[\s).,!?:;]|$)/g,'$1'.replace('$1','<em>$1</em>'));
-      h = h.split(/\n{2,}/).map(b=>{
-        if(/^<h\d|^<ol>|^<blockquote>|^<ul>|^<li>|^<p>|^<img/i.test(b.trim())) return b;
-        return '<p>'+b.replace(/\n/g,' ')+'</p>';
-      }).join('\n');
-      h = h.replace(/(^|[\n])(<li>[\s\S]*?<\/li>)(?=(\n{2,}|$))/g,(_,a,b)=>a+'<ul>'+b+'</ul>');
-      return h;
-    }
-
-    // Normalize .html (incl. Google Docs), .md, or .txt to HTML + count words
-    async function fetchNormalized(url){
-      const raw = await httpText(url);
-      if(!raw) return {html:'', words:0};
-      let html;
-      if(/\.(md|markdown)$/i.test(url)){
-        html = mdToHtml(raw);
-      } else if(/\.(txt)$/i.test(url)){
-        html = raw.trim().split(/\n{2,}/).map(p=>'<p>'+p.replace(/\n/g,' ')+'</p>').join('\n');
-      } else { // html
-        if(/<body[\s>]/i.test(raw)){
-          const dom = new DOMParser().parseFromString(raw,'text/html');
-          html = dom.body ? dom.body.innerHTML : raw;
-        } else {
-          html = raw;
-        }
-      }
-      const tmp = document.createElement('div'); tmp.innerHTML = html;
-      const text = (tmp.textContent||'').trim().replace(/\s+/g,' ');
-      const tokens = text.match(/[\p{L}\p{N}’']+/gu) || [];
-      return {html, words: tokens.length};
-    }
-
     async function loadChapters(){
       const res = await fetch('chapters.json', {cache:'no-store'});
       return res.ok ? res.json() : [];
     }
-
-    function card(c, words, minutes){
+    const commas=(x)=>(x||0).toLocaleString();
+    const fmt=(d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+    function card(c){
       const href = c.href || `chapter.html?slug=${encodeURIComponent(c.slug)}`;
       return `
-        <article class="chapter-card relative">
-          <a href="${href}"><img class="cover" src="${c.cover}" alt="${c.title} cover" loading="lazy"></a>
-          <div class="p-4">
-            <h4 class="text-lg font-semibold mb-1"><a class="hover:underline" href="${href}">${c.title}</a></h4>
-            <p class="ui-text text-sm mb-2" style="color:var(--secondary-color);">
-              <i class="fas fa-calendar mr-1"></i> ${fmt(c.date)} ·
-              <i class="fas fa-clock ml-3 mr-1"></i> ~${minutes} min ·
-              <i class="fas fa-eye ml-3 mr-1"></i> ${commas(words)} words
-            </p>
-            <p class="ui-text text-sm">${c.summary||''}</p>
-          </div>
-        </article>`;
+      <article class="chapter-card relative">
+        <a href="${href}"><img class="cover" src="${c.cover}" alt="${c.title} cover" loading="lazy"></a>
+        <div class="p-4">
+          <h4 class="card-title text-lg font-semibold mb-1"><a class="hover:underline" href="${href}">${c.title}</a></h4>
+          <p class="ui-text text-sm mb-2" style="color:var(--secondary-color);">
+            <i class="fas fa-calendar mr-1"></i> ${fmt(c.date)} ·
+            <i class="fas fa-clock ml-3 mr-1"></i> ~${c.readTime} min ·
+            <i class="fas fa-eye ml-3 mr-1"></i> ${commas(c.words)} words
+          </p>
+          <p class="ui-text text-sm">${c.summary||''}</p>
+        </div>
+      </article>`;
     }
-
     function stats(list){
       document.getElementById('statChapters').textContent = 'Chapters: ' + list.length;
-      const last = list[list.length-1];
+      const last = list[list.length-1]; // ascending order
       if(last) document.getElementById('statUpdated').textContent = 'Last updated: ' + fmt(last.date);
       document.getElementById('startLink').href = (list[0] && (list[0].href || 'chapter.html?slug='+encodeURIComponent(list[0].slug))) || '#';
     }
-
     (async function(){
       const data = await loadChapters();
-      data.sort((a,b)=> parseDateLocal(a.date) - parseDateLocal(b.date));
+      data.sort((a,b)=> new Date(a.date)-new Date(b.date)); // 1 → 2 → 3
       const pubs = data.filter(c=> (c.status||'published')==='published');
-
-      const enriched = await Promise.all(pubs.map(async c=>{
-        let words = Number(c.words||0);
-        if (c.contentHtml) {
-          const n = await fetchNormalized(c.contentHtml);
-          if(n.words) words = n.words;
-        }
-        const minutes = Math.max(1, Math.ceil(words/250));
-        return {c, words, minutes};
-      }));
-
       stats(pubs);
       const grid=document.getElementById('grid');
-      grid.innerHTML = enriched.map(e=>card(e.c,e.words,e.minutes)).join('');
+      const cb=document.getElementById('toggleDrafts');
+      function render(showDrafts){ const list = showDrafts? data : pubs; grid.innerHTML = list.map(card).join(''); }
+      render(false);
+      cb.addEventListener('change', ()=>render(cb.checked));
     })();
   </script>
 </body>
