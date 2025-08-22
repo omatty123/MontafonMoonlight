@@ -1,32 +1,44 @@
 [
   {
-    "id": "chapter-1",
     "title": "Vienna Bound Plane",
+    "slug": "vienna-bound-plane",
+    "href": "chapter.html?slug=vienna-bound-plane",
     "date": "2024-01-14",
-    "readingTime": "8 min",
-    "wordCount": 2847,
-    "summary": "The first stirrings of the Ethereal Realm and a new path begins.",
+    "readTime": 8,
+    "words": 2847,
     "cover": "assets/ch1-cover.jpg",
-    "hero": "assets/ch1-hero.jpg"
+    "hero": "assets/ch1-hero.jpg",
+    "caption": "A quiet window, a plane, and a pocket of time before departure.",
+    "summary": "On the flight to Vienna, a chance encounter turns turbulence into clarity.",
+    "status": "published",
+    "contentHtml": "content/chapter-1.html"
   },
   {
-    "id": "chapter-2",
     "title": "Three Phonecalls",
+    "slug": "three-phonecalls",
+    "href": "chapter.html?slug=three-phonecalls",
     "date": "2024-01-21",
-    "readingTime": "10 min",
-    "wordCount": 3234,
-    "summary": "A sudden string of calls disrupts the calm and draws threads together.",
+    "readTime": 10,
+    "words": 3234,
     "cover": "assets/ch2-cover.jpg",
-    "hero": "assets/ch2-hero.jpg"
+    "hero": "assets/ch2-hero.jpg",
+    "caption": "Signals crossing time zones, three rings that change the route.",
+    "summary": "Three calls from three cities force a decision no map can solve.",
+    "status": "published",
+    "contentHtml": "content/chapter-2.html"
   },
   {
-    "id": "chapter-3",
     "title": "Resolution",
+    "slug": "resolution",
+    "href": "chapter.html?slug=resolution",
     "date": "2024-01-28",
-    "readingTime": "12 min",
-    "wordCount": 3891,
-    "summary": "The late-blooming answer and resolution of entangled fates.",
+    "readTime": 12,
+    "words": 3891,
     "cover": "assets/ch3-cover.jpg",
-    "hero": "assets/ch3-hero.jpg"
+    "hero": "assets/ch3-hero.jpg",
+    "caption": "The meeting on the hill, stones aligned like commas in a long sentence.",
+    "summary": "Promises kept beside an old stone circle and a new itinerary.",
+    "status": "published",
+    "contentHtml": "content/chapter-3.html"
   }
 ]

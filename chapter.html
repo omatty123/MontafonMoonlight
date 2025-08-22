@@ -4,235 +4,120 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chapter • The Chronicles of Ethereal Realm</title>
-
-  <!-- Tailwind -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
   <style>
-    :root { --primary-color:#2563eb; --secondary-color:#64748b; --text-color:#1f2937; --bg-color:#ffffff; --border-color:#e5e7eb; --accent-color:#f3f4f6; }
-    [data-theme="dark"] { --primary-color:#3b82f6; --secondary-color:#94a3b8; --text-color:#f9fafb; --bg-color:#111827; --border-color:#374151; --accent-color:#1f2937; }
-
-    body { font-family:'Crimson Text', serif; color:var(--text-color); background:var(--bg-color); transition: background .2s, color .2s; }
-    .ui-text { font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; }
-
-    .chapter-content { text-align: justify; text-justify: inter-word; }
-    .chapter-content p { margin-bottom: 1rem; line-height: 1.8; font-size: 1.12rem; }
-
-    .translator-note { border-left: 4px solid var(--primary-color); background-color: var(--accent-color); padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 0 .5rem .5rem 0; }
-    .chapter-divider { background: linear-gradient(90deg, transparent, var(--border-color), transparent); height: 1px; margin: 2rem 0; }
-
-    .progress-bar { width: 0%; transition: width .2s ease; }
-    @media print { .no-print { display:none !important; } .chapter-content { page-break-inside: avoid; } }
+    :root { --primary:#2563eb; --secondary:#64748b; --text:#1f2937; --bg:#ffffff; --border:#e5e7eb; --accent:#f3f4f6; }
+    [data-theme="dark"] { --primary:#3b82f6; --secondary:#94a3b8; --text:#f9fafb; --bg:#111827; --border:#374151; --accent:#1f2937; }
+    body { font-family:'Crimson Text', serif; color:var(--text); background:var(--bg); transition: background .2s, color .2s; }
+    .ui { font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; }
+    .chapter-content { text-align: justify; }
+    .chapter-content p { margin:1rem 0; line-height:1.8; font-size:1.12rem; }
+    .translator-note { border-left: 4px solid var(--primary); background:var(--accent); padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 0 .5rem .5rem 0; }
+    .progress-bar { width:0%; transition: width .2s ease; }
   </style>
 </head>
 <body class="min-h-screen">
-  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:bg-white focus:text-black focus:px-3 focus:py-2 focus:rounded ui-text">Skip to content</a>
-
-  <!-- Header -->
-  <header class="sticky top-0 z-50 no-print" style="background: var(--bg-color); border-bottom: 1px solid var(--border-color);">
+  <header class="sticky top-0 z-50" style="background:var(--bg); border-bottom:1px solid var(--border);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
       <div class="flex items-center justify-between">
         <div class="min-w-0">
-          <h1 class="text-xl sm:text-2xl font-bold ui-text" style="color: var(--primary-color);"><i class="fas fa-book mr-2"></i> <a href="index.html" class="hover:underline" style="color:var(--primary-color);">The Chronicles of Ethereal Realm</a></h1>
-          <p class="text-xs sm:text-sm ui-text" style="color: var(--secondary-color);">Translated from Chinese • Updates weekly</p>
+          <h1 class="text-xl sm:text-2xl font-bold ui" style="color: var(--primary);"><i class="fas fa-book mr-2"></i> <a href="index.html" class="hover:underline" style="color: var(--primary);">The Chronicles of Ethereal Realm</a></h1>
+          <p class="text-xs sm:text-sm ui" style="color: var(--secondary);">Translated from Chinese • Updates weekly</p>
         </div>
         <div class="flex items-center space-x-3">
-          <div class="ui-text text-xs sm:text-sm" style="color: var(--secondary-color);">Progress: <span id="reading-progress">0%</span></div>
-          <button id="theme-toggle" class="p-2 rounded ui-text" style="background: var(--accent-color);" aria-label="Toggle theme"><i class="fas fa-moon" style="color: var(--text-color);"></i></button>
-          <button id="toc-toggle" class="p-2 rounded ui-text" style="background: var(--accent-color);" aria-expanded="false" aria-controls="toc-sidebar" aria-label="Toggle table of contents"><i class="fas fa-list" style="color: var(--text-color);"></i></button>
+          <div class="ui text-xs sm:text-sm" style="color: var(--secondary);">Progress: <span id="reading-progress">0%</span></div>
+          <button id="theme-toggle" class="p-2 rounded ui" style="background: var(--accent);" aria-label="Toggle theme"><i class="fas fa-moon" style="color: var(--text);"></i></button>
         </div>
       </div>
     </div>
-    <div class="w-full h-1 bg-gray-200"><div id="progress-bar" class="progress-bar h-1" style="background: var(--primary-color);"></div></div>
+    <div class="w-full h-1 bg-gray-200"><div id="progress-bar" class="progress-bar h-1" style="background: var(--primary);"></div></div>
   </header>
 
-  <!-- TOC Sidebar -->
-  <aside id="toc-sidebar" class="fixed left-0 top-0 h-full w-80 transform -translate-x-full transition-transform duration-200 z-40 no-print overflow-y-auto" style="backdrop-filter: blur(10px); background-color: rgba(255,255,255,.92);" aria-label="Table of contents" tabindex="-1">
-    <div class="p-6 pt-24">
-      <h2 class="text-xl font-bold ui-text mb-4" style="color: var(--text-color);">Table of contents</h2>
-      <nav class="space-y-2 ui-text text-sm" id="tocNav" style="color: var(--text-color);"></nav>
-    </div>
-  </aside>
-
-  <!-- Main -->
   <main id="main" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Breadcrumbs -->
-    <nav aria-label="Breadcrumb" class="ui-text text-sm mb-4" style="color: var(--secondary-color);">
+    <nav class="ui text-sm mb-4" style="color: var(--secondary);" aria-label="Breadcrumb">
       <ol class="flex flex-wrap items-center gap-2">
-        <li><a href="index.html" class="hover:underline" style="color: var(--primary-color);">Home</a></li>
-        <li aria-hidden="true">›</li>
-        <li><a href="index.html#grid" class="hover:underline" style="color: var(--primary-color);">Chapters</a></li>
+        <li><a href="index.html" class="hover:underline" style="color: var(--primary);">Home</a></li>
         <li aria-hidden="true">›</li>
         <li aria-current="page" id="crumbTitle">Chapter</li>
       </ol>
     </nav>
 
-    <!-- Title block -->
     <header class="mb-6">
-      <h2 id="chapterTitle" class="text-3xl font-bold mb-2" style="color: var(--text-color);">Loading…</h2>
-      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 ui-text text-sm" style="color: var(--secondary-color);">
+      <h2 id="chapterTitle" class="text-3xl font-bold mb-2">Loading…</h2>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 ui text-sm" style="color: var(--secondary);">
         <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
         <span><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
         <span><i class="fas fa-eye mr-1"></i><span id="wordCount">—</span></span>
       </div>
     </header>
 
-    <!-- Hero image (optional) -->
     <figure class="mb-6" id="heroBlock" hidden>
       <img id="heroImg" src="" alt="Chapter image" class="w-full rounded-lg shadow" />
-      <figcaption id="heroCaption" class="ui-text text-xs mt-2" style="color: var(--secondary-color);"></figcaption>
+      <figcaption id="heroCaption" class="ui text-xs mt-2" style="color: var(--secondary);"></figcaption>
     </figure>
 
-    <!-- Content -->
-    <article id="contentRoot" class="chapter-content" aria-describedby="chapterTitle">
-      <p><em>Paste your chapter content here.</em> The header above will be filled from chapters.json based on the URL parameter <code>?slug=…</code> or <code>?title=…</code>.</p>
-      <h3>Section heading</h3>
-      <p>Body text for section one. Add more headings to see them appear in the floating TOC.</p>
-    </article>
+    <article id="contentRoot" class="chapter-content"></article>
 
-    <!-- Translator note -->
-    <aside class="translator-note ui-text rounded" role="note">
-      <h3 class="font-bold mb-2" style="color: var(--text-color);"><i class="fas fa-sticky-note mr-2" style="color: var(--primary-color);"></i>Translator note</h3>
-      <p class="text-sm">Brief cultural notes or terminology choices can live here.</p>
+    <aside class="translator-note ui rounded" role="note">
+      <h3 class="font-bold mb-2" style="color: var(--text);"><i class="fas fa-sticky-note mr-2" style="color: var(--primary);"></i>Translator note</h3>
+      <p class="text-sm">All-new story text loaded per chapter.</p>
     </aside>
 
-    <!-- Prev/Next -->
-    <nav class="mt-10 flex items-center justify-between ui-text">
-      <a id="prevLink" href="index.html" class="text-sm hover:underline" style="color: var(--primary-color);"><i class="fas fa-arrow-left mr-2"></i>Previous</a>
-      <a id="nextLink" href="index.html" class="text-sm hover:underline" style="color: var(--primary-color);">Next<i class="fas fa-arrow-right ml-2"></i></a>
+    <nav class="mt-10 flex items-center justify-between ui">
+      <a id="prevLink" href="index.html" class="text-sm hover:underline" style="color: var(--primary);"><i class="fas fa-arrow-left mr-2"></i>Previous</a>
+      <a id="nextLink" href="index.html" class="text-sm hover:underline" style="color: var(--primary);">Next<i class="fas fa-arrow-right ml-2"></i></a>
     </nav>
 
-    <!-- Footer -->
-    <footer class="border-t mt-12 pt-6" style="border-color: var(--border-color);">
+    <footer class="border-t mt-12 pt-6" style="border-color: var(--border);">
       <div class="text-center">
-        <p class="ui-text mb-3" style="color: var(--secondary-color);">Translation © <span id="copyrightYear">2025</span> • <a href="#" class="hover:underline" style="color: var(--primary-color);">Support the original author</a></p>
+        <p class="ui mb-3" style="color: var(--secondary);">Translation © <span id="copyrightYear">2025</span></p>
       </div>
     </footer>
   </main>
 
-  <script id="chapters-data" type="application/json">[
-    {"title":"Chapter 3: First Encounter","slug":"chapter-3-first-encounter","href":"chapter.html?slug=chapter-3-first-encounter","date":"2024-01-29","readTime":12,"words":3891,"cover":"assets/placeholder-1200x675.jpg","caption":"An otherworldly glow fills the dormitory.","summary":"Late-blooming power and rumors of Ethereal Walkers."},
-    {"title":"Chapter 2: The Academy","slug":"chapter-2-the-academy","href":"chapter.html?slug=chapter-2-the-academy","date":"2024-01-22","readTime":10,"words":3234,"cover":"assets/placeholder-1200x675.jpg","summary":"Arrival at Celestial Harmony and a first glimpse of the Sky Realm."},
-    {"title":"Chapter 1: The Awakening","slug":"chapter-1-the-awakening","href":"chapter.html?slug=chapter-1-the-awakening","date":"2024-01-15","readTime":8,"words":2847,"cover":"assets/placeholder-1200x675.jpg","summary":"The first stirrings of the Ethereal Realm and a new path for Lin Wei."}
-  ]</script>
-
   <script>
+    // Theme toggle
     (function(){
-      const qs = (sel) => document.querySelector(sel);
-      const qsa = (sel) => Array.from(document.querySelectorAll(sel));
-      const fmtDate = (iso) => new Date(iso).toLocaleDateString(undefined, {year:'numeric', month:'long', day:'numeric'});
-      const num = (n) => (n||0).toLocaleString();
+      const btn=document.getElementById('theme-toggle'); const root=document.documentElement;
+      const saved=localStorage.getItem('theme')||'light'; if(saved==='dark') root.setAttribute('data-theme','dark');
+      btn.addEventListener('click', ()=>{ const isDark=root.getAttribute('data-theme')==='dark'; if(isDark){root.removeAttribute('data-theme'); localStorage.setItem('theme','light');} else {root.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark');} });
+    })();
 
-      // Theme
-      const tt = document.getElementById('theme-toggle');
-      const tIcon = tt.querySelector('i');
-      const saved = localStorage.getItem('theme') || 'light';
-      if (saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); tIcon.className = 'fas fa-sun'; }
-      tt.addEventListener('click', ()=>{
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        if (isDark) { document.documentElement.removeAttribute('data-theme'); tIcon.className = 'fas fa-moon'; localStorage.setItem('theme','light'); }
-        else { document.documentElement.setAttribute('data-theme','dark'); tIcon.className = 'fas fa-sun'; localStorage.setItem('theme','dark'); }
-      });
+    const fmtLong=(d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    const num=(n)=> (n||0).toLocaleString();
+    async function loadChapters(){ try{ const r=await fetch('chapters.json',{cache:'no-store'}); if(!r.ok) throw 0; return await r.json(); } catch(e){ return []; } }
+    async function loadHtml(url){ try{ const r=await fetch(url,{cache:'no-store'}); return r.ok ? (await r.text()) : ''; } catch(e){ return ''; } }
 
-      // TOC
-      const tocToggle = document.getElementById('toc-toggle');
-      const tocSidebar = document.getElementById('toc-sidebar');
-      tocToggle.addEventListener('click', () => {
-        const closed = tocSidebar.classList.toggle('-translate-x-full');
-        tocToggle.setAttribute('aria-expanded', String(!closed));
-        if (!closed) { tocSidebar.focus(); }
-      });
-      document.addEventListener('click', (e) => {
-        if (!tocSidebar.contains(e.target) && !tocToggle.contains(e.target)) {
-          tocSidebar.classList.add('-translate-x-full');
-          tocToggle.setAttribute('aria-expanded', 'false');
-        }
-      });
+    (async function(){
+      const list = await loadChapters();
+      // ascending
+      list.sort((a,b)=> new Date(a.date)-new Date(b.date));
+      const p=new URLSearchParams(location.search);
+      const slug=p.get('slug'); let idx=list.findIndex(c=>c.slug===slug); if(idx<0) idx=0; const ch=list[idx];
 
-      // Smooth links
-      qsa('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
-        const id = a.getAttribute('href'); if (id.length < 2) return;
-        e.preventDefault(); const target = qs(id); if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
-        tocSidebar.classList.add('-translate-x-full');
-      }));
+      document.getElementById('chapterTitle').textContent = ch.title;
+      document.getElementById('crumbTitle').textContent = ch.title;
+      const d=new Date(ch.date); document.getElementById('pubDate').dateTime = d.toISOString().slice(0,10); document.getElementById('pubDate').textContent = fmtLong(ch.date);
+      document.getElementById('readTime').textContent = '~'+ch.readTime+' minutes';
+      document.getElementById('wordCount').textContent = num(ch.words)+' words';
+      if(ch.hero){ const f=document.getElementById('heroBlock'); f.hidden=false; document.getElementById('heroImg').src=ch.hero; document.getElementById('heroCaption').textContent=ch.caption||''; }
 
-      // Progress
-      const progressBar = document.getElementById('progress-bar');
-      const progressText = document.getElementById('reading-progress');
-      function updateProgress(){
-        const scrolled = document.documentElement.scrollTop || document.body.scrollTop;
-        const height = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1;
-        const pct = Math.max(0, Math.min(100, Math.round((scrolled / height) * 100)));
-        progressBar.style.width = pct + '%';
-        progressText.textContent = pct + '%';
-      }
-      window.addEventListener('scroll', updateProgress); updateProgress();
+      // Load external chapter content
+      if(ch.contentHtml){ const html = await loadHtml(ch.contentHtml); document.getElementById('contentRoot').innerHTML = html; }
+      else { document.getElementById('contentRoot').innerHTML = '<p>Chapter content coming soon.</p>'; }
 
-      // Build TOC
-      const tocNav = document.getElementById('tocNav');
-      function buildTOC(){
-        tocNav.innerHTML = '';
-        const heads = qsa('#contentRoot h2, #contentRoot h3');
-        heads.forEach(h => {
-          const id = h.id || h.textContent.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'');
-          h.id = id;
-          const a = document.createElement('a');
-          a.href = '#' + id; a.className = 'block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800'; a.textContent = h.textContent; tocNav.appendChild(a);
-        });
-      }
+      // Prev/Next for ascending order
+      const prev=list[idx-1]; const next=list[idx+1];
+      const prevEl=document.getElementById('prevLink'); const nextEl=document.getElementById('nextLink');
+      if(prev){ prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.innerHTML = '<i class="fas fa-arrow-left mr-2"></i>'+prev.title; } else { prevEl.href='index.html'; prevEl.innerHTML='<i class="fas fa-arrow-left mr-2"></i>Home'; }
+      if(next){ nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.innerHTML = next.title + '<i class="fas fa-arrow-right ml-2"></i>'; } else { nextEl.href='index.html'; nextEl.innerHTML='Index<i class="fas fa-arrow-right ml-2"></i>'; }
 
-      async function loadChapters(){
-        try {
-          const res = await fetch('chapters.json', {cache:'no-store'});
-          if (!res.ok) throw new Error('no chapters.json');
-          return await res.json();
-        } catch (e) {
-          const fallback = document.getElementById('chapters-data');
-          return fallback ? JSON.parse(fallback.textContent) : [];
-        }
-      }
-
-      function pickChapter(list){
-        const p = new URLSearchParams(location.search);
-        const slug = p.get('slug');
-        const title = p.get('title');
-        let idx = -1;
-        if (slug) idx = list.findIndex(c => c.slug === slug);
-        if (idx === -1 && title) idx = list.findIndex(c => (c.title||'').toLowerCase() === decodeURIComponent(title).toLowerCase());
-        if (idx === -1) idx = 0;
-        return { idx, chap: list[idx] };
-      }
-
-      function hydrate(ch, list, idx){
-        if (!ch) return;
-        qs('#chapterTitle').textContent = ch.title || 'Chapter';
-        qs('#crumbTitle').textContent = ch.title || 'Chapter';
-        if (ch.date) { const d = new Date(ch.date); const iso = d.toISOString().slice(0,10); const pretty = d.toLocaleDateString(undefined, {year:'numeric', month:'long', day:'numeric'}); const el = qs('#pubDate'); el.setAttribute('datetime', iso); el.textContent = pretty; }
-        if (ch.readTime) qs('#readTime').textContent = `~${ch.readTime} minutes`;
-        if (ch.words) qs('#wordCount').textContent = `${num(ch.words)} words`;
-        if (ch.cover){
-          const fig = qs('#heroBlock'); fig.hidden = false; qs('#heroImg').src = ch.cover; qs('#heroCaption').textContent = ch.caption || '';
-        }
-        document.title = `${ch.title} • The Chronicles of Ethereal Realm`;
-
-        const prev = list[idx-1];
-        const next = list[idx+1];
-        const prevEl = qs('#prevLink');
-        const nextEl = qs('#nextLink');
-        if (prev && prev.href) { prevEl.href = prev.href; prevEl.innerHTML = `<i class='fas fa-arrow-left mr-2'></i>${prev.title}`; } else { prevEl.href = 'index.html'; prevEl.innerHTML = `<i class='fas fa-arrow-left mr-2'></i>Home`; }
-        if (next && next.href) { nextEl.href = next.href; nextEl.innerHTML = `${next.title}<i class='fas fa-arrow-right ml-2'></i>`; } else { nextEl.href = 'index.html'; nextEl.innerHTML = `Index<i class='fas fa-arrow-right ml-2'></i>`; }
-      }
-
-      loadChapters().then(list => {
-        list.sort((a,b)=> new Date(a.date) - new Date(b.date));
-        const { idx, chap } = pickChapter(list);
-        hydrate(chap, list, idx);
-        buildTOC();
-      });
+      // progress
+      const bar=document.getElementById('progress-bar'); const txt=document.getElementById('reading-progress');
+      function up(){ const s=document.documentElement.scrollTop||document.body.scrollTop; const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight)||1; const pct=Math.round(s/h*100); bar.style.width=pct+'%'; txt.textContent=pct+'%'; }
+      window.addEventListener('scroll', up); up();
     })();
   </script>
 </body>
