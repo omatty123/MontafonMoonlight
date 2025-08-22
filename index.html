@@ -35,12 +35,11 @@
     </div>
   </header>
 
-  <!-- Hero block you requested -->
+  <!-- Hero block -->
   <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
     <div class="text-center">
       <h2 class="text-4xl font-bold mb-2">Moonlight of Montafon</h2>
       <p class="ui-text text-xl mb-4" style="color:var(--secondary-color);">몬타폰의 달빛 (Original Korean Title)</p>
-
       <div class="ui-text text-sm flex flex-wrap items-center justify-center gap-6" style="color:var(--secondary-color);">
         <span><i class="fas fa-user mr-1"></i> Author: Jeong Chanju</span>
         <span><i class="fas fa-language mr-1"></i> Translator: Matty Wegehaupt</span>
@@ -99,7 +98,6 @@
       const res = await fetch('chapters.json', {cache:'no-store'});
       return res.ok ? res.json() : [];
     }
-    const commas=(x)=>(x||0).toLocaleString();
     const fmt=(d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
     function card(c){
       const href = c.href || `chapter.html?slug=${encodeURIComponent(c.slug)}`;
@@ -110,8 +108,7 @@
           <h4 class="text-lg font-semibold mb-1"><a class="hover:underline" href="${href}">${c.title}</a></h4>
           <p class="ui-text text-sm mb-2" style="color:var(--secondary-color);">
             <i class="fas fa-calendar mr-1"></i> ${fmt(c.date)} ·
-            <i class="fas fa-clock ml-3 mr-1"></i> ~${c.readTime} min ·
-            <i class="fas fa-eye ml-3 mr-1"></i> ${commas(c.words)} words
+            <i class="fas fa-clock ml-3 mr-1"></i> ~${c.readTime} min
           </p>
           <p class="ui-text text-sm">${c.summary||''}</p>
         </div>
@@ -119,8 +116,6 @@
     }
     function stats(list){
       document.getElementById('statChapters').textContent = 'Chapters: ' + list.length;
-      const total = list.reduce((s,c)=>s+(c.words||0),0);
-      document.getElementById('statWords').textContent = 'Total words: ' + commas(total);
       const last = list[list.length-1]; // ascending order
       if(last) document.getElementById('statUpdated').textContent = 'Last updated: ' + fmt(last.date);
       document.getElementById('startLink').href = (list[0] && (list[0].href || 'chapter.html?slug='+encodeURIComponent(list[0].slug))) || '#';
