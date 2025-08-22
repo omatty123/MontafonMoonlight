@@ -1,0 +1,26 @@
+/* assets/fonts.css */
+/* Ensure all titles (site title, chapter titles, headers) use the same font */
+
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap');
+
+:root {
+  --title-font: 'Crimson Text', Georgia, serif;
+  --body-font: 'Inter', system-ui, sans-serif;
+}
+
+/* Apply serif font to all headings and titles */
+h1, h2, h3, h4, h5, h6,
+.site-title,
+.chapter-title,
+.card-title {
+  font-family: var(--title-font) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px;
+}
+
+/* Body text stays clean sans-serif */
+body, p, li, span {
+  font-family: var(--body-font);
+  font-weight: 400;
+  line-height: 1.7;
+}
