@@ -18,7 +18,6 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header class="sticky top-0 z-40" style="background:var(--bg-color); border-bottom:1px solid var(--border-color);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div class="flex items-center justify-between">
@@ -29,18 +28,18 @@
           <p class="ui-text text-sm" style="color:var(--secondary-color);">Translated from Korean | Updates weekly</p>
         </div>
         <div class="flex items-center gap-3">
-          <button id="theme-toggle" class="p-2 rounded" style="background:var(--card);" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+          <button id="theme-toggle" class="p-2 rounded" style="background:var(--card);" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Hero -->
   <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
     <div class="text-center">
       <h2 class="text-4xl font-bold mb-2">Moonlight of Montafon</h2>
       <p class="ui-text text-xl mb-4" style="color:var(--secondary-color);">몬타폰의 달빛 (Original Korean Title)</p>
-
       <div class="ui-text text-sm flex flex-wrap items-center justify-center gap-6" style="color:var(--secondary-color);">
         <span><i class="fas fa-user mr-1"></i> Author: Jeong Chanju</span>
         <span><i class="fas fa-language mr-1"></i> Translator: Matty Wegehaupt</span>
@@ -49,7 +48,6 @@
     </div>
   </section>
 
-  <!-- Stats -->
   <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
     <p class="ui-text text-base sm:text-lg text-center mb-4" style="color:var(--secondary-color);">
       A serial translation project. New chapters weekly. Browse below and jump in.
@@ -60,7 +58,6 @@
     </div>
   </section>
 
-  <!-- Chapter cards -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
     <div class="ui-text text-sm mb-4 flex items-center gap-3">
       <label class="inline-flex items-center gap-2"><input id="toggleDrafts" type="checkbox" class="form-checkbox"> <span>Show drafts</span></label>
@@ -69,114 +66,129 @@
     <div id="grid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3"></div>
   </main>
 
-  <!-- Footer -->
   <footer class="border-t py-8" style="border-color:var(--border-color);">
     <div class="text-center">
       <p class="ui-text mb-2" style="color:var(--secondary-color);">Translation © 2025 • <a href="#" class="hover:underline" style="color:#3b82f6;">Support the original author</a></p>
       <nav class="ui-text text-sm">
         <a href="index.html" class="hover:underline" style="color:#3b82f6;">Home</a> · 
-        <a id="startLink" href="#" class="hover:underline" style="color:#3b82f6;">Start reading</a> · 
-        <a id="downloadRSS" href="#" class="hover:underline" style="color:#3b82f6;">Download RSS</a> ·
-        <a id="downloadSitemap" href="#" class="hover:underline" style="color:#3b82f6;">Download sitemap</a>
+        <a id="startLink" href="#" class="hover:underline" style="color:#3b82f6;">Start reading</a>
       </nav>
     </div>
   </footer>
 
   <script>
-  // THEME
-  (function(){
-    const btn=document.getElementById('theme-toggle');
-    const root=document.documentElement;
-    const saved=localStorage.getItem('theme')||'light';
-    root.setAttribute('data-theme', saved);
-    btn.addEventListener('click', ()=>{ 
-      const next = root.getAttribute('data-theme')==='dark' ? 'light':'dark';
-      root.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-    });
-  })();
+    // THEME
+    (function(){
+      const btn=document.getElementById('theme-toggle');
+      const root=document.documentElement;
+      const saved=localStorage.getItem('theme')||'light';
+      root.setAttribute('data-theme', saved);
+      btn.addEventListener('click', ()=>{ 
+        const next = root.getAttribute('data-theme')==='dark' ? 'light':'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
 
-  // ---- Helpers ----
-  function parseDateLocal(iso){ const [y,m,d]=iso.split('-').map(Number); return new Date(y,m-1,d); }
-  function fmt(iso){ return parseDateLocal(iso).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
-  const commas = n => (n||0).toLocaleString();
-  const minutesFromWords = w => Math.max(1, Math.ceil((w||0)/250));
+    // ---- Helpers ----
+    function parseDateLocal(iso){ const [y,m,d]=iso.split('-').map(Number); return new Date(y,m-1,d); }
+    function fmt(iso){ return parseDateLocal(iso).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
+    const commas = n => (n||0).toLocaleString();
+    const minutesFromWords = w => Math.max(1, Math.ceil((w||0)/250));
+    async function httpText(url){ try{ const r=await fetch(url,{cache:'no-store'}); return r.ok?await r.text():''; }catch(e){ return ''; } }
 
-  async function fetchHtml(url){
-    try{ const r = await fetch(url, {cache:'no-store'}); return r.ok ? await r.text() : ''; }
-    catch(e){ return ''; }
-  }
-  function textFromHtml(html){
-    // Strip tags & count words from text content
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    const text = tmp.textContent || '';
-    // Count “words” (letters/numbers/apostrophes). Works fine for CJK-lite too.
-    const tokens = text.trim().replace(/\s+/g,' ').match(/[\p{L}\p{N}’']+/gu) || [];
-    return { text, words: tokens.length };
-  }
+    // Small Markdown → HTML
+    function mdToHtml(md){
+      let h = md
+        .replace(/\r\n/g,'\n')
+        .replace(/^\s*#{3}\s?(.*)$/gm,'<h3>$1</h3>')
+        .replace(/^\s*#{2}\s?(.*)$/gm,'<h2>$1</h2>')
+        .replace(/^\s*#\s?(.*)$/gm,'<h1>$1</h1>')
+        .replace(/^\s*>\s?(.*)$/gm,'<blockquote><p>$1</p></blockquote>')
+        .replace(/^\s*\d+\.\s+(.*)$/gm,'<li>$1</li>')
+        .replace(/^\s*-\s+(.*)$/gm,'<li>$1</li>')
+        .replace(/(<li>.*<\/li>)(\n(?!<li>))/gs,'<ol>$1</ol>\n')
+        .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+        .replace(/(?:^|[\s(])\*(.+?)\*(?=[\s).,!?:;]|$)/g,'$1'.replace('$1','<em>$1</em>'));
+      h = h.split(/\n{2,}/).map(b=>{
+        if(/^<h\d|^<ol>|^<blockquote>|^<ul>|^<li>|^<p>|^<img/i.test(b.trim())) return b;
+        return '<p>'+b.replace(/\n/g,' ')+'</p>';
+      }).join('\n');
+      h = h.replace(/(^|[\n])(<li>[\s\S]*?<\/li>)(?=(\n{2,}|$))/g,(_,a,b)=>a+'<ul>'+b+'</ul>');
+      return h;
+    }
 
-  async function loadChapters(){
-    const res = await fetch('chapters.json', {cache:'no-store'});
-    return res.ok ? res.json() : [];
-  }
+    // Normalize .html (incl. Google Docs), .md, or .txt to HTML + count words
+    async function fetchNormalized(url){
+      const raw = await httpText(url);
+      if(!raw) return {html:'', words:0};
+      let html;
+      if(/\.(md|markdown)$/i.test(url)){
+        html = mdToHtml(raw);
+      } else if(/\.(txt)$/i.test(url)){
+        html = raw.trim().split(/\n{2,}/).map(p=>'<p>'+p.replace(/\n/g,' ')+'</p>').join('\n');
+      } else { // html
+        if(/<body[\s>]/i.test(raw)){
+          const dom = new DOMParser().parseFromString(raw,'text/html');
+          html = dom.body ? dom.body.innerHTML : raw;
+        } else {
+          html = raw;
+        }
+      }
+      const tmp = document.createElement('div'); tmp.innerHTML = html;
+      const text = (tmp.textContent||'').trim().replace(/\s+/g,' ');
+      const tokens = text.match(/[\p{L}\p{N}’']+/gu) || [];
+      return {html, words: tokens.length};
+    }
 
-  function card(c, i){
-    const href = c.href || `chapter.html?slug=${encodeURIComponent(c.slug)}`;
-    const w = c.words ?? 0;
-    const m = c.readTime ?? minutesFromWords(w);
-    return `
-      <article class="chapter-card relative" data-idx="${i}">
-        <a href="${href}"><img class="cover" src="${c.cover}" alt="${c.title} cover" loading="lazy"></a>
-        <div class="p-4">
-          <h4 class="text-lg font-semibold mb-1">
-            <a class="hover:underline" href="${href}">${c.title}</a>
-          </h4>
-          <p class="ui-text text-sm mb-2" style="color:var(--secondary-color);">
-            <i class="fas fa-calendar mr-1"></i> ${fmt(c.date)} ·
-            <i class="fas fa-clock ml-3 mr-1"></i> <span id="min-${i}">~${m} min</span> ·
-            <i class="fas fa-eye ml-3 mr-1"></i> <span id="wc-${i}">${commas(w)}</span> words
-          </p>
-          <p class="ui-text text-sm">${c.summary||''}</p>
-        </div>
-      </article>`;
-  }
+    async function loadChapters(){
+      const res = await fetch('chapters.json', {cache:'no-store'});
+      return res.ok ? res.json() : [];
+    }
 
-  function stats(list){
-    document.getElementById('statChapters').textContent = 'Chapters: ' + list.length;
-    const last = list[list.length-1];
-    if(last) document.getElementById('statUpdated').textContent = 'Last updated: ' + fmt(last.date);
-    document.getElementById('startLink').href = (list[0] && (list[0].href || 'chapter.html?slug='+encodeURIComponent(list[0].slug))) || '#';
-  }
+    function card(c, words, minutes){
+      const href = c.href || `chapter.html?slug=${encodeURIComponent(c.slug)}`;
+      return `
+        <article class="chapter-card relative">
+          <a href="${href}"><img class="cover" src="${c.cover}" alt="${c.title} cover" loading="lazy"></a>
+          <div class="p-4">
+            <h4 class="text-lg font-semibold mb-1"><a class="hover:underline" href="${href}">${c.title}</a></h4>
+            <p class="ui-text text-sm mb-2" style="color:var(--secondary-color);">
+              <i class="fas fa-calendar mr-1"></i> ${fmt(c.date)} ·
+              <i class="fas fa-clock ml-3 mr-1"></i> ~${minutes} min ·
+              <i class="fas fa-eye ml-3 mr-1"></i> ${commas(words)} words
+            </p>
+            <p class="ui-text text-sm">${c.summary||''}</p>
+          </div>
+        </article>`;
+    }
 
-  (async function(){
-    const data = await loadChapters();
-    // Sort 1→2→3
-    data.sort((a,b)=> parseDateLocal(a.date) - parseDateLocal(b.date));
-    const pubs = data.filter(c=> (c.status||'published')==='published');
+    function stats(list){
+      document.getElementById('statChapters').textContent = 'Chapters: ' + list.length;
+      const last = list[list.length-1];
+      if(last) document.getElementById('statUpdated').textContent = 'Last updated: ' + fmt(last.date);
+      document.getElementById('startLink').href = (list[0] && (list[0].href || 'chapter.html?slug='+encodeURIComponent(list[0].slug))) || '#';
+    }
 
-    // Render cards
-    stats(pubs);
-    const grid = document.getElementById('grid');
-    grid.innerHTML = pubs.map((c,i)=>card(c,i)).join('');
+    (async function(){
+      const data = await loadChapters();
+      data.sort((a,b)=> parseDateLocal(a.date) - parseDateLocal(b.date));
+      const pubs = data.filter(c=> (c.status||'published')==='published');
 
-    // Calculate words/minutes from real chapter HTML (if available)
-    await Promise.all(pubs.map(async (c,i)=>{
-      if(!c.contentHtml) return;
-      const html = await fetchHtml(c.contentHtml);
-      if(!html) return;
-      const { words } = textFromHtml(html);
-      document.getElementById(`wc-${i}`).textContent = commas(words);
-      document.getElementById(`min-${i}`).textContent = `~${minutesFromWords(words)} min`;
-    }));
+      const enriched = await Promise.all(pubs.map(async c=>{
+        let words = Number(c.words||0);
+        if (c.contentHtml) {
+          const n = await fetchNormalized(c.contentHtml);
+          if(n.words) words = n.words;
+        }
+        const minutes = Math.max(1, Math.ceil(words/250));
+        return {c, words, minutes};
+      }));
 
-    // Draft toggle still works with pre-rendered numbers
-    const cb=document.getElementById('toggleDrafts');
-    cb.addEventListener('change', ()=>{
-      const list = cb.checked ? data : pubs;
-      grid.innerHTML = list.map((c,i)=>card(c,i)).join('');
-    });
-  })();
-</script>
+      stats(pubs);
+      const grid=document.getElementById('grid');
+      grid.innerHTML = enriched.map(e=>card(e.c,e.words,e.minutes)).join('');
+    })();
+  </script>
 </body>
 </html>
