@@ -5,131 +5,162 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chapter • Moonlight of Montafon</title>
 
-  <!-- Fonts + global font rules -->
-  <link rel="stylesheet" href="assets/fonts.css">
+  <!-- Global site styles (headings/body harmony) -->
+  <link rel="stylesheet" href="assets/site.css">
 
-  <!-- UI libs -->
+  <!-- Icons + basic utility -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
   <style>
-    :root { --primary:#2563eb; --secondary:#64748b; --text:#1f2937; --bg:#ffffff; --border:#e5e7eb; --accent:#f3f4f6; }
-    [data-theme="dark"] { --primary:#3b82f6; --secondary:#94a3b8; --text:#f9fafb; --bg:#111827; --border:#374151; --accent:#1f2937; }
-    body { color:var(--text); background:var(--bg); transition: background .2s, color .2s; }
+    /* Keep the reading column consistent everywhere */
+    .wrap { max-width: 840px; margin: 0 auto; padding: 0 20px; }
 
-    .ui { font-family: var(--body-font); }
-    .chapter-content { text-align: justify; }
-    .chapter-content p { margin:1rem 0; line-height:1.8; font-size:1.12rem; }
+    /* Chapter header and stats */
+    .meta { color: var(--muted); display:flex; gap:1.25rem; flex-wrap:wrap; align-items:center; }
 
-    .translator-note { border-left: 4px solid var(--primary); background:var(--accent); padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 0 .5rem .5rem 0; }
-    .progress-bar { width:0%; transition: width .2s ease; }
+    /* Ensure hero images are never huge */
+    figure.hero { margin: 1.25rem 0 1.75rem; }
+    figure.hero img { width:100%; height:auto; max-width:840px; border-radius:8px; display:block; margin:0 auto; }
+    figure.hero figcaption { text-align:center; font-size:.9rem; color: var(--muted); margin-top:.5rem; }
+
+    /* Google‑Docs paste normalizer: keeps bold/italic, fixes gaps + fonts */
+    .gdoc, .gdoc * {
+      font-family: var(--body-font) !important;
+      font-size: 1rem !important;
+      line-height: 1.7 !important;
+      color: var(--text) !important;
+      white-space: normal !important;
+    }
+    .gdoc p { margin: 0 0 1rem 0 !important; }
+    .gdoc p:empty { display:none !important; }
+    .gdoc p > br:only-child { display:none !important; }
+
+    /* Images inside pasted content */
+    .gdoc img { max-width: 100%; height: auto; display:block; margin: 1.25rem auto; border-radius:6px; }
+
+    /* Prev/next */
+    .navpn { display:flex; justify-content:space-between; margin:2rem 0 1rem; gap:1rem; }
+    .navpn a { color: var(--brand); font-weight:700; text-decoration:none; }
+    .navpn a:hover { text-decoration:underline; }
   </style>
 </head>
-<body class="min-h-screen">
-  <header class="sticky top-0 z-50" style="background:var(--bg); border-bottom:1px solid var(--border);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-      <div class="flex items-center justify-between">
-        <div class="min-w-0">
-          <h1 class="site-title text-xl sm:text-2xl font-bold" style="color: var(--primary);">
-            <i class="fas fa-book mr-2"></i> <a href="index.html" class="hover:underline" style="color: var(--primary);">Moonlight of Montafon</a>
-          </h1>
-          <p class="text-xs sm:text-sm ui" style="color: var(--secondary);">Translated from Korean • Updates weekly</p>
-        </div>
-        <div class="flex items-center space-x-3">
-          <div class="ui text-xs sm:text-sm" style="color: var(--secondary);">Progress: <span id="reading-progress">0%</span></div>
-          <button id="theme-toggle" class="p-2 rounded ui" style="background: var(--accent);" aria-label="Toggle theme"><i class="fas fa-moon" style="color: var(--text);"></i></button>
-        </div>
-      </div>
+<body>
+  <header class="wrap" style="padding:18px 20px;">
+    <div class="ui-top">
+      <a href="index.html" class="brand-link" aria-label="Home">
+        <span class="brand-title">Moonlight of Montafon</span>
+      </a>
+      <div class="progress ui">Progress: <span id="reading-progress">0%</span></div>
     </div>
-    <div class="w-full h-1 bg-gray-200"><div id="progress-bar" class="progress-bar h-1" style="background: var(--primary);"></div></div>
   </header>
 
-  <main id="main" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <nav class="ui text-sm mb-4" style="color: var(--secondary);" aria-label="Breadcrumb">
-      <ol class="flex flex-wrap items-center gap-2">
-        <li><a href="index.html" class="hover:underline" style="color: var(--primary);">Home</a></li>
-        <li aria-hidden="true">›</li>
-        <li aria-current="page" id="crumbTitle" class="site-title">Chapter</li>
-      </ol>
+  <main class="wrap" id="main">
+    <nav class="ui crumb" aria-label="Breadcrumb" style="color:var(--muted);margin:6px 0 8px;">
+      <a href="index.html" class="crumb-home">Home</a> <span aria-hidden="true">›</span>
+      <span id="crumbTitle">Chapter</span>
     </nav>
 
-    <header class="mb-6">
-      <h2 id="chapterTitle" class="chapter-title text-3xl font-bold mb-2">Loading…</h2>
-      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 ui text-sm" style="color: var(--secondary);">
-        <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
-        <span><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
-        <span><i class="fas fa-eye mr-1"></i><span id="wordCount">—</span></span>
-      </div>
-    </header>
+    <h1 id="chapterTitle" class="h1">Loading…</h1>
 
-    <figure class="mb-6" id="heroBlock" hidden>
-      <img id="heroImg" src="" alt="Chapter image" class="hero w-full rounded-lg shadow" />
-      <figcaption id="heroCaption" class="ui text-xs mt-2" style="color: var(--secondary);"></figcaption>
+    <div class="meta ui" style="margin:.4rem 0 1.25rem;">
+      <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime=""></time></span>
+      <span><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
+      <span><i class="fas fa-eye mr-1"></i><span id="wordCount">—</span></span>
+    </div>
+
+    <figure class="hero" id="heroBlock" hidden>
+      <img id="heroImg" src="" alt="">
+      <figcaption id="heroCaption"></figcaption>
     </figure>
 
-    <article id="contentRoot" class="chapter-content chapter-text"></article>
+    <article id="contentRoot" class="chapter-content"></article>
 
-    <aside class="translator-note ui rounded" role="note">
-      <h3 class="site-title font-bold mb-2" style="color: var(--text);"><i class="fas fa-sticky-note mr-2" style="color: var(--primary);"></i>Translator note</h3>
-      <p class="text-sm">All-new story text loaded per chapter.</p>
-    </aside>
-
-    <nav class="mt-10 flex items-center justify-between ui">
-      <a id="prevLink" href="index.html" class="text-sm hover:underline" style="color: var(--primary);"><i class="fas fa-arrow-left mr-2"></i>Previous</a>
-      <a id="nextLink" href="index.html" class="text-sm hover:underline" style="color: var(--primary);">Next<i class="fas fa-arrow-right ml-2"></i></a>
+    <nav class="navpn ui">
+      <a id="prevLink" href="index.html"><i class="fas fa-arrow-left mr-2"></i>Previous</a>
+      <a id="nextLink" href="index.html">Next<i class="fas fa-arrow-right ml-2"></i></a>
     </nav>
 
-    <footer class="border-t mt-12 pt-6" style="border-color: var(--border);">
-      <div class="text-center">
-        <p class="ui mb-3" style="color: var(--secondary);">Translation © <span id="copyrightYear">2025</span></p>
-      </div>
-    </footer>
+    <footer class="ui" style="color:var(--muted);margin:2rem 0 3rem;">Translation © <span id="copyrightYear">2025</span></footer>
   </main>
 
   <script>
-    // Theme toggle
     (function(){
-      const btn=document.getElementById('theme-toggle'); const root=document.documentElement;
-      const saved=localStorage.getItem('theme')||'light'; root.setAttribute('data-theme', saved);
-      btn.addEventListener('click', ()=>{ const isDark=root.getAttribute('data-theme')==='dark'; root.setAttribute('data-theme', isDark?'light':'dark'); localStorage.setItem('theme', isDark?'light':'dark'); });
-    })();
+      const fmtLong = d => new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+      const num = n => (n||0).toLocaleString();
 
-    const fmtLong=(d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
-    const num=(n)=> (n||0).toLocaleString();
-    async function loadChapters(){ try{ const r=await fetch('chapters.json',{cache:'no-store'}); if(!r.ok) throw 0; return await r.json(); } catch(e){ return []; } }
-    async function loadHtml(url){ try{ const r=await fetch(url,{cache:'no-store'}); return r.ok ? (await r.text()) : ''; } catch(e){ return ''; } }
+      async function loadChapters(){ try{ const r=await fetch('chapters.json',{cache:'no-store'}); return r.ok? r.json():[];}catch(e){return[];} }
+      async function fetchText(url){ const r=await fetch(url,{cache:'no-store'}); return r.ok? r.text():''; }
 
-    (async function(){
-      const list = await loadChapters();
-      list.sort((a,b)=> new Date(a.date)-new Date(b.date));
-      const p=new URLSearchParams(location.search);
-      const slug=p.get('slug'); let idx=list.findIndex(c=>c.slug===slug); if(idx<0) idx=0; const ch=list[idx];
+      function cleanGDoc(root){
+        // Remove empty paragraphs created by Google Docs
+        root.querySelectorAll('.gdoc p').forEach(p=>{
+          if(p.textContent.replace(/\u00A0/g,' ').trim()==='') p.remove();
+        });
+      }
 
-      document.title = ch.title + ' • Moonlight of Montafon';
-      document.getElementById('chapterTitle').textContent = ch.title;
-      document.getElementById('crumbTitle').textContent = ch.title;
-      const d=new Date(ch.date); const pub=document.getElementById('pubDate'); pub.dateTime = d.toISOString().slice(0,10); pub.textContent = fmtLong(ch.date);
-      document.getElementById('readTime').textContent = '~'+ch.readTime+' minutes';
-      document.getElementById('wordCount').textContent = num(ch.words)+' words';
-      if(ch.hero){ const f=document.getElementById('heroBlock'); f.hidden=false; const img=document.getElementById('heroImg'); img.src=ch.hero; img.alt=ch.caption||ch.title; document.getElementById('heroCaption').textContent=ch.caption||''; }
+      function countWords(root){
+        const text = root.textContent || '';
+        const words = (text.trim().match(/\b[\w’'-]+\b/g)||[]).length;
+        const minutes = Math.max(1, Math.round(words/225)); // 225 wpm
+        return {words, minutes};
+      }
 
-      // Load external chapter content
-      if(ch.contentHtml){ const html = await loadHtml(ch.contentHtml); document.getElementById('contentRoot').innerHTML = html; }
-      else { document.getElementById('contentRoot').innerHTML = '<p>Chapter content coming soon.</p>'; }
+      (async ()=>{
+        const list = await loadChapters();
+        list.sort((a,b)=> new Date(a.date)-new Date(b.date));
 
-      // Prev/Next (ascending order)
-      const prev=list[idx-1]; const next=list[idx+1];
-      const prevEl=document.getElementById('prevLink'); const nextEl=document.getElementById('nextLink');
-      if(prev){ prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.innerHTML = '<i class="fas fa-arrow-left mr-2"></i>'+prev.title; } else { prevEl.href='index.html'; prevEl.innerHTML='<i class="fas fa-arrow-left mr-2"></i>Home'; }
-      if(next){ nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.innerHTML = next.title + '<i class="fas fa-arrow-right ml-2"></i>'; } else { nextEl.href='index.html'; nextEl.innerHTML='Index<i class="fas fa-arrow-right ml-2"></i>'; }
+        const qs = new URLSearchParams(location.search);
+        const slug = qs.get('slug');
+        let idx = list.findIndex(c=>c.slug===slug);
+        if(idx<0) idx=0;
+        const ch = list[idx];
 
-      // progress
-      const bar=document.getElementById('progress-bar'); const txt=document.getElementById('reading-progress');
-      function up(){ const s=document.documentElement.scrollTop||document.body.scrollTop; const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight)||1; const pct=Math.round(s/h*100); bar.style.width=pct+'%'; txt.textContent=pct+'%'; }
-      window.addEventListener('scroll', up); up();
+        // Titles / meta
+        document.title = `${ch.title} • Moonlight of Montafon`;
+        document.getElementById('chapterTitle').textContent = ch.title;
+        document.getElementById('crumbTitle').textContent = ch.title;
+        const d=new Date(ch.date);
+        const pd=document.getElementById('pubDate');
+        pd.dateTime = d.toISOString().slice(0,10);
+        pd.textContent = fmtLong(ch.date);
 
-      // Year
-      document.getElementById('copyrightYear').textContent = new Date().getFullYear();
+        // Hero
+        if(ch.hero){
+          const f=document.getElementById('heroBlock');
+          f.hidden=false;
+          document.getElementById('heroImg').src=ch.hero;
+          document.getElementById('heroCaption').textContent = ch.caption||'';
+        }
+
+        // Load chapter fragment
+        const html = await fetchText(ch.contentHtml || '');
+        const root = document.getElementById('contentRoot');
+        root.innerHTML = html;
+
+        // Ensure pasted blocks (Google Docs) are normalized
+        root.querySelectorAll('.gdoc').forEach(cleanGDoc);
+
+        // Word count / read time
+        const stats = countWords(root);
+        document.getElementById('wordCount').textContent = `${num(stats.words)} words`;
+        document.getElementById('readTime').textContent = `~${stats.minutes} minutes`;
+
+        // Prev/Next
+        const prev=list[idx-1], next=list[idx+1];
+        const prevEl=document.getElementById('prevLink'), nextEl=document.getElementById('nextLink');
+        if(prev){ prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.innerHTML='<i class="fas fa-arrow-left mr-2"></i>'+prev.title; }
+        else { prevEl.href='index.html'; prevEl.innerHTML='<i class="fas fa-arrow-left mr-2"></i>Index'; }
+        if(next){ nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.innerHTML=next.title+'<i class="fas fa-arrow-right ml-2"></i>'; }
+        else { nextEl.href='index.html'; nextEl.innerHTML='Index<i class="fas fa-arrow-right ml-2"></i>'; }
+
+        // Simple scroll progress
+        const barTxt=document.getElementById('reading-progress');
+        function up(){ const s=window.scrollY, h=document.documentElement.scrollHeight - window.innerHeight || 1; barTxt.textContent = Math.round(s/h*100)+'%';}
+        addEventListener('scroll', up); up();
+
+        document.getElementById('copyrightYear').textContent = new Date().getFullYear();
+      })();
     })();
   </script>
 </body>
