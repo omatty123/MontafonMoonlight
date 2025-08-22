@@ -83,56 +83,100 @@
   </footer>
 
   <script>
-    // Theme
-    (function(){
-      const btn=document.getElementById('theme-toggle');
-      const root=document.documentElement;
-      const saved=localStorage.getItem('theme')||'light';
-      root.setAttribute('data-theme', saved);
-      btn.addEventListener('click', ()=>{ 
-        const next = root.getAttribute('data-theme')==='dark' ? 'light':'dark';
-        root.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-      });
-    })();
+  // THEME
+  (function(){
+    const btn=document.getElementById('theme-toggle');
+    const root=document.documentElement;
+    const saved=localStorage.getItem('theme')||'light';
+    root.setAttribute('data-theme', saved);
+    btn.addEventListener('click', ()=>{ 
+      const next = root.getAttribute('data-theme')==='dark' ? 'light':'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  })();
 
-    async function loadChapters(){
-      const res = await fetch('chapters.json', {cache:'no-store'});
-      return res.ok ? res.json() : [];
-    }
-    const fmt=(d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
-    function card(c){
-      const href = c.href || `chapter.html?slug=${encodeURIComponent(c.slug)}`;
-      return `
-      <article class="chapter-card relative">
+  // ---- Helpers ----
+  function parseDateLocal(iso){ const [y,m,d]=iso.split('-').map(Number); return new Date(y,m-1,d); }
+  function fmt(iso){ return parseDateLocal(iso).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
+  const commas = n => (n||0).toLocaleString();
+  const minutesFromWords = w => Math.max(1, Math.ceil((w||0)/250));
+
+  async function fetchHtml(url){
+    try{ const r = await fetch(url, {cache:'no-store'}); return r.ok ? await r.text() : ''; }
+    catch(e){ return ''; }
+  }
+  function textFromHtml(html){
+    // Strip tags & count words from text content
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    const text = tmp.textContent || '';
+    // Count “words” (letters/numbers/apostrophes). Works fine for CJK-lite too.
+    const tokens = text.trim().replace(/\s+/g,' ').match(/[\p{L}\p{N}’']+/gu) || [];
+    return { text, words: tokens.length };
+  }
+
+  async function loadChapters(){
+    const res = await fetch('chapters.json', {cache:'no-store'});
+    return res.ok ? res.json() : [];
+  }
+
+  function card(c, i){
+    const href = c.href || `chapter.html?slug=${encodeURIComponent(c.slug)}`;
+    const w = c.words ?? 0;
+    const m = c.readTime ?? minutesFromWords(w);
+    return `
+      <article class="chapter-card relative" data-idx="${i}">
         <a href="${href}"><img class="cover" src="${c.cover}" alt="${c.title} cover" loading="lazy"></a>
         <div class="p-4">
-          <h4 class="text-lg font-semibold mb-1"><a class="hover:underline" href="${href}">${c.title}</a></h4>
+          <h4 class="text-lg font-semibold mb-1">
+            <a class="hover:underline" href="${href}">${c.title}</a>
+          </h4>
           <p class="ui-text text-sm mb-2" style="color:var(--secondary-color);">
             <i class="fas fa-calendar mr-1"></i> ${fmt(c.date)} ·
-            <i class="fas fa-clock ml-3 mr-1"></i> ~${c.readTime} min
+            <i class="fas fa-clock ml-3 mr-1"></i> <span id="min-${i}">~${m} min</span> ·
+            <i class="fas fa-eye ml-3 mr-1"></i> <span id="wc-${i}">${commas(w)}</span> words
           </p>
           <p class="ui-text text-sm">${c.summary||''}</p>
         </div>
       </article>`;
-    }
-    function stats(list){
-      document.getElementById('statChapters').textContent = 'Chapters: ' + list.length;
-      const last = list[list.length-1]; 
-      if(last) document.getElementById('statUpdated').textContent = 'Last updated: ' + fmt(last.date);
-      document.getElementById('startLink').href = (list[0] && (list[0].href || 'chapter.html?slug='+encodeURIComponent(list[0].slug))) || '#';
-    }
-    (async function(){
-      const data = await loadChapters();
-      data.sort((a,b)=> new Date(a.date)-new Date(b.date));
-      const pubs = data.filter(c=> (c.status||'published')==='published');
-      stats(pubs);
-      const grid=document.getElementById('grid');
-      const cb=document.getElementById('toggleDrafts');
-      function render(showDrafts){ const list = showDrafts? data : pubs; grid.innerHTML = list.map(card).join(''); }
-      render(false);
-      cb.addEventListener('change', ()=>render(cb.checked));
-    })();
-  </script>
+  }
+
+  function stats(list){
+    document.getElementById('statChapters').textContent = 'Chapters: ' + list.length;
+    const last = list[list.length-1];
+    if(last) document.getElementById('statUpdated').textContent = 'Last updated: ' + fmt(last.date);
+    document.getElementById('startLink').href = (list[0] && (list[0].href || 'chapter.html?slug='+encodeURIComponent(list[0].slug))) || '#';
+  }
+
+  (async function(){
+    const data = await loadChapters();
+    // Sort 1→2→3
+    data.sort((a,b)=> parseDateLocal(a.date) - parseDateLocal(b.date));
+    const pubs = data.filter(c=> (c.status||'published')==='published');
+
+    // Render cards
+    stats(pubs);
+    const grid = document.getElementById('grid');
+    grid.innerHTML = pubs.map((c,i)=>card(c,i)).join('');
+
+    // Calculate words/minutes from real chapter HTML (if available)
+    await Promise.all(pubs.map(async (c,i)=>{
+      if(!c.contentHtml) return;
+      const html = await fetchHtml(c.contentHtml);
+      if(!html) return;
+      const { words } = textFromHtml(html);
+      document.getElementById(`wc-${i}`).textContent = commas(words);
+      document.getElementById(`min-${i}`).textContent = `~${minutesFromWords(words)} min`;
+    }));
+
+    // Draft toggle still works with pre-rendered numbers
+    const cb=document.getElementById('toggleDrafts');
+    cb.addEventListener('change', ()=>{
+      const list = cb.checked ? data : pubs;
+      grid.innerHTML = list.map((c,i)=>card(c,i)).join('');
+    });
+  })();
+</script>
 </body>
 </html>
