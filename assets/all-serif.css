@@ -1,14 +1,23 @@
-/* all-serif.css — drop-in site-wide serif override */
-:root {
-  --ui-font: Georgia, "Times New Roman", Times, serif;
+/* all-serif.css — global serif override */
+body, html {
+  font-family: 'Crimson Text', serif !important;
 }
+
+:root {
+  --ui-font: 'Crimson Text', serif;
+}
+
 /* Force serif everywhere */
-html, body, h1, h2, h3, h4, h5, h6, p, a, li, span, small, button, input, label, nav, div, section, article, footer, header, blockquote, figcaption, strong, em {
-  font-family: Georgia, "Times New Roman", Times, serif !important;
+html, body, h1, h2, h3, h4, h5, h6, p, a, li, span, small, 
+button, input, label, nav, div, section, article, footer, 
+header, blockquote, figcaption, strong, em {
+  font-family: 'Crimson Text', serif !important;
   letter-spacing: 0.2px;
 }
-/* Keep comfortable reading rhythm */
+
+/* Comfortable reading rhythm */
 p { line-height: 1.7; }
+
 /* Chapter images sane */
 img.chapter-image, .chapter-image img, img.hero, .hero img {
   max-width: 600px !important;
