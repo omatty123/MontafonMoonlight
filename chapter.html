@@ -4,14 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chapter • Moonlight of Montafon</title>
+
+  <!-- Fonts + global font rules -->
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/fonts.css">
+
+  <!-- UI libs -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
   <style>
     :root { --primary:#2563eb; --secondary:#64748b; --text:#1f2937; --bg:#ffffff; --border:#e5e7eb; --accent:#f3f4f6; }
     [data-theme="dark"] { --primary:#3b82f6; --secondary:#94a3b8; --text:#f9fafb; --bg:#111827; --border:#374151; --accent:#1f2937; }
-    body { font-family:'Crimson Text', serif; color:var(--text); background:var(--bg); transition: background .2s, color .2s; }
-    .ui { font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; }
+    body { color:var(--text); background:var(--bg); transition: background .2s, color .2s; }
+    .ui { font-family: var(--sans); }
     .chapter-content { text-align: justify; }
     .chapter-content p { margin:1rem 0; line-height:1.8; font-size:1.12rem; }
     .translator-note { border-left: 4px solid var(--primary); background:var(--accent); padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 0 .5rem .5rem 0; }
@@ -23,7 +29,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
       <div class="flex items-center justify-between">
         <div class="min-w-0">
-          <h1 class="text-xl sm:text-2xl font-bold ui" style="color: var(--primary);">
+          <h1 class="site-title text-xl sm:text-2xl font-bold" style="color: var(--primary);">
             <i class="fas fa-book mr-2"></i> <a href="index.html" class="hover:underline" style="color: var(--primary);">Moonlight of Montafon</a>
           </h1>
           <p class="text-xs sm:text-sm ui" style="color: var(--secondary);">Translated from Korean • Updates weekly</p>
@@ -42,12 +48,12 @@
       <ol class="flex flex-wrap items-center gap-2">
         <li><a href="index.html" class="hover:underline" style="color: var(--primary);">Home</a></li>
         <li aria-hidden="true">›</li>
-        <li aria-current="page" id="crumbTitle">Chapter</li>
+        <li aria-current="page" id="crumbTitle" class="site-title">Chapter</li>
       </ol>
     </nav>
 
     <header class="mb-6">
-      <h2 id="chapterTitle" class="text-3xl font-bold mb-2">Loading…</h2>
+      <h2 id="chapterTitle" class="chapter-title text-3xl font-bold mb-2">Loading…</h2>
       <div class="flex flex-wrap items-center gap-x-6 gap-y-2 ui text-sm" style="color: var(--secondary);">
         <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
         <span><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
@@ -56,14 +62,14 @@
     </header>
 
     <figure class="mb-6" id="heroBlock" hidden>
-      <img id="heroImg" src="" alt="Chapter image" class="w-full rounded-lg shadow" />
+      <img id="heroImg" src="" alt="Chapter image" class="hero w-full rounded-lg shadow" />
       <figcaption id="heroCaption" class="ui text-xs mt-2" style="color: var(--secondary);"></figcaption>
     </figure>
 
-    <article id="contentRoot" class="chapter-content"></article>
+    <article id="contentRoot" class="chapter-content chapter-text"></article>
 
     <aside class="translator-note ui rounded" role="note">
-      <h3 class="font-bold mb-2" style="color: var(--text);"><i class="fas fa-sticky-note mr-2" style="color: var(--primary);"></i>Translator note</h3>
+      <h3 class="site-title font-bold mb-2" style="color: var(--text);"><i class="fas fa-sticky-note mr-2" style="color: var(--primary);"></i>Translator note</h3>
       <p class="text-sm">All-new story text loaded per chapter.</p>
     </aside>
 
@@ -83,104 +89,46 @@
     // Theme toggle
     (function(){
       const btn=document.getElementById('theme-toggle'); const root=document.documentElement;
-      const saved=localStorage.getItem('theme')||'light'; if(saved==='dark') root.setAttribute('data-theme','dark');
-      btn.addEventListener('click', ()=>{ const isDark=root.getAttribute('data-theme')==='dark'; if(isDark){root.removeAttribute('data-theme'); localStorage.setItem('theme','light');} else {root.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark');} });
+      const saved=localStorage.getItem('theme')||'light'; root.setAttribute('data-theme', saved);
+      btn.addEventListener('click', ()=>{ const isDark=root.getAttribute('data-theme')==='dark'; root.setAttribute('data-theme', isDark?'light':'dark'); localStorage.setItem('theme', isDark?'light':'dark'); });
     })();
 
-    function parseDateLocal(iso){ const [y,m,d]=iso.split('-').map(Number); return new Date(y,m-1,d); }
-    function fmtLong(iso){ return parseDateLocal(iso).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}); }
-    const commas = n => (n||0).toLocaleString();
-    const minutesFromWords = w => Math.max(1, Math.ceil((w||0)/250));
-    async function httpText(url){ try{ const r=await fetch(url,{cache:'no-store'}); return r.ok ? (await r.text()) : ''; } catch(e){ return ''; } }
-
-    function mdToHtml(md){
-      let h = md
-        .replace(/\r\n/g,'\n')
-        .replace(/^\s*#{3}\s?(.*)$/gm,'<h3>$1</h3>')
-        .replace(/^\s*#{2}\s?(.*)$/gm,'<h2>$1</h2>')
-        .replace(/^\s*#\s?(.*)$/gm,'<h1>$1</h1>')
-        .replace(/^\s*>\s?(.*)$/gm,'<blockquote><p>$1</p></blockquote>')
-        .replace(/^\s*\d+\.\s+(.*)$/gm,'<li>$1</li>')
-        .replace(/^\s*-\s+(.*)$/gm,'<li>$1</li>')
-        .replace(/(<li>.*<\/li>)(\n(?!<li>))/gs,'<ol>$1</ol>\n')
-        .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-        .replace(/(?:^|[\s(])\*(.+?)\*(?=[\s).,!?:;]|$)/g,'$1'.replace('$1','<em>$1</em>'));
-      h = h.split(/\n{2,}/).map(b=>{
-        if(/^<h\d|^<ol>|^<blockquote>|^<ul>|^<li>|^<p>|^<img/i.test(b.trim())) return b;
-        return '<p>'+b.replace(/\n/g,' ')+'</p>';
-      }).join('\n');
-      h = h.replace(/(^|[\n])(<li>[\s\S]*?<\/li>)(?=(\n{2,}|$))/g,(_,a,b)=>a+'<ul>'+b+'</ul>');
-      return h;
-    }
-
-    async function fetchNormalized(url){
-      const raw = await httpText(url);
-      if(!raw) return {html:'', words:0};
-      let html;
-      if(/\.(md|markdown)$/i.test(url)){
-        html = mdToHtml(raw);
-      } else if(/\.(txt)$/i.test(url)){
-        html = raw.trim().split(/\n{2,}/).map(p=>'<p>'+p.replace(/\n/g,' ')+'</p>').join('\n');
-      } else {
-        if(/<body[\s>]/i.test(raw)){
-          const dom = new DOMParser().parseFromString(raw,'text/html');
-          html = dom.body ? dom.body.innerHTML : raw;
-        } else {
-          html = raw;
-        }
-      }
-      const tmp = document.createElement('div');
-      tmp.innerHTML = html;
-      const text = (tmp.textContent||'').trim().replace(/\s+/g,' ');
-      const tokens = text.match(/[\p{L}\p{N}’']+/gu) || [];
-      return {html, words: tokens.length};
-    }
-
+    const fmtLong=(d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    const num=(n)=> (n||0).toLocaleString();
     async function loadChapters(){ try{ const r=await fetch('chapters.json',{cache:'no-store'}); if(!r.ok) throw 0; return await r.json(); } catch(e){ return []; } }
+    async function loadHtml(url){ try{ const r=await fetch(url,{cache:'no-store'}); return r.ok ? (await r.text()) : ''; } catch(e){ return ''; } }
 
     (async function(){
       const list = await loadChapters();
-      list.sort((a,b)=> parseDateLocal(a.date)-parseDateLocal(b.date));
-
+      list.sort((a,b)=> new Date(a.date)-new Date(b.date));
       const p=new URLSearchParams(location.search);
-      const slug=p.get('slug');
-      let idx=list.findIndex(c=>c.slug===slug);
-      if(idx<0) idx=0;
-      const ch=list[idx];
+      const slug=p.get('slug'); let idx=list.findIndex(c=>c.slug===slug); if(idx<0) idx=0; const ch=list[idx];
 
+      document.title = ch.title + ' • Moonlight of Montafon';
       document.getElementById('chapterTitle').textContent = ch.title;
       document.getElementById('crumbTitle').textContent = ch.title;
-      document.getElementById('pubDate').dateTime = ch.date;
-      document.getElementById('pubDate').textContent = fmtLong(ch.date);
+      const d=new Date(ch.date); const pub=document.getElementById('pubDate'); pub.dateTime = d.toISOString().slice(0,10); pub.textContent = fmtLong(ch.date);
+      document.getElementById('readTime').textContent = '~'+ch.readTime+' minutes';
+      document.getElementById('wordCount').textContent = num(ch.words)+' words';
+      if(ch.hero){ const f=document.getElementById('heroBlock'); f.hidden=false; const img=document.getElementById('heroImg'); img.src=ch.hero; img.alt=ch.caption||ch.title; document.getElementById('heroCaption').textContent=ch.caption||''; }
 
-      if(ch.hero){
-        const f=document.getElementById('heroBlock');
-        f.hidden=false;
-        document.getElementById('heroImg').src=ch.hero;
-        document.getElementById('heroCaption').textContent=ch.caption||'';
-      }
+      // Load external chapter content
+      if(ch.contentHtml){ const html = await loadHtml(ch.contentHtml); document.getElementById('contentRoot').innerHTML = html; }
+      else { document.getElementById('contentRoot').innerHTML = '<p>Chapter content coming soon.</p>'; }
 
-      const root = document.getElementById('contentRoot');
-      let words = Number(ch.words||0);
-      if(ch.contentHtml){
-        const n = await fetchNormalized(ch.contentHtml);
-        root.innerHTML = n.html || '<p>Chapter content coming soon.</p>';
-        if(n.words) words = n.words;
-      }else{
-        root.innerHTML = '<p>Chapter content coming soon.</p>';
-      }
-
-      document.getElementById('wordCount').textContent = `${commas(words)} words`;
-      document.getElementById('readTime').textContent = `~${minutesFromWords(words)} minutes`;
-
-      const prev=list[idx-1], next=list[idx+1];
+      // Prev/Next (ascending order)
+      const prev=list[idx-1]; const next=list[idx+1];
       const prevEl=document.getElementById('prevLink'); const nextEl=document.getElementById('nextLink');
       if(prev){ prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.innerHTML = '<i class="fas fa-arrow-left mr-2"></i>'+prev.title; } else { prevEl.href='index.html'; prevEl.innerHTML='<i class="fas fa-arrow-left mr-2"></i>Home'; }
       if(next){ nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.innerHTML = next.title + '<i class="fas fa-arrow-right ml-2"></i>'; } else { nextEl.href='index.html'; nextEl.innerHTML='Index<i class="fas fa-arrow-right ml-2"></i>'; }
 
+      // progress
       const bar=document.getElementById('progress-bar'); const txt=document.getElementById('reading-progress');
       function up(){ const s=document.documentElement.scrollTop||document.body.scrollTop; const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight)||1; const pct=Math.round(s/h*100); bar.style.width=pct+'%'; txt.textContent=pct+'%'; }
       window.addEventListener('scroll', up); up();
+
+      // Year
+      document.getElementById('copyrightYear').textContent = new Date().getFullYear();
     })();
   </script>
 </body>
