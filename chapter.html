@@ -6,7 +6,6 @@
   <title>Chapter • Moonlight of Montafon</title>
 
   <!-- Fonts + global font rules -->
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/fonts.css">
 
   <!-- UI libs -->
@@ -17,9 +16,11 @@
     :root { --primary:#2563eb; --secondary:#64748b; --text:#1f2937; --bg:#ffffff; --border:#e5e7eb; --accent:#f3f4f6; }
     [data-theme="dark"] { --primary:#3b82f6; --secondary:#94a3b8; --text:#f9fafb; --bg:#111827; --border:#374151; --accent:#1f2937; }
     body { color:var(--text); background:var(--bg); transition: background .2s, color .2s; }
-    .ui { font-family: var(--sans); }
+
+    .ui { font-family: var(--body-font); }
     .chapter-content { text-align: justify; }
     .chapter-content p { margin:1rem 0; line-height:1.8; font-size:1.12rem; }
+
     .translator-note { border-left: 4px solid var(--primary); background:var(--accent); padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 0 .5rem .5rem 0; }
     .progress-bar { width:0%; transition: width .2s ease; }
   </style>
