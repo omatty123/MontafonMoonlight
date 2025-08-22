@@ -2,151 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chapter Maker (paste from Google Docs)</title>
+  <title>Chapter Maker – Montafon Moonlight</title>
   <style>
-    :root{--bg:#0b1220;--panel:#111827;--muted:#9ca3af;--text:#e5e7eb;--border:#374151;--accent:#2563eb}
-    html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;line-height:1.6}
-    .wrap{max-width:1000px;margin:0 auto;padding:20px}
-    h1{margin:0 0 .5rem}
-    .muted{color:var(--muted)}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
-    .box{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-height:300px}
-    .box h2{font-size:1rem;margin:0;padding:10px 12px;border-bottom:1px solid var(--border)}
-    .pad{padding:12px;flex:1;overflow:auto}
-    .paste{min-height:240px;border:1px dashed var(--border);border-radius:10px;padding:10px;background:#0f172a;outline:none}
-    .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    button{background:var(--accent);border:none;color:white;padding:10px 14px;border-radius:10px;cursor:pointer}
-    button.secondary{background:#374151}
-    textarea, .preview{width:100%;min-height:240px;border:1px solid var(--border);border-radius:10px;background:#0f172a;color:var(--text);padding:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
-    .preview{white-space:normal;overflow:auto}
-    .small{font-size:.9rem}
-    label{display:block;margin:.5rem 0 .15rem}
-    input[type="text"]{width:100%;padding:.6rem .75rem;border:1px solid var(--border);border-radius:10px;background:#0f172a;color:var(--text)}
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    textarea { width: 100%; height: 250px; margin-bottom: 1rem; }
+    button { padding: 0.5rem 1rem; font-size: 1rem; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Chapter Maker</h1>
-    <p class="muted">Paste from Google Docs into the left pane. Click <strong>Make HTML</strong>, then <strong>Download</strong>. Drop the downloaded file into <code>content/</code> and reference it from <code>chapters.json</code>.</p>
+  <h1>Chapter Maker</h1>
+  <p>Paste Google Docs text below (rich paste works). Then click <b>Make HTML → Download</b> to save as a ready-to-use chapter file.</p>
 
-    <div class="row">
-      <div class="box">
-        <h2>1) Paste from Google Docs (rich paste)</h2>
-        <div class="pad">
-          <div id="paste" class="paste" contenteditable="true" spellcheck="false">
-            <p><em>Paste here…</em></p>
-          </div>
-          <div class="btns">
-            <button id="btnMake">Make HTML</button>
-            <button class="secondary" id="btnClear">Clear</button>
-          </div>
-          <div class="small muted">Tip: Select all in Google Docs (Ctrl/Cmd+A), copy, then click inside this box and paste.</div>
-        </div>
-      </div>
-
-      <div class="box">
-        <h2>2) Cleaned HTML preview</h2>
-        <div class="pad">
-          <div id="preview" class="preview"></div>
-          <label for="fname">File name to download (inside <code>content/</code>)</label>
-          <input type="text" id="fname" value="chapter-new.html" />
-          <div class="btns">
-            <button id="btnCopy">Copy HTML</button>
-            <button id="btnDownload">Download</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <textarea id="input"></textarea><br>
+  <button onclick="makeFile()">Make HTML → Download</button>
 
   <script>
-    const paste = document.getElementById('paste');
-    const preview = document.getElementById('preview');
-    const btnMake = document.getElementById('btnMake');
-    const btnClear = document.getElementById('btnClear');
-    const btnCopy = document.getElementById('btnCopy');
-    const btnDownload = document.getElementById('btnDownload');
-    const fname = document.getElementById('fname');
+    function makeFile() {
+      const raw = document.getElementById('input').value;
 
-    function cleanHTML(node){
-      // Remove Google-specific spans and inline fonts while keeping semantic tags
-      const n = node.cloneNode(true);
-      const walker = document.createTreeWalker(n, NodeFilter.SHOW_ELEMENT, null);
-      const toStrip = ['SPAN','FONT','STYLE'];
-      let el;
-      while(el = walker.nextNode()){
-        // Drop style/class attributes from pasted content
-        el.removeAttribute('style');
-        el.removeAttribute('class');
-        // Remove <font> but keep children
-        if(el.tagName === 'FONT'){
-          const parent = el.parentNode;
-          while(el.firstChild) parent.insertBefore(el.firstChild, el);
-          parent.removeChild(el);
-        }
-      }
-      // Allow only safe tags
-      const allowed = new Set(['P','EM','I','STRONG','B','H1','H2','H3','H4','H5','H6','UL','OL','LI','BLOCKQUOTE','A','IMG','HR','BR','FIGURE','FIGCAPTION','SECTION','DIV','SUP','SUB','SMALL','PRE','CODE']);
-      function sanitize(node){
-        const children = Array.from(node.children);
-        for(const c of children){
-          if(!allowed.has(c.tagName)){
-            // unwrap unknown element
-            const parent = c.parentNode;
-            while(c.firstChild) parent.insertBefore(c.firstChild, c);
-            parent.removeChild(c);
-          }else{
-            // Keep important attrs
-            if(c.tagName === 'A'){
-              const href = c.getAttribute('href') || '#';
-              c.setAttribute('href', href);
-              c.setAttribute('rel','noopener');
-              c.setAttribute('target','_blank');
-            }
-            if(c.tagName === 'IMG'){
-              const src = c.getAttribute('src') || '';
-              c.setAttribute('src', src);
-              c.setAttribute('loading','lazy');
-              c.removeAttribute('width'); c.removeAttribute('height');
-            }
-            sanitize(c);
-          }
-        }
-      }
-      sanitize(n);
-      return n.innerHTML.trim();
-    }
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chapter</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <article class="chapter-content">
+    ${raw}
+  </article>
+</body>
+</html>`;
 
-    function wrapInChapter(html){
-      return \`<!-- Content generated by Chapter Maker -->
-\${html}\`;
-    }
-
-    btnMake.onclick = () => {
-      const cleaned = cleanHTML(paste);
-      preview.textContent = wrapInChapter(cleaned);
-    };
-
-    btnClear.onclick = () => {
-      paste.innerHTML = '<p><em>Paste here…</em></p>';
-      preview.textContent = '';
-      fname.value = 'chapter-new.html';
-    };
-
-    btnCopy.onclick = async () => {
-      const text = preview.textContent || '';
-      try { await navigator.clipboard.writeText(text); alert('Copied HTML to clipboard'); } catch(e){ alert('Copy failed. Select and copy manually.'); }
-    };
-
-    btnDownload.onclick = () => {
-      const name = (fname.value || 'chapter-new.html').replace(/[^a-z0-9._-]/gi,'-');
-      const blob = new Blob([preview.textContent||''], {type:'text/html'});
+      const blob = new Blob([html], { type: "text/html" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = name; a.click();
-      setTimeout(()=>URL.revokeObjectURL(url), 100);
-    };
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "chapter-new.html";  // default name
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }
   </script>
 </body>
 </html>
