@@ -3,27 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home • Montafon Moonlight</title>
+  <title>Home • Moonlight of Montafon</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
-    :root { --primary-color:#2563eb; --secondary-color:#94a3b8; --text-color:#f9fafb; --bg-color:#0b1220; --card:#111827; --border-color:#374151; }
-    [data-theme="light"] { --secondary-color:#64748b; --text-color:#1f2937; --bg-color:#ffffff; --card:#f9fafb; --border-color:#e5e7eb; }
+    :root { --primary-color:#2563eb; --secondary-color:#64748b; --text-color:#1f2937; --bg-color:#ffffff; --card:#f9fafb; --border-color:#e5e7eb; }
+    [data-theme="dark"] { --secondary-color:#94a3b8; --text-color:#f9fafb; --bg-color:#0b1220; --card:#111827; --border-color:#374151; }
     body { font-family:'Crimson Text', serif; color:var(--text-color); background:var(--bg-color); transition: background .2s, color .2s; }
     .ui-text { font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; }
     .chapter-card { background:var(--card); border:1px solid var(--border-color); border-radius:.75rem; overflow:hidden; display:flex; flex-direction:column; transition:transform .2s, box-shadow .2s; }
-    .chapter-card:hover { transform: translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.25); }
+    .chapter-card:hover { transform: translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.15); }
     .cover { aspect-ratio: 3 / 2; width:100%; object-fit:cover; display:block; }
   </style>
 </head>
 <body>
+  <!-- Header brand -->
   <header class="sticky top-0 z-40" style="background:var(--bg-color); border-bottom:1px solid var(--border-color);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div class="flex items-center justify-between">
         <div class="min-w-0">
-          <h1 class="ui-text font-bold text-2xl" style="color:#3b82f6;"><i class="fas fa-book mr-2"></i> Montafon Moonlight</h1>
-          <p class="ui-text text-sm" style="color:var(--secondary-color);">Translated from Chinese | Updates weekly</p>
+          <h1 class="ui-text font-bold text-2xl" style="color:#3b82f6;">
+            <i class="fas fa-book mr-2"></i> Moonlight of Montafon
+          </h1>
+          <p class="ui-text text-sm" style="color:var(--secondary-color);">Translated from Korean | Updates weekly</p>
         </div>
         <div class="flex items-center gap-3">
           <button id="theme-toggle" class="p-2 rounded" style="background:var(--card);" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
@@ -32,11 +35,25 @@
     </div>
   </header>
 
-  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="text-center mb-6">
-      <h2 class="text-4xl font-bold mb-3">Welcome</h2>
-      <p class="ui-text text-base sm:text-lg mx-auto max-w-3xl" style="color:var(--secondary-color);">A serial translation project. New chapters post on Mondays. Browse below and jump in.</p>
+  <!-- Hero block you requested -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
+    <div class="text-center">
+      <h2 class="text-4xl font-bold mb-2">Moonlight of Montafon</h2>
+      <p class="ui-text text-xl mb-4" style="color:var(--secondary-color);">몬타폰의 달빛 (Original Korean Title)</p>
+
+      <div class="ui-text text-sm flex flex-wrap items-center justify-center gap-6" style="color:var(--secondary-color);">
+        <span><i class="fas fa-user mr-1"></i> Author: Jeong Chanju</span>
+        <span><i class="fas fa-language mr-1"></i> Translator: Matty Wegehaupt</span>
+        <span><i class="fas fa-calendar mr-1"></i> Started: August 2025</span>
+      </div>
     </div>
+  </section>
+
+  <!-- Site stats -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+    <p class="ui-text text-base sm:text-lg text-center mb-4" style="color:var(--secondary-color);">
+      A serial translation project. New chapters post on Mondays. Browse below and jump in.
+    </p>
     <div class="ui-text text-sm flex flex-wrap items-center justify-center gap-6" style="color:var(--secondary-color);">
       <span id="statChapters">Chapters: 0</span>
       <span id="statWords">Total words: 0</span>
@@ -44,6 +61,7 @@
     </div>
   </section>
 
+  <!-- Cards -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
     <div class="ui-text text-sm mb-4 flex items-center gap-3">
       <label class="inline-flex items-center gap-2"><input id="toggleDrafts" type="checkbox" class="form-checkbox"> <span>Show drafts</span></label>
@@ -65,11 +83,9 @@
   </footer>
 
   <script>
-    const SITE = { title:'Montafon Moonlight', baseUrl:'https://omatty123.github.io/MontafonMoonlight/' };
-
     // Theme (default light)
     (function(){
-      const btn=document.getElementById('theme-toggle'); 
+      const btn=document.getElementById('theme-toggle');
       const root=document.documentElement;
       const saved=localStorage.getItem('theme')||'light';
       root.setAttribute('data-theme', saved);
@@ -106,13 +122,13 @@
       document.getElementById('statChapters').textContent = 'Chapters: ' + list.length;
       const total = list.reduce((s,c)=>s+(c.words||0),0);
       document.getElementById('statWords').textContent = 'Total words: ' + commas(total);
-      const last = list[list.length-1];
+      const last = list[list.length-1]; // ascending order
       if(last) document.getElementById('statUpdated').textContent = 'Last updated: ' + fmt(last.date);
       document.getElementById('startLink').href = (list[0] && (list[0].href || 'chapter.html?slug='+encodeURIComponent(list[0].slug))) || '#';
     }
     (async function(){
       const data = await loadChapters();
-      data.sort((a,b)=> new Date(a.date)-new Date(b.date)); // ascending 1→3
+      data.sort((a,b)=> new Date(a.date)-new Date(b.date)); // 1 → 2 → 3
       const pubs = data.filter(c=> (c.status||'published')==='published');
       stats(pubs);
       const grid=document.getElementById('grid');
