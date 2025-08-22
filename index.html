@@ -79,12 +79,7 @@
   </footer>
 
   <!-- Fallback inline data for local preview (remove if using chapters.json) -->
-  <script id="chapters-data" type="application/json">[
-    {"title":"Chapter 3: First Encounter","slug":"chapter-3-first-encounter","href":"chapter.html?slug=chapter-3-first-encounter","date":"2024-01-29","readTime":12,"words":3891,"cover":"assets/placeholder-600x400.jpg","summary":"Late-blooming power and rumors of Ethereal Walkers.","status":"published"},
-    {"title":"Chapter 2: The Academy","slug":"chapter-2-the-academy","href":"chapter.html?slug=chapter-2-the-academy","date":"2024-01-22","readTime":10,"words":3234,"cover":"assets/placeholder-600x400.jpg","summary":"Arrival at Celestial Harmony and a first glimpse of the Sky Realm.","status":"published"},
-    {"title":"Chapter 1: The Awakening","slug":"chapter-1-the-awakening","href":"chapter.html?slug=chapter-1-the-awakening","date":"2024-01-15","readTime":8,"words":2847,"cover":"assets/placeholder-600x400.jpg","summary":"The first stirrings of the Ethereal Realm and a new path for Lin Wei.","status":"published"},
-    {"title":"Chapter 0: Draft Teaser","slug":"chapter-0-draft","href":"chapter.html?slug=chapter-0-draft","date":"2024-01-10","readTime":3,"words":620,"cover":"assets/placeholder-600x400.jpg","summary":"A brief glimpse ahead.","status":"draft"}
-  ]</script>
+  <script id="chapters-data" type="application/json">[{"title": "Chapter 3: First Encounter", "slug": "chapter-3-first-encounter", "href": "chapter.html?slug=chapter-3-first-encounter", "date": "2024-01-29", "readTime": 12, "words": 3891, "cover": "assets/ch3-cover.jpg", "summary": "Late-blooming power and rumors of Ethereal Walkers.", "status": "published"}, {"title": "Chapter 2: The Academy", "slug": "chapter-2-the-academy", "href": "chapter.html?slug=chapter-2-the-academy", "date": "2024-01-22", "readTime": 10, "words": 3234, "cover": "assets/ch2-cover.jpg", "summary": "Arrival at Celestial Harmony and a first glimpse of the Sky Realm.", "status": "published"}, {"title": "Chapter 1: The Awakening", "slug": "chapter-1-the-awakening", "href": "chapter.html?slug=chapter-1-the-awakening", "date": "2024-01-15", "readTime": 8, "words": 2847, "cover": "assets/ch1-cover.jpg", "summary": "The first stirrings of the Ethereal Realm and a new path for Lin Wei.", "status": "published"}, {"title": "Chapter 0: Draft Teaser", "slug": "chapter-0-draft", "href": "chapter.html?slug=chapter-0-draft", "date": "2024-01-10", "readTime": 3, "words": 620, "cover": "assets/placeholder-600x400.jpg", "summary": "A brief glimpse ahead.", "status": "draft"}]</script>
 
   <script>
     // ====== Site config (edit to taste) ======
@@ -163,7 +158,7 @@
       const statU = document.getElementById('statUpdated');
       const count = list.length;
       const words = list.reduce((s,c)=> s + (c.words||0), 0);
-      const last = list[0] ? new Date(list[0].date) : null; // list sorted newest first
+      const last = list.length ? new Date(list[list.length-1].date) : null; // list sorted newest first
       if (statC) statC.textContent = `Chapters: ${count}`;
       if (statW) statW.textContent = `Total words: ${commas(words)}`;
       if (statU && last) statU.textContent = `Last updated: ${last.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}`;
@@ -245,7 +240,7 @@
       }
 
       const list = await loadChapters();
-      list.sort((a,b)=> new Date(b.date) - new Date(a.date)); // newest first
+      list.sort((a,b)=> new Date(a.date) - new Date(b.date)); // newest first
 
       const published = list.filter(c => (c.status||'published') === 'published');
       const showDraftsBox = document.getElementById('toggleDrafts');

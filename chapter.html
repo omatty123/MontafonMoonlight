@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chapter • Montafon Moonlight</title>
+  <title>Chapter • The Chronicles of Ethereal Realm</title>
 
   <!-- Tailwind -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
@@ -115,9 +115,9 @@
   </main>
 
   <script id="chapters-data" type="application/json">[
-    {"title":"Chapter 3: Determination","slug":"chapter-3-first-encounter","href":"chapter.html?slug=chapter-3-first-encounter","date":"2024-01-29","readTime":12,"words":3891,"cover":"assets/placeholder-1200x675.jpg","caption":"An otherworldly glow fills the dormitory.","summary":"Late-blooming power and rumors of Ethereal Walkers."},
-    {"title":"Chapter 2: Three Phonecalls","slug":"chapter-2-the-academy","href":"chapter.html?slug=chapter-2-the-academy","date":"2024-01-22","readTime":10,"words":3234,"cover":"assets/placeholder-1200x675.jpg","summary":"Arrival at Celestial Harmony and a first glimpse of the Sky Realm."},
-    {"title":"Chapter 1: Vienna Bound Plane","slug":"chapter-1-the-awakening","href":"chapter.html?slug=chapter-1-the-awakening","date":"2024-01-15","readTime":8,"words":2847,"cover":"assets/placeholder-1200x675.jpg","summary":"The first stirrings of the Ethereal Realm and a new path for Lin Wei."}
+    {"title":"Chapter 3: First Encounter","slug":"chapter-3-first-encounter","href":"chapter.html?slug=chapter-3-first-encounter","date":"2024-01-29","readTime":12,"words":3891,"cover":"assets/placeholder-1200x675.jpg","caption":"An otherworldly glow fills the dormitory.","summary":"Late-blooming power and rumors of Ethereal Walkers."},
+    {"title":"Chapter 2: The Academy","slug":"chapter-2-the-academy","href":"chapter.html?slug=chapter-2-the-academy","date":"2024-01-22","readTime":10,"words":3234,"cover":"assets/placeholder-1200x675.jpg","summary":"Arrival at Celestial Harmony and a first glimpse of the Sky Realm."},
+    {"title":"Chapter 1: The Awakening","slug":"chapter-1-the-awakening","href":"chapter.html?slug=chapter-1-the-awakening","date":"2024-01-15","readTime":8,"words":2847,"cover":"assets/placeholder-1200x675.jpg","summary":"The first stirrings of the Ethereal Realm and a new path for Lin Wei."}
   ]</script>
 
   <script>
@@ -219,8 +219,8 @@
         }
         document.title = `${ch.title} • The Chronicles of Ethereal Realm`;
 
-        const prev = list[idx+1];
-        const next = list[idx-1];
+        const prev = list[idx-1];
+        const next = list[idx+1];
         const prevEl = qs('#prevLink');
         const nextEl = qs('#nextLink');
         if (prev && prev.href) { prevEl.href = prev.href; prevEl.innerHTML = `<i class='fas fa-arrow-left mr-2'></i>${prev.title}`; } else { prevEl.href = 'index.html'; prevEl.innerHTML = `<i class='fas fa-arrow-left mr-2'></i>Home`; }
@@ -228,7 +228,7 @@
       }
 
       loadChapters().then(list => {
-        list.sort((a,b)=> new Date(b.date) - new Date(a.date));
+        list.sort((a,b)=> new Date(a.date) - new Date(b.date));
         const { idx, chap } = pickChapter(list);
         hydrate(chap, list, idx);
         buildTOC();
