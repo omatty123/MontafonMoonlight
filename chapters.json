@@ -1,36 +1,32 @@
 [
   {
-    "title": "Chapter 1: The Awakening",
-    "slug": "chapter-1-the-awakening",
-    "href": "chapter.html?slug=chapter-1-the-awakening",
-    "date": "2024-01-15",
-    "readTime": 8,
-    "words": 2847,
-    "cover": "assets/ch1-hero.jpg",
-    "summary": "The first stirrings of the Ethereal Realm and a new path for Lin Wei.",
-    "status": "published"
+    "id": "chapter-1",
+    "title": "Vienna Bound Plane",
+    "date": "2024-01-14",
+    "readingTime": "8 min",
+    "wordCount": 2847,
+    "summary": "The first stirrings of the Ethereal Realm and a new path begins.",
+    "cover": "assets/ch1-cover.jpg",
+    "hero": "assets/ch1-hero.jpg"
   },
   {
-    "title": "Chapter 2: The Academy",
-    "slug": "chapter-2-the-academy",
-    "href": "chapter.html?slug=chapter-2-the-academy",
-    "date": "2024-01-22",
-    "readTime": 10,
-    "words": 3234,
-    "cover": "assets/ch2-hero.jpg",
-    "summary": "Arrival at Celestial Harmony and a first glimpse of the Sky Realm.",
-    "status": "published"
+    "id": "chapter-2",
+    "title": "Three Phonecalls",
+    "date": "2024-01-21",
+    "readingTime": "10 min",
+    "wordCount": 3234,
+    "summary": "A sudden string of calls disrupts the calm and draws threads together.",
+    "cover": "assets/ch2-cover.jpg",
+    "hero": "assets/ch2-hero.jpg"
   },
   {
-    "title": "Chapter 3: First Encounter",
-    "slug": "chapter-3-first-encounter",
-    "href": "chapter.html?slug=chapter-3-first-encounter",
-    "date": "2024-01-29",
-    "readTime": 12,
-    "words": 3891,
-    "cover": "assets/ch3-hero.jpg",
-    "caption": "An otherworldly glow fills the dormitory.",
-    "summary": "Late-blooming power and rumors of Ethereal Walkers.",
-    "status": "published"
+    "id": "chapter-3",
+    "title": "Resolution",
+    "date": "2024-01-28",
+    "readingTime": "12 min",
+    "wordCount": 3891,
+    "summary": "The late-blooming answer and resolution of entangled fates.",
+    "cover": "assets/ch3-cover.jpg",
+    "hero": "assets/ch3-hero.jpg"
   }
 ]
