@@ -2,48 +2,164 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Chapter Maker – Montafon Moonlight</title>
+  <title>Chapter Maker – Moonlight of Montafon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; }
-    textarea { width: 100%; height: 250px; margin-bottom: 1rem; }
-    button { padding: 0.5rem 1rem; font-size: 1rem; }
+    :root{--bg:#0b1220;--panel:#111827;--muted:#9ca3af;--text:#e5e7eb;--border:#374151;--accent:#2563eb}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;line-height:1.6}
+    .wrap{max-width:1000px;margin:0 auto;padding:24px}
+    h1{margin:0 0 .25rem}
+    .muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+    .box{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-height:320px}
+    .box h2{font-size:1rem;margin:0;padding:10px 12px;border-bottom:1px solid var(--border)}
+    .pad{padding:12px;flex:1;overflow:auto}
+    #paste{min-height:260px;border:1px dashed var(--border);border-radius:10px;padding:12px;background:#0f172a;outline:none;white-space:pre-wrap}
+    /* REAL placeholder that is NOT part of content */
+    #paste:empty:before{content:attr(data-placeholder); color:var(--muted)}
+    .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    button{background:var(--accent);border:none;color:white;padding:10px 14px;border-radius:10px;cursor:pointer}
+    button.secondary{background:#374151}
+    .preview{width:100%;min-height:260px;border:1px solid var(--border);border-radius:10px;background:#0f172a;color:var(--text);padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;white-space:pre-wrap}
+    label{display:block;margin:.75rem 0 .25rem}
+    input[type="text"]{width:100%;padding:.6rem .75rem;border:1px solid var(--border);border-radius:10px;background:#0f172a;color:var(--text)}
+    .small{font-size:.9rem}
   </style>
 </head>
 <body>
-  <h1>Chapter Maker</h1>
-  <p>Paste Google Docs text below (rich paste works). Then click <b>Make HTML → Download</b> to save as a ready-to-use chapter file.</p>
+  <div class="wrap">
+    <h1>Chapter Maker</h1>
+    <p class="muted">Paste from Google Docs (rich paste) → Make HTML → Download → save under <code>content/</code> → reference in <code>chapters.json</code>.</p>
 
-  <textarea id="input"></textarea><br>
-  <button onclick="makeFile()">Make HTML → Download</button>
+    <div class="grid">
+      <div class="box">
+        <h2>1) Paste from Google Docs</h2>
+        <div class="pad">
+          <div id="paste" class="paste" contenteditable="true" data-placeholder="Paste here…"></div>
+          <div class="btns">
+            <button id="btnMake">Make HTML</button>
+            <button class="secondary" id="btnClear" type="button">Clear</button>
+          </div>
+          <div class="small muted">Tip: In Google Docs, Select All (Cmd/Ctrl+A) → Copy → click above → Paste.</div>
+        </div>
+      </div>
+
+      <div class="box">
+        <h2>2) Cleaned HTML fragment</h2>
+        <div class="pad">
+          <div id="preview" class="preview"></div>
+          <label for="fname">Download as (inside <code>content/</code>)</label>
+          <input type="text" id="fname" value="chapter-new.html" />
+          <div class="btns">
+            <button id="btnCopy" type="button">Copy HTML</button>
+            <button id="btnDownload" type="button">Download</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="muted small" style="margin-top:12px">
+      The output is a <strong>fragment</strong> (no &lt;html&gt;/&lt;body&gt;) because your site loader injects it into the chapter page.
+      You can include <em>italics</em>, <strong>bold</strong>, headings, lists, links, images (adjust image <code>src</code> to <code>assets/…</code>).
+    </p>
+  </div>
 
   <script>
-    function makeFile() {
-      const raw = document.getElementById('input').value;
+    const paste = document.getElementById('paste');
+    const preview = document.getElementById('preview');
+    const btnMake = document.getElementById('btnMake');
+    const btnClear = document.getElementById('btnClear');
+    const btnCopy = document.getElementById('btnCopy');
+    const btnDownload = document.getElementById('btnDownload');
+    const fname = document.getElementById('fname');
 
-      const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Chapter</title>
-  <link rel="stylesheet" href="../style.css">
-</head>
-<body>
-  <article class="chapter-content">
-    ${raw}
-  </article>
-</body>
-</html>`;
+    // Sanitize while keeping semantics
+    function cleanHTMLFrom(node){
+      const n = node.cloneNode(true);
 
-      const blob = new Blob([html], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
+      // Remove style/class from all elements
+      const walker = document.createTreeWalker(n, NodeFilter.SHOW_ELEMENT, null);
+      let el;
+      while (el = walker.nextNode()) {
+        el.removeAttribute('style');
+        el.removeAttribute('class');
+        if (el.tagName === 'FONT' || el.tagName === 'SPAN') {
+          // unwrap, keep children
+          const parent = el.parentNode;
+          while (el.firstChild) parent.insertBefore(el.firstChild, el);
+          parent.removeChild(el);
+        }
+      }
 
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "chapter-new.html";  // default name
-      a.click();
+      // Allow-list
+      const allowed = new Set(['P','EM','I','STRONG','B','H1','H2','H3','H4','H5','H6','UL','OL','LI','BLOCKQUOTE','A','IMG','HR','BR','FIGURE','FIGCAPTION','SECTION','DIV','SUP','SUB','SMALL','PRE','CODE']);
+      (function sanitize(node){
+        [...node.children].forEach(c=>{
+          if (!allowed.has(c.tagName)) {
+            const parent = c.parentNode;
+            while (c.firstChild) parent.insertBefore(c.firstChild, c);
+            parent.removeChild(c);
+          } else {
+            if (c.tagName === 'A') {
+              c.setAttribute('rel','noopener');
+              c.setAttribute('target','_blank');
+              c.href = c.getAttribute('href') || '#';
+            }
+            if (c.tagName === 'IMG') {
+              c.loading = 'lazy';
+              c.removeAttribute('width');
+              c.removeAttribute('height');
+            }
+            sanitize(c);
+          }
+        });
+      })(n);
 
-      URL.revokeObjectURL(url);
+      // Trim empty lines/spans/divs
+      n.querySelectorAll('p,div').forEach(x=>{
+        if (!x.textContent.trim() && x.children.length===0) x.remove();
+      });
+
+      return n.innerHTML.trim();
     }
+
+    function makeFragment(){
+      // If user didn’t paste anything, return empty
+      if (paste.innerHTML.trim() === '') return '';
+      const cleaned = cleanHTMLFrom(paste);
+      // Wrap in a simple container comment so it’s clear in the file
+      return `<!-- Generated by Chapter Maker -->\n${cleaned}\n`;
+    }
+
+    btnMake.onclick = () => {
+      const out = makeFragment();
+      preview.textContent = out || '';
+      if (!out) alert('Nothing to convert yet — paste from Google Docs first.');
+    };
+
+    btnClear.onclick = () => {
+      paste.innerHTML = '';
+      preview.textContent = '';
+      fname.value = 'chapter-new.html';
+      paste.focus();
+    };
+
+    btnCopy.onclick = async () => {
+      const text = preview.textContent || '';
+      if (!text.trim()) return alert('No output yet. Click "Make HTML" first.');
+      try { await navigator.clipboard.writeText(text); alert('Copied HTML to clipboard'); } catch(e){ alert('Copy failed. Select the preview and copy manually.'); }
+    };
+
+    btnDownload.onclick = () => {
+      const text = preview.textContent || '';
+      if (!text.trim()) return alert('No output yet. Click "Make HTML" first.');
+      const name = (fname.value || 'chapter-new.html').replace(/[^a-z0-9._-]/gi,'-');
+      const blob = new Blob([text], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = name; a.click();
+      setTimeout(()=>URL.revokeObjectURL(url), 0);
+    };
   </script>
 </body>
 </html>
