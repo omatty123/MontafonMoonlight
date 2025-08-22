@@ -35,7 +35,7 @@
     </div>
   </header>
 
-  <!-- Hero block -->
+  <!-- Hero -->
   <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
     <div class="text-center">
       <h2 class="text-4xl font-bold mb-2">Moonlight of Montafon</h2>
@@ -60,7 +60,7 @@
     </div>
   </section>
 
-  <!-- Cards -->
+  <!-- Chapter cards -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
     <div class="ui-text text-sm mb-4 flex items-center gap-3">
       <label class="inline-flex items-center gap-2"><input id="toggleDrafts" type="checkbox" class="form-checkbox"> <span>Show drafts</span></label>
@@ -69,6 +69,7 @@
     <div id="grid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3"></div>
   </main>
 
+  <!-- Footer -->
   <footer class="border-t py-8" style="border-color:var(--border-color);">
     <div class="text-center">
       <p class="ui-text mb-2" style="color:var(--secondary-color);">Translation © 2025 • <a href="#" class="hover:underline" style="color:#3b82f6;">Support the original author</a></p>
@@ -95,20 +96,11 @@
       });
     })();
 
-    // Date fix
-    function parseDateLocal(iso) {
-      const [y, m, d] = iso.split('-').map(Number);
-      return new Date(y, m - 1, d);
-    }
-    function fmt(iso) {
-      return parseDateLocal(iso).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
-    }
-
     async function loadChapters(){
       const res = await fetch('chapters.json', {cache:'no-store'});
       return res.ok ? res.json() : [];
     }
-    const commas=(x)=>(x||0).toLocaleString();
+    const fmt=(d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
     function card(c){
       const href = c.href || `chapter.html?slug=${encodeURIComponent(c.slug)}`;
       return `
@@ -118,8 +110,7 @@
           <h4 class="text-lg font-semibold mb-1"><a class="hover:underline" href="${href}">${c.title}</a></h4>
           <p class="ui-text text-sm mb-2" style="color:var(--secondary-color);">
             <i class="fas fa-calendar mr-1"></i> ${fmt(c.date)} ·
-            <i class="fas fa-clock ml-3 mr-1"></i> ~${c.readTime} min ·
-            <i class="fas fa-eye ml-3 mr-1"></i> ${commas(c.words)} words
+            <i class="fas fa-clock ml-3 mr-1"></i> ~${c.readTime} min
           </p>
           <p class="ui-text text-sm">${c.summary||''}</p>
         </div>
@@ -127,13 +118,13 @@
     }
     function stats(list){
       document.getElementById('statChapters').textContent = 'Chapters: ' + list.length;
-      const last = list[list.length-1];
+      const last = list[list.length-1]; 
       if(last) document.getElementById('statUpdated').textContent = 'Last updated: ' + fmt(last.date);
       document.getElementById('startLink').href = (list[0] && (list[0].href || 'chapter.html?slug='+encodeURIComponent(list[0].slug))) || '#';
     }
     (async function(){
       const data = await loadChapters();
-      data.sort((a,b)=> parseDateLocal(a.date) - parseDateLocal(b.date));
+      data.sort((a,b)=> new Date(a.date)-new Date(b.date));
       const pubs = data.filter(c=> (c.status||'published')==='published');
       stats(pubs);
       const grid=document.getElementById('grid');
