@@ -2,143 +2,136 @@
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chapter • Moonlight of Montafon</title>
 
-  <!-- Reuse exactly the same font as the landing page -->
+  <!-- Fonts identical to landing page -->
   <link rel="stylesheet" href="assets/fonts.css">
-  <!-- Your existing Tailwind / FA (optional) -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
-
-  <!-- Chapter layout + Google‑Docs normalization -->
+  <!-- Sticky header + gdoc fixes -->
   <link rel="stylesheet" href="assets/chapter.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 </head>
 <body>
 
-  <!-- Same header look/feel as index (minimal version) -->
-  <header class="border-b" style="border-color:#e5e7eb;">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <div class="flex items-center justify-between">
+  <!-- Header (same look; now sticky) -->
+  <header class="site-header">
+    <div class="main-wrap" style="padding-top:14px;padding-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;">
         <div>
-          <div class="brand text-2xl font-extrabold text-blue-600">Moonlight of Montafon</div>
-          <div class="subhead text-sm text-gray-500">Translated from Korean • Updates weekly</div>
+          <div class="brand" style="font-weight:800;font-size:1.35rem;color:#1d4ed8;">Moonlight of Montafon</div>
+          <div style="color:#6b7280;font-size:.95rem;">Translated from Korean • Updates weekly</div>
         </div>
-        <button id="theme-toggle" class="p-2 rounded text-gray-500 hover:text-gray-700" aria-label="Toggle theme">
+        <button id="theme-toggle" class="ui" aria-label="Toggle theme" style="padding:8px 10px;border-radius:8px;border:1px solid #e5e7eb;">
           <i class="fas fa-moon"></i>
         </button>
       </div>
     </div>
   </header>
 
-  <main class="chapter-wrap">
+  <!-- Page -->
+  <main class="main-wrap">
     <!-- Breadcrumb -->
-    <nav class="breadcrumb text-sm text-gray-500 mb-2">
-      <a href="index.html" class="hover:underline text-blue-700">Home</a>
-      <span class="mx-2">›</span>
+    <nav class="meta" aria-label="Breadcrumb" style="margin-bottom:10px;">
+      <a href="index.html" style="color:#2563eb;text-decoration:none;">Home</a>
+      <span aria-hidden="true">›</span>
       <span id="crumb">Chapter</span>
     </nav>
 
-    <!-- Title + meta -->
-    <h1 id="title" class="chapter-title">Loading…</h1>
-    <div class="meta">
-      <span><i class="far fa-calendar-alt mr-1"></i><time id="pubDate">—</time></span>
-      <span><i class="far fa-clock mr-1"></i><span id="readTime">—</span></span>
-      <span><i class="far fa-eye mr-1"></i><span id="wordCount">—</span></span>
+    <!-- Title -->
+    <h1 id="title" class="title">Loading…</h1>
+
+    <!-- Meta line -->
+    <div class="meta" style="margin-bottom:14px;">
+      <span><i class="fas fa-calendar"></i><time id="pubDate">—</time></span>
+      <span><i class="fas fa-clock"></i><span id="readTime">—</span></span>
+      <span><i class="fas fa-eye"></i><span id="wordCount">—</span></span>
     </div>
 
-    <hr class="page"/>
+    <hr style="border:none;border-top:1px solid #e5e7eb;margin:12px 0 18px;">
 
-    <!-- Where the Google‑Docs HTML fragment is injected -->
+    <!-- HERO (now actually rendered) -->
+    <figure id="hero" class="figure-hero" hidden>
+      <img id="heroImg" alt="">
+      <figcaption id="heroCap"></figcaption>
+    </figure>
+
+    <!-- Content root (we inject your DOCX->HTML fragment here) -->
     <article id="content" class="gdoc"></article>
 
     <!-- Prev / Next -->
-    <nav class="nav-row">
-      <a id="prevLink" href="index.html">← Home</a>
-      <a id="nextLink" href="index.html">Index →</a>
+    <nav class="meta" style="justify-content:space-between;margin-top:28px;">
+      <a id="prev" href="index.html" style="color:#2563eb;text-decoration:none;"><i class="fas fa-arrow-left"></i> Previous</a>
+      <a id="next" href="index.html" style="color:#2563eb;text-decoration:none;">Next <i class="fas fa-arrow-right"></i></a>
     </nav>
+
+    <footer style="margin-top:32px;color:#6b7280;">Translation © <span id="year"></span></footer>
   </main>
 
   <script>
-  /* Theme toggle (simple) */
-  (function(){
-    const root=document.documentElement, btn=document.getElementById('theme-toggle');
-    const saved=localStorage.getItem('theme')||'light';
-    if(saved==='dark') root.dataset.theme='dark';
-    btn.addEventListener('click',()=>{
-      const next = root.dataset.theme==='dark' ? 'light' : 'dark';
-      if(next==='dark') root.dataset.theme='dark'; else delete root.dataset.theme;
-      localStorage.setItem('theme', next);
-    });
-  })();
+    // --- Sticky offset: measure header and set --hdr ---
+    function setHdr() {
+      const h = document.querySelector('.site-header')?.offsetHeight || 64;
+      document.documentElement.style.setProperty('--hdr', h + 'px');
+    }
+    window.addEventListener('load', setHdr);
+    window.addEventListener('resize', setHdr);
+    // If your theme toggle changes header height a bit, recalc:
+    document.getElementById('theme-toggle')?.addEventListener('click', () => setTimeout(setHdr, 10));
 
-  const fmtLong = d => new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
-  const comma = n => (n||0).toLocaleString();
+    // --- Utilities ---
+    const fmtDate = d => new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    const num = n => (n||0).toLocaleString();
 
-  async function loadJson(url){ const r=await fetch(url,{cache:'no-store'}); return r.ok ? r.json() : []; }
-  async function loadText(url){ const r=await fetch(url,{cache:'no-store'}); return r.ok ? r.text() : ''; }
+    // --- Load chapters + render one ---
+    (async function(){
+      const qs = new URLSearchParams(location.search);
+      const slug = qs.get('slug');
+      const res = await fetch('chapters.json', {cache:'no-store'});
+      const data = res.ok ? await res.json() : [];
+      data.sort((a,b)=> new Date(a.date)-new Date(b.date));
+      let i = data.findIndex(c=>c.slug===slug);
+      if (i < 0) i = 0;
+      const ch = data[i];
 
-  /* Normalize messy Google‑Docs HTML after insertion */
-  function normalizeGDoc(root){
-    // 1) Keep italics/bold by converting styled spans to semantic tags
-    root.querySelectorAll('[style*="italic"]').forEach(el=>{
-      const em = document.createElement('em'); em.innerHTML = el.innerHTML; el.replaceWith(em);
-    });
-    root.querySelectorAll('[style*="font-weight:700"],[style*="bold"]').forEach(el=>{
-      const strong = document.createElement('strong'); strong.innerHTML = el.innerHTML; el.replaceWith(strong);
-    });
+      // Title / crumb / meta
+      document.title = ch.title + ' • Moonlight of Montafon';
+      document.getElementById('title').textContent = ch.title;
+      document.getElementById('crumb').textContent = ch.title;
+      document.getElementById('pubDate').textContent = fmtDate(ch.date);
+      document.getElementById('readTime').textContent = '~' + (ch.readTime || Math.max(1, Math.round((ch.words||0)/230))) + ' minutes';
+      document.getElementById('wordCount').textContent = num(ch.words) + ' words';
+      document.getElementById('year').textContent = new Date().getFullYear();
 
-    // 2) Strip inline font/size/line-height/margins/whitespace/color so our CSS controls rhythm
-    root.querySelectorAll('[style]').forEach(el=>{
-      let s=el.getAttribute('style');
-      s = s
-        .replace(/font-family:[^;]+;?/gi,'')
-        .replace(/font-size:[^;]+;?/gi,'')
-        .replace(/line-height:[^;]+;?/gi,'')
-        .replace(/white-space:[^;]+;?/gi,'')
-        .replace(/margin(-top|-bottom|-left|-right)?:[^;]+;?/gi,'')
-        .replace(/color:[^;]+;?/gi,'');
-      s = s.trim();
-      if(s) el.setAttribute('style', s); else el.removeAttribute('style');
-    });
+      // HERO (this is what was missing)
+      if (ch.hero) {
+        const fig = document.getElementById('hero');
+        const img = document.getElementById('heroImg');
+        img.src = ch.hero;
+        img.alt = ch.title;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        const cap = document.getElementById('heroCap');
+        cap.textContent = ch.caption || '';
+        fig.hidden = false;
+      }
 
-    // 3) Remove empty paragraphs (including those with only &nbsp; or <br>)
-    root.querySelectorAll('p').forEach(p=>{
-      const onlyBr = p.children.length===1 && p.firstElementChild.tagName==='BR';
-      const text = (p.textContent||'').replace(/\u00a0/g,'').trim();
-      if(!text && !p.querySelector('img') || onlyBr) p.remove();
-    });
-  }
+      // Content fragment
+      const htmlResp = await fetch(ch.contentHtml, {cache:'no-store'});
+      const html = htmlResp.ok ? await htmlResp.text() : '<p>Chapter content coming soon.</p>';
+      document.getElementById('content').innerHTML = html;
 
-  (async function(){
-    const data = await loadJson('chapters.json');
-    data.sort((a,b)=> new Date(a.date)-new Date(b.date)); // ascending 1→2→3
+      // Prev / Next
+      const prev = data[i-1], next = data[i+1];
+      const prevEl = document.getElementById('prev'), nextEl = document.getElementById('next');
+      if (prev) { prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.innerHTML = '<i class="fas fa-arrow-left"></i> ' + prev.title; }
+      else { prevEl.href = 'index.html'; prevEl.textContent = '← Home'; }
+      if (next) { nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.innerHTML = next.title + ' <i class="fas fa-arrow-right"></i>'; }
+      else { nextEl.href = 'index.html'; nextEl.textContent = 'Index →'; }
 
-    const slug = new URLSearchParams(location.search).get('slug');
-    let idx = data.findIndex(c=>c.slug===slug);
-    if(idx<0) idx=0;
-    const ch = data[idx];
-
-    // Header text
-    document.getElementById('title').textContent = ch.title;
-    document.getElementById('crumb').textContent = ch.title;
-    document.getElementById('pubDate').textContent = fmtLong(ch.date);
-    document.getElementById('readTime').textContent = `~${ch.readTime||6} minutes`;
-    document.getElementById('wordCount').textContent = `${comma(ch.words||0)} words`;
-    document.title = `${ch.title} • Moonlight of Montafon`;
-
-    // Prev/Next
-    const prev = data[idx-1], next = data[idx+1];
-    const prevEl = document.getElementById('prevLink'), nextEl = document.getElementById('nextLink');
-    if(prev){ prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.textContent = '← ' + prev.title; }
-    if(next){ nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.textContent = next.title + ' →'; }
-
-    // Load the chapter fragment and normalize
-    const html = await loadText(ch.contentHtml);
-    const mount = document.getElementById('content');
-    mount.innerHTML = html;
-    normalizeGDoc(mount);
-  })();
+      // After images load, correct header offset once more
+      window.addEventListener('load', setHdr);
+      setHdr();
+    })();
   </script>
 </body>
 </html>
