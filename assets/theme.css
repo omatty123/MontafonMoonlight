@@ -26,3 +26,26 @@ html[data-theme="dark"]{
   --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8; --card:#111827; --border:#243244;
 }
 html,body{ background:var(--bg); color:var(--text); }
+
+/* Keep chapter images at a sane, medium size */
+.gdoc img {
+  max-width: 680px !important;  /* medium width */
+  width: 100% !important;       /* scale down responsively */
+  height: auto !important;
+  display: block !important;
+  margin: 1.5rem auto !important;
+  border-radius: 6px;
+}
+
+/* Hero image on chapter.html (if used) */
+#heroImg {
+  max-width: 800px !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 1.5rem auto !important;
+  border-radius: 8px;
+}
+
+/* Leave homepage/card covers alone */
+.cover { max-width: none !important; width: 100% !important; }
