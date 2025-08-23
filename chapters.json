@@ -8,7 +8,6 @@
     "words": 2847,
     "cover": "assets/ch1-cover.jpg",
     "hero": "assets/ch1-hero.jpg",
-    "caption": "A quiet window, a plane, and a pocket of time before departure.",
     "summary": "Waiting for the flight to Vienna, a time to ponder how we got to this point.",
     "status": "published",
     "contentHtml": "content/chapter-1.html"
@@ -22,7 +21,6 @@
     "words": 3234,
     "cover": "assets/ch2-cover.jpg",
     "hero": "assets/ch2-hero.jpg",
-    "caption": "Signals crossing time zones, three rings that change the route.",
     "summary": "Three calls force a decision that could no longer be avoided.",
     "status": "published",
     "contentHtml": "content/chapter-2.html"
@@ -36,7 +34,6 @@
     "words": 3891,
     "cover": "assets/ch3-cover.jpg",
     "hero": "assets/ch3-hero.jpg",
-    "caption": "The meeting on the hill, stones aligned like commas in a long sentence.",
     "summary": "Making the most of an sudden opportunity.",
     "status": "published",
     "contentHtml": "content/chapter-3.html"
