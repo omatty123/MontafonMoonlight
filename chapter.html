@@ -2,226 +2,143 @@
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chapter • Moonlight of Montafon</title>
 
-  <!-- Fonts (match index) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <!-- Reuse exactly the same font as the landing page -->
+  <link rel="stylesheet" href="assets/fonts.css">
+  <!-- Your existing Tailwind / FA (optional) -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
 
-  <!-- Tailwind + Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
-
-  <style>
-    /* Use Inter everywhere to match the landing page */
-    body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div, time, figcaption, button {
-      font-family: 'Inter', sans-serif !important;
-      color: #111827;
-    }
-
-    /* Page chrome */
-    .container { max-width: 58rem; } /* ~928px like index main width */
-
-    /* Chapter body & pasted Google Docs HTML */
-    .gdoc { font-size: 1.0625rem; line-height: 1.8; color: #111827; }
-    .gdoc p { margin: 1em 0; }
-    /* Collapse the common GDocs “empty line” pattern <p><br></p>  */
-    .gdoc p:empty { display:none; }
-    .gdoc p > br:only-child { display:none; }
-
-    /* Medium hero & inline images */
-    .hero-wrap { margin: 1.25rem 0 0.75rem; }
-    .hero, .gdoc img, .chapter-image {
-      max-width: 720px; width: 100%; height: auto;
-      display: block; margin: 0 auto; border-radius: 8px;
-    }
-    figcaption { text-align:center; font-size: .9rem; color:#6b7280; margin-top:.5rem; }
-
-    /* Metadata row */
-    .meta { color:#6b7280; }
-    .meta i { color:#6b7280; }
-
-    /* Prev/Next */
-    .navpair a { color:#2563eb; text-decoration:none; }
-    .navpair a:hover { text-decoration:underline; }
-
-    /* Thin progress bar (top right percentage already in header area) */
-    .progress-track { height: 3px; background: #e5e7eb; }
-    .progress-bar { height: 3px; width:0%; background:#2563eb; transition: width .2s ease; }
-  </style>
+  <!-- Chapter layout + Google‑Docs normalization -->
+  <link rel="stylesheet" href="assets/chapter.css">
 </head>
+<body>
 
-<body class="bg-gray-50">
-
-  <!-- Header (same look as index) -->
-  <header class="sticky top-0 z-40 bg-white border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <div>
-        <h1 class="font-bold text-2xl text-blue-600"><i class="fas fa-book mr-2"></i> Moonlight of Montafon</h1>
-        <p class="text-sm text-gray-500">Translated from Korean • Updates weekly</p>
-      </div>
-      <div class="flex items-center space-x-4">
-        <div class="text-sm text-gray-500">Progress: <span id="reading-progress">0%</span></div>
-        <button id="theme-toggle" class="p-2 rounded border text-gray-600" aria-label="Toggle theme">
+  <!-- Same header look/feel as index (minimal version) -->
+  <header class="border-b" style="border-color:#e5e7eb;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="brand text-2xl font-extrabold text-blue-600">Moonlight of Montafon</div>
+          <div class="subhead text-sm text-gray-500">Translated from Korean • Updates weekly</div>
+        </div>
+        <button id="theme-toggle" class="p-2 rounded text-gray-500 hover:text-gray-700" aria-label="Toggle theme">
           <i class="fas fa-moon"></i>
         </button>
       </div>
     </div>
-    <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
   </header>
 
-  <!-- Main -->
-  <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
+  <main class="chapter-wrap">
     <!-- Breadcrumb -->
-    <nav class="text-sm text-gray-500 mb-4" aria-label="Breadcrumb">
-      <ol class="flex flex-wrap items-center gap-2">
-        <li><a href="index.html" class="text-blue-600 hover:underline">Home</a></li>
-        <li aria-hidden="true">›</li>
-        <li id="crumbTitle" aria-current="page" class="truncate">Chapter</li>
-      </ol>
+    <nav class="breadcrumb text-sm text-gray-500 mb-2">
+      <a href="index.html" class="hover:underline text-blue-700">Home</a>
+      <span class="mx-2">›</span>
+      <span id="crumb">Chapter</span>
     </nav>
 
-    <!-- Title -->
-    <header class="mb-4">
-      <h2 id="chapterTitle" class="text-3xl font-bold mb-3">Loading…</h2>
-      <div class="meta flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-        <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
-        <span><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
-        <span><i class="fas fa-eye mr-1"></i><span id="wordCount">—</span></span>
-      </div>
-    </header>
+    <!-- Title + meta -->
+    <h1 id="title" class="chapter-title">Loading…</h1>
+    <div class="meta">
+      <span><i class="far fa-calendar-alt mr-1"></i><time id="pubDate">—</time></span>
+      <span><i class="far fa-clock mr-1"></i><span id="readTime">—</span></span>
+      <span><i class="far fa-eye mr-1"></i><span id="wordCount">—</span></span>
+    </div>
 
-    <!-- Hero -->
-    <figure id="heroWrap" class="hero-wrap" hidden>
-      <img id="heroImg" class="hero" src="" alt="Chapter image" />
-      <figcaption id="heroCaption"></figcaption>
-    </figure>
+    <hr class="page"/>
 
-    <!-- Chapter content (Google Docs paste friendly) -->
-    <article id="contentRoot" class="gdoc"></article>
+    <!-- Where the Google‑Docs HTML fragment is injected -->
+    <article id="content" class="gdoc"></article>
 
     <!-- Prev / Next -->
-    <nav class="navpair mt-10 flex items-center justify-between">
-      <a id="prevLink" href="index.html"><i class="fas fa-arrow-left mr-2"></i><span id="prevText">Home</span></a>
-      <a id="nextLink" href="index.html"><span id="nextText">Index</span><i class="fas fa-arrow-right ml-2"></i></a>
+    <nav class="nav-row">
+      <a id="prevLink" href="index.html">← Home</a>
+      <a id="nextLink" href="index.html">Index →</a>
     </nav>
-
-    <!-- Footer -->
-    <footer class="border-t mt-12 pt-6 text-center text-sm text-gray-500">
-      Translation © <span id="copyrightYear">2025</span>
-    </footer>
   </main>
 
   <script>
-    /* Theme toggle (same behavior as index) */
-    (function(){
-      const btn=document.getElementById('theme-toggle');
-      const root=document.documentElement;
-      const saved=localStorage.getItem('theme')||'light';
-      root.setAttribute('data-theme', saved);
-      btn.addEventListener('click', ()=>{
-        const next = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-      });
-    })();
+  /* Theme toggle (simple) */
+  (function(){
+    const root=document.documentElement, btn=document.getElementById('theme-toggle');
+    const saved=localStorage.getItem('theme')||'light';
+    if(saved==='dark') root.dataset.theme='dark';
+    btn.addEventListener('click',()=>{
+      const next = root.dataset.theme==='dark' ? 'light' : 'dark';
+      if(next==='dark') root.dataset.theme='dark'; else delete root.dataset.theme;
+      localStorage.setItem('theme', next);
+    });
+  })();
 
-    const fmtLong = d => new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
-    const commas = n => (n||0).toLocaleString();
+  const fmtLong = d => new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+  const comma = n => (n||0).toLocaleString();
 
-    async function loadChapters(){
-      try{
-        const r = await fetch('chapters.json', {cache:'no-store'});
-        if(!r.ok) throw 0;
-        return await r.json();
-      }catch(e){ return []; }
-    }
+  async function loadJson(url){ const r=await fetch(url,{cache:'no-store'}); return r.ok ? r.json() : []; }
+  async function loadText(url){ const r=await fetch(url,{cache:'no-store'}); return r.ok ? r.text() : ''; }
 
-    async function loadHtml(url){
-      try{
-        const r = await fetch(url, {cache:'no-store'});
-        return r.ok ? (await r.text()) : '';
-      }catch(e){ return ''; }
-    }
+  /* Normalize messy Google‑Docs HTML after insertion */
+  function normalizeGDoc(root){
+    // 1) Keep italics/bold by converting styled spans to semantic tags
+    root.querySelectorAll('[style*="italic"]').forEach(el=>{
+      const em = document.createElement('em'); em.innerHTML = el.innerHTML; el.replaceWith(em);
+    });
+    root.querySelectorAll('[style*="font-weight:700"],[style*="bold"]').forEach(el=>{
+      const strong = document.createElement('strong'); strong.innerHTML = el.innerHTML; el.replaceWith(strong);
+    });
 
-    /* Minimal cleanup for common GDocs exports: remove redundant single <p><br></p> */
-    function cleanupGDoc(html){
-      return html
-        .replace(/<p[^>]*><br\s*\/?><\/p>/gi, '')
-        .replace(/<p[^>]*>\s*<\/p>/gi, '');
-    }
+    // 2) Strip inline font/size/line-height/margins/whitespace/color so our CSS controls rhythm
+    root.querySelectorAll('[style]').forEach(el=>{
+      let s=el.getAttribute('style');
+      s = s
+        .replace(/font-family:[^;]+;?/gi,'')
+        .replace(/font-size:[^;]+;?/gi,'')
+        .replace(/line-height:[^;]+;?/gi,'')
+        .replace(/white-space:[^;]+;?/gi,'')
+        .replace(/margin(-top|-bottom|-left|-right)?:[^;]+;?/gi,'')
+        .replace(/color:[^;]+;?/gi,'');
+      s = s.trim();
+      if(s) el.setAttribute('style', s); else el.removeAttribute('style');
+    });
 
-    (async function(){
-      const list = await loadChapters();
-      // Ascending (1 → 2 → 3)
-      list.sort((a,b)=> new Date(a.date) - new Date(b.date));
+    // 3) Remove empty paragraphs (including those with only &nbsp; or <br>)
+    root.querySelectorAll('p').forEach(p=>{
+      const onlyBr = p.children.length===1 && p.firstElementChild.tagName==='BR';
+      const text = (p.textContent||'').replace(/\u00a0/g,'').trim();
+      if(!text && !p.querySelector('img') || onlyBr) p.remove();
+    });
+  }
 
-      const params = new URLSearchParams(location.search);
-      const slug   = params.get('slug');
-      let idx      = list.findIndex(c => c.slug === slug);
-      if(idx < 0) idx = 0;
-      const ch = list[idx] || {};
+  (async function(){
+    const data = await loadJson('chapters.json');
+    data.sort((a,b)=> new Date(a.date)-new Date(b.date)); // ascending 1→2→3
 
-      // Fill header/meta
-      document.getElementById('chapterTitle').textContent = ch.title || 'Chapter';
-      document.getElementById('crumbTitle').textContent   = ch.title || 'Chapter';
-      if(ch.date){
-        const d = new Date(ch.date);
-        const dt = d.toISOString().slice(0,10);
-        const el = document.getElementById('pubDate');
-        el.dateTime = dt;
-        el.textContent = fmtLong(ch.date);
-      }
-      document.getElementById('readTime').textContent = ch.readTime ? `~${ch.readTime} minutes` : '—';
-      document.getElementById('wordCount').textContent = ch.words ? `${commas(ch.words)} words` : '—';
+    const slug = new URLSearchParams(location.search).get('slug');
+    let idx = data.findIndex(c=>c.slug===slug);
+    if(idx<0) idx=0;
+    const ch = data[idx];
 
-      // Hero
-      if(ch.hero){
-        const fig = document.getElementById('heroWrap');
-        document.getElementById('heroImg').src = ch.hero;
-        document.getElementById('heroCaption').textContent = ch.caption || '';
-        fig.hidden = false;
-      }
+    // Header text
+    document.getElementById('title').textContent = ch.title;
+    document.getElementById('crumb').textContent = ch.title;
+    document.getElementById('pubDate').textContent = fmtLong(ch.date);
+    document.getElementById('readTime').textContent = `~${ch.readTime||6} minutes`;
+    document.getElementById('wordCount').textContent = `${comma(ch.words||0)} words`;
+    document.title = `${ch.title} • Moonlight of Montafon`;
 
-      // Content (fragment file referenced by chapters.json)
-      const html = ch.contentHtml ? await loadHtml(ch.contentHtml) : '';
-      document.getElementById('contentRoot').innerHTML = cleanupGDoc(html || '<p>Content coming soon.</p>');
+    // Prev/Next
+    const prev = data[idx-1], next = data[idx+1];
+    const prevEl = document.getElementById('prevLink'), nextEl = document.getElementById('nextLink');
+    if(prev){ prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.textContent = '← ' + prev.title; }
+    if(next){ nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.textContent = next.title + ' →'; }
 
-      // Prev/Next
-      const prev = list[idx-1], next = list[idx+1];
-      const prevA = document.getElementById('prevLink'), nextA = document.getElementById('nextLink');
-      if(prev){
-        prevA.href = prev.href || ('chapter.html?slug=' + encodeURIComponent(prev.slug));
-        document.getElementById('prevText').textContent = prev.title;
-      }else{
-        prevA.href = 'index.html';
-        document.getElementById('prevText').textContent = 'Home';
-      }
-      if(next){
-        nextA.href = next.href || ('chapter.html?slug=' + encodeURIComponent(next.slug));
-        document.getElementById('nextText').textContent = next.title;
-      }else{
-        nextA.href = 'index.html';
-        document.getElementById('nextText').textContent = 'Index';
-      }
-
-      // Year
-      document.getElementById('copyrightYear').textContent = new Date().getFullYear();
-
-      // Reading progress bar
-      const bar = document.getElementById('progress-bar');
-      const pctText = document.getElementById('reading-progress');
-      function updateProgress(){
-        const s = document.documentElement.scrollTop || document.body.scrollTop;
-        const h = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1;
-        const pct = Math.min(100, Math.round(s / h * 100));
-        bar.style.width = pct + '%';
-        pctText.textContent = pct + '%';
-      }
-      updateProgress();
-      window.addEventListener('scroll', updateProgress);
-    })();
+    // Load the chapter fragment and normalize
+    const html = await loadText(ch.contentHtml);
+    const mount = document.getElementById('content');
+    mount.innerHTML = html;
+    normalizeGDoc(mount);
+  })();
   </script>
 </body>
 </html>
