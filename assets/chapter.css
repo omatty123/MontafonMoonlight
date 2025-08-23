@@ -1,83 +1,38 @@
-/* assets/chapter.css */
+/* --- Header stays fixed; content scrolls underneath --- */
+:root { --hdr: 64px; }
 
-:root{
-  --content-max: 880px;
-  --text: #0f172a;           /* slate-900 */
-  --muted: #64748b;          /* slate-500 */
-  --link: #1d4ed8;           /* blue-700 */
-  --rule: #e5e7eb;           /* gray-200 */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #fff; /* dark mode still handled by your theme toggle */
+  border-bottom: 1px solid #e5e7eb;
 }
 
-body {
-  color: var(--text);
-  background: #fff;
-}
+/* Push content below header; JS updates --hdr to real height */
+body { padding-top: var(--hdr); }
 
-/* Page frame */
-.chapter-wrap {
-  max-width: var(--content-max);
-  margin: 0 auto;
-  padding: 24px 16px 64px;
-}
+/* Make anchor jumps/links not hide under header */
+:target { scroll-margin-top: calc(var(--hdr) + 12px); }
 
-/* Title and meta lines */
-.chapter-title {
-  font-weight: 800;
-  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
-  line-height: 1.2;
-  margin: 8px 0 10px;
-}
-.meta {
-  color: var(--muted);
-  display: flex;
-  gap: 18px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-  font-size: 0.95rem;
-}
+/* --- Chapter layout --- */
+.main-wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 80px; }
+.meta { color: #64748b; font-size: .95rem; display:flex; gap:18px; flex-wrap:wrap; }
+.meta i { opacity:.75; margin-right:6px; }
+h1.title { font-size: 2.25rem; line-height:1.2; font-weight:800; margin:4px 0 12px; }
 
-hr.page {
-  border: 0;
-  border-top: 1px solid var(--rule);
-  margin: 10px 0 24px;
+/* Medium hero image */
+.figure-hero { margin: 18px 0 8px; text-align:center; }
+.figure-hero img {
+  max-width: 720px; width: 100%; height: auto; border-radius: 8px;
+  display:inline-block; box-shadow: 0 2px 14px rgba(0,0,0,.06);
 }
+.figure-hero figcaption { font-size:.9rem; color:#6b7280; margin-top:6px; }
 
-/* The content area that receives pasted Google‑Docs HTML */
-.gdoc {
-  font-size: 1.07rem;
-  line-height: 1.7;
-}
-
-/* Normalize Google‑Docs paragraphs (they set inline zero margins) */
-.gdoc p { margin: 0 0 0.85em 0; }
+/* Google‑Docs cleanup */
+.gdoc p { margin: 1em 0 !important; line-height: 1.75 !important; }
 .gdoc p:empty { display:none; }
-
-/* Keep strong/em/links intact; tone down links a bit */
-.gdoc a { color: var(--link); text-decoration: underline; }
-
-/* Medium images, centered */
-.gdoc img {
-  display:block;
-  max-width: 720px;  /* “medium” size */
-  width: 100%;
-  height: auto;
-  margin: 1.25rem auto;
-  border-radius: 6px;
-}
-
-/* Captions, if you add <figcaption> after an <img> */
-.gdoc figcaption, .gdoc .caption {
-  text-align:center;
-  color: var(--muted);
-  font-size: .9rem;
-  margin-top: .25rem;
-}
-
-/* Prev/Next bar */
-.nav-row {
-  display:flex; justify-content: space-between; gap:12px;
-  margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--rule);
-}
-.nav-row a { color: var(--link); text-decoration: none; font-weight: 600; }
-.nav-row a:hover { text-decoration: underline; }
+.gdoc [style*="line-height"] { line-height:inherit !important; }
+.gdoc [style*="margin"] { margin: 0 !important; }
+.gdoc img { max-width: 720px; width:100%; height:auto; display:block; margin:1rem auto; border-radius:6px; }
+.gdoc strong { font-weight:700; } .gdoc em { font-style:italic; }
