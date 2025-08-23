@@ -32,36 +32,66 @@ header.stickybar{
 
 /* Subtle caption color */
 .caption{ color:var(--muted); }
-
-/* Chapter content image sizing (doesn't affect index cover cards) */
-.gdoc img{
-  max-width:680px !important;   /* medium width */
-  width:100% !important;
-  height:auto !important;
-  display:block !important;
-  margin:1.5rem auto !important;
-  border-radius:6px;
+/* assets/theme.css — light/dark variables + sensible defaults */
+:root{
+  --bg:#ffffff;
+  --text:#111827;
+  --muted:#64748b;
+  --card:#f8fafc;
+  --border:#e5e7eb;
+  --link:#1f47c7;
+}
+html[data-theme="dark"]{
+  --bg:#0b1220;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --card:#111827;
+  --border:#243244;
+  --link:#8ab4ff;
 }
 
-/* Optional hero image on chapter.html */
-#heroImg{
-  max-width:800px !important;
-  width:100% !important;
-  height:auto !important;
-  display:block !important;
-  margin:1.5rem auto !important;
-  border-radius:8px;
+/* Base application of tokens (keeps your chosen fonts intact) */
+html, body{
+  background:var(--bg);
+  color:var(--text);
+}
+a{ color:var(--link); }
+
+/* Sticky header helper (only if you use .stickybar on header) */
+header.stickybar{
+  position:sticky; top:0; z-index:40;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
 }
 
-/* Keep homepage/card covers full-bleed */
-.cover{ max-width:none !important; width:100% !important; }
+/* Subtle caption color */
+.caption{ color:var(--muted); }
 
+/* ---- CHAPTER IMAGES: one source of truth ---- */
+/* Targets any image inside your pasted Google Docs content,
+   plus common wrappers, and nukes inline width/height. */
 .gdoc img,
+.gdoc figure img,
+.gdoc p img,
+img.chapter-image,
 #heroImg {
-  width: auto !important;
-  max-width: 680px !important;
-  height: auto !important;
+  width: auto !important;        /* ignore inline width */
+  max-width: 680px !important;   /* cap size (medium) */
+  height: auto !important;       /* keep aspect ratio */
   display: block !important;
   margin: 1.5rem auto !important;
   border-radius: 6px !important;
 }
+
+/* Extra guard: if Google/Word sets width/height attributes */
+.gdoc img[width],
+.gdoc img[height]{
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Optional: hero slightly wider if you ever use it */
+#heroImg { max-width: 800px !important; border-radius: 8px !important; }
+
+/* Keep homepage/card covers full-bleed (not affected) */
+.cover{ max-width:none !important; width:100% !important; }
