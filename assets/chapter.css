@@ -1,0 +1,83 @@
+/* assets/chapter.css */
+
+:root{
+  --content-max: 880px;
+  --text: #0f172a;           /* slate-900 */
+  --muted: #64748b;          /* slate-500 */
+  --link: #1d4ed8;           /* blue-700 */
+  --rule: #e5e7eb;           /* gray-200 */
+}
+
+body {
+  color: var(--text);
+  background: #fff;
+}
+
+/* Page frame */
+.chapter-wrap {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+/* Title and meta lines */
+.chapter-title {
+  font-weight: 800;
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  line-height: 1.2;
+  margin: 8px 0 10px;
+}
+.meta {
+  color: var(--muted);
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+}
+
+hr.page {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 10px 0 24px;
+}
+
+/* The content area that receives pasted Google‑Docs HTML */
+.gdoc {
+  font-size: 1.07rem;
+  line-height: 1.7;
+}
+
+/* Normalize Google‑Docs paragraphs (they set inline zero margins) */
+.gdoc p { margin: 0 0 0.85em 0; }
+.gdoc p:empty { display:none; }
+
+/* Keep strong/em/links intact; tone down links a bit */
+.gdoc a { color: var(--link); text-decoration: underline; }
+
+/* Medium images, centered */
+.gdoc img {
+  display:block;
+  max-width: 720px;  /* “medium” size */
+  width: 100%;
+  height: auto;
+  margin: 1.25rem auto;
+  border-radius: 6px;
+}
+
+/* Captions, if you add <figcaption> after an <img> */
+.gdoc figcaption, .gdoc .caption {
+  text-align:center;
+  color: var(--muted);
+  font-size: .9rem;
+  margin-top: .25rem;
+}
+
+/* Prev/Next bar */
+.nav-row {
+  display:flex; justify-content: space-between; gap:12px;
+  margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--rule);
+}
+.nav-row a { color: var(--link); text-decoration: none; font-weight: 600; }
+.nav-row a:hover { text-decoration: underline; }
