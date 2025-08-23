@@ -17,3 +17,12 @@ header.stickybar{
 }
 /* optional: card/figure helpers */
 .caption{ color:var(--muted); }
+
+/* assets/theme.css */
+:root{
+  --bg:#ffffff; --text:#111827; --muted:#64748b; --card:#f8fafc; --border:#e5e7eb;
+}
+html[data-theme="dark"]{
+  --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8; --card:#111827; --border:#243244;
+}
+html,body{ background:var(--bg); color:var(--text); }
