@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chapter • Moonlight of Montafon</title>
 
   <!-- Fonts -->
@@ -13,144 +13,166 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
   <style>
-    body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div {
-      font-family: 'Inter', sans-serif !important;
-    }
-    .chapter-content p { margin: 1em 0; line-height: 1.7; }
-    .chapter-image {
-      max-width: 380px; width: 100%; height: auto;
-      display: block; margin: 1.5rem auto;
-      border-radius: 8px;
-    }
+    /* Inter everywhere for titles/body like index */
+    body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div { font-family: 'Inter', sans-serif !important; }
+
+    /* Chapter content */
+    .gdoc p { margin: 1rem 0; line-height: 1.8; font-size: 1.05rem; }
+    .chapter-wrap { max-width: 820px; margin: 0 auto; }
+
+    /* Medium hero images inside chapter content (if any) */
+    .gdoc img { max-width: 680px; height: auto; display:block; margin:2rem auto; border-radius:6px; }
+
+    /* Dark mode overrides to mirror index */
+    html[data-theme="dark"] body { background:#0b1220; color:#f9fafb; }
+    html[data-theme="dark"] .bg-white    { background:#111827 !important; }
+    html[data-theme="dark"] .bg-gray-50  { background:#0b1220 !important; }
+    html[data-theme="dark"] .text-gray-900 { color:#f9fafb !important; }
+    html[data-theme="dark"] .text-gray-500 { color:#94a3b8 !important; }
+    html[data-theme="dark"] .border-gray-200 { border-color:#374151 !important; }
+    html[data-theme="dark"] a.text-blue-600 { color:#8ab4ff !important; }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-
-  <!-- Header -->
+  <!-- Header (sticky) -->
   <header class="sticky top-0 z-40 bg-white border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
       <div>
         <h1 class="font-bold text-2xl text-blue-600">
-          <i class="fas fa-book mr-2"></i> Moonlight of Montafon
+          <i class="fas fa-book mr-2"></i> <a href="index.html" class="text-blue-600 hover:underline">Moonlight of Montafon</a>
         </h1>
         <p class="text-sm text-gray-500">Translated from Korean • Updates weekly</p>
       </div>
-      <button id="theme-toggle" class="p-2 rounded border text-gray-600" aria-label="Toggle theme">
+      <!-- same toggle id as index -->
+      <button id="theme-toggle" class="p-2 rounded border text-gray-600" aria-label="Toggle theme" title="Switch theme">
         <i class="fas fa-moon"></i>
       </button>
     </div>
   </header>
 
-  <!-- Breadcrumb -->
-  <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 text-sm text-gray-500">
-    <a href="index.html" class="text-blue-600 hover:underline">Home</a> ›
-    <span id="crumbTitle">Chapter</span>
-  </nav>
-
-  <!-- Chapter -->
   <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h2 id="chapterTitle" class="text-3xl font-bold mb-4">Loading…</h2>
-    <div class="text-sm text-gray-500 mb-6">
-      <span><i class="fas fa-calendar mr-1"></i><time id="pubDate">—</time></span>
-      <span class="ml-4"><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
-      <span class="ml-4"><i class="fas fa-eye mr-1"></i><span id="wordCount">—</span></span>
-    </div>
+    <nav class="text-sm text-gray-500 mb-4">
+      <a href="index.html" class="text-blue-600 hover:underline">Home</a>
+      <span class="mx-2">›</span>
+      <span id="crumbTitle">Chapter</span>
+    </nav>
 
-    <figure id="heroBlock" class="mb-6 hidden">
-      <img id="heroImg" src="" alt="Chapter image" class="chapter-image">
-      <figcaption id="heroCaption" class="text-xs text-gray-500 text-center mt-2"></figcaption>
+    <header class="mb-6">
+      <h2 id="chapterTitle" class="text-3xl font-bold mb-2">Loading…</h2>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-500">
+        <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
+        <span><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
+        <span><i class="fas fa-eye mr-1"></i><span id="wordCount">—</span></span>
+      </div>
+    </header>
+
+    <!-- Optional hero (shown only if chapter has "hero") -->
+    <figure class="mb-6" id="heroBlock" hidden>
+      <img id="heroImg" src="" alt="Chapter image" class="w-full max-w-3xl mx-auto rounded shadow" />
+      <figcaption id="heroCaption" class="text-xs text-gray-500 mt-2 text-center"></figcaption>
     </figure>
 
-    <article id="contentRoot" class="chapter-content"></article>
+    <!-- Your pasted content goes right here -->
+    <article id="contentRoot" class="chapter-wrap">
+      <!-- The loader will fetch the HTML file from chapters.json and insert it here.
+           If you’re hand-pasting, you can paste your <div class="gdoc">…</div> directly
+           and skip the fetch (remove the loadHtml call below). -->
+    </article>
 
-    <!-- Prev/Next -->
-    <nav class="mt-10 flex justify-between text-blue-600">
-      <a id="prevLink" href="index.html" class="hover:underline"><i class="fas fa-arrow-left mr-2"></i>Previous</a>
-      <a id="nextLink" href="index.html" class="hover:underline">Next<i class="fas fa-arrow-right ml-2"></i></a>
+    <nav class="mt-10 flex items-center justify-between">
+      <a id="prevLink" href="index.html" class="text-sm text-blue-600 hover:underline"><i class="fas fa-arrow-left mr-2"></i>Previous</a>
+      <a id="nextLink" href="index.html" class="text-sm text-blue-600 hover:underline">Next<i class="fas fa-arrow-right ml-2"></i></a>
     </nav>
+
+    <footer class="border-t mt-12 pt-6 text-center text-sm text-gray-500">
+      Translation © <span id="copyrightYear">2025</span>
+    </footer>
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t py-8 text-center text-sm text-gray-500">
-    <p>Translation © 2025 • <a href="#" class="text-blue-600 hover:underline">Support the original author</a></p>
-  </footer>
-
-  <!-- Chapter Loader -->
   <script>
+    // Utilities
     const fmtLong = d => new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
     const num = n => (n||0).toLocaleString();
-
-    async function loadChapters(){ const r = await fetch('chapters.json',{cache:'no-store'}); return r.ok? r.json():[]; }
-    async function loadHtml(url){ const r = await fetch(url,{cache:'no-store'}); return r.ok? r.text():""; }
+    async function loadChapters(){ try{ const r=await fetch('chapters.json',{cache:'no-store'}); return r.ok?await r.json():[]; }catch(e){ return []; } }
+    async function loadHtml(url){ try{ const r=await fetch(url,{cache:'no-store'}); return r.ok?await r.text():''; }catch(e){ return ''; } }
 
     (async function(){
       const list = await loadChapters();
-      list.sort((a,b)=> new Date(a.date)-new Date(b.date));
-      const slug = new URLSearchParams(location.search).get("slug");
-      let idx = list.findIndex(c=>c.slug===slug); if(idx<0) idx=0;
-      const ch = list[idx];
+      list.sort((a,b)=> new Date(a.date)-new Date(b.date)); // ascending
+      const p=new URLSearchParams(location.search);
+      const slug=p.get('slug'); let idx=list.findIndex(c=>c.slug===slug); if(idx<0) idx=0; const ch=list[idx];
 
-      document.getElementById("chapterTitle").textContent = ch.title;
-      document.getElementById("crumbTitle").textContent = ch.title;
-      document.getElementById("pubDate").textContent = fmtLong(ch.date);
-      document.getElementById("readTime").textContent = "~"+ch.readTime+" min";
-      document.getElementById("wordCount").textContent = num(ch.words)+" words";
+      // Header fields
+      document.getElementById('chapterTitle').textContent = ch.title || 'Chapter';
+      document.getElementById('crumbTitle').textContent = ch.title || 'Chapter';
+      const d=new Date(ch.date);
+      const pub = document.getElementById('pubDate');
+      pub.dateTime = d.toISOString().slice(0,10);
+      pub.textContent = fmtLong(ch.date);
+      document.getElementById('readTime').textContent = ch.readTime ? `~${ch.readTime} minutes` : '—';
+      document.getElementById('wordCount').textContent = ch.words ? `${num(ch.words)} words` : '—';
 
+      // Hero (optional)
       if(ch.hero){
-        const f=document.getElementById("heroBlock");
-        f.classList.remove("hidden");
-        document.getElementById("heroImg").src = ch.hero;
-        document.getElementById("heroCaption").textContent = ch.caption||"";
+        const f=document.getElementById('heroBlock');
+        f.hidden=false;
+        document.getElementById('heroImg').src=ch.hero;
+        document.getElementById('heroCaption').textContent=ch.caption||'';
       }
+
+      // Content: fetch HTML fragment and drop it in
       if(ch.contentHtml){
         const html = await loadHtml(ch.contentHtml);
-        document.getElementById("contentRoot").innerHTML = html;
+        document.getElementById('contentRoot').innerHTML = html || '<div class="gdoc"><p>Chapter content coming soon.</p></div>';
       }
 
-      const prev = list[idx-1], next = list[idx+1];
-      const prevEl=document.getElementById("prevLink"), nextEl=document.getElementById("nextLink");
-      if(prev){ prevEl.href=prev.href; prevEl.textContent="‹ "+prev.title; }
-      if(next){ nextEl.href=next.href; nextEl.textContent=next.title+" ›"; }
+      // Prev/Next
+      const prev=list[idx-1]; const next=list[idx+1];
+      const prevEl=document.getElementById('prevLink'); const nextEl=document.getElementById('nextLink');
+      if(prev){ prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.innerHTML = '<i class="fas fa-arrow-left mr-2"></i>'+prev.title; }
+      if(next){ nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.innerHTML = next.title + '<i class="fas fa-arrow-right ml-2"></i>'; }
+
+      // Footer year
+      document.getElementById('copyrightYear').textContent = new Date().getFullYear();
     })();
   </script>
 
-  <!-- Theme toggle -->
+  <!-- SAME THEME TOGGLE AS INDEX -->
   <script>
-  (function () {
-    const KEY = "theme";
-    const root = document.documentElement;
-    const btn  = document.getElementById("theme-toggle");
+    (function () {
+      const STORAGE_KEY = "theme";     // "light" | "dark"
+      const root = document.documentElement;
+      const btn  = document.getElementById("theme-toggle");
 
-    function apply(mode){ 
-      mode==="dark" ? root.setAttribute("data-theme","dark")
-                    : root.removeAttribute("data-theme");
-    }
+      function apply(theme){ theme === "dark" ? root.setAttribute("data-theme","dark") : root.setAttribute("data-theme","light"); }
+      function initial(){
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved === "dark" || saved === "light") return saved;
+        return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      function reflect(theme){
+        if(!btn) return;
+        btn.setAttribute("aria-pressed", theme==="dark" ? "true":"false");
+        btn.title = theme==="dark" ? "Switch to light mode" : "Switch to dark mode";
+        btn.innerHTML = theme==="dark" ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      }
 
-    function current(){
-      const saved = localStorage.getItem(KEY);
-      if (saved==="light"||saved==="dark") return saved;
-      return matchMedia("(prefers-color-scheme: dark)").matches ? "dark":"light";
-    }
+      let current = initial();
+      apply(current); reflect(current);
 
-    let mode = current();
-    apply(mode);
-
-    if (btn){
-      const flipIcon = () => {
-        const i = btn.querySelector("i");
-        if (!i) return;
-        i.classList.toggle("fa-moon", mode==="light");
-        i.classList.toggle("fa-sun",  mode==="dark");
-      };
-      flipIcon();
-      btn.addEventListener("click", () => {
-        mode = mode==="dark" ? "light":"dark";
-        localStorage.setItem(KEY, mode);
-        apply(mode);
-        flipIcon();
+      const mq = matchMedia("(prefers-color-scheme: dark)");
+      mq.addEventListener?.("change", e => {
+        if (localStorage.getItem(STORAGE_KEY)) return; // honor user choice
+        current = e.matches ? "dark" : "light";
+        apply(current); reflect(current);
       });
-    }
-  })();
+
+      btn?.addEventListener("click", () => {
+        current = (current === "dark") ? "light" : "dark";
+        localStorage.setItem(STORAGE_KEY, current);
+        apply(current); reflect(current);
+      });
+    })();
   </script>
 </body>
 </html>
