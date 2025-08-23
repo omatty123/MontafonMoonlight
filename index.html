@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home • Moonlight of Montafon</title>
-<button id="theme-toggle" class="p-2 rounded" aria-label="Toggle theme">
-  <i class="fas fa-moon"></i>
-</button>
-  <!-- Fonts (Inter = the same as your screenshot header font) -->
+
+  <!-- Fonts (Inter = same as screenshot header font) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
   <!-- Tailwind + Icons -->
@@ -72,10 +70,7 @@
     <p>Translation © 2025 • <a href="#" class="text-blue-600 hover:underline">Support the original author</a></p>
     <nav class="space-x-4">
       <a href="index.html" class="text-blue-600 hover:underline">Home</a>
-      <a id="startLink" href="#" class="text-blue-600 hover:underline">Start reading</a>
-      <a id="downloadRSS" href="#" class="text-blue-600 hover:underline">Download RSS</a>
-      <a id="downloadSitemap" href="#" class="text-blue-600 hover:underline">Download sitemap</a>
-    </nav>
+     /nav>
   </footer>
 
   <!-- Scripts -->
@@ -120,60 +115,45 @@
       stats(pubs);
       document.getElementById('grid').innerHTML = pubs.map(card).join('');
     })();
-  </script><script>
-(function () {
-  const STORAGE_KEY = "theme";         // "light" | "dark" | undefined
-  const root = document.documentElement;
-  const btn  = document.getElementById("theme-toggle");
+  </script>
 
-  // Apply a theme to <html>
-  function apply(theme) {
-    if (theme === "dark") {
-      root.setAttribute("data-theme", "dark");
-    } else {
-      root.removeAttribute("data-theme"); // light = default
+  <!-- Theme toggle -->
+  <script>
+  (function () {
+    const KEY = "theme";
+    const root = document.documentElement;
+    const btn  = document.getElementById("theme-toggle");
+
+    function apply(mode){ 
+      mode==="dark" ? root.setAttribute("data-theme","dark")
+                    : root.removeAttribute("data-theme");
     }
-  }
 
-  // Initial theme: saved pref > system pref > light
-  function initial() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "dark" || saved === "light") return saved;
-    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  }
+    function current(){
+      const saved = localStorage.getItem(KEY);
+      if (saved==="light"||saved==="dark") return saved;
+      return matchMedia("(prefers-color-scheme: dark)").matches ? "dark":"light";
+    }
 
-  // Keep icon/state in sync (optional)
-  function reflect(theme) {
-    if (!btn) return;
-    btn.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
-    btn.title = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
-  }
+    let mode = current();
+    apply(mode);
 
-  // Set up
-  let current = initial();
-  apply(current);
-  reflect(current);
-
-  // If user hasn’t chosen, follow OS changes live
-  const mq = matchMedia("(prefers-color-scheme: dark)");
-  function onSystem(e) {
-    if (localStorage.getItem(STORAGE_KEY)) return; // user chose; don't override
-    current = e.matches ? "dark" : "light";
-    apply(current);
-    reflect(current);
-  }
-  mq.addEventListener?.("change", onSystem);
-
-  // Toggle on click
-  if (btn) {
-    btn.addEventListener("click", () => {
-      current = current === "dark" ? "light" : "dark";
-      localStorage.setItem(STORAGE_KEY, current);
-      apply(current);
-      reflect(current);
-    });
-  }
-})();
-</script>
+    if (btn){
+      const flipIcon = () => {
+        const i = btn.querySelector("i");
+        if (!i) return;
+        i.classList.toggle("fa-moon", mode==="light");
+        i.classList.toggle("fa-sun",  mode==="dark");
+      };
+      flipIcon();
+      btn.addEventListener("click", () => {
+        mode = mode==="dark" ? "light":"dark";
+        localStorage.setItem(KEY, mode);
+        apply(mode);
+        flipIcon();
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
