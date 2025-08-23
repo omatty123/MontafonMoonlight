@@ -118,6 +118,60 @@
       stats(pubs);
       document.getElementById('grid').innerHTML = pubs.map(card).join('');
     })();
-  </script>
+  </script><script>
+(function () {
+  const STORAGE_KEY = "theme";         // "light" | "dark" | undefined
+  const root = document.documentElement;
+  const btn  = document.getElementById("theme-toggle");
+
+  // Apply a theme to <html>
+  function apply(theme) {
+    if (theme === "dark") {
+      root.setAttribute("data-theme", "dark");
+    } else {
+      root.removeAttribute("data-theme"); // light = default
+    }
+  }
+
+  // Initial theme: saved pref > system pref > light
+  function initial() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "dark" || saved === "light") return saved;
+    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  // Keep icon/state in sync (optional)
+  function reflect(theme) {
+    if (!btn) return;
+    btn.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+    btn.title = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+  }
+
+  // Set up
+  let current = initial();
+  apply(current);
+  reflect(current);
+
+  // If user hasn’t chosen, follow OS changes live
+  const mq = matchMedia("(prefers-color-scheme: dark)");
+  function onSystem(e) {
+    if (localStorage.getItem(STORAGE_KEY)) return; // user chose; don't override
+    current = e.matches ? "dark" : "light";
+    apply(current);
+    reflect(current);
+  }
+  mq.addEventListener?.("change", onSystem);
+
+  // Toggle on click
+  if (btn) {
+    btn.addEventListener("click", () => {
+      current = current === "dark" ? "light" : "dark";
+      localStorage.setItem(STORAGE_KEY, current);
+      apply(current);
+      reflect(current);
+    });
+  }
+})();
+</script>
 </body>
 </html>
