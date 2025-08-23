@@ -1,137 +1,156 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chapter • Moonlight of Montafon</title>
 
-  <!-- Fonts identical to landing page -->
-  <link rel="stylesheet" href="assets/fonts.css">
-  <!-- Sticky header + gdoc fixes -->
-  <link rel="stylesheet" href="assets/chapter.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
-</head>
-<body>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Header (same look; now sticky) -->
-  <header class="site-header">
-    <div class="main-wrap" style="padding-top:14px;padding-bottom:14px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;">
-        <div>
-          <div class="brand" style="font-weight:800;font-size:1.35rem;color:#1d4ed8;">Moonlight of Montafon</div>
-          <div style="color:#6b7280;font-size:.95rem;">Translated from Korean • Updates weekly</div>
-        </div>
-        <button id="theme-toggle" class="ui" aria-label="Toggle theme" style="padding:8px 10px;border-radius:8px;border:1px solid #e5e7eb;">
-          <i class="fas fa-moon"></i>
-        </button>
+  <!-- Tailwind + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+
+  <style>
+    body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div {
+      font-family: 'Inter', sans-serif !important;
+    }
+    .chapter-content p { margin: 1em 0; line-height: 1.7; }
+    .chapter-image {
+      max-width: 380px; width: 100%; height: auto;
+      display: block; margin: 1.5rem auto;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <div>
+        <h1 class="font-bold text-2xl text-blue-600">
+          <i class="fas fa-book mr-2"></i> Moonlight of Montafon
+        </h1>
+        <p class="text-sm text-gray-500">Translated from Korean • Updates weekly</p>
       </div>
+      <button id="theme-toggle" class="p-2 rounded border text-gray-600" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
     </div>
   </header>
 
-  <!-- Page -->
-  <main class="main-wrap">
-    <!-- Breadcrumb -->
-    <nav class="meta" aria-label="Breadcrumb" style="margin-bottom:10px;">
-      <a href="index.html" style="color:#2563eb;text-decoration:none;">Home</a>
-      <span aria-hidden="true">›</span>
-      <span id="crumb">Chapter</span>
-    </nav>
+  <!-- Breadcrumb -->
+  <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 text-sm text-gray-500">
+    <a href="index.html" class="text-blue-600 hover:underline">Home</a> ›
+    <span id="crumbTitle">Chapter</span>
+  </nav>
 
-    <!-- Title -->
-    <h1 id="title" class="title">Loading…</h1>
-
-    <!-- Meta line -->
-    <div class="meta" style="margin-bottom:14px;">
-      <span><i class="fas fa-calendar"></i><time id="pubDate">—</time></span>
-      <span><i class="fas fa-clock"></i><span id="readTime">—</span></span>
-      <span><i class="fas fa-eye"></i><span id="wordCount">—</span></span>
+  <!-- Chapter -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h2 id="chapterTitle" class="text-3xl font-bold mb-4">Loading…</h2>
+    <div class="text-sm text-gray-500 mb-6">
+      <span><i class="fas fa-calendar mr-1"></i><time id="pubDate">—</time></span>
+      <span class="ml-4"><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
+      <span class="ml-4"><i class="fas fa-eye mr-1"></i><span id="wordCount">—</span></span>
     </div>
 
-    <hr style="border:none;border-top:1px solid #e5e7eb;margin:12px 0 18px;">
-
-    <!-- HERO (now actually rendered) -->
-    <figure id="hero" class="figure-hero" hidden>
-      <img id="heroImg" alt="">
-      <figcaption id="heroCap"></figcaption>
+    <figure id="heroBlock" class="mb-6 hidden">
+      <img id="heroImg" src="" alt="Chapter image" class="chapter-image">
+      <figcaption id="heroCaption" class="text-xs text-gray-500 text-center mt-2"></figcaption>
     </figure>
 
-    <!-- Content root (we inject your DOCX->HTML fragment here) -->
-    <article id="content" class="gdoc"></article>
+    <article id="contentRoot" class="chapter-content"></article>
 
-    <!-- Prev / Next -->
-    <nav class="meta" style="justify-content:space-between;margin-top:28px;">
-      <a id="prev" href="index.html" style="color:#2563eb;text-decoration:none;"><i class="fas fa-arrow-left"></i> Previous</a>
-      <a id="next" href="index.html" style="color:#2563eb;text-decoration:none;">Next <i class="fas fa-arrow-right"></i></a>
+    <!-- Prev/Next -->
+    <nav class="mt-10 flex justify-between text-blue-600">
+      <a id="prevLink" href="index.html" class="hover:underline"><i class="fas fa-arrow-left mr-2"></i>Previous</a>
+      <a id="nextLink" href="index.html" class="hover:underline">Next<i class="fas fa-arrow-right ml-2"></i></a>
     </nav>
-
-    <footer style="margin-top:32px;color:#6b7280;">Translation © <span id="year"></span></footer>
   </main>
 
-  <script>
-    // --- Sticky offset: measure header and set --hdr ---
-    function setHdr() {
-      const h = document.querySelector('.site-header')?.offsetHeight || 64;
-      document.documentElement.style.setProperty('--hdr', h + 'px');
-    }
-    window.addEventListener('load', setHdr);
-    window.addEventListener('resize', setHdr);
-    // If your theme toggle changes header height a bit, recalc:
-    document.getElementById('theme-toggle')?.addEventListener('click', () => setTimeout(setHdr, 10));
+  <!-- Footer -->
+  <footer class="border-t py-8 text-center text-sm text-gray-500">
+    <p>Translation © 2025 • <a href="#" class="text-blue-600 hover:underline">Support the original author</a></p>
+  </footer>
 
-    // --- Utilities ---
-    const fmtDate = d => new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+  <!-- Chapter Loader -->
+  <script>
+    const fmtLong = d => new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
     const num = n => (n||0).toLocaleString();
 
-    // --- Load chapters + render one ---
+    async function loadChapters(){ const r = await fetch('chapters.json',{cache:'no-store'}); return r.ok? r.json():[]; }
+    async function loadHtml(url){ const r = await fetch(url,{cache:'no-store'}); return r.ok? r.text():""; }
+
     (async function(){
-      const qs = new URLSearchParams(location.search);
-      const slug = qs.get('slug');
-      const res = await fetch('chapters.json', {cache:'no-store'});
-      const data = res.ok ? await res.json() : [];
-      data.sort((a,b)=> new Date(a.date)-new Date(b.date));
-      let i = data.findIndex(c=>c.slug===slug);
-      if (i < 0) i = 0;
-      const ch = data[i];
+      const list = await loadChapters();
+      list.sort((a,b)=> new Date(a.date)-new Date(b.date));
+      const slug = new URLSearchParams(location.search).get("slug");
+      let idx = list.findIndex(c=>c.slug===slug); if(idx<0) idx=0;
+      const ch = list[idx];
 
-      // Title / crumb / meta
-      document.title = ch.title + ' • Moonlight of Montafon';
-      document.getElementById('title').textContent = ch.title;
-      document.getElementById('crumb').textContent = ch.title;
-      document.getElementById('pubDate').textContent = fmtDate(ch.date);
-      document.getElementById('readTime').textContent = '~' + (ch.readTime || Math.max(1, Math.round((ch.words||0)/230))) + ' minutes';
-      document.getElementById('wordCount').textContent = num(ch.words) + ' words';
-      document.getElementById('year').textContent = new Date().getFullYear();
+      document.getElementById("chapterTitle").textContent = ch.title;
+      document.getElementById("crumbTitle").textContent = ch.title;
+      document.getElementById("pubDate").textContent = fmtLong(ch.date);
+      document.getElementById("readTime").textContent = "~"+ch.readTime+" min";
+      document.getElementById("wordCount").textContent = num(ch.words)+" words";
 
-      // HERO (this is what was missing)
-      if (ch.hero) {
-        const fig = document.getElementById('hero');
-        const img = document.getElementById('heroImg');
-        img.src = ch.hero;
-        img.alt = ch.title;
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        const cap = document.getElementById('heroCap');
-        cap.textContent = ch.caption || '';
-        fig.hidden = false;
+      if(ch.hero){
+        const f=document.getElementById("heroBlock");
+        f.classList.remove("hidden");
+        document.getElementById("heroImg").src = ch.hero;
+        document.getElementById("heroCaption").textContent = ch.caption||"";
+      }
+      if(ch.contentHtml){
+        const html = await loadHtml(ch.contentHtml);
+        document.getElementById("contentRoot").innerHTML = html;
       }
 
-      // Content fragment
-      const htmlResp = await fetch(ch.contentHtml, {cache:'no-store'});
-      const html = htmlResp.ok ? await htmlResp.text() : '<p>Chapter content coming soon.</p>';
-      document.getElementById('content').innerHTML = html;
-
-      // Prev / Next
-      const prev = data[i-1], next = data[i+1];
-      const prevEl = document.getElementById('prev'), nextEl = document.getElementById('next');
-      if (prev) { prevEl.href = prev.href || ('chapter.html?slug='+encodeURIComponent(prev.slug)); prevEl.innerHTML = '<i class="fas fa-arrow-left"></i> ' + prev.title; }
-      else { prevEl.href = 'index.html'; prevEl.textContent = '← Home'; }
-      if (next) { nextEl.href = next.href || ('chapter.html?slug='+encodeURIComponent(next.slug)); nextEl.innerHTML = next.title + ' <i class="fas fa-arrow-right"></i>'; }
-      else { nextEl.href = 'index.html'; nextEl.textContent = 'Index →'; }
-
-      // After images load, correct header offset once more
-      window.addEventListener('load', setHdr);
-      setHdr();
+      const prev = list[idx-1], next = list[idx+1];
+      const prevEl=document.getElementById("prevLink"), nextEl=document.getElementById("nextLink");
+      if(prev){ prevEl.href=prev.href; prevEl.textContent="‹ "+prev.title; }
+      if(next){ nextEl.href=next.href; nextEl.textContent=next.title+" ›"; }
     })();
+  </script>
+
+  <!-- Theme toggle -->
+  <script>
+  (function () {
+    const KEY = "theme";
+    const root = document.documentElement;
+    const btn  = document.getElementById("theme-toggle");
+
+    function apply(mode){ 
+      mode==="dark" ? root.setAttribute("data-theme","dark")
+                    : root.removeAttribute("data-theme");
+    }
+
+    function current(){
+      const saved = localStorage.getItem(KEY);
+      if (saved==="light"||saved==="dark") return saved;
+      return matchMedia("(prefers-color-scheme: dark)").matches ? "dark":"light";
+    }
+
+    let mode = current();
+    apply(mode);
+
+    if (btn){
+      const flipIcon = () => {
+        const i = btn.querySelector("i");
+        if (!i) return;
+        i.classList.toggle("fa-moon", mode==="light");
+        i.classList.toggle("fa-sun",  mode==="dark");
+      };
+      flipIcon();
+      btn.addEventListener("click", () => {
+        mode = mode==="dark" ? "light":"dark";
+        localStorage.setItem(KEY, mode);
+        apply(mode);
+        flipIcon();
+      });
+    }
+  })();
   </script>
 </body>
 </html>
