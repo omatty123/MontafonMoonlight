@@ -10,8 +10,8 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
-  <!-- Theme tokens (light/dark) + small helpers -->
   <style>
+    /* theme tokens (light/dark) */
     :root{
       --bg:#ffffff; --text:#111827; --muted:#64748b;
       --card:#f8fafc; --border:#e5e7eb; --link:#2563eb;
@@ -20,12 +20,17 @@
       --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8;
       --card:#111827; --border:#243244; --link:#8ab4ff;
     }
+
+    /* global */
     html,body{ background:var(--bg); color:var(--text); }
     a{ color:var(--link); }
-    body, h1,h2,h3,h4,h5,h6, p, a, li, button, small, span, div { font-family:'Inter',sans-serif!important; }
+    body,h1,h2,h3,h4,h5,h6,p,a,li,button,small,span,div{ font-family:'Inter',sans-serif !important; }
 
+    /* header */
     header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
     .k-meta{ color:var(--muted); }
+
+    /* cards */
     .card{ background:var(--card); border:1px solid var(--border); border-radius:.75rem; overflow:hidden; transition:transform .2s, box-shadow .2s; }
     .card:hover{ transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.12); }
     .cover{ aspect-ratio:3/2; width:100%; object-fit:cover; }
@@ -67,7 +72,7 @@
     <div id="grid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3"></div>
   </main>
 
-  <!-- Footer (simple) -->
+  <!-- Footer -->
   <footer class="border-t py-8 text-center text-sm k-meta">
     <p>Translation © <span id="copyYear"></span> •
       <a href="http://www.mediabuddha.net/m/news/view.php?number=34752" class="underline">Support the original author</a>
@@ -76,11 +81,12 @@
 
   <!-- Scripts -->
   <script>
-    // THEME — identical logic used on chapter pages
+    /* THEME */
     (function(){
       const KEY="theme";
       const root=document.documentElement;
       const btn=document.getElementById("theme-toggle");
+
       function apply(t){ t==="dark" ? root.setAttribute("data-theme","dark") : root.removeAttribute("data-theme"); }
       function initial(){
         const saved=localStorage.getItem(KEY);
@@ -99,12 +105,12 @@
       btn?.addEventListener("click",()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
     })();
 
-    // UTIL
+    /* UTIL */
     const $ = (sel)=>document.querySelector(sel);
     const fmtDate = (d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
     const commas = (n)=> (n||0).toLocaleString();
 
-    // CARD TEMPLATE (shows installment number at top-left)
+    /* Card template (shows installment number; oldest→newest = #1 first) */
     function cardTemplate(ch, idx){
       const href = ch.href || `chapter.html?slug=${encodeURIComponent(ch.slug||"")}`;
       const title = ch.title || `Chapter ${idx+1}`;
@@ -131,34 +137,54 @@
             </p>
             <p class="text-sm">${ch.summary || ""}</p>
           </div>
-        </article>
-      `;
+        </article>`;
     }
 
-    // LOAD CHAPTERS + RENDER (ascending order: oldest → newest, #1 first)
+    /* Load chapters.json + render grid (robust, cache-busted) */
     async function renderChapters(){
       $("#copyYear").textContent = new Date().getFullYear();
 
-      let list=[];
-      try{
-        const r = await fetch("chapters.json",{cache:"no-store"});
-        list = r.ok ? await r.json() : [];
-      }catch(e){ list=[]; }
+      // cache-bust to dodge stale GH Pages JSON
+      const url = 'chapters.json?v=' + Date.now();
+      let raw;
 
-      // Sort by date ascending; if no date, leave relative order
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) {
+          console.error('Failed to fetch chapters.json:', res.status, res.statusText);
+          throw new Error('fetch-failed');
+        }
+        raw = await res.text();
+      } catch (e) {
+        console.error('Network error loading chapters.json:', e);
+        $("#grid").innerHTML = `<div class="k-meta">Could not load chapters (check console).</div>`;
+        return;
+      }
+
+      let list;
+      try {
+        const json = JSON.parse(raw);
+        // support either an array or { chapters: [...] }
+        list = Array.isArray(json) ? json : (Array.isArray(json?.chapters) ? json.chapters : []);
+      } catch (e) {
+        console.error('chapters.json parse error:', e, '\nRaw:', raw);
+        $("#grid").innerHTML = `<div class="k-meta">chapters.json is invalid JSON (see console).</div>`;
+        return;
+      }
+
+      if (!Array.isArray(list) || !list.length) {
+        $("#grid").innerHTML = `<div class="k-meta">No chapters yet.</div>`;
+        return;
+      }
+
+      // Oldest → newest; if a date missing, keep its relative order
       list.sort((a,b)=>{
         const da = a?.date ? new Date(a.date).getTime() : Infinity;
         const db = b?.date ? new Date(b.date).getTime() : Infinity;
         return da - db;
       });
 
-      // Render
-      const grid = $("#grid");
-      if(!list.length){
-        grid.innerHTML = `<div class="k-meta">No chapters yet.</div>`;
-        return;
-      }
-      grid.innerHTML = list.map((ch, i)=>cardTemplate(ch, i)).join("");
+      $("#grid").innerHTML = list.map((ch,i)=>cardTemplate(ch,i)).join("");
     }
 
     renderChapters();
