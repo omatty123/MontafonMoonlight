@@ -1,40 +1,53 @@
-/* all-serif.css — global serif override */
-body, html {
-  font-family: 'Crimson Text', serif !important;
-}
+/* all-serif.css — site-wide serif + auto dark mode (no HTML/JS changes) */
 
-:root {
-  --ui-font: 'Crimson Text', serif;
-}
-
-/* Force serif everywhere */
-html, body, h1, h2, h3, h4, h5, h6, p, a, li, span, small, 
-button, input, label, nav, div, section, article, footer, 
-header, blockquote, figcaption, strong, em {
-  font-family: 'Crimson Text', serif !important;
+/* 1) Typography: force consistent serif across site */
+html, body, h1, h2, h3, h4, h5, h6, p, a, li, span, small,
+button, input, label, nav, div, section, article, footer, header,
+blockquote, figcaption, strong, em {
+  font-family: "Times New Roman", Times, Georgia, serif !important;
   letter-spacing: 0.2px;
 }
 
 /* Comfortable reading rhythm */
 p { line-height: 1.7; }
 
-/* Chapter images sane */
+/* 2) Color tokens (light by default) */
+:root{
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#666666;
+  --card:#f9fafb;
+  --border:#e5e7eb;
+  --link:#1f47c7;
+}
+
+/* 3) Auto-dark using OS preference (no script needed) */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b1220;
+    --text:#f5f7fb;
+    --muted:#9fb0c8;
+    --card:#111827;
+    --border:#374151;
+    --link:#8ab4ff;
+  }
+}
+
+/* 4) Apply tokens globally without touching your layout */
+html, body { background: var(--bg); color: var(--text); }
+a { color: var(--link); }
+.caption { color: var(--muted); }
+hr { border-color: var(--border); }
+
+/* 5) Chapter images: medium and consistent */
 img.chapter-image, .chapter-image img, img.hero, .hero img {
-  max-width: 600px !important;
+  max-width: 560px !important;      /* medium */
   height: auto !important;
   display: block !important;
-  margin: 2rem auto !important;
+  margin: 1.5rem auto !important;
   border-radius: 6px;
 }
 
-/* Cap chapter images */
-.chapter-text img, 
-img.chapter-image, 
-.hero img {
-  max-width: 600px !important;   /* or 500px if you prefer smaller */
-  width: 100%;
-  height: auto !important;
-  display: block;
-  margin: 2rem auto;             /* center and add breathing room */
-  border-radius: 6px;            /* soften corners */
-}
+/* 6) Optional helpers for cards/headers if present */
+header.stickybar { background: var(--bg); border-bottom: 1px solid var(--border); }
+.card { background: var(--card); border: 1px solid var(--border); }
