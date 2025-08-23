@@ -1,0 +1,19 @@
+/* assets/theme.css — light/dark variables + sensible defaults */
+:root{
+  --bg:#ffffff; --text:#1f2937;
+  --muted:#64748b; --card:#f9fafb; --border:#e5e7eb; --link:#1f47c7;
+}
+html[data-theme="dark"]{
+  --bg:#0b1220; --text:#f9fafb;
+  --muted:#94a3b8; --card:#111827; --border:#374151; --link:#8ab4ff;
+}
+
+/* Apply colors without touching your serif font setup */
+html,body{ background:var(--bg); color:var(--text); }
+a{ color:var(--link); }
+header.stickybar{
+  position:sticky; top:0; z-index:40;
+  background:var(--bg); border-bottom:1px solid var(--border);
+}
+/* optional: card/figure helpers */
+.caption{ color:var(--muted); }
