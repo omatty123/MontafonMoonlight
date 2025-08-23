@@ -1,76 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"/>
   <title>Chapter • Moonlight of Montafon</title>
 
   <!-- Fonts / Tailwind / Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+
+  <!-- Site theme (colors, image sizing, sticky header tokens, etc.) -->
+  <link rel="stylesheet" href="assets/theme.css" />
 
   <style>
-    /* ---- Theme tokens (same feel as index) ---- */
-    :root{
-      --bg:#ffffff; --text:#111827;
-      --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#1f47c7;
-    }
-    html[data-theme="dark"]{
-      --bg:#0b1220; --text:#e5e7eb;
-      --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff;
+    /* Keep typography consistent with index */
+    body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div {
+      font-family: 'Inter', sans-serif !important;
     }
 
-    /* ---- Base ---- */
-    html,body{ background:var(--bg); color:var(--text); }
-    a{ color:var(--link); }
-    body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div { font-family:'Inter',sans-serif !important; }
+    /* Layout */
+    .chapter-wrap { max-width: 820px; margin: 0 auto; padding: 1.25rem; }
+    .meta { color: var(--muted); }
+    .chapter-title { font-size: 1.875rem; font-weight: 700; margin-bottom: .25rem; }
 
-    /* ---- Header ---- */
-    header.stickybar{
-      position:sticky; top:0; z-index:40;
-      background:var(--bg);
-      border-bottom:1px solid var(--border);
-    }
-    .meta{ color:var(--muted); }
+    /* Google Docs paste area: spacing + italics preserved */
+    .gdoc p { margin: 1em 0; line-height: 1.75; }
+    .gdoc em, .gdoc i { font-style: italic; }
 
-    /* ---- Layout ---- */
-    .chapter-wrap{ max-width:820px; margin:0 auto; padding:1.25rem; }
-
-    /* ---- Typography ---- */
-    #chapterTitle{ font-size:1.875rem; font-weight:700; margin-bottom:.25rem; }
-    .gdoc p{ margin:1em 0; line-height:1.75; }
-    .gdoc em, .gdoc i { font-style:italic; }
-
-    /* ---- Images: hero + any pasted content images (brute force) ---- */
-    /* CSS side: constrain any image inside the chapter area */
-    .chapter-wrap img{
-      max-width:680px !important;   /* medium */
-      width:100% !important;
-      height:auto !important;
-      display:block !important;
-      margin:1.5rem auto !important;
-      border-radius:6px !important;
-    }
-    /* Optional hero can be a little wider */
-    #heroImg{
-      max-width:800px !important;
-      width:100% !important;
-      margin:1.25rem auto .5rem !important;
-      border-radius:8px !important;
-    }
+    /* Optional hero image (sized in theme.css too) */
     #heroBlock[hidden]{ display:none; }
-    #heroCaption{ color:var(--muted); font-size:.875rem; text-align:center; }
 
-    /* ---- Progress bar ---- */
-    .progress-rail{ height:4px; background:#e5e7eb; }
-    html[data-theme="dark"] .progress-rail{ background:#1f2937; }
-    #progress{ height:4px; background:#3b82f6; width:0%; transition:width .2s linear; }
+    /* Progress bar track adopts theme in theme.css; width driven via JS */
+    .progress-rail { height: 4px; background: #e5e7eb; }
+    html[data-theme="dark"] .progress-rail { background: #1f2937; }
+    #progress { height: 4px; background: #3b82f6; width: 0%; transition: width .2s linear; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Header (sticky via theme.css .stickybar helper) -->
   <header class="stickybar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
       <div class="min-w-0">
@@ -80,7 +51,7 @@
         </h1>
         <p class="text-sm meta">Translated from Korean • Updates weekly</p>
       </div>
-      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle theme">
+      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle theme" title="Toggle theme">
         <i class="fas fa-moon"></i>
       </button>
     </div>
@@ -97,7 +68,7 @@
 
     <!-- Title + meta -->
     <header class="mb-4">
-      <h2 id="chapterTitle">Loading…</h2>
+      <h2 id="chapterTitle" class="chapter-title">Loading…</h2>
       <div class="text-sm meta flex flex-wrap gap-x-6 gap-y-2">
         <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
         <span><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
@@ -108,10 +79,10 @@
     <!-- Optional hero -->
     <figure id="heroBlock" hidden class="mb-6">
       <img id="heroImg" src="" alt="Chapter image">
-      <figcaption id="heroCaption"></figcaption>
+      <figcaption id="heroCaption" class="caption text-center"></figcaption>
     </figure>
 
-    <!-- Chapter body gets injected here -->
+    <!-- Chapter body (we inject HTML here) -->
     <article id="contentRoot" class="gdoc"></article>
 
     <!-- Prev / Next -->
@@ -125,8 +96,9 @@
     </footer>
   </main>
 
+  <!-- Scripts -->
   <script>
-    /* ---------------- THEME (same behavior as index) ---------------- */
+    // THEME — identical to index.html (shared via localStorage)
     (function () {
       const STORAGE_KEY = "theme";   // "light" | "dark"
       const root = document.documentElement;
@@ -153,8 +125,7 @@
       const mq = matchMedia("(prefers-color-scheme: dark)");
       function onSystem(e){
         if(localStorage.getItem(STORAGE_KEY)) return;
-        current = e.matches ? "dark" : "light";
-        apply(current); reflect(current);
+        current = e.matches ? "dark" : "light"; apply(current); reflect(current);
       }
       mq.addEventListener?.("change", onSystem);
       btn?.addEventListener("click", () => {
@@ -164,7 +135,7 @@
       });
     })();
 
-    /* ---------------- UTIL ---------------- */
+    // UTIL
     const fmtLong = (d) => new Date(d).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
     const num = (n) => (n||0).toLocaleString();
     async function loadChapters(){
@@ -176,12 +147,11 @@
       catch(e){ return ""; }
     }
 
-    /* ---------------- PAGE LOGIC ---------------- */
     (async function main(){
       document.getElementById("copyYear").textContent = new Date().getFullYear();
 
       const list = await loadChapters();
-      list.sort((a,b)=> new Date(a.date) - new Date(b.date)); // ascending (1→2→3)
+      list.sort((a,b)=> new Date(a.date) - new Date(b.date)); // ascending 1→2→3
 
       const slug = new URLSearchParams(location.search).get("slug");
       let idx = list.findIndex(c=>c.slug===slug);
@@ -189,7 +159,6 @@
       const ch = list[idx] || {};
 
       // Title + meta
-      document.title = (ch.title ? (ch.title + " • Moonlight of Montafon") : "Chapter • Moonlight of Montafon");
       document.getElementById("chapterTitle").textContent = ch.title || "Chapter";
       document.getElementById("crumbTitle").textContent = ch.title || "Chapter";
       if(ch.date){
@@ -205,8 +174,7 @@
       if(ch.hero){
         const fig = document.getElementById("heroBlock");
         fig.hidden = false;
-        const hero = document.getElementById("heroImg");
-        hero.src = ch.hero;
+        document.getElementById("heroImg").src = ch.hero;
         document.getElementById("heroCaption").textContent = ch.caption || "";
       }
 
@@ -215,32 +183,13 @@
       if(ch.contentHtml) html = await loadHtml(ch.contentHtml);
       document.getElementById("contentRoot").innerHTML = html || "<p>Chapter content coming soon.</p>";
 
-      // *** BRUTE FORCE IMAGE FIXER ***
-      // 1) Strip inline width/height/style Google Docs likes to inject
-      // 2) Also neutralize width constraints on a wrapping <p>, if present
-      (function fixImages(){
-        const imgs = document.querySelectorAll(".chapter-wrap img");
-        imgs.forEach(img => {
-          img.removeAttribute("width");
-          img.removeAttribute("height");
-          // wipe style completely so our CSS wins
-          img.removeAttribute("style");
-          // last resort: set a JS style with !important (rarely needed after removing style)
-          img.style.setProperty("max-width","680px","important");
-          img.style.setProperty("width","100%","important");
-          img.style.setProperty("height","auto","important");
-          img.style.setProperty("display","block","important");
-          img.style.setProperty("margin","1.5rem auto","important");
-          img.style.setProperty("border-radius","6px","important");
-
-          const p = img.parentElement;
-          if(p && p.tagName === "P"){
-            p.style.removeProperty("width");
-            p.style.removeProperty("max-width");
-            p.style.removeProperty("height");
-          }
-        });
-      })();
+      // Strip inline sizes from pasted GDocs images so CSS sizing wins
+      document.querySelectorAll("#contentRoot img").forEach(img=>{
+        img.removeAttribute("width"); img.removeAttribute("height");
+        if(img.style){
+          img.style.width=""; img.style.height=""; img.style.maxWidth="";
+        }
+      });
 
       // Prev / Next
       const prev = list[idx-1], next = list[idx+1];
