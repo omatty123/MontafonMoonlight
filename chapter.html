@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"/>
   <title>Chapter • Moonlight of Montafon</title>
 
   <!-- Fonts / Tailwind / Icons -->
@@ -11,6 +13,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
   <style>
+    /* Theme tokens (match index) */
     :root{
       --bg:#ffffff; --text:#111827;
       --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#2563eb;
@@ -19,43 +22,63 @@
       --bg:#0b1220; --text:#e5e7eb;
       --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff;
     }
-    html,body{ background:var(--bg); color:var(--text); }
-    a{ color:var(--link); }
-    body,h1,h2,h3,h4,h5,h6,p,a,li,button,span,div { font-family:'Inter',sans-serif!important; }
+    html, body { background:var(--bg); color:var(--text); }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
-    .k-meta{ color:var(--muted); }
-
-    .chapter-wrap{ max-width:820px; margin:0 auto; padding:1.25rem; }
-    .chapter-title{ font-size:1.875rem; font-weight:700; margin-bottom:.25rem; }
-    .gdoc p{ margin:1em 0; line-height:1.75; }
-    .gdoc em, .gdoc i{ font-style:italic; }
-
-    #contentRoot img{
-      max-width:680px !important;
-      width:100% !important;
-      height:auto !important;
-      display:block !important;
-      margin:1.5rem auto !important;
-      border-radius:6px;
+    /* Global Inter like landing page */
+    body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div, small, button {
+      font-family: 'Inter', sans-serif !important;
     }
+
+    /* Sticky header */
+    header.stickybar {
+      position: sticky; top: 0; z-index: 40;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Layout + text */
+    .chapter-wrap { max-width: 820px; margin: 0 auto; padding: 1.25rem; }
+    .meta { color: var(--muted); }
+    .chapter-title { font-size: 1.875rem; font-weight: 700; margin-bottom: .5rem; }
+    .gdoc p { margin: 1em 0; line-height: 1.75; }
+    .gdoc em, .gdoc i { font-style: italic; }
+
+    /* HERO image (optional, from chapters.json "hero") */
     #heroBlock[hidden]{ display:none; }
-    #heroImg{
-      max-width:800px !important;
-      width:100% !important;
-      height:auto !important;
-      display:block !important;
-      margin:1.25rem auto .5rem !important;
-      border-radius:8px;
+    #heroImg {
+      max-width: 800px !important;
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
+      margin: 1.25rem auto .5rem !important;
+      border-radius: 8px;
     }
-    #heroCaption{ color:var(--muted); font-size:.875rem; text-align:center; }
+    #heroCaption { color: var(--muted); font-size: .875rem; text-align:center; }
 
-    .progress-rail{ height:4px; background:#e5e7eb; }
-    html[data-theme="dark"] .progress-rail{ background:#1f2937; }
-    #progress{ height:4px; background:#3b82f6; width:0%; transition:width .2s linear; }
+    /* FORCE reasonable size for any images inside loaded chapter content,
+       even if the pasted HTML carries inline width/height. */
+    #contentRoot img,
+    #contentRoot figure img,
+    #contentRoot .gdoc img,
+    #contentRoot * img {
+      max-width: 680px !important;
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
+      margin: 1.5rem auto !important;
+      border-radius: 6px !important;
+    }
+
+    /* Progress bar */
+    .progress-rail { height: 4px; background: #e5e7eb; }
+    html[data-theme="dark"] .progress-rail { background: #1f2937; }
+    #progress { height: 4px; background: #3b82f6; width: 0%; transition: width .2s linear; }
   </style>
 </head>
 <body>
+
   <!-- Header -->
   <header class="stickybar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
@@ -64,9 +87,9 @@
           <i class="fas fa-book mr-2"></i>
           <a href="index.html" class="hover:underline" style="color:#2563eb;">Moonlight of Montafon</a>
         </h1>
-        <p class="text-sm k-meta">Translated from Korean • Updates weekly</p>
+        <p class="text-sm meta">Translated from Korean • Updates weekly</p>
       </div>
-      <button id="theme-toggle" class="p-2 rounded border k-meta" aria-label="Toggle theme">
+      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle theme">
         <i class="fas fa-moon"></i>
       </button>
     </div>
@@ -76,19 +99,25 @@
   <!-- Main -->
   <main class="chapter-wrap">
     <!-- Breadcrumb -->
-    <nav class="text-sm k-meta mb-3" aria-label="Breadcrumb">
+    <nav class="text-sm meta mb-3" aria-label="Breadcrumb">
       <a href="index.html" class="hover:underline">Home</a> <span aria-hidden="true">›</span>
       <span id="crumbTitle">Chapter</span>
     </nav>
 
     <!-- Title + meta -->
-    <header class="mb-4">
+    <header class="mb-3">
       <h2 id="chapterTitle" class="chapter-title">Loading…</h2>
-      <p id="krLinkBlock" class="text-sm mt-1"></p>
-      <div class="text-sm k-meta flex flex-wrap gap-x-6 gap-y-2 mt-2">
+      <div class="text-sm meta flex flex-wrap gap-x-4 gap-y-2 items-center">
         <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
         <span><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
         <span><i class="fas fa-eye mr-1"></i><span id="wordCount">—</span></span>
+        <!-- Korean original link slot -->
+        <span id="koLinkWrap" class="hidden">
+          <span class="mx-2">·</span>
+          <a id="koLink" href="#" target="_blank" rel="noopener" class="hover:underline">
+            <i class="fas fa-link mr-1"></i> Korean original
+          </a>
+        </span>
       </div>
     </header>
 
@@ -98,7 +127,7 @@
       <figcaption id="heroCaption"></figcaption>
     </figure>
 
-    <!-- Chapter body -->
+    <!-- Chapter body gets injected here -->
     <article id="contentRoot" class="gdoc"></article>
 
     <!-- Prev / Next -->
@@ -107,77 +136,152 @@
       <a id="nextLink" href="index.html" class="hover:underline">Next<i class="fas fa-arrow-right ml-2"></i></a>
     </nav>
 
-    <footer class="border-t mt-10 pt-5" style="border-color:var(--border);">
-      <p class="text-center text-sm k-meta">Translation © <span id="copyYear"></span></p>
+    <footer class="border-t mt-10 pt-5" style="border-color: var(--border);">
+      <p class="text-center text-sm meta">Translation © <span id="copyYear"></span></p>
     </footer>
   </main>
 
   <!-- Scripts -->
   <script>
-    // THEME toggle
-    (function(){
-      const KEY="theme";
-      const root=document.documentElement;
-      const btn=document.getElementById("theme-toggle");
-      function apply(t){ t==="dark"?root.setAttribute("data-theme","dark"):root.removeAttribute("data-theme"); }
-      function initial(){ const s=localStorage.getItem(KEY); if(s==="dark"||s==="light") return s; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"; }
-      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); const i=btn.querySelector("i"); if(i) i.className=t==="dark"?"fas fa-sun":"fas fa-moon"; }
-      let cur=initial(); apply(cur); reflect(cur);
-      const mq=matchMedia("(prefers-color-scheme: dark)");
-      mq.addEventListener?.("change",e=>{ if(localStorage.getItem(KEY))return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
-      btn?.addEventListener("click",()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
+    /* THEME — same logic as index */
+    (function () {
+      const KEY = "theme";
+      const root = document.documentElement;
+      const btn  = document.getElementById("theme-toggle");
+
+      function apply(theme){
+        theme==="dark" ? root.setAttribute("data-theme","dark")
+                       : root.removeAttribute("data-theme");
+      }
+      function initial(){
+        const saved = localStorage.getItem(KEY);
+        if(saved==="dark"||saved==="light") return saved;
+        return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      function reflect(theme){
+        if(!btn) return;
+        btn.setAttribute("aria-pressed", theme==="dark" ? "true" : "false");
+        const icon = btn.querySelector("i");
+        if(icon){ icon.className = theme==="dark" ? "fas fa-sun" : "fas fa-moon"; }
+      }
+      let current = initial();
+      apply(current); reflect(current);
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e=>{
+        if(localStorage.getItem(KEY)) return;
+        current = e.matches ? "dark" : "light"; apply(current); reflect(current);
+      });
+      btn?.addEventListener("click", ()=>{
+        current = current==="dark" ? "light" : "dark";
+        localStorage.setItem(KEY, current);
+        apply(current); reflect(current);
+      });
     })();
 
     // Helpers
-    const fmtLong=(d)=> new Date(d).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
-    const num=(n)=> (n||0).toLocaleString();
-    async function loadChapters(){ try{ const r=await fetch("chapters.json",{cache:"no-store"}); return r.ok?await r.json():[]; }catch(e){ return []; } }
-    async function loadHtml(url){ try{ const r=await fetch(url,{cache:"no-store"}); return r.ok?(await r.text()):""; }catch(e){ return ""; } }
+    const fmtLong = (d) => new Date(d).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+    const num = (n) => (n||0).toLocaleString();
+    async function loadChapters(){
+      try{ const r = await fetch("chapters.json",{cache:"no-store"}); if(!r.ok) throw 0; return await r.json(); }
+      catch(e){ return []; }
+    }
+    async function loadHtml(url){
+      try{ const r = await fetch(url,{cache:"no-store"}); return r.ok ? (await r.text()) : ""; }
+      catch(e){ return ""; }
+    }
+
+    // Extract just the <body> if a full HTML file is pasted/exported
+    function extractBody(html){
+      const lower = html.toLowerCase();
+      if(lower.includes("<body")){
+        const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        if(m && m[1]) return m[1];
+      }
+      return html;
+    }
+
+    // Remove inline width/height/max-width/max-height from images so CSS wins
+    function normalizeImages(scope){
+      scope.querySelectorAll("img").forEach(img=>{
+        img.removeAttribute("width");
+        img.removeAttribute("height");
+        // Strip size styles from style=""
+        if(img.getAttribute("style")){
+          const cleaned = img.getAttribute("style")
+            .replace(/(?:^|;)\s*(max-)?width\s*:[^;]*/gi, "")
+            .replace(/(?:^|;)\s*(max-)?height\s*:[^;]*/gi, "");
+          img.setAttribute("style", cleaned);
+        }
+      });
+    }
 
     (async function main(){
-      document.getElementById("copyYear").textContent=new Date().getFullYear();
-      const list=await loadChapters();
-      list.sort((a,b)=> new Date(a.date)-new Date(b.date));
-      const slug=new URLSearchParams(location.search).get("slug");
-      let idx=list.findIndex(c=>c.slug===slug);
-      if(idx<0) idx=0;
-      const ch=list[idx]||{};
+      document.getElementById("copyYear").textContent = new Date().getFullYear();
 
-      // Title
-      document.getElementById("chapterTitle").textContent=ch.title||"Chapter";
-      document.getElementById("crumbTitle").textContent=ch.title||"Chapter";
+      const list = await loadChapters();
+      list.sort((a,b)=> new Date(a.date) - new Date(b.date)); // oldest → newest
 
-      // Korean link
-      if(ch.krLink){
-        document.getElementById("krLinkBlock").innerHTML =
-          `<a href="${ch.krLink}" target="_blank" class="underline"><i class="fas fa-external-link-alt mr-1"></i>Read the Korean original</a>`;
+      const slug = new URLSearchParams(location.search).get("slug");
+      let idx = list.findIndex(c=>c.slug===slug);
+      if(idx<0) idx = 0;
+      const ch = list[idx] || {};
+
+      // Title + meta
+      document.getElementById("chapterTitle").textContent = ch.title || "Chapter";
+      document.getElementById("crumbTitle").textContent = ch.title || "Chapter";
+      if(ch.date){
+        const d = new Date(ch.date);
+        const el = document.getElementById("pubDate");
+        el.dateTime = d.toISOString().slice(0,10);
+        el.textContent = fmtLong(ch.date);
+      }
+      document.getElementById("readTime").textContent = ch.readTime ? `~${ch.readTime} minutes` : "—";
+      document.getElementById("wordCount").textContent = ch.words ? `${num(ch.words)} words` : "—";
+
+      // Korean original link (new)
+      if(ch.koreanLink){
+        const wrap = document.getElementById("koLinkWrap");
+        const a = document.getElementById("koLink");
+        a.href = ch.koreanLink;
+        wrap.classList.remove("hidden");
       }
 
-      // Meta
-      if(ch.date){ const d=new Date(ch.date); const el=document.getElementById("pubDate"); el.dateTime=d.toISOString().slice(0,10); el.textContent=fmtLong(ch.date); }
-      document.getElementById("readTime").textContent=ch.readTime?`~${ch.readTime} minutes`:"—";
-      document.getElementById("wordCount").textContent=ch.words?`${num(ch.words)} words`:"—";
+      // Hero (optional)
+      if(ch.hero){
+        const fig = document.getElementById("heroBlock");
+        fig.hidden = false;
+        const hero = document.getElementById("heroImg");
+        hero.src = ch.hero;
+        document.getElementById("heroCaption").textContent = ch.caption || "";
+      }
 
-      // Hero
-      if(ch.hero){ const fig=document.getElementById("heroBlock"); fig.hidden=false; document.getElementById("heroImg").src=ch.hero; document.getElementById("heroCaption").textContent=ch.caption||""; }
+      // Load chapter body -> inject
+      let html = "";
+      if(ch.contentHtml) html = await loadHtml(ch.contentHtml);
+      html = extractBody(html);
+      const root = document.getElementById("contentRoot");
+      root.innerHTML = html || "<p>Chapter content coming soon.</p>";
 
-      // Body
-      let html=""; if(ch.contentHtml) html=await loadHtml(ch.contentHtml);
-      document.getElementById("contentRoot").innerHTML=html||"<p>Chapter content coming soon.</p>";
-      document.querySelectorAll("#contentRoot img").forEach(img=>{ img.removeAttribute("width"); img.removeAttribute("height"); if(img.style){ img.style.width=""; img.style.height=""; img.style.maxWidth=""; } });
+      // Normalize images AFTER inject (kills inline sizes)
+      normalizeImages(root);
 
       // Prev / Next
-      const prev=list[idx-1], next=list[idx+1];
-      const prevEl=document.getElementById("prevLink"), nextEl=document.getElementById("nextLink");
-      if(prev){ prevEl.href=prev.href||("chapter.html?slug="+encodeURIComponent(prev.slug)); prevEl.innerHTML=`<i class="fas fa-arrow-left mr-2"></i>${prev.title}`; }
-      else{ prevEl.href="index.html"; prevEl.innerHTML=`<i class="fas fa-arrow-left mr-2"></i>Home`; }
-      if(next){ nextEl.href=next.href||("chapter.html?slug="+encodeURIComponent(next.slug)); nextEl.innerHTML=`${next.title}<i class="fas fa-arrow-right ml-2"></i>`; }
-      else{ nextEl.href="index.html"; nextEl.innerHTML=`Index<i class="fas fa-arrow-right ml-2"></i>`; }
+      const prev = list[idx-1], next = list[idx+1];
+      const prevEl = document.getElementById("prevLink");
+      const nextEl = document.getElementById("nextLink");
+      if(prev){ prevEl.href = prev.href || ("chapter.html?slug="+encodeURIComponent(prev.slug)); prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${prev.title}`; }
+      else { prevEl.href = "index.html"; prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>Home`; }
+      if(next){ nextEl.href = next.href || ("chapter.html?slug="+encodeURIComponent(next.slug)); nextEl.innerHTML = `${next.title}<i class="fas fa-arrow-right ml-2"></i>`; }
+      else { nextEl.href = "index.html"; nextEl.innerHTML = `Index<i class="fas fa-arrow-right ml-2"></i>`; }
 
-      // Progress
-      const bar=document.getElementById("progress");
-      function up(){ const s=document.documentElement.scrollTop||document.body.scrollTop; const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight)||1; const pct=Math.round(s/h*100); bar.style.width=pct+"%"; }
-      window.addEventListener("scroll",up,{passive:true}); up();
+      // Reading progress
+      const bar = document.getElementById("progress");
+      function up(){
+        const s = document.documentElement.scrollTop || document.body.scrollTop;
+        const h = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1;
+        const pct = Math.round(s / h * 100);
+        bar.style.width = pct + "%";
+      }
+      window.addEventListener("scroll", up, {passive:true}); up();
     })();
   </script>
 </body>
