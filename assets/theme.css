@@ -1,51 +1,57 @@
 /* assets/theme.css — light/dark variables + sensible defaults */
 :root{
-  --bg:#ffffff; --text:#1f2937;
-  --muted:#64748b; --card:#f9fafb; --border:#e5e7eb; --link:#1f47c7;
+  --bg:#ffffff;
+  --text:#111827;
+  --muted:#64748b;
+  --card:#f8fafc;
+  --border:#e5e7eb;
+  --link:#1f47c7;
 }
 html[data-theme="dark"]{
-  --bg:#0b1220; --text:#f9fafb;
-  --muted:#94a3b8; --card:#111827; --border:#374151; --link:#8ab4ff;
+  --bg:#0b1220;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --card:#111827;
+  --border:#243244;
+  --link:#8ab4ff;
 }
 
-/* Apply colors without touching your serif font setup */
-html,body{ background:var(--bg); color:var(--text); }
+/* Base application of tokens (keeps your chosen fonts intact) */
+html, body{
+  background:var(--bg);
+  color:var(--text);
+}
 a{ color:var(--link); }
+
+/* Sticky header helper (only if you use .stickybar on header) */
 header.stickybar{
   position:sticky; top:0; z-index:40;
-  background:var(--bg); border-bottom:1px solid var(--border);
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
 }
-/* optional: card/figure helpers */
+
+/* Subtle caption color */
 .caption{ color:var(--muted); }
 
-/* assets/theme.css */
-:root{
-  --bg:#ffffff; --text:#111827; --muted:#64748b; --card:#f8fafc; --border:#e5e7eb;
-}
-html[data-theme="dark"]{
-  --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8; --card:#111827; --border:#243244;
-}
-html,body{ background:var(--bg); color:var(--text); }
-
-/* Keep chapter images at a sane, medium size */
-.gdoc img {
-  max-width: 680px !important;  /* medium width */
-  width: 100% !important;       /* scale down responsively */
-  height: auto !important;
-  display: block !important;
-  margin: 1.5rem auto !important;
-  border-radius: 6px;
+/* Chapter content image sizing (doesn't affect index cover cards) */
+.gdoc img{
+  max-width:680px !important;   /* medium width */
+  width:100% !important;
+  height:auto !important;
+  display:block !important;
+  margin:1.5rem auto !important;
+  border-radius:6px;
 }
 
-/* Hero image on chapter.html (if used) */
-#heroImg {
-  max-width: 800px !important;
-  width: 100% !important;
-  height: auto !important;
-  display: block !important;
-  margin: 1.5rem auto !important;
-  border-radius: 8px;
+/* Optional hero image on chapter.html */
+#heroImg{
+  max-width:800px !important;
+  width:100% !important;
+  height:auto !important;
+  display:block !important;
+  margin:1.5rem auto !important;
+  border-radius:8px;
 }
 
-/* Leave homepage/card covers alone */
-.cover { max-width: none !important; width: 100% !important; }
+/* Keep homepage/card covers full-bleed */
+.cover{ max-width:none !important; width:100% !important; }
