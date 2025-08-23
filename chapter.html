@@ -12,61 +12,28 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
-  <!-- Keep the same look as home -->
-  <style>
-    :root{
-      --bg:#ffffff; --text:#111827;
-      --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#1f47c7;
-    }
-    html[data-theme="dark"]{
-      --bg:#0b1220; --text:#e5e7eb;
-      --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff;
-    }
-    html, body { background:var(--bg); color:var(--text); }
-    a { color: var(--link); }
+  <!-- Site theme (colors, image sizing, sticky header tokens, etc.) -->
+  <link rel="stylesheet" href="assets/theme.css" />
 
-    /* Global Inter like landing page */
+  <style>
+    /* Keep typography consistent with index */
     body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div {
       font-family: 'Inter', sans-serif !important;
     }
 
-    /* Sticky header */
-    header.stickybar {
-      position: sticky; top: 0; z-index: 40;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* Chapter content */
+    /* Layout */
     .chapter-wrap { max-width: 820px; margin: 0 auto; padding: 1.25rem; }
     .meta { color: var(--muted); }
     .chapter-title { font-size: 1.875rem; font-weight: 700; margin-bottom: .25rem; }
+
+    /* Google Docs paste area: spacing + italics preserved */
     .gdoc p { margin: 1em 0; line-height: 1.75; }
     .gdoc em, .gdoc i { font-style: italic; }
 
-    /* Medium images inside chapter body (beats inline GDocs sizes) */
-    #contentRoot img {
-      max-width: 680px !important;
-      width: 100% !important;
-      height: auto !important;
-      display: block !important;
-      margin: 1.5rem auto !important;
-      border-radius: 6px;
-    }
-
-    /* Optional hero image (if you use it) */
+    /* Optional hero image (sized in theme.css too) */
     #heroBlock[hidden]{ display:none; }
-    #heroImg {
-      max-width: 800px !important;
-      width: 100% !important;
-      height: auto !important;
-      display: block !important;
-      margin: 1.25rem auto .5rem !important;
-      border-radius: 8px;
-    }
-    #heroCaption { color: var(--muted); font-size: .875rem; text-align:center; }
 
-    /* Progress bar */
+    /* Progress bar track adopts theme in theme.css; width driven via JS */
     .progress-rail { height: 4px; background: #e5e7eb; }
     html[data-theme="dark"] .progress-rail { background: #1f2937; }
     #progress { height: 4px; background: #3b82f6; width: 0%; transition: width .2s linear; }
@@ -74,7 +41,7 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Header (sticky via theme.css .stickybar helper) -->
   <header class="stickybar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
       <div class="min-w-0">
@@ -84,7 +51,7 @@
         </h1>
         <p class="text-sm meta">Translated from Korean • Updates weekly</p>
       </div>
-      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle theme">
+      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle theme" title="Toggle theme">
         <i class="fas fa-moon"></i>
       </button>
     </div>
@@ -112,10 +79,10 @@
     <!-- Optional hero -->
     <figure id="heroBlock" hidden class="mb-6">
       <img id="heroImg" src="" alt="Chapter image">
-      <figcaption id="heroCaption"></figcaption>
+      <figcaption id="heroCaption" class="caption text-center"></figcaption>
     </figure>
 
-    <!-- Chapter body gets injected here -->
+    <!-- Chapter body (we inject HTML here) -->
     <article id="contentRoot" class="gdoc"></article>
 
     <!-- Prev / Next -->
@@ -131,7 +98,7 @@
 
   <!-- Scripts -->
   <script>
-    // THEME — identical behavior to index.html
+    // THEME — identical to index.html (shared via localStorage)
     (function () {
       const STORAGE_KEY = "theme";   // "light" | "dark"
       const root = document.documentElement;
@@ -151,9 +118,7 @@
         btn.setAttribute("aria-pressed", theme==="dark" ? "true" : "false");
         btn.title = theme==="dark" ? "Switch to light mode" : "Switch to dark mode";
         const icon = btn.querySelector("i");
-        if(icon){
-          icon.className = theme==="dark" ? "fas fa-sun" : "fas fa-moon";
-        }
+        if(icon){ icon.className = theme==="dark" ? "fas fa-sun" : "fas fa-moon"; }
       }
       let current = initial();
       apply(current); reflect(current);
@@ -186,7 +151,7 @@
       document.getElementById("copyYear").textContent = new Date().getFullYear();
 
       const list = await loadChapters();
-      list.sort((a,b)=> new Date(a.date) - new Date(b.date)); // 1 → 2 → 3
+      list.sort((a,b)=> new Date(a.date) - new Date(b.date)); // ascending 1→2→3
 
       const slug = new URLSearchParams(location.search).get("slug");
       let idx = list.findIndex(c=>c.slug===slug);
@@ -218,10 +183,12 @@
       if(ch.contentHtml) html = await loadHtml(ch.contentHtml);
       document.getElementById("contentRoot").innerHTML = html || "<p>Chapter content coming soon.</p>";
 
-      // Nuke inline sizes from Google Docs so our CSS wins
+      // Strip inline sizes from pasted GDocs images so CSS sizing wins
       document.querySelectorAll("#contentRoot img").forEach(img=>{
         img.removeAttribute("width"); img.removeAttribute("height");
-        if(img.style){ img.style.width=""; img.style.height=""; img.style.maxWidth=""; }
+        if(img.style){
+          img.style.width=""; img.style.height=""; img.style.maxWidth="";
+        }
       });
 
       // Prev / Next
