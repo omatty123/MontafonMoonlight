@@ -1,74 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home • Moonlight of Montafon</title>
 
-  <!-- Design tokens (light/dark) -->
-  <link rel="stylesheet" href="assets/theme.css">
-
-  <!-- Inter (matches your header font) -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind (utility only — colors come from theme.css) + Icons -->
+  <!-- Tailwind + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
+  <link rel="stylesheet" href="assets/theme.css">
+
   <style>
-    /* Global typography (Inter everywhere) */
-    html, body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div {
-      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    body, h1, h2, h3, h4, h5, h6, p, a, span, li, nav, div {
+      font-family: 'Inter', sans-serif !important;
     }
-
-    /* Use your theme tokens, not Tailwind colors */
-    html, body { background: var(--bg) !important; color: var(--text) !important; }
-
-    /* Header */
-    .brandbar {
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 40;
+    .chapter-card { 
+      background: var(--card); border:1px solid var(--border); border-radius:.75rem; 
+      overflow:hidden; transition:transform .2s, box-shadow .2s;
     }
-    .brand-kicker { color: var(--muted); }
-    .brand-title { color: var(--text); }
-    .toggle-btn {
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-    }
-
-    /* Hero & meta */
-    .muted { color: var(--muted); }
-
-    /* Cards */
-    .chapter-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: .75rem;
-      overflow: hidden;
-      transition: transform .2s, box-shadow .2s;
-    }
-    .chapter-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,.15); }
-    .cover { aspect-ratio: 3 / 2; width: 100%; object-fit: cover; display: block; }
-
-    /* Links */
-    a.link { color: var(--link); }
+    .chapter-card:hover { transform: translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.1); }
+    .cover { aspect-ratio: 3 / 2; width:100%; object-fit:cover; }
   </style>
 </head>
 <body>
 
   <!-- Header -->
-  <header class="brandbar">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+  <header class="sticky top-0 z-40 border-b" style="background:var(--bg); border-color:var(--border)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
       <div>
-        <h1 class="text-2xl font-bold brand-title">
-          <i class="fas fa-book mr-2 text-blue-600"></i> Moonlight of Montafon
-        </h1>
-        <p class="text-sm brand-kicker">Translated from Korean • Updates weekly</p>
+        <h1 class="font-bold text-2xl text-blue-600"><i class="fas fa-book mr-2"></i> Moonlight of Montafon</h1>
+        <p class="text-sm" style="color:var(--muted)">Translated from Korean • Updates weekly</p>
       </div>
-
-      <button id="theme-toggle" class="toggle-btn px-3 py-2 rounded" aria-label="Toggle theme" title="Toggle theme">
+      <button id="theme-toggle" class="p-2 rounded border" style="color:var(--muted)" aria-label="Toggle theme">
         <i class="fas fa-moon"></i>
       </button>
     </div>
@@ -76,10 +43,9 @@
 
   <!-- Hero -->
   <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 text-center">
-    <h2 class="text-4xl font-bold mb-2 brand-title">Moonlight of Montafon</h2>
-    <p class="text-lg mb-4 muted">몬타폰의 달빛</p>
-
-    <div class="flex flex-wrap items-center justify-center gap-6 text-sm muted">
+    <h2 class="text-4xl font-bold mb-2">Moonlight of Montafon</h2>
+    <p class="text-lg mb-4" style="color:var(--muted)">몬타폰의 달빛 (Original Korean Title)</p>
+    <div class="flex justify-center space-x-6 text-sm" style="color:var(--muted)">
       <span><i class="fas fa-user mr-1"></i> Author: Jeong Chanju</span>
       <span><i class="fas fa-language mr-1"></i> Translator: Matty Wegehaupt</span>
       <span><i class="fas fa-calendar mr-1"></i> Started: August 2025</span>
@@ -88,107 +54,94 @@
 
   <!-- Chapters -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-    <h3 class="text-2xl font-bold mb-6 brand-title">Latest chapters</h3>
+    <h3 class="text-2xl font-bold mb-6">Latest chapters</h3>
     <div id="grid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3"></div>
   </main>
 
-  <!-- Minimal footer (feel free to remove entirely) -->
-  <div class="text-center pb-10 text-sm muted">
-    Translation © 2025 •
-    <a class="link hover:underline" href="http://www.mediabuddha.net/m/news/view.php?number=34752" target="_blank" rel="noopener">Support the original author</a>
-  </div>
+  <!-- Footer -->
+  <footer class="border-t py-8 text-center text-sm" style="color:var(--muted)">
+    <p>Translation © 2025 • 
+      <a href="http://www.mediabuddha.net/m/news/view.php?number=34752" class="text-blue-600 hover:underline">Support the original author</a>
+    </p>
+  </footer>
 
-  <!-- Data + render -->
+  <!-- Scripts -->
   <script>
-    const commas = n => (n||0).toLocaleString();
-    const fmtDate = d => new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
-
     async function loadChapters(){
-      try{
-        const res = await fetch('chapters.json', { cache: 'no-store' });
-        return res.ok ? await res.json() : [];
-      } catch { return []; }
+      const res = await fetch('chapters.json',{cache:'no-store'});
+      return res.ok ? res.json() : [];
     }
+    const commas = n => (n||0).toLocaleString();
+    const fmt = d => new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
 
     function card(c){
       const href = c.href || `chapter.html?slug=${encodeURIComponent(c.slug)}`;
       return `
-        <article class="chapter-card">
-          <a href="${href}"><img class="cover" src="${c.cover}" alt="${c.title} cover" loading="lazy"></a>
-          <div class="p-4">
-            <h4 class="text-lg font-semibold mb-1 brand-title">
-              <a class="link hover:underline" href="${href}">${c.title}</a>
-            </h4>
-            <p class="text-sm muted mb-2">
-              <i class="fas fa-calendar mr-1"></i> ${fmtDate(c.date)} ·
-              <i class="fas fa-clock ml-3 mr-1"></i> ~${c.readTime} min ·
-              <i class="fas fa-eye ml-3 mr-1"></i> ${commas(c.words)} words
-            </p>
-            <p class="text-sm">${c.summary || ''}</p>
-          </div>
-        </article>
-      `;
-    }
-
-    function applyStats(list){
-      document.getElementById('statChapters').textContent = 'Chapters: ' + list.length;
-      if(list.length){
-        const last = list[list.length - 1];
-        document.getElementById('statUpdated').textContent = 'Last updated: ' + fmtDate(last.date);
-      }
+      <article class="chapter-card">
+        <a href="${href}"><img src="${c.cover}" alt="${c.title} cover" class="cover"></a>
+        <div class="p-4">
+          <h4 class="text-lg font-semibold mb-1">
+            <a href="${href}" class="text-blue-600 hover:underline">${c.title}</a>
+          </h4>
+          <p class="text-sm mb-2" style="color:var(--muted)">
+            <i class="fas fa-calendar mr-1"></i> ${fmt(c.date)} ·
+            <i class="fas fa-clock ml-3 mr-1"></i> ~${c.readTime} min ·
+            <i class="fas fa-eye ml-3 mr-1"></i> ${commas(c.words)} words
+          </p>
+          <p class="text-sm">${c.summary||''}</p>
+        </div>
+      </article>`;
     }
 
     (async function(){
       const data = await loadChapters();
-      data.sort((a,b) => new Date(a.date) - new Date(b.date)); // ascending
-      const pubs = data.filter(c => (c.status || 'published') === 'published');
-      applyStats(pubs);
+      data.sort((a,b)=> new Date(a.date)-new Date(b.date));
+      const pubs = data.filter(c=>(c.status||'published')==='published');
       document.getElementById('grid').innerHTML = pubs.map(card).join('');
     })();
   </script>
 
-  <!-- Robust theme toggle (saves choice; follows OS until you choose) -->
+  <!-- Theme Toggle -->
   <script>
-    (function(){
-      const STORAGE_KEY = 'theme';         // 'light' | 'dark'
-      const root = document.documentElement;
-      const btn  = document.getElementById('theme-toggle');
+  (function () {
+    const STORAGE_KEY = "theme";
+    const root = document.documentElement;
+    const btn  = document.getElementById("theme-toggle");
 
-      function apply(theme){
-        if(theme === 'dark'){ root.setAttribute('data-theme','dark'); }
-        else { root.removeAttribute('data-theme'); }
-      }
-      function initial(){
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if(saved === 'dark' || saved === 'light') return saved;
-        return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-      function reflect(theme){
-        if(!btn) return;
-        btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-        btn.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
-      }
+    function apply(theme) {
+      if (theme === "dark") root.setAttribute("data-theme", "dark");
+      else root.removeAttribute("data-theme");
+    }
+    function initial() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === "dark" || saved === "light") return saved;
+      return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    function reflect(theme) {
+      if (!btn) return;
+      btn.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+      btn.title = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+    }
 
-      let current = initial();
-      apply(current);
-      reflect(current);
+    let current = initial();
+    apply(current);
+    reflect(current);
 
-      const mq = matchMedia('(prefers-color-scheme: dark)');
-      function onOS(e){
-        if(localStorage.getItem(STORAGE_KEY)) return; // user chose; don't override
-        current = e.matches ? 'dark' : 'light';
+    const mq = matchMedia("(prefers-color-scheme: dark)");
+    mq.addEventListener?.("change", e => {
+      if (localStorage.getItem(STORAGE_KEY)) return;
+      current = e.matches ? "dark" : "light";
+      apply(current); reflect(current);
+    });
+
+    if (btn) {
+      btn.addEventListener("click", () => {
+        current = current === "dark" ? "light" : "dark";
+        localStorage.setItem(STORAGE_KEY, current);
         apply(current); reflect(current);
-      }
-      mq.addEventListener?.('change', onOS);
-
-      if(btn){
-        btn.addEventListener('click', () => {
-          current = (current === 'dark') ? 'light' : 'dark';
-          localStorage.setItem(STORAGE_KEY, current);
-          apply(current); reflect(current);
-        });
-      }
-    })();
+      });
+    }
+  })();
   </script>
 </body>
 </html>
