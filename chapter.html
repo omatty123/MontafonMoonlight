@@ -11,63 +11,28 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
   <style>
-    /* Theme tokens (match index) */
-    :root{
-      --bg:#ffffff; --text:#111827;
-      --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#2563eb;
-    }
-    html[data-theme="dark"]{
-      --bg:#0b1220; --text:#e5e7eb;
-      --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff;
-    }
+    :root{ --bg:#ffffff; --text:#111827; --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#2563eb; }
+    html[data-theme="dark"]{ --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff; }
     html,body{ background:var(--bg); color:var(--text); }
-    a{ color:var(--link); text-decoration:none; }
-    a:hover{ text-decoration:underline; }
+    a{ color:var(--link); text-decoration:none; } a:hover{ text-decoration:underline; }
+    body,h1,h2,h3,h4,h5,h6,p,a,span,li,nav,div,small,button{ font-family:'Inter',sans-serif!important; }
 
-    /* Global Inter like landing page */
-    body,h1,h2,h3,h4,h5,h6,p,a,span,li,nav,div,small,button{
-      font-family:'Inter',sans-serif!important;
-    }
-
-    /* Sticky header */
-    header.stickybar{
-      position:sticky; top:0; z-index:40;
-      background:var(--bg); border-bottom:1px solid var(--border);
-    }
-
-    /* Layout + text */
+    header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
     .chapter-wrap{ max-width:820px; margin:0 auto; padding:1.25rem; }
     .meta{ color:var(--muted); }
     .chapter-title{ font-size:1.875rem; font-weight:700; margin-bottom:.5rem; }
     .gdoc p{ margin:1em 0; line-height:1.75; }
     .gdoc em,.gdoc i{ font-style:italic; }
 
-    /* HERO image (optional, from chapters.json "hero") */
     #heroBlock[hidden]{ display:none; }
-    #heroImg{
-      /* cap hero the same as body images and center */
-      max-width:min(680px,100%) !important;
-      width:auto !important;
-      height:auto !important;
-      display:block !important;
-      margin:1.25rem auto .5rem !important;
-      border-radius:8px !important;
-    }
+    #heroImg{ max-width:min(680px,100%)!important; width:auto!important; height:auto!important; display:block!important; margin:1.25rem auto .5rem!important; border-radius:8px!important; }
     #heroCaption{ color:var(--muted); font-size:.875rem; text-align:center; }
 
-    /* FORCE medium size for ANY images inside loaded chapter content */
-    #contentRoot img,
-    #contentRoot figure img,
-    #contentRoot * img{
-      max-width:min(680px,100%) !important;
-      width:auto !important;
-      height:auto !important;
-      display:block !important;
-      margin:1.5rem auto !important;
-      border-radius:6px !important;
+    #contentRoot img, #contentRoot figure img, #contentRoot * img{
+      max-width:min(680px,100%)!important; width:auto!important; height:auto!important;
+      display:block!important; margin:1.5rem auto!important; border-radius:6px!important;
     }
 
-    /* Progress bar */
     .progress-rail{ height:4px; background:#e5e7eb; }
     html[data-theme="dark"] .progress-rail{ background:#1f2937; }
     #progress{ height:4px; background:#3b82f6; width:0%; transition:width .2s linear; }
@@ -94,19 +59,15 @@
 
   <!-- Main -->
   <main class="chapter-wrap">
-    <!-- Breadcrumb -->
     <nav class="text-sm meta mb-3" aria-label="Breadcrumb">
       <a href="index.html" class="hover:underline">Home</a> <span aria-hidden="true">›</span>
       <span id="crumbTitle">Chapter</span>
     </nav>
 
-    <!-- Title + meta -->
     <header class="mb-3">
       <h2 id="chapterTitle" class="chapter-title">Loading…</h2>
       <div class="text-sm meta flex flex-wrap gap-x-4 gap-y-2 items-center">
         <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
-        <span><i class="fas fa-clock mr-1"></i><span id="readTime">—</span></span>
-        <span><i class="fas fa-eye mr-1"></i><span id="wordCount">—</span></span>
         <span id="koLinkWrap" class="hidden">
           <span class="mx-2">·</span>
           <a id="koLink" href="#" target="_blank" rel="noopener" class="hover:underline">
@@ -116,16 +77,13 @@
       </div>
     </header>
 
-    <!-- Optional hero -->
     <figure id="heroBlock" hidden class="mb-6">
       <img id="heroImg" src="" alt="Chapter image">
       <figcaption id="heroCaption"></figcaption>
     </figure>
 
-    <!-- Chapter body gets injected here -->
     <article id="contentRoot" class="gdoc"></article>
 
-    <!-- Prev / Next -->
     <nav class="mt-10 flex items-center justify-between text-sm">
       <a id="prevLink" href="index.html" class="hover:underline"><i class="fas fa-arrow-left mr-2"></i>Previous</a>
       <a id="nextLink" href="index.html" class="hover:underline">Next<i class="fas fa-arrow-right ml-2"></i></a>
@@ -137,87 +95,61 @@
   </main>
 
   <script>
-    /* THEME (same as index) */
+    /* THEME toggle */
     (function(){
       const KEY="theme", root=document.documentElement, btn=document.getElementById("theme-toggle");
       function apply(t){ t==="dark" ? root.setAttribute("data-theme","dark") : root.removeAttribute("data-theme"); }
       function initial(){ const s=localStorage.getItem(KEY); if(s==="dark"||s==="light") return s; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"; }
-      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); const i=btn.querySelector("i"); if(i) i.className = t==="dark"?"fas fa-sun":"fas fa-moon"; }
+      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); const i=btn.querySelector("i"); i.className = t==="dark"?"fas fa-sun":"fas fa-moon"; }
       let cur=initial(); apply(cur); reflect(cur);
       matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e=>{ if(localStorage.getItem(KEY)) return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
       btn?.addEventListener("click", ()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
     })();
 
-    // Helpers
     const fmtLong = (d)=> new Date(d).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
-    const num = (n)=> (n||0).toLocaleString();
-    async function loadChapters(){ try{ const r=await fetch("chapters.json",{cache:"no-store"}); if(!r.ok) throw 0; return await r.json(); }catch(e){ return []; } }
-    async function loadHtml(url){ try{ const r=await fetch(url,{cache:"no-store"}); return r.ok ? (await r.text()) : ""; }catch(e){ return ""; } }
-
-    // Return only the body content if a full HTML doc was pasted/exported
-    function extractBody(html){
-      const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-      return m && m[1] ? m[1] : html;
+    async function loadChapters(){ 
+      try{ 
+        const r=await fetch("chapters.json?v="+Date.now(),{cache:"no-store"}); 
+        if(!r.ok) throw 0; 
+        return await r.json(); 
+      }catch(e){ return []; } 
     }
-
-    // Remove width/height/max-width/max-height from images AND their simple wrappers
-    function normalizeImages(scope){
-      const killSize = (node)=>{
-        if(!node) return;
-        // Remove width/height attributes
-        node.removeAttribute?.("width"); node.removeAttribute?.("height");
-        // Clean inline style
-        const st = node.getAttribute?.("style");
-        if(st){
-          const cleaned = st
-            .replace(/(?:^|;)\s*(max-)?width\s*:[^;]*;?/gi,"")
-            .replace(/(?:^|;)\s*(max-)?height\s*:[^;]*;?/gi,"");
-          if(cleaned.trim()) node.setAttribute("style", cleaned); else node.removeAttribute("style");
-        }
-      };
-
-      scope.querySelectorAll("img").forEach(img=>{
-        // Image itself
-        killSize(img);
-        img.loading = img.loading || "lazy";
-
-        // If the parent only wraps the image (and maybe a caption <br>), nuke its sizing too
-        const p = img.parentElement;
-        if(p && !p.querySelector("img:not(:first-child)")){
-          killSize(p);
-        }
-        // Also try grandparent if it's a simple figure-like wrapper
-        const gp = p?.parentElement;
-        if(gp && gp.tagName.match(/^(FIGURE|DIV|P)$/) && gp.querySelectorAll("img").length===1){
-          killSize(gp);
-        }
-      });
+    async function loadHtml(url){ 
+      try{ 
+        const r=await fetch(url+(url.includes("?")?"&":"?")+"v="+Date.now(),{cache:"no-store"}); 
+        return r.ok ? (await r.text()) : ""; 
+      }catch(e){ return ""; } 
     }
+    function extractBody(html){ const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i); return m && m[1] ? m[1] : html; }
+    function normalizeImages(scope){ scope.querySelectorAll("img").forEach(img=>{ img.removeAttribute("width"); img.removeAttribute("height"); img.loading = img.loading || "lazy"; }); }
 
     (async function main(){
       document.getElementById("copyYear").textContent = new Date().getFullYear();
 
       const list = await loadChapters();
-      list.sort((a,b)=> new Date(a.date) - new Date(b.date)); // oldest → newest
+      list.sort((a,b)=> new Date(a.date) - new Date(b.date));
 
       const slug = new URLSearchParams(location.search).get("slug");
       let idx = list.findIndex(c=>c.slug===slug);
       if(idx<0) idx=0;
       const ch = list[idx] || {};
 
-      // Title + meta
-      document.getElementById("chapterTitle").textContent = ch.title || "Chapter";
-      document.getElementById("crumbTitle").textContent = ch.title || "Chapter";
+      // Special title case for Cheonmaneyo
+      if(ch.slug === "cheonmaneyo"){
+        document.getElementById("chapterTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
+        document.getElementById("crumbTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
+      } else {
+        document.getElementById("chapterTitle").textContent = ch.title || "Chapter";
+        document.getElementById("crumbTitle").textContent = ch.title || "Chapter";
+      }
+
       if(ch.date){
         const d = new Date(ch.date);
         const el = document.getElementById("pubDate");
         el.dateTime = d.toISOString().slice(0,10);
         el.textContent = fmtLong(ch.date);
       }
-      document.getElementById("readTime").textContent = ch.readTime ? `~${ch.readTime} minutes` : "—";
-      document.getElementById("wordCount").textContent = ch.words ? `${num(ch.words)} words` : "—";
 
-      // Korean original link
       if(ch.koreanLink){
         const wrap=document.getElementById("koLinkWrap");
         const a=document.getElementById("koLink");
@@ -225,54 +157,32 @@
         wrap.classList.remove("hidden");
       }
 
-      // Hero
       if(ch.hero){
         const fig=document.getElementById("heroBlock");
         fig.hidden=false;
-        const hero=document.getElementById("heroImg");
-        hero.src=ch.hero;
+        document.getElementById("heroImg").src=ch.hero;
         document.getElementById("heroCaption").textContent = ch.caption || "";
       }
 
-      // Load body
       let html="";
       if(ch.contentHtml) html = await loadHtml(ch.contentHtml);
       html = extractBody(html);
       const root = document.getElementById("contentRoot");
       root.innerHTML = html || "<p>Chapter content coming soon.</p>";
-
-      // Normalize image sizing AFTER inject
       normalizeImages(root);
 
-      // Prev/Next
       const prev=list[idx-1], next=list[idx+1];
       const prevEl=document.getElementById("prevLink");
       const nextEl=document.getElementById("nextLink");
-      if(prev){ prevEl.href = prev.href || ("chapter.html?slug="+encodeURIComponent(prev.slug)); prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${prev.title}`; }
+      if(prev){ prevEl.href=prev.href || ("chapter.html?slug="+encodeURIComponent(prev.slug)); prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${prev.title}`; }
       else { prevEl.href="index.html"; prevEl.innerHTML=`<i class="fas fa-arrow-left mr-2"></i>Home`; }
-      if(next){ nextEl.href = next.href || ("chapter.html?slug="+encodeURIComponent(next.slug)); nextEl.innerHTML = `${next.title}<i class="fas fa-arrow-right ml-2"></i>`; }
+      if(next){ nextEl.href=next.href || ("chapter.html?slug="+encodeURIComponent(next.slug)); nextEl.innerHTML = `${next.title}<i class="fas fa-arrow-right ml-2"></i>`; }
       else { nextEl.href="index.html"; nextEl.innerHTML=`Index<i class="fas fa-arrow-right ml-2"></i>`; }
 
-      // Reading progress
       const bar=document.getElementById("progress");
-      function up(){
-        const s=document.documentElement.scrollTop||document.body.scrollTop;
-        const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight)||1;
-        bar.style.width = Math.round(s/h*100) + "%";
-      }
+      function up(){ const s=document.documentElement.scrollTop||document.body.scrollTop; const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight)||1; bar.style.width = Math.round(s/h*100) + "%"; }
       window.addEventListener("scroll", up, {passive:true}); up();
     })();
   </script>
-
-<script>
-  // When the page loads, check if we're on Cheonmaneyo
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("slug") === "cheonmaneyo") {
-    const titleEl = document.querySelector(".chapter-title"); 
-    if (titleEl) {
-      titleEl.innerHTML = "“<em>Cheonmaneyo</em>”";
-    }
-  }
-</script>
 </body>
 </html>
