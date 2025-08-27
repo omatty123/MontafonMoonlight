@@ -189,5 +189,39 @@
 
     renderChapters();
   </script>
+  <script>
+(function () {
+  function applyFixes() {
+    /* 1) Style just the Cheonmaneyo card title */
+    document.querySelectorAll('h3 a, h3.title a, .chapter-card .title a').forEach(a => {
+      if (a.textContent.trim() === 'Cheonmaneyo' || a.href.includes('slug=cheonmaneyo')) {
+        a.innerHTML = '“<em>Cheonmaneyo</em>”';
+      }
+    });
+
+    /* 2) Remove read-time & word-count bits left on cards */
+    document.querySelectorAll('.meta').forEach(meta => {
+      // remove the clock/eye icon containers
+      meta.querySelectorAll('.fa-clock, .fa-eye').forEach(icon => {
+        (icon.closest('span,div,li') || icon).remove();
+      });
+
+      // remove stray separators/dashes that remain (· or —)
+      [...meta.childNodes].forEach(n => {
+        if (n.nodeType === 3 && (n.textContent.trim() === '·' || n.textContent.trim() === '—')) {
+          n.remove();
+        }
+      });
+    });
+  }
+
+  // run once after DOM ready, then watch for the grid to populate
+  document.addEventListener('DOMContentLoaded', () => {
+    applyFixes();
+    const grid = document.querySelector('#chapters-grid') || document.body;
+    new MutationObserver(applyFixes).observe(grid, { childList: true, subtree: true });
+  });
+})();
+</script>
 </body>
 </html>
