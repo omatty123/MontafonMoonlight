@@ -11,26 +11,16 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
   <style>
-    /* theme tokens (light/dark) */
-    :root{
-      --bg:#ffffff; --text:#111827; --muted:#64748b;
-      --card:#f8fafc; --border:#e5e7eb; --link:#2563eb;
-    }
-    html[data-theme="dark"]{
-      --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8;
-      --card:#111827; --border:#243244; --link:#8ab4ff;
-    }
+    :root{ --bg:#ffffff; --text:#111827; --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#2563eb; }
+    html[data-theme="dark"]{ --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff; }
 
-    /* global */
     html,body{ background:var(--bg); color:var(--text); }
-    a{ color:var(--link); }
+    a{ color:var(--link); text-decoration:none; }
     body,h1,h2,h3,h4,h5,h6,p,a,li,button,small,span,div{ font-family:'Inter',sans-serif !important; }
 
-    /* header */
     header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
     .k-meta{ color:var(--muted); }
 
-    /* cards */
     .card{ background:var(--card); border:1px solid var(--border); border-radius:.75rem; overflow:hidden; transition:transform .2s, box-shadow .2s; }
     .card:hover{ transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.12); }
     .cover{ aspect-ratio:3/2; width:100%; object-fit:cover; }
@@ -44,8 +34,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
       <div class="min-w-0">
         <h1 class="font-bold text-2xl" style="color:#2563eb;">
-          <i class="fas fa-book mr-2"></i>
-          Moonlight of Montafon
+          <i class="fas fa-book mr-2"></i> Moonlight of Montafon
         </h1>
         <p class="text-sm k-meta">Translated from Korean • Updates weekly</p>
       </div>
@@ -79,149 +68,75 @@
     </p>
   </footer>
 
-  <!-- Scripts -->
   <script>
     /* THEME */
     (function(){
-      const KEY="theme";
-      const root=document.documentElement;
-      const btn=document.getElementById("theme-toggle");
-
+      const KEY="theme", root=document.documentElement, btn=document.getElementById("theme-toggle");
       function apply(t){ t==="dark" ? root.setAttribute("data-theme","dark") : root.removeAttribute("data-theme"); }
-      function initial(){
-        const saved=localStorage.getItem(KEY);
-        if(saved==="dark"||saved==="light") return saved;
-        return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      }
-      function reflect(t){
-        if(!btn) return;
-        btn.setAttribute("aria-pressed", t==="dark"?"true":"false");
-        const icon=btn.querySelector("i");
-        if(icon) icon.className = t==="dark" ? "fas fa-sun" : "fas fa-moon";
-      }
+      function initial(){ const s=localStorage.getItem(KEY); if(s==="dark"||s==="light") return s; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"; }
+      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed", t==="dark"?"true":"false"); const i=btn.querySelector("i"); if(i) i.className = t==="dark" ? "fas fa-sun" : "fas fa-moon"; }
       let cur=initial(); apply(cur); reflect(cur);
-      const mq=matchMedia("(prefers-color-scheme: dark)");
-      mq.addEventListener?.("change",e=>{ if(localStorage.getItem(KEY)) return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",e=>{ if(localStorage.getItem(KEY)) return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
       btn?.addEventListener("click",()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
     })();
 
-    /* UTIL */
-    const $ = (sel)=>document.querySelector(sel);
-    const fmtDate = (d)=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
-    const commas = (n)=> (n||0).toLocaleString();
+    /* Utils */
+    const $ = s=>document.querySelector(s);
+    const fmtDate = d=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
 
-    /* Card template (shows installment number; oldest→newest = #1 first) */
+    /* Card template */
     function cardTemplate(ch, idx){
       const href = ch.href || `chapter.html?slug=${encodeURIComponent(ch.slug||"")}`;
-      const title = ch.title || `Chapter ${idx+1}`;
+      // Only this one chapter uses quotes + italics
+      const titleHTML = (ch.slug === "cheonmaneyo" || ch.title === "Cheonmaneyo")
+        ? '“<em>Cheonmaneyo</em>”'
+        : (ch.title || `Chapter ${idx+1}`);
       const date = ch.date ? fmtDate(ch.date) : "—";
-      const minutes = ch.readTime ? `~${ch.readTime} min` : "—";
-      const words = ch.words ? `${commas(ch.words)} words` : "—";
       const cover = ch.cover || "assets/placeholder.jpg";
       const installment = (typeof ch.installment === "number") ? ch.installment : (idx+1);
 
       return `
         <article class="card relative">
           <span class="badge absolute top-2 left-2 px-2 py-1 rounded text-xs font-semibold">#${installment}</span>
-          <a href="${href}"><img src="${cover}" alt="${title} cover" class="cover" loading="lazy"></a>
+          <a href="${href}"><img src="${cover}" alt="${ch.title || 'Chapter'} cover" class="cover" loading="lazy"></a>
           <div class="p-4">
             <h4 class="text-lg font-semibold mb-1">
-              <a href="${href}" class="hover:underline">${title}</a>
+              <a href="${href}" class="hover:underline">${titleHTML}</a>
             </h4>
             <p class="text-sm k-meta mb-2">
               <i class="fas fa-calendar mr-1"></i> ${date}
-              <span class="mx-2">·</span>
-              <i class="fas fa-clock mr-1"></i> ${minutes}
-              <span class="mx-2">·</span>
-              <i class="fas fa-eye mr-1"></i> ${words}
             </p>
             <p class="text-sm">${ch.summary || ""}</p>
           </div>
         </article>`;
     }
 
-    /* Load chapters.json + render grid (robust, cache-busted) */
+    /* Load chapters.json + render grid (cache-busted) */
     async function renderChapters(){
       $("#copyYear").textContent = new Date().getFullYear();
 
-      // cache-bust to dodge stale GH Pages JSON
-      const url = 'chapters.json?v=' + Date.now();
-      let raw;
-
+      const url = 'chapters.json?v=' + Date.now(); // cache-bust
+      let list = [];
       try {
         const res = await fetch(url, { cache: 'no-store' });
-        if (!res.ok) {
-          console.error('Failed to fetch chapters.json:', res.status, res.statusText);
-          throw new Error('fetch-failed');
-        }
-        raw = await res.text();
-      } catch (e) {
-        console.error('Network error loading chapters.json:', e);
-        $("#grid").innerHTML = `<div class="k-meta">Could not load chapters (check console).</div>`;
-        return;
-      }
-
-      let list;
-      try {
-        const json = JSON.parse(raw);
-        // support either an array or { chapters: [...] }
+        const json = await res.json();
         list = Array.isArray(json) ? json : (Array.isArray(json?.chapters) ? json.chapters : []);
       } catch (e) {
-        console.error('chapters.json parse error:', e, '\nRaw:', raw);
-        $("#grid").innerHTML = `<div class="k-meta">chapters.json is invalid JSON (see console).</div>`;
-        return;
+        console.error('Failed to load chapters.json', e);
       }
+      if (!list.length) { $('#grid').innerHTML = '<div class="k-meta">No chapters yet.</div>'; return; }
 
-      if (!Array.isArray(list) || !list.length) {
-        $("#grid").innerHTML = `<div class="k-meta">No chapters yet.</div>`;
-        return;
-      }
-
-      // Oldest → newest; if a date missing, keep its relative order
+      // Oldest → newest
       list.sort((a,b)=>{
         const da = a?.date ? new Date(a.date).getTime() : Infinity;
         const db = b?.date ? new Date(b.date).getTime() : Infinity;
         return da - db;
       });
 
-      $("#grid").innerHTML = list.map((ch,i)=>cardTemplate(ch,i)).join("");
+      $('#grid').innerHTML = list.map((ch,i)=>cardTemplate(ch,i)).join('');
     }
 
     renderChapters();
   </script>
-  <script>
-(function () {
-  function applyFixes() {
-    /* 1) Style just the Cheonmaneyo card title */
-    document.querySelectorAll('h3 a, h3.title a, .chapter-card .title a').forEach(a => {
-      if (a.textContent.trim() === 'Cheonmaneyo' || a.href.includes('slug=cheonmaneyo')) {
-        a.innerHTML = '“<em>Cheonmaneyo</em>”';
-      }
-    });
-
-    /* 2) Remove read-time & word-count bits left on cards */
-    document.querySelectorAll('.meta').forEach(meta => {
-      // remove the clock/eye icon containers
-      meta.querySelectorAll('.fa-clock, .fa-eye').forEach(icon => {
-        (icon.closest('span,div,li') || icon).remove();
-      });
-
-      // remove stray separators/dashes that remain (· or —)
-      [...meta.childNodes].forEach(n => {
-        if (n.nodeType === 3 && (n.textContent.trim() === '·' || n.textContent.trim() === '—')) {
-          n.remove();
-        }
-      });
-    });
-  }
-
-  // run once after DOM ready, then watch for the grid to populate
-  document.addEventListener('DOMContentLoaded', () => {
-    applyFixes();
-    const grid = document.querySelector('#chapters-grid') || document.body;
-    new MutationObserver(applyFixes).observe(grid, { childList: true, subtree: true });
-  });
-})();
-</script>
 </body>
 </html>
