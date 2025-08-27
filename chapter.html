@@ -263,5 +263,16 @@
       window.addEventListener("scroll", up, {passive:true}); up();
     })();
   </script>
+
+<script>
+  // When the page loads, check if we're on Cheonmaneyo
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("slug") === "cheonmaneyo") {
+    const titleEl = document.querySelector(".chapter-title"); 
+    if (titleEl) {
+      titleEl.innerHTML = "“<em>Cheonmaneyo</em>”";
+    }
+  }
+</script>
 </body>
 </html>
