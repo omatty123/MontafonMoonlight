@@ -36,15 +36,15 @@
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34812"
   },
   {
-    "title": "Cheonmaneyo",
-    "slug": "cheonmaneyo",
-    "href": "chapter.html?slug=cheonmaneyo",
-    "date": "2025-08-26",
-    "cover": "assets/ch4-cover.jpg",
-    "hero": "assets/ch4-hero.jpg",
-    "summary": "Remembering Dr. Werner.",
-    "status": "published",
-    "contentHtml": "content/chapter-4.html",
-    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34842"
+  "title": "Cheonmaneyo",
+  "slug": "cheonmaneyo",
+  "href": "chapter.html?slug=cheonmaneyo",
+  "date": "2025-08-26",
+  "cover": "assets/ch4-cover.jpg?v=2",
+  "hero": "assets/ch4-hero.jpg?v=2",
+  "summary": "Remembering Dr. Werner.",
+  "status": "published",
+  "contentHtml": "content/chapter-4.html",
+  "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34842"
   }
 ]
