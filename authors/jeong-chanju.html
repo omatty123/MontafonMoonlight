@@ -16,65 +16,61 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://omatty123.github.io/MontafonMoonlight/assets/jeong-chanju/portrait.jpg" />
   <style>
+    :root { color-scheme: light dark; }
     body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
     .prose p { margin-bottom: 1rem; }
   </style>
 </head>
-<body class="min-h-full bg-gray-50 text-gray-900">
-  <header class="bg-white border-b border-gray-200">
+<body class="min-h-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
     <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
       <a href="/MontafonMoonlight/" class="text-lg md:text-xl font-semibold tracking-tight">Montafon Moonlight</a>
-      <nav class="space-x-4 text-sm">
-        <a href="/MontafonMoonlight/" class="hover:underline">Home</a>
-        <a href="/MontafonMoonlight/chapters/" class="hover:underline">Chapters</a>
-        <a href="/MontafonMoonlight/authors/" class="hover:underline">Authors</a>
-      </nav>
+      <button id="themeToggle" class="text-sm px-3 py-1 border rounded dark:border-gray-600">Toggle Theme</button>
     </div>
   </header>
 
   <main class="max-w-5xl mx-auto px-4 py-8 md:py-12">
-    <nav class="text-sm text-gray-500 mb-6" aria-label="Breadcrumb">
-      <a class="hover:underline" href="/MontafonMoonlight/authors/">Authors</a>
+    <nav class="text-sm text-gray-500 dark:text-gray-400 mb-6" aria-label="Breadcrumb">
+      <a class="hover:underline" href="/MontafonMoonlight/">Home</a>
       <span class="mx-2">/</span>
-      <span aria-current="page" class="text-gray-700">Jeong Chanju</span>
+      <span aria-current="page" class="text-gray-700 dark:text-gray-300">Jeong Chanju</span>
     </nav>
 
     <!-- Hero with wrapped biography beside portrait -->
     <section>
       <figure class="md:float-right md:ml-6 md:mb-4 mb-3 max-w-xs">
-        <img src="assets/jeong-chanju/portrait.jpg" alt="Portrait of Jeong Chanju" class="w-full rounded-2xl shadow border border-gray-200" loading="lazy" />
-        <figcaption class="text-xs text-gray-500 mt-2 text-right pr-1">Portrait of Jeong Chanju.</figcaption>
+        <img src="assets/jeong-chanju/portrait.jpg" alt="Portrait of Jeong Chanju" class="w-full rounded-2xl shadow border border-gray-200 dark:border-gray-700" loading="lazy" />
+        <figcaption class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-right pr-1">Portrait of Jeong Chanju.</figcaption>
       </figure>
 
-      <h1 class="text-3xl md:text-4xl font-bold leading-tight">Jeong Chanju <span class="text-gray-500 text-xl">정찬주</span></h1>
-      <p class="mt-2 text-gray-700">Pen name: <strong>Byeoknok</strong> (檗綠). Korean novelist and essayist devoted to portraying historical figures and practitioners who blossomed into their own unique lives.</p>
+      <h1 class="text-3xl md:text-4xl font-bold leading-tight">Jeong Chanju <span class="text-gray-500 dark:text-gray-400 text-xl">정찬주</span></h1>
+      <p class="mt-2 text-gray-700 dark:text-gray-300">Pen name: <strong>Byeoknok</strong> (檗綠). Korean novelist and essayist devoted to portraying historical figures and practitioners who blossomed into their own unique lives.</p>
       <div class="mt-4 flex flex-wrap gap-2 text-xs md:text-sm">
-        <span class="px-2 py-1 bg-green-100 text-green-800 rounded-2xl">Novelist</span>
-        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-2xl">Essayist</span>
-        <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-2xl">Buddhist themes</span>
+        <span class="px-2 py-1 bg-green-100 text-green-800 rounded-2xl dark:bg-green-900 dark:text-green-200">Novelist</span>
+        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-2xl dark:bg-blue-900 dark:text-blue-200">Essayist</span>
+        <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-2xl dark:bg-purple-900 dark:text-purple-200">Buddhist themes</span>
       </div>
 
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mt-6">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mt-6">
         <h2 class="text-xl font-semibold mb-4">Biography</h2>
-        <div class="prose max-w-none text-gray-800">
+        <div class="prose max-w-none text-gray-800 dark:text-gray-200">
           <p>Since receiving the <em>Korean Literature</em> New Writer’s Award in 1983, Jeong Chanju has remained steadfast in cultivating a distinctive literary universe that explores the inner world of historical figures and dedicated practitioners. His pen name is Byeoknok.</p>
-          <p>Born in 1953 in Boseong, Jeollanam‑do, Jeong graduated from Dongguk University with a degree in Korean Language and Literature. After a brief period teaching Korean, he began an editorial career at the monthly <em>Buddhist Thought</em>. For more than a decade he worked at Samtoh Publishing, producing the works of Ven. Beopjeong and becoming the monk’s close lay disciple. From Beopjeong he received the Dharma name <em>Muyeom</em> (無染, “unstained”) along with the teaching to live in the world without being tainted by it.</p>
-          <p>Carrying this teaching in his heart, Jeong built the hermitage <em>Ibuljae</em> on the slopes of Gyedang Mountain in Hwasun, Jeollanam‑do. Since 2002 he has lived there surrounded by nature, cultivating a small garden and devoting himself to writing.</p>
+          <p>Born in 1953 in Boseong, Jeollanam-do, Jeong graduated from Dongguk University with a degree in Korean Language and Literature. After a brief period teaching Korean, he began an editorial career at the monthly <em>Buddhist Thought</em>. For more than a decade he worked at Samtoh Publishing, producing the works of Ven. Beopjeong and becoming the monk’s close lay disciple. From Beopjeong he received the Dharma name <em>Muyeom</em> (無染, “unstained”) along with the teaching to live in the world without being tainted by it.</p>
+          <p>Carrying this teaching in his heart, Jeong built the hermitage <em>Ibuljae</em> on the slopes of Gyedang Mountain in Hwasun, Jeollanam-do. Since 2002 he has lived there surrounded by nature, cultivating a small garden and devoting himself to writing.</p>
         </div>
       </div>
 
-      <!-- Clear the float so subsequent sections start below the image on wide screens -->
       <div class="clear-both"></div>
     </section>
 
     <!-- Works -->
     <section class="mt-10 grid md:grid-cols-2 gap-6">
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <h3 class="text-lg font-semibold mb-3">Novels</h3>
-        <ul class="list-disc ml-5 space-y-1 text-gray-800">
+        <ul class="list-disc ml-5 space-y-1 text-gray-800 dark:text-gray-200">
           <li><em>Mountain Is Mountain, Water Is Water</em> — life of Ven. Seongcheol</li>
-          <li><em>The Novel of Non‑Possession</em></li>
-          <li><em>Yi Sun‑sin’s Seven Years</em> (7 vols.)</li>
+          <li><em>The Novel of Non-Possession</em></li>
+          <li><em>Yi Sun-sin’s Seven Years</em> (7 vols.)</li>
           <li><em>The Moon Reflected on the Heavenly River</em></li>
           <li><em>Goodbye Buddha</em></li>
           <li><em>Celadon: Light of Enlightenment</em></li>
@@ -84,9 +80,9 @@
           <li><em>Dasan’s Love</em> (2 vols.)</li>
         </ul>
       </div>
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <h3 class="text-lg font-semibold mb-3">Essay Collections</h3>
-        <ul class="list-disc ml-5 space-y-1 text-gray-800">
+        <ul class="list-disc ml-5 space-y-1 text-gray-800 dark:text-gray-200">
           <li><em>Ven. Beopjeong’s Songs of Encouragement for Life</em></li>
           <li><em>Pilgrimage to the Land of the Buddha</em></li>
           <li><em>Do Not Deceive Yourself</em></li>
@@ -94,43 +90,81 @@
           <li><em>Jeong Chanju’s Tea Travelogues</em></li>
         </ul>
       </div>
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:col-span-2">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 md:col-span-2">
         <h3 class="text-lg font-semibold mb-3">Children’s Books</h3>
-        <ul class="list-disc ml-5 space-y-1 text-gray-800">
+        <ul class="list-disc ml-5 space-y-1 text-gray-800 dark:text-gray-200">
           <li><em>The Vessel that Holds the Heart</em></li>
           <li><em>The Foolish Novice</em></li>
         </ul>
       </div>
     </section>
 
-    <section class="mt-10 bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+    <section class="mt-10 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
       <h3 class="text-lg font-semibold mb-3">Scope & Themes</h3>
-      <p class="text-gray-800">Across more than one hundred titles spanning fiction and essays, Jeong’s work illuminates the meaning of the practitioner’s presence on this land and the roots of Korea’s spiritual culture, often through journeys to hermitages and portraits of exemplary lives.</p>
+      <p class="text-gray-800 dark:text-gray-200">Across more than one hundred titles spanning fiction and essays, Jeong’s work illuminates the meaning of the practitioner’s presence on this land and the roots of Korea’s spiritual culture, often through journeys to hermitages and portraits of exemplary lives.</p>
     </section>
 
-    <section class="mt-10 bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+    <section class="mt-10 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
       <h3 class="text-lg font-semibold mb-3">Honors</h3>
-      <ul class="list-disc ml-5 space-y-1 text-gray-800">
+      <ul class="list-disc ml-5 space-y-1 text-gray-800 dark:text-gray-200">
         <li>Haengwon Literary Award</li>
         <li>Dongguk Literature Prize</li>
-        <li>Hwajeong Cultural Award</li>
+        <li>Hwa-jeong Cultural Award</li>
         <li>Ryu Juhyeon Literary Award</li>
         <li>Yusim Literary Award</li>
       </ul>
     </section>
 
     <div class="mt-12">
+      <a href="/MontafonMoonlight/" class="inline-flex items-center text-sm text-blue-700 dark:text-blue-400 hover:underline">← Back to Home</a>
     </div>
   </main>
 
-  <footer class="mt-12 border-t border-gray-200 bg-white">
-    <div class="max-w-5xl mx-auto px-4 py-6 text-sm text-gray-600 flex flex-col md:flex-row md:items-center md:justify-between">
+  <footer class="mt-12 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+    <div class="max-w-5xl mx-auto px-4 py-6 text-sm text-gray-600 dark:text-gray-400 flex flex-col md:flex-row md:items-center md:justify-between">
       <p>&copy; <span id="y"></span> Montafon Moonlight. All rights reserved.</p>
       <div class="mt-2 md:mt-0 space-x-4">
-       </div>
+        <a class="hover:underline" href="/MontafonMoonlight/about.html">About</a>
+        <a class="hover:underline" href="/MontafonMoonlight/contact.html">Contact</a>
+      </div>
     </div>
   </footer>
 
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Theme toggle with persistence and OS sync
+    const root = document.documentElement;
+    const storageKey = 'mm-theme';
+
+    function applyTheme(t){
+      if(t==='dark'){ root.classList.add('dark'); root.setAttribute('data-theme','dark'); }
+      else { root.classList.remove('dark'); root.setAttribute('data-theme','light'); }
+      const btn = document.getElementById('themeToggle');
+      if(btn){ btn.textContent = (t==='dark') ? 'Light Mode' : 'Dark Mode'; }
+    }
+
+    function getPreferred(){
+      const s = localStorage.getItem(storageKey);
+      if(s) return s;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    let theme = getPreferred();
+    applyTheme(theme);
+
+    document.getElementById('themeToggle').addEventListener('click', ()=>{
+      theme = (theme==='dark') ? 'light' : 'dark';
+      localStorage.setItem(storageKey, theme);
+      applyTheme(theme);
+    });
+
+    if(!localStorage.getItem(storageKey) && window.matchMedia){
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e=>{
+        theme = e.matches ? 'dark' : 'light';
+        applyTheme(theme);
+      });
+    }
+  </script>
 </body>
 </html>
