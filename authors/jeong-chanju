@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jeong Chan‑ju (정찬주) • Author Profile</title>
+  <meta name="description" content="Author profile of Jeong Chan‑ju (pen name Byeoknok), Korean novelist and essayist exploring the inner world of historical figures and practitioners. Includes bio, notable works, and honors." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <meta property="og:title" content="Jeong Chan‑ju (정찬주) • Author Profile" />
+  <meta property="og:description" content="Korean writer Jeong Chan‑ju, pen name Byeoknok. Over one hundred books spanning novels and essays." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/jeong-chanju/cover.jpg" />
+  <meta property="og:url" content="https://omatty123.github.io/MontafonMoonlight/authors/jeong-chanju.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jeong Chan-ju",
+    "alternateName": "정찬주",
+    "additionalName": "Byeoknok",
+    "jobTitle": "Writer",
+    "birthDate": "1953",
+    "nationality": {
+      "@type": "Country",
+      "name": "South Korea"
+    },
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Dongguk University"
+    },
+    "knowsAbout": ["Korean Buddhism", "Biographical fiction", "Essays"],
+    "url": "https://omatty123.github.io/MontafonMoonlight/",
+    "sameAs": [],
+    "description": "Korean novelist and essayist known for works on historical figures and Buddhist practitioners; pen name Byeoknok."
+  }
+  </script>
+  <style>
+    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+    .prose p { margin-bottom: 1rem; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-white border-b border-gray-200">
+    <div class="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between">
+      <a href="/MontafonMoonlight/" class="text-xl font-semibold tracking-tight">Montafon Moonlight</a>
+      <nav class="space-x-4 text-sm">
+        <a href="/MontafonMoonlight/" class="hover:underline">Home</a>
+        <a href="/MontafonMoonlight/chapters/" class="hover:underline">Chapters</a>
+        <a href="/MontafonMoonlight/authors/" class="hover:underline">Authors</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-10">
+    <!-- Hero / Heading -->
+    <section class="grid md:grid-cols-3 gap-8 items-start">
+      <div class="md:col-span-2">
+        <h1 class="text-3xl md:text-4xl font-bold leading-tight">Jeong Chan‑ju <span class="text-gray-500 text-xl">정찬주</span></h1>
+        <p class="mt-2 text-gray-600">Pen name: <strong>Byeoknok</strong> (檗綠). Korean novelist and essayist devoted to portraying historical figures and practitioners who blossomed into their own unique lives.</p>
+        <div class="mt-4 flex flex-wrap gap-3 text-sm">
+          <span class="px-2 py-1 bg-green-100 text-green-800 rounded">Novelist</span>
+          <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded">Essayist</span>
+          <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded">Buddhist themes</span>
+        </div>
+      </div>
+      <figure class="md:justify-self-end">
+        <img src="/assets/jeong-chanju/portrait.jpg" alt="Portrait of Jeong Chan‑ju" class="w-full max-w-xs rounded-xl shadow" />
+        <figcaption class="text-xs text-gray-500 mt-2">Photo placeholder. Replace with an authorized image if available.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Bio -->
+    <section class="mt-10 bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-xl font-semibold mb-4">Biography</h2>
+      <div class="prose max-w-none text-gray-800">
+        <p>Since receiving the <em>Korean Literature</em> New Writer’s Award in 1983, Jeong Chan‑ju has remained steadfast in cultivating a distinctive literary universe that explores the inner world of historical figures and dedicated practitioners. His pen name is Byeoknok.</p>
+        <p>Born in 1953 in Boseong, Jeollanam‑do, Jeong graduated from Dongguk University with a degree in Korean Language and Literature. After a brief period teaching Korean, he began an editorial career at the monthly <em>Buddhist Thought</em>. For more than a decade he worked at Samtoh Publishing, producing the works of Ven. Beopjeong and becoming the monk’s close lay disciple. From Beopjeong he received the Dharma name <em>Muyeom</em> (無染, “unstained”) along with the teaching to live in the world without being tainted by it.</p>
+        <p>Carrying this teaching in his heart, Jeong built the hermitage <em>Ibuljae</em> on the slopes of Gyedang Mountain in Hwasun, Jeollanam‑do. Since 2002 he has lived there surrounded by nature, cultivating a small garden and devoting himself to writing.</p>
+      </div>
+    </section>
+
+    <!-- Selected Works -->
+    <section class="mt-10 grid md:grid-cols-2 gap-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold mb-3">Novels</h3>
+        <ul class="list-disc ml-5 space-y-1 text-gray-800">
+          <li><em>Mountain Is Mountain, Water Is Water</em> — life of Ven. Seongcheol</li>
+          <li><em>The Novel of Non‑Possession</em></li>
+          <li><em>Yi Sun‑sin’s Seven Years</em> (7 vols.)</li>
+          <li><em>The Moon Reflected on the Heavenly River</em></li>
+          <li><em>Goodbye Buddha</em></li>
+          <li><em>Celadon: Light of Enlightenment</em></li>
+          <li><em>I Will Return After a Thousand Years</em></li>
+          <li><em>I Am Joseon’s Seonbi</em> (3 vols.)</li>
+          <li><em>The Buddha of Gayasan’s Practice</em> (2 vols.)</li>
+          <li><em>Dasan’s Love</em> (2 vols.)</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold mb-3">Essay Collections</h3>
+        <ul class="list-disc ml-5 space-y-1 text-gray-800">
+          <li><em>Ven. Beopjeong’s Songs of Encouragement for Life</em></li>
+          <li><em>Pilgrimage to the Land of the Buddha</em></li>
+          <li><em>Do Not Deceive Yourself</em></li>
+          <li><em>The Road to the Meditation Hall</em></li>
+          <li><em>Jeong Chan‑ju’s Tea Travelogues</em></li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:col-span-2">
+        <h3 class="text-lg font-semibold mb-3">Children’s Books</h3>
+        <ul class="list-disc ml-5 space-y-1 text-gray-800">
+          <li><em>The Vessel that Holds the Heart</em></li>
+          <li><em>The Foolish Novice</em></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Impact -->
+    <section class="mt-10 bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+      <h3 class="text-lg font-semibold mb-3">Scope and Themes</h3>
+      <p class="text-gray-800">Across more than one hundred titles spanning fiction and essays, Jeong’s work illuminates the meaning of the practitioner’s presence on this land and the roots of Korea’s spiritual culture, often through journeys to hermitages and portraits of exemplary lives.</p>
+    </section>
+
+    <!-- Honors -->
+    <section class="mt-10 bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+      <h3 class="text-lg font-semibold mb-3">Honors</h3>
+      <ul class="list-disc ml-5 space-y-1 text-gray-800">
+        <li>Haengwon Literary Award</li>
+        <li>Dongguk Literature Prize</li>
+        <li>Hwa‑jeong Cultural Award</li>
+        <li>Ryu Juhyeon Literary Award</li>
+        <li>Yusim Literary Award</li>
+      </ul>
+    </section>
+
+    <!-- Footer note -->
+    <section class="mt-10 text-sm text-gray-500">
+      <p>This page is part of the Montafon Moonlight project. Text adapted from an English translation of a Korean author profile.</p>
+    </section>
+  </main>
+
+  <footer class="mt-12 border-t border-gray-200 bg-white">
+    <div class="max-w-5xl mx-auto px-4 py-6 text-sm text-gray-600 flex flex-col md:flex-row md:items-center md:justify-between">
+      <p>&copy; <span id="y"></span> Montafon Moonlight. All rights reserved.</p>
+      <div class="mt-2 md:mt-0 space-x-4">
+        <a class="hover:underline" href="/MontafonMoonlight/about.html">About</a>
+        <a class="hover:underline" href="/MontafonMoonlight/contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
