@@ -7,7 +7,11 @@
   <meta name="description" content="Author profile of Jeong Chanju (pen name Byeoknok), Korean novelist and essayist; biography, selected works, themes, and honors." />
   <base href="/MontafonMoonlight/">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script>
+  // Enable Tailwind JIT + dark mode via class
+  window.tailwind = { config: { darkMode: 'class' } };
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
   <meta property="og:title" content="Jeong Chanju (정찬주) • Author Profile" />
   <meta property="og:description" content="Korean writer Jeong Chanju (Byeoknok). Over one hundred books spanning novels and essays." />
   <meta property="og:type" content="article" />
@@ -21,8 +25,8 @@
     .prose p { margin-bottom: 1rem; }
   </style>
 </head>
-<body class="min-h-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-  <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+<body class="min-h-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+  <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
     <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
       <a href="/MontafonMoonlight/" class="text-lg md:text-xl font-semibold tracking-tight">Montafon Moonlight</a>
       <button id="themeToggle" class="text-sm px-3 py-1 border rounded dark:border-gray-600">Toggle Theme</button>
@@ -55,8 +59,8 @@
         <h2 class="text-xl font-semibold mb-4">Biography</h2>
         <div class="prose max-w-none text-gray-800 dark:text-gray-200">
           <p>Since receiving the <em>Korean Literature</em> New Writer’s Award in 1983, Jeong Chanju has remained steadfast in cultivating a distinctive literary universe that explores the inner world of historical figures and dedicated practitioners. His pen name is Byeoknok.</p>
-          <p>Born in 1953 in Boseong, Jeollanam-do, Jeong graduated from Dongguk University with a degree in Korean Language and Literature. After a brief period teaching Korean, he began an editorial career at the monthly <em>Buddhist Thought</em>. For more than a decade he worked at Samtoh Publishing, producing the works of Ven. Beopjeong and becoming the monk’s close lay disciple. From Beopjeong he received the Dharma name <em>Muyeom</em> (無染, “unstained”) along with the teaching to live in the world without being tainted by it.</p>
-          <p>Carrying this teaching in his heart, Jeong built the hermitage <em>Ibuljae</em> on the slopes of Gyedang Mountain in Hwasun, Jeollanam-do. Since 2002 he has lived there surrounded by nature, cultivating a small garden and devoting himself to writing.</p>
+          <p>Born in 1953 in Boseong, Jeollanam‑do, Jeong graduated from Dongguk University with a degree in Korean Language and Literature. After a brief period teaching Korean, he began an editorial career at the monthly <em>Buddhist Thought</em>. For more than a decade he worked at Samtoh Publishing, producing the works of Ven. Beopjeong and becoming the monk’s close lay disciple. From Beopjeong he received the Dharma name <em>Muyeom</em> (無染, “unstained”) along with the teaching to live in the world without being tainted by it.</p>
+          <p>Carrying this teaching in his heart, Jeong built the hermitage <em>Ibuljae</em> on the slopes of Gyedang Mountain in Hwasun, Jeollanam‑do. Since 2002 he has lived there surrounded by nature, cultivating a small garden and devoting himself to writing.</p>
         </div>
       </div>
 
@@ -65,12 +69,12 @@
 
     <!-- Works -->
     <section class="mt-10 grid md:grid-cols-2 gap-6">
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
         <h3 class="text-lg font-semibold mb-3">Novels</h3>
         <ul class="list-disc ml-5 space-y-1 text-gray-800 dark:text-gray-200">
           <li><em>Mountain Is Mountain, Water Is Water</em> — life of Ven. Seongcheol</li>
-          <li><em>The Novel of Non-Possession</em></li>
-          <li><em>Yi Sun-sin’s Seven Years</em> (7 vols.)</li>
+          <li><em>The Novel of Non‑Possession</em></li>
+          <li><em>Yi Sun‑sin’s Seven Years</em> (7 vols.)</li>
           <li><em>The Moon Reflected on the Heavenly River</em></li>
           <li><em>Goodbye Buddha</em></li>
           <li><em>Celadon: Light of Enlightenment</em></li>
@@ -80,7 +84,7 @@
           <li><em>Dasan’s Love</em> (2 vols.)</li>
         </ul>
       </div>
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
         <h3 class="text-lg font-semibold mb-3">Essay Collections</h3>
         <ul class="list-disc ml-5 space-y-1 text-gray-800 dark:text-gray-200">
           <li><em>Ven. Beopjeong’s Songs of Encouragement for Life</em></li>
@@ -99,17 +103,17 @@
       </div>
     </section>
 
-    <section class="mt-10 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <section class="mt-10 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
       <h3 class="text-lg font-semibold mb-3">Scope & Themes</h3>
       <p class="text-gray-800 dark:text-gray-200">Across more than one hundred titles spanning fiction and essays, Jeong’s work illuminates the meaning of the practitioner’s presence on this land and the roots of Korea’s spiritual culture, often through journeys to hermitages and portraits of exemplary lives.</p>
     </section>
 
-    <section class="mt-10 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <section class="mt-10 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
       <h3 class="text-lg font-semibold mb-3">Honors</h3>
       <ul class="list-disc ml-5 space-y-1 text-gray-800 dark:text-gray-200">
         <li>Haengwon Literary Award</li>
         <li>Dongguk Literature Prize</li>
-        <li>Hwa-jeong Cultural Award</li>
+        <li>Hwajeong Cultural Award</li>
         <li>Ryu Juhyeon Literary Award</li>
         <li>Yusim Literary Award</li>
       </ul>
@@ -120,13 +124,11 @@
     </div>
   </main>
 
-  <footer class="mt-12 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+  <footer class="mt-12 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-200">
     <div class="max-w-5xl mx-auto px-4 py-6 text-sm text-gray-600 dark:text-gray-400 flex flex-col md:flex-row md:items-center md:justify-between">
       <p>&copy; <span id="y"></span> Montafon Moonlight. All rights reserved.</p>
       <div class="mt-2 md:mt-0 space-x-4">
-        <a class="hover:underline" href="/MontafonMoonlight/about.html">About</a>
-        <a class="hover:underline" href="/MontafonMoonlight/contact.html">Contact</a>
-      </div>
+        </div>
     </div>
   </footer>
 
