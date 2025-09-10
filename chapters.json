@@ -58,5 +58,17 @@
   "status": "published",
   "contentHtml": "content/chapter-5.html",
   "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34873"
-  }
+  },
+{
+ "title": "Jeong",
+  "slug": "jeong",
+  "href": "chapter.html?slug=jeong",
+  "date": "2025-09-09",
+  "cover": "assets/ch6-cover.jpg?v=2",
+  "hero": "assets/ch6-hero.jpg?v=2",
+  "summary": "Learning about jeong",
+  "status": "published",
+  "contentHtml": "content/chapter-6.html",
+  "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34905"
+  }  
 ]
