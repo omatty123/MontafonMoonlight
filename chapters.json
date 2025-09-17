@@ -54,7 +54,7 @@
   "date": "2025-09-02",
   "cover": "assets/ch5-cover.jpg?v=2",
   "hero": "assets/ch5-hero.jpg?v=2",
-  "summary": "Intrigued by Mr. Willi",
+  "summary": "Intrigued by Mr. Willi.",
   "status": "published",
   "contentHtml": "content/chapter-5.html",
   "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34873"
@@ -66,7 +66,7 @@
   "date": "2025-09-09",
   "cover": "assets/ch6-cover.jpg?v=2",
   "hero": "assets/ch6-hero.jpg?v=2",
-  "summary": "Learning about jeong",
+  "summary": "Learning about <em>jeong</em>.",
   "status": "published",
   "contentHtml": "content/chapter-6.html",
   "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34905"
@@ -78,7 +78,7 @@
   "date": "2025-09-016",
   "cover": "assets/ch7-cover.jpg?v=2",
   "hero": "assets/ch7-hero.jpg?v=2",
-  "summary": "Meeting each other at last",
+  "summary": "Meeting each other at last.",
   "status": "published",
   "contentHtml": "content/chapter-7.html",
   "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34941"
