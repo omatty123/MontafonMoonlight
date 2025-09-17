@@ -70,5 +70,17 @@
   "status": "published",
   "contentHtml": "content/chapter-6.html",
   "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34905"
-  }  
+  },
+  {
+ "title": "First Encounter",
+  "slug": "firstencounter",
+  "href": "chapter.html?slug=firstencounter",
+  "date": "2025-09-016",
+  "cover": "assets/ch7-cover.jpg?v=2",
+  "hero": "assets/ch7-hero.jpg?v=2",
+  "summary": "Meeting each other at last",
+  "status": "published",
+  "contentHtml": "content/chapter-7.html",
+  "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34941"
+  }
 ]
