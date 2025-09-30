@@ -102,43 +102,31 @@
       function initial(){ const s=localStorage.getItem(KEY); if(s==="dark"||s==="light") return s; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"; }
       function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); const i=btn.querySelector("i"); i.className = t==="dark"?"fas fa-sun":"fas fa-moon"; }
       let cur=initial(); apply(cur); reflect(cur);
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e=>{ if(localStorage.getItem(KEY)) return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
       btn?.addEventListener("click", ()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
     })();
 
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vShodvcx1LsVfE8QxCG_RKmxM7c3OsfiMu8haHvS_aQP04CcPHG5agamy3icE8DT2QPM78SEaq3vb1W/pub?gid=0&single=true&output=csv";
-
-    async function loadCSV(url){
-      const res = await fetch(url + "&_=" + Date.now());
-      const text = await res.text();
-      return parseCSV(text);
+    const fmtLong = (d)=> new Date(d).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+    async function loadChapters(){ 
+      try{ 
+        const r=await fetch("chapters.json?v="+Date.now(),{cache:"no-store"}); 
+        if(!r.ok) throw 0; 
+        return await r.json(); 
+      }catch(e){ return []; } 
     }
-
-    function parseCSV(text){
-      const lines = text.trim().split(/\r?\n/);
-      if(lines.length < 2) return [];
-      const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
-      return lines.slice(1).map(row => {
-        const cols = row.split(",");
-        let obj = {};
-        headers.forEach((h,i)=> obj[h] = (cols[i]||"").trim());
-        return obj;
-      }).filter(ch => ch.title && ch.slug);
-    }
-
     async function loadHtml(url){ 
       try{ 
         const r=await fetch(url+(url.includes("?")?"&":"?")+"v="+Date.now(),{cache:"no-store"}); 
         return r.ok ? (await r.text()) : ""; 
       }catch(e){ return ""; } 
     }
-
-    function extractBody(html){ const m = html.match(/<body[^>]*>([\\s\\S]*?)<\\/body>/i); return m && m[1] ? m[1] : html; }
+    function extractBody(html){ const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i); return m && m[1] ? m[1] : html; }
     function normalizeImages(scope){ scope.querySelectorAll("img").forEach(img=>{ img.removeAttribute("width"); img.removeAttribute("height"); img.loading = img.loading || "lazy"; }); }
 
     (async function main(){
       document.getElementById("copyYear").textContent = new Date().getFullYear();
 
-      const list = await loadCSV(SHEET_URL);
+      const list = await loadChapters();
       list.sort((a,b)=> new Date(a.date) - new Date(b.date));
 
       const slug = new URLSearchParams(location.search).get("slug");
@@ -146,7 +134,7 @@
       if(idx<0) idx=0;
       const ch = list[idx] || {};
 
-      // Title
+      // Special title case for Cheonmaneyo
       if(ch.slug === "cheonmaneyo"){
         document.getElementById("chapterTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
         document.getElementById("crumbTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
@@ -155,23 +143,20 @@
         document.getElementById("crumbTitle").textContent = ch.title || "Chapter";
       }
 
-      // Date
       if(ch.date){
         const d = new Date(ch.date);
         const el = document.getElementById("pubDate");
         el.dateTime = d.toISOString().slice(0,10);
-        el.textContent = d.toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+        el.textContent = fmtLong(ch.date);
       }
 
-      // Korean link
-      if(ch["korean link"]){
+      if(ch.koreanLink){
         const wrap=document.getElementById("koLinkWrap");
         const a=document.getElementById("koLink");
-        a.href = ch["korean link"];
+        a.href = ch.koreanLink;
         wrap.classList.remove("hidden");
       }
 
-      // Hero image (if you add a column later)
       if(ch.hero){
         const fig=document.getElementById("heroBlock");
         fig.hidden=false;
@@ -179,24 +164,21 @@
         document.getElementById("heroCaption").textContent = ch.caption || "";
       }
 
-      // Content
       let html="";
-      if(ch.contenthtml) html = await loadHtml(ch.contenthtml);
+      if(ch.contentHtml) html = await loadHtml(ch.contentHtml);
       html = extractBody(html);
       const root = document.getElementById("contentRoot");
       root.innerHTML = html || "<p>Chapter content coming soon.</p>";
       normalizeImages(root);
 
-      // Prev/Next
       const prev=list[idx-1], next=list[idx+1];
       const prevEl=document.getElementById("prevLink");
       const nextEl=document.getElementById("nextLink");
-      if(prev){ prevEl.href="chapter.html?slug="+encodeURIComponent(prev.slug); prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${prev.title}`; }
+      if(prev){ prevEl.href=prev.href || ("chapter.html?slug="+encodeURIComponent(prev.slug)); prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${prev.title}`; }
       else { prevEl.href="index.html"; prevEl.innerHTML=`<i class="fas fa-arrow-left mr-2"></i>Home`; }
-      if(next){ nextEl.href="chapter.html?slug="+encodeURIComponent(next.slug); nextEl.innerHTML = `${next.title}<i class="fas fa-arrow-right ml-2"></i>`; }
+      if(next){ nextEl.href=next.href || ("chapter.html?slug="+encodeURIComponent(next.slug)); nextEl.innerHTML = `${next.title}<i class="fas fa-arrow-right ml-2"></i>`; }
       else { nextEl.href="index.html"; nextEl.innerHTML=`Index<i class="fas fa-arrow-right ml-2"></i>`; }
 
-      // Progress bar
       const bar=document.getElementById("progress");
       function up(){ const s=document.documentElement.scrollTop||document.body.scrollTop; const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight)||1; bar.style.width = Math.round(s/h*100) + "%"; }
       window.addEventListener("scroll", up, {passive:true}); up();
