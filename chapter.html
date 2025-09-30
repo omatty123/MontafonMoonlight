@@ -107,13 +107,35 @@
     })();
 
     const fmtLong = (d)=> new Date(d).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
-    async function loadChapters(){ 
-      try{ 
-        const r=await fetch("chapters.json?v="+Date.now(),{cache:"no-store"}); 
-        if(!r.ok) throw 0; 
-        return await r.json(); 
-      }catch(e){ return []; } 
+
+    /* Load chapters from Google Sheet */
+    async function loadChapters(){
+      const SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vShodvcx1LsVfE8QxCG_RKmxM7c3OsfiMu8haHvS_aQP04CcPHG5agamy3icE8DT2QPM78SEaq3vb1W/pub?gid=0&single=true&output=csv";
+      try {
+        const res = await fetch(SHEET_CSV + "&t=" + Date.now());
+        const csv = await res.text();
+        const rows = csv.trim().split(/\r?\n/).map(r => r.split(","));
+        const header = rows.shift().map(h => h.trim());
+        const data = rows.map(r => Object.fromEntries(r.map((v,i)=>[header[i], v.trim()])));
+        return data
+          .filter(r => r["Title"] && r["Slug"])
+          .map((r, idx) => ({
+            title: r["Title"],
+            slug: r["Slug"],
+            date: r["Date"],
+            cover: `assets/ch${idx+1}-cover.jpg`,
+            hero:  `assets/ch${idx+1}-hero.jpg`,
+            summary: r["summary"],
+            status: "published",
+            contentHtml: `content/chapter-${idx+1}.html`,
+            koreanLink: r["Korean Link"]
+          }));
+      } catch(e) {
+        console.error("Failed to load sheet", e);
+        return [];
+      }
     }
+
     async function loadHtml(url){ 
       try{ 
         const r=await fetch(url+(url.includes("?")?"&":"?")+"v="+Date.now(),{cache:"no-store"}); 
@@ -134,7 +156,7 @@
       if(idx<0) idx=0;
       const ch = list[idx] || {};
 
-      // Special title case for Cheonmaneyo
+      // Title
       if(ch.slug === "cheonmaneyo"){
         document.getElementById("chapterTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
         document.getElementById("crumbTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
