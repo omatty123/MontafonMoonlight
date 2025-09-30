@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Montafon Moonlight</title>
+  <title>Home • Moonlight of Montafon</title>
 
   <!-- Fonts / Tailwind / Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
@@ -13,101 +14,130 @@
   <style>
     :root{ --bg:#ffffff; --text:#111827; --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#2563eb; }
     html[data-theme="dark"]{ --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff; }
+
     html,body{ background:var(--bg); color:var(--text); }
-    a{ color:var(--link); text-decoration:none; } a:hover{ text-decoration:underline; }
-    body,h1,h2,h3,h4,h5,h6,p,a,span,li,nav,div,small,button{ font-family:'Inter',sans-serif!important; }
+    a{ color:var(--link); text-decoration:none; }
+    body,h1,h2,h3,h4,h5,h6,p,a,li,button,small,span,div{ font-family:'Inter',sans-serif !important; }
 
     header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
-    .card{ background:var(--card); border:1px solid var(--border); border-radius:1rem; overflow:hidden; display:flex; flex-direction:column; transition:transform .15s ease; }
-    .card:hover{ transform:translateY(-2px); }
-    .card img{ width:100%; height:180px; object-fit:cover; }
-    .card-content{ padding:1rem; flex:1; display:flex; flex-direction:column; }
-    .card-title{ font-weight:600; margin-bottom:.25rem; font-size:1.125rem; }
-    .card-summary{ flex:1; font-size:.875rem; color:var(--muted); }
+    .k-meta{ color:var(--muted); }
+
+    .card{ background:var(--card); border:1px solid var(--border); border-radius:.75rem; overflow:hidden; transition:transform .2s, box-shadow .2s; }
+    .card:hover{ transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.12); }
+    .cover{ aspect-ratio:3/2; width:100%; object-fit:cover; }
+    .badge{ background:var(--bg); color:var(--muted); border:1px solid var(--border); }
   </style>
 </head>
-<body>
 
+<body>
   <!-- Header -->
   <header class="stickybar">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
       <div class="min-w-0">
         <h1 class="font-bold text-2xl" style="color:#2563eb;">
-          <i class="fas fa-book mr-2"></i> Montafon Moonlight
+          <i class="fas fa-book mr-2"></i> Moonlight of Montafon
         </h1>
-        <p class="text-sm meta">Translated from Korean • Updates weekly</p>
+        <p class="text-sm k-meta">Translated from Korean • Updates weekly</p>
       </div>
-      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle theme">
+      <button id="theme-toggle" class="p-2 rounded border k-meta" aria-label="Toggle theme">
         <i class="fas fa-moon"></i>
       </button>
     </div>
   </header>
 
-  <!-- Main -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h2 class="text-2xl font-bold mb-6">Latest chapters</h2>
-    <div id="chaptersGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    <p id="emptyMsg" class="meta">No chapters yet.</p>
+  <!-- Hero / Title -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 text-center">
+    <h2 class="text-4xl font-bold mb-2">Moonlight of Montafon</h2>
+    <p class="text-lg k-meta mb-4">몬타폰의 달빛</p>
+    <div class="flex justify-center space-x-6 text-sm k-meta">
+      <span><i class="fas fa-user mr-1"></i> Author: Jeong Chanju</span>
+      <span><i class="fas fa-language mr-1"></i> Translator: Matty Wegehaupt</span>
+      <span><i class="fas fa-calendar mr-1"></i> Started: August 2025</span>
+    </div>
+  </section>
+
+  <!-- Chapters grid -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <h3 class="text-2xl font-bold mb-6">Latest chapters</h3>
+    <div id="grid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3"></div>
   </main>
 
-  <footer class="border-t mt-10 pt-5 text-center text-sm meta" style="border-color:var(--border);">
-    Translation © <span id="copyYear"></span> • <a href="#" class="hover:underline">Support the original author</a>
+  <!-- Footer -->
+  <footer class="border-t py-8 text-center text-sm k-meta">
+    <p>Translation © <span id="copyYear"></span> •
+      <a href="http://www.mediabuddha.net/m/news/view.php?number=34752" class="underline">Support the original author</a>
+    </p>
   </footer>
 
   <script>
-    /* THEME toggle */
+    /* THEME */
     (function(){
       const KEY="theme", root=document.documentElement, btn=document.getElementById("theme-toggle");
       function apply(t){ t==="dark" ? root.setAttribute("data-theme","dark") : root.removeAttribute("data-theme"); }
       function initial(){ const s=localStorage.getItem(KEY); if(s==="dark"||s==="light") return s; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"; }
-      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); const i=btn.querySelector("i"); i.className = t==="dark"?"fas fa-sun":"fas fa-moon"; }
+      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed", t==="dark"?"true":"false"); const i=btn.querySelector("i"); if(i) i.className = t==="dark" ? "fas fa-sun" : "fas fa-moon"; }
       let cur=initial(); apply(cur); reflect(cur);
-      btn?.addEventListener("click", ()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",e=>{ if(localStorage.getItem(KEY)) return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
+      btn?.addEventListener("click",()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
     })();
 
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vShodvcx1LsVfE8QxCG_RKmxM7c3OsfiMu8haHvS_aQP04CcPHG5agamy3icE8DT2QPM78SEaq3vb1W/pub?gid=0&single=true&output=csv";
+    /* Utils */
+    const $ = s=>document.querySelector(s);
+    const fmtDate = d=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
 
-    async function loadCSV(url){
-      const res = await fetch(url + "&_=" + Date.now());
-      const text = await res.text();
-      return parseCSV(text);
-    }
-
-    function parseCSV(text){
-      const lines = text.trim().split(/\r?\n/);
-      if(lines.length < 2) return [];
-      const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
-      return lines.slice(1).map(row => {
-        const cols = row.split(",");
-        let obj = {};
-        headers.forEach((h,i)=> obj[h] = (cols[i]||"").trim());
-        return obj;
-      }).filter(ch => ch.title && ch.slug); // skip empties
-    }
-
+    /* Card template */
     function cardTemplate(ch, idx){
+      const href = ch.href || `chapter.html?slug=${encodeURIComponent(ch.slug||"")}`;
+      // Only this one chapter uses quotes + italics
+      const titleHTML = (ch.slug === "cheonmaneyo" || ch.title === "Cheonmaneyo")
+        ? '“<em>Cheonmaneyo</em>”'
+        : (ch.title || `Chapter ${idx+1}`);
+      const date = ch.date ? fmtDate(ch.date) : "—";
+      const cover = ch.cover || "assets/placeholder.jpg";
+      const installment = (typeof ch.installment === "number") ? ch.installment : (idx+1);
+
       return `
-        <a href="chapter.html?slug=${encodeURIComponent(ch.slug)}" class="card">
-          <img src="assets/ch${idx+1}-cover.jpg" alt="">
-          <div class="card-content">
-            <h3 class="card-title">${ch.title}</h3>
-            <p class="card-summary">${ch.summary||""}</p>
-            <p class="text-xs meta mt-2"><i class="fas fa-calendar mr-1"></i>${ch.date||""}</p>
+        <article class="card relative">
+          <span class="badge absolute top-2 left-2 px-2 py-1 rounded text-xs font-semibold">#${installment}</span>
+          <a href="${href}"><img src="${cover}" alt="${ch.title || 'Chapter'} cover" class="cover" loading="lazy"></a>
+          <div class="p-4">
+            <h4 class="text-lg font-semibold mb-1">
+              <a href="${href}" class="hover:underline">${titleHTML}</a>
+            </h4>
+            <p class="text-sm k-meta mb-2">
+              <i class="fas fa-calendar mr-1"></i> ${date}
+            </p>
+            <p class="text-sm">${ch.summary || ""}</p>
           </div>
-        </a>
-      `;
+        </article>`;
     }
 
-    (async function(){
-      document.getElementById("copyYear").textContent = new Date().getFullYear();
-      const list = await loadCSV(SHEET_URL);
-      const grid = document.getElementById("chaptersGrid");
-      const msg = document.getElementById("emptyMsg");
-      if(list.length){
-        msg.style.display="none";
-        list.forEach((ch,i)=> grid.insertAdjacentHTML("beforeend", cardTemplate(ch,i)));
+    /* Load chapters.json + render grid (cache-busted) */
+    async function renderChapters(){
+      $("#copyYear").textContent = new Date().getFullYear();
+
+      const url = 'chapters.json?v=' + Date.now(); // cache-bust
+      let list = [];
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        const json = await res.json();
+        list = Array.isArray(json) ? json : (Array.isArray(json?.chapters) ? json.chapters : []);
+      } catch (e) {
+        console.error('Failed to load chapters.json', e);
       }
-    })();
+      if (!list.length) { $('#grid').innerHTML = '<div class="k-meta">No chapters yet.</div>'; return; }
+
+      // Oldest → newest
+      list.sort((a,b)=>{
+        const da = a?.date ? new Date(a.date).getTime() : Infinity;
+        const db = b?.date ? new Date(b.date).getTime() : Infinity;
+        return da - db;
+      });
+
+      $('#grid').innerHTML = list.map((ch,i)=>cardTemplate(ch,i)).join('');
+    }
+
+    renderChapters();
   </script>
 </body>
 </html>
