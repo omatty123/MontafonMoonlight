@@ -94,5 +94,18 @@
     "status": "published",
     "contentHtml": "content/chapter-8.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=34973"
+  }.
+  {
+    "title": "Deep Conversations Part 2 - The Raindrop Hwadu",
+    "slug": "deep-conversations-part-2",
+    "href": "chapter.html?slug=deep-conversations-part-2",
+    "date": "2025-09-30",
+    "cover": "assets/ch9-cover.jpg",
+    "hero": "assets/ch9-hero.jpg",
+    "summary": "When you ask the right questions a level of transcendence opens.",
+    "status": "published",
+    "contentHtml": "content/chapter-9.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35011"
   }
 ]
+
