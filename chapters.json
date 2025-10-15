@@ -106,6 +106,18 @@
     "status": "published",
     "contentHtml": "content/chapter-9.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35011"
+  },
+  {
+    "title": "Deep Conversations Part 3 - The Absolute Silence Within",
+    "slug": "deep-conversations-part-3",
+    "href": "chapter.html?slug=deep-conversations-part-3",
+    "date": "2025-10-14",
+    "cover": "assets/ch10-cover.jpg",
+    "hero": "assets/ch10-hero.jpg",
+    "summary": "Nature and our deepest mind hold an absolute silence.",
+    "status": "published",
+    "contentHtml": "content/chapter-10.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35049"
   }
 ]
 
