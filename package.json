@@ -1,0 +1,9 @@
+{
+  "name": "montafon-moonlight",
+  "version": "1.0.0",
+  "description": "Static generator for Montafon Moonlight chapter OG pages",
+  "type": "module",
+  "scripts": {
+    "build:chapters": "node generate-chapters.js"
+  }
+}
