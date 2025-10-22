@@ -1,7 +1,6 @@
 /**
  * generate-chapters.js
- * Generates one static OG-tag HTML file per chapter
- * and places them directly in the repo root.
+ * Fully automated static page generator for Montafon Moonlight
  */
 
 import fs from "fs";
@@ -36,7 +35,6 @@ const template = (chapter) => `
 </head>
 <body>
   <script>
-    // Redirect human visitors to the dynamic reader
     window.location.href = "${BASE_URL}chapter.html?slug=${chapter.slug}";
   </script>
   <noscript>
@@ -48,7 +46,11 @@ const template = (chapter) => `
 
 function cleanOldChapters() {
   const files = fs.readdirSync(ROOT);
-  const htmlFiles = files.filter(f => f.endsWith(".html") && !["index.html", "chapter.html", "chapter-template.html", "chapter-maker.html", "404.html"].includes(f));
+  const htmlFiles = files.filter(f =>
+    f.endsWith(".html") &&
+    !["index.html", "chapter.html", "chapter-template.html",
+      "chapter-maker.html", "404.html"].includes(f)
+  );
   for (const f of htmlFiles) {
     fs.unlinkSync(path.join(ROOT, f));
     console.log(`🗑️  Removed old ${f}`);
@@ -57,18 +59,23 @@ function cleanOldChapters() {
 
 function main() {
   const chapters = JSON.parse(fs.readFileSync(path.join(ROOT, "chapters.json"), "utf8"));
-
   console.log("🧹 Cleaning old static chapter files...");
   cleanOldChapters();
 
   console.log("🪶 Generating new chapter pages...");
+  const links = [];
   for (const ch of chapters) {
     const filePath = path.join(ROOT, `${ch.slug}.html`);
     fs.writeFileSync(filePath, template(ch));
+    const link = `${BASE_URL}${ch.slug}.html`;
+    links.push(link);
     console.log(`✅  Created ${filePath}`);
   }
 
-  console.log("✨ Done. All static OG pages ready for deploy.");
+  console.log("\n✨ All static OG pages ready for deploy.");
+  console.log("📤 Share-ready links:\n");
+  links.forEach(l => console.log("   " + l));
+  console.log("\n");
 }
 
 main();
