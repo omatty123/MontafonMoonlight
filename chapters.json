@@ -118,6 +118,19 @@
     "status": "published",
     "contentHtml": "content/chapter-10.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35049"
+  },
+  {
+    "title": "Deep Conversations Part 4 - 1,600 Meters Above Sea Level",
+    "slug": "deep-conversations-part-4",
+    "href": "chapter.html?slug=deep-conversations-part-4",
+    "date": "2025-10-21",
+    "cover": "assets/ch11-cover.jpg",
+    "hero": "assets/ch11-hero.jpg",
+    "summary": "If you want a different experience, you have to go higher.",
+    "status": "published",
+    "contentHtml": "content/chapter-11.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35083"
   }
+  
 ]
 
