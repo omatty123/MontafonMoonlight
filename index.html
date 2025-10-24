@@ -47,8 +47,9 @@
     .badge{ background:var(--bg); color:var(--muted); border:1px solid var(--border); }
 
     /* ✨ Featured current chapter */
-    .featured{ background:var(--card); border:1px solid var(--border); border-radius:1rem; overflow:hidden; margin-bottom:3rem; }
+    .featured{ background:var(--card); border:1px solid var(--border); border-radius:1rem; overflow:hidden; margin-bottom:3rem; position:relative; }
     .featured img{ width:100%; max-height:400px; object-fit:cover; }
+    .featured .badge{ position:absolute; top:1rem; left:1rem; padding:0.4rem 0.6rem; border-radius:0.5rem; font-size:0.8rem; font-weight:600; background:var(--bg); }
   </style>
 </head>
 
@@ -166,10 +167,12 @@
       // Latest chapter = last item
       const latest = list[list.length - 1];
       const rest = list.slice(0, -1);
+      const latestNum = list.length; // use index as chapter number
 
       // Featured section
       $('#current-chapter').innerHTML = `
-        <div class="flex flex-col md:flex-row">
+        <div class="relative flex flex-col md:flex-row">
+          <span class="badge">#${latestNum}</span>
           <img src="${latest.cover}" alt="${latest.title}" class="w-full md:w-1/2 object-cover">
           <div class="p-6 text-left flex flex-col justify-center">
             <h4 class="text-2xl font-semibold mb-2">${latest.title}</h4>
