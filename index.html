@@ -45,6 +45,10 @@
     .card:hover{ transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.12); }
     .cover{ aspect-ratio:3/2; width:100%; object-fit:cover; }
     .badge{ background:var(--bg); color:var(--muted); border:1px solid var(--border); }
+
+    /* ✨ Featured current chapter */
+    .featured{ background:var(--card); border:1px solid var(--border); border-radius:1rem; overflow:hidden; margin-bottom:3rem; }
+    .featured img{ width:100%; max-height:400px; object-fit:cover; }
   </style>
 </head>
 
@@ -70,18 +74,24 @@
     <p class="text-lg k-meta mb-4">몬타폰의 달빛</p>
     <div class="flex justify-center space-x-6 text-sm k-meta">
       <span>Author: 
-  <a href="/MontafonMoonlight/authors/jeong-chanju.html" class="hover:underline">
-    Jeong Chanju
-  </a>
-</span>
+        <a href="/MontafonMoonlight/authors/jeong-chanju.html" class="hover:underline">
+          Jeong Chanju
+        </a>
+      </span>
       <span><i class="fas fa-language mr-1"></i> Translator: Matty Wegehaupt</span>
       <span><i class="fas fa-calendar mr-1"></i> Started: August 2025</span>
     </div>
   </section>
 
+  <!-- 🕯️ Featured Current Chapter -->
+  <section id="featured" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h3 class="text-2xl font-bold mb-4">Current Chapter</h3>
+    <div id="current-chapter" class="featured shadow"></div>
+  </section>
+
   <!-- Chapters grid -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-    <h3 class="text-2xl font-bold mb-6">Latest chapters</h3>
+    <h3 class="text-2xl font-bold mb-6">All Chapters</h3>
     <div id="grid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3"></div>
   </main>
 
@@ -104,14 +114,11 @@
       btn?.addEventListener("click",()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
     })();
 
-    /* Utils */
     const $ = s=>document.querySelector(s);
     const fmtDate = d=> new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
 
-    /* Card template */
     function cardTemplate(ch, idx){
       const href = ch.href || `chapter.html?slug=${encodeURIComponent(ch.slug||"")}`;
-      // Only this one chapter uses quotes + italics
       const titleHTML = (ch.slug === "cheonmaneyo" || ch.title === "Cheonmaneyo")
         ? '“<em>Cheonmaneyo</em>”'
         : (ch.title || `Chapter ${idx+1}`);
@@ -135,29 +142,45 @@
         </article>`;
     }
 
-    /* Load chapters.json + render grid (cache-busted) */
+    /* Render both Featured + Grid */
     async function renderChapters(){
       $("#copyYear").textContent = new Date().getFullYear();
-
-      const url = 'chapters.json?v=' + Date.now(); // cache-bust
+      const url = 'chapters.json?v=' + Date.now();
       let list = [];
+
       try {
         const res = await fetch(url, { cache: 'no-store' });
-        const json = await res.json();
-        list = Array.isArray(json) ? json : (Array.isArray(json?.chapters) ? json.chapters : []);
+        list = await res.json();
       } catch (e) {
         console.error('Failed to load chapters.json', e);
       }
-      if (!list.length) { $('#grid').innerHTML = '<div class="k-meta">No chapters yet.</div>'; return; }
 
-      // Oldest → newest
-      list.sort((a,b)=>{
-        const da = a?.date ? new Date(a.date).getTime() : Infinity;
-        const db = b?.date ? new Date(b.date).getTime() : Infinity;
-        return da - db;
-      });
+      if (!Array.isArray(list) || !list.length) {
+        $('#grid').innerHTML = '<div class="k-meta">No chapters yet.</div>';
+        return;
+      }
 
-      $('#grid').innerHTML = list.map((ch,i)=>cardTemplate(ch,i)).join('');
+      // Sort by date ascending
+      list.sort((a,b)=> new Date(a.date) - new Date(b.date));
+
+      // Latest chapter = last item
+      const latest = list[list.length - 1];
+      const rest = list.slice(0, -1);
+
+      // Featured section
+      $('#current-chapter').innerHTML = `
+        <div class="flex flex-col md:flex-row">
+          <img src="${latest.cover}" alt="${latest.title}" class="w-full md:w-1/2 object-cover">
+          <div class="p-6 text-left flex flex-col justify-center">
+            <h4 class="text-2xl font-semibold mb-2">${latest.title}</h4>
+            <p class="k-meta mb-3"><i class="fas fa-calendar mr-1"></i> ${fmtDate(latest.date)}</p>
+            <p class="mb-4">${latest.summary}</p>
+            <a href="chapter.html?slug=${latest.slug}" class="text-white bg-blue-600 px-4 py-2 rounded font-semibold hover:bg-blue-700 inline-block w-max">Read Now</a>
+          </div>
+        </div>`;
+
+      // All chapters grid
+      $('#grid').innerHTML = rest.map((ch,i)=>cardTemplate(ch,i)).join('');
     }
 
     renderChapters();
