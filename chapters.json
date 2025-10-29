@@ -130,6 +130,18 @@
     "status": "published",
     "contentHtml": "content/chapter-11.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35083"
+  },
+  {
+    "title": "Deep Conversations Part 5 - Asceticism and Suffering",
+    "slug": "deep-conversations-part-5",
+    "href": "chapter.html?slug=deep-conversations-part-5",
+    "date": "2025-10-29",
+    "cover": "assets/ch12-cover.jpg",
+    "hero": "assets/ch12-hero.jpg",
+    "summary": "From great suffering can come great insight.",
+    "status": "published",
+    "contentHtml": "content/chapter-12.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35124"
   }
   
 ]
