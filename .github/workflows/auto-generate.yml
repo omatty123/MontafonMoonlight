@@ -1,11 +1,7 @@
 name: Auto Generate OG Chapter Pages
+
 on:
-  workflow_dispatch:  # ✅ allows manual trigger
-  push:
-    paths:
-      - "chapters.json"
-      - "generate-chapters.js"
-on:
+  workflow_dispatch:  # ✅ allows manual run from Actions tab
   push:
     paths:
       - "chapters.json"
