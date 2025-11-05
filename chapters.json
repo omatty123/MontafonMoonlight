@@ -142,6 +142,18 @@
     "status": "published",
     "contentHtml": "content/chapter-12.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35124"
+  },
+  {
+    "title": "Deep Conversations Part 6 - The Last Supper",
+    "slug": "deep-conversations-part-6",
+    "href": "chapter.html?slug=deep-conversations-part-6",
+    "date": "2025-11-04",
+    "cover": "assets/ch13-cover.jpg",
+    "hero": "assets/ch13-hero.jpg",
+    "summary": "The absolute silence without is the same as the one within.",
+    "status": "published",
+    "contentHtml": "content/chapter-13.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35156"
   }
   
 ]
