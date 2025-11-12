@@ -154,7 +154,19 @@
     "status": "published",
     "contentHtml": "content/chapter-13.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35156"
-  }
+  },
+  {
+    "title": "So Long, Montafon",
+    "slug": "so-long-montafon",
+    "href": "chapter.html?slug=so-long-montafon",
+    "date": "2025-11-11",
+    "cover": "assets/ch14-cover.jpg",
+    "hero": "assets/ch14-hero.jpg",
+    "summary": "Saying goodbye—for now.",
+    "status": "published",
+    "contentHtml": "content/chapter-14.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35191"
+}
   
 ]
 
