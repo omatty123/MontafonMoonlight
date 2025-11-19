@@ -166,6 +166,18 @@
     "status": "published",
     "contentHtml": "content/chapter-14.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35191"
+},
+  {
+    "title": "Taegeukgi on the Danube",
+    "slug": "danube-taegeukgi",
+    "href": "chapter.html?slug=danube-taegeukgi",
+    "date": "2025-11-18",
+    "cover": "assets/ch15-cover.jpg",
+    "hero": "assets/ch15-hero.jpg",
+    "summary": "Explaining a different state of mind.",
+    "status": "published",
+    "contentHtml": "content/chapter-15.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35234"
 }
   
 ]
