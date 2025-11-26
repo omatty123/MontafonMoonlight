@@ -178,6 +178,18 @@
     "status": "published",
     "contentHtml": "content/chapter-15.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35234"
+},
+  {
+    "title": "A Night in Krems",
+    "slug": "night-in-krems",
+    "href": "chapter.html?slug=night-in-krems",
+    "date": "2025-11-25",
+    "cover": "assets/ch16-cover.jpg",
+    "hero": "assets/ch16-hero.jpg",
+    "summary": "Rehearsing old teachings for a new audience.",
+    "status": "published",
+    "contentHtml": "content/chapter-16.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35278"
 }
   
 ]
