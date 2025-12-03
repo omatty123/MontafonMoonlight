@@ -166,7 +166,7 @@
     "status": "published",
     "contentHtml": "content/chapter-14.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35191"
-},
+  },
   {
     "title": "Taegeukgi on the Danube",
     "slug": "danube-taegeukgi",
@@ -178,7 +178,7 @@
     "status": "published",
     "contentHtml": "content/chapter-15.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35234"
-},
+  },
   {
     "title": "A Night in Krems",
     "slug": "night-in-krems",
@@ -190,10 +190,8 @@
     "status": "published",
     "contentHtml": "content/chapter-16.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35278"
-}
-  
-],
-{
+  },
+  {
     "title": "The Sound of Warm River Water",
     "slug": "warm-river-water",
     "href": "chapter.html?slug=warm-river-water",
@@ -204,5 +202,5 @@
     "status": "published",
     "contentHtml": "content/chapter-17.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35305"
-}
-
+  }
+]
