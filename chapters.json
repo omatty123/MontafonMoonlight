@@ -192,5 +192,17 @@
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35278"
 }
   
-]
+],
+{
+    "title": "The Sound of Warm River Water",
+    "slug": "warm-river-water",
+    "href": "chapter.html?slug=warm-river-water",
+    "date": "2025-12-02",
+    "cover": "assets/ch17-cover.jpg",
+    "hero": "assets/ch17-hero.jpg",
+    "summary": "What's keeping the author up at night?",
+    "status": "published",
+    "contentHtml": "content/chapter-17.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35305"
+}
 
