@@ -202,5 +202,17 @@
     "status": "published",
     "contentHtml": "content/chapter-17.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35305"
+  },
+  {
+    "title": "A Special Lecture and Recital",
+    "slug": "special-lecture",
+    "href": "chapter.html?slug=special-lecture",
+    "date": "2025-12-10",
+    "cover": "assets/ch18-cover.jpg",
+    "hero": "assets/ch18-hero.jpg",
+    "summary": "Korean voices echoing through Austrian minds",
+    "status": "published",
+    "contentHtml": "content/chapter-18.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35335"
   }
 ]
