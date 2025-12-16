@@ -4,6 +4,7 @@
   "description": "Static generator for Montafon Moonlight chapter OG pages",
   "type": "module",
   "scripts": {
-    "build:chapters": "node generate-chapters.js"
+    "build:chapters": "node generate-chapters.js",
+    "sync:sheets": "node sync-from-sheets.js"
   }
 }
