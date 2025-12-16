@@ -214,5 +214,17 @@
     "status": "published",
     "contentHtml": "content/chapter-18.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35335"
+  },
+  {
+    "title": "A Month Long Vacation",
+    "slug": "month-vacation",
+    "href": "chapter.html?slug=month-vacation",
+    "date": "2025-12-16",
+    "cover": "assets/ch19-cover.jpg",
+    "hero": "assets/ch19-hero.jpg",
+    "summary": "Thoughts of vacation bring the Author back to Mr. Willi",
+    "status": "published",
+    "contentHtml": "content/chapter-19.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35373"
   }
 ]
