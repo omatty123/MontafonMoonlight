@@ -79,10 +79,35 @@ Your sheet should have these columns in order:
 
 ## Troubleshooting
 
+### If sync produces empty data:
+1. Check that your Google Sheet has the correct column headers (case-sensitive):
+   - `Title`, `Date`, `Slug`, `Korean Link`, `Summary`
+2. Ensure your sheet doesn't have extra header rows
+3. Make sure the sheet is publicly viewable (or at least accessible via the link)
+
+### If you need to recover:
+```bash
+# Restore from backup (created automatically before each sync)
+cp chapters.json.backup chapters.json
+
+# Or restore from git
+git restore chapters.json
+```
+
+### Other issues:
 - **Sync not running**: Check GitHub Actions tab for errors
 - **Missing images**: Ensure assets follow the naming convention `ch{N}-cover.jpg`
 - **Wrong data**: Verify your Google Sheet has the correct column headers
 - **Manual sync needed**: Go to Actions → "Sync chapters.json from Google Sheets" → Run workflow
+
+### Testing the sync:
+Before relying on the automated sync, test it manually:
+```bash
+npm run sync:sheets
+git diff chapters.json  # Review the changes
+```
+
+If the output looks good, commit it. If not, restore with `git restore chapters.json`
 
 ## Google Sheet URL
 
