@@ -8,6 +8,7 @@ import path from "path";
 
 const BASE_URL = "https://omatty123.github.io/MontafonMoonlight/";
 const ROOT = process.cwd();
+const OG_DIR = path.join(ROOT, "og");
 
 const template = (chapter) => `
 <!DOCTYPE html>
@@ -23,7 +24,7 @@ const template = (chapter) => `
   <meta property="og:title" content="Montafon Moonlight – ${chapter.title}">
   <meta property="og:description" content="${chapter.summary.replace(/"/g, '&quot;')}">
   <meta property="og:image" content="${BASE_URL}${chapter.cover}">
-  <meta property="og:url" content="${BASE_URL}${chapter.slug}.html">
+  <meta property="og:url" content="${BASE_URL}og/${chapter.slug}.html">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -31,7 +32,7 @@ const template = (chapter) => `
   <meta name="twitter:description" content="${chapter.summary.replace(/"/g, '&quot;')}">
   <meta name="twitter:image" content="${BASE_URL}${chapter.cover}">
 
-  <link rel="stylesheet" href="assets/all-serif.css">
+  <link rel="stylesheet" href="../assets/all-serif.css">
 </head>
 <body>
   <script>
@@ -45,31 +46,49 @@ const template = (chapter) => `
 `;
 
 function cleanOldChapters() {
-  const files = fs.readdirSync(ROOT);
-  const htmlFiles = files.filter(f =>
+  // Clean old chapter files from root directory
+  console.log("🧹 Cleaning old chapter files from root...");
+  const rootFiles = fs.readdirSync(ROOT);
+  const htmlFiles = rootFiles.filter(f =>
     f.endsWith(".html") &&
     !["index.html", "chapter.html", "chapter-template.html",
       "chapter-maker.html", "404.html"].includes(f)
   );
   for (const f of htmlFiles) {
     fs.unlinkSync(path.join(ROOT, f));
-    console.log(`🗑️  Removed old ${f}`);
+    console.log(`   🗑️  Removed ${f} from root`);
+  }
+
+  // Clean old chapter files from og directory
+  if (fs.existsSync(OG_DIR)) {
+    console.log("🧹 Cleaning old chapter files from og/...");
+    const ogFiles = fs.readdirSync(OG_DIR);
+    for (const f of ogFiles.filter(f => f.endsWith(".html"))) {
+      fs.unlinkSync(path.join(OG_DIR, f));
+      console.log(`   🗑️  Removed ${f} from og/`);
+    }
   }
 }
 
 function main() {
   const chapters = JSON.parse(fs.readFileSync(path.join(ROOT, "chapters.json"), "utf8"));
-  console.log("🧹 Cleaning old static chapter files...");
+
   cleanOldChapters();
 
-  console.log("🪶 Generating new chapter pages...");
+  // Create og directory if it doesn't exist
+  if (!fs.existsSync(OG_DIR)) {
+    fs.mkdirSync(OG_DIR);
+    console.log("📁 Created og/ directory");
+  }
+
+  console.log("🪶 Generating chapter OG pages in og/...");
   const links = [];
   for (const ch of chapters) {
-    const filePath = path.join(ROOT, `${ch.slug}.html`);
+    const filePath = path.join(OG_DIR, `${ch.slug}.html`);
     fs.writeFileSync(filePath, template(ch));
-    const link = `${BASE_URL}${ch.slug}.html`;
+    const link = `${BASE_URL}og/${ch.slug}.html`;
     links.push(link);
-    console.log(`✅  Created ${filePath}`);
+    console.log(`   ✅  Created og/${ch.slug}.html`);
   }
 
   console.log("\n✨ All static OG pages ready for deploy.");
