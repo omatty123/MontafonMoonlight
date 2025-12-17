@@ -1,0 +1,12 @@
+# Backup files
+chapters.json.backup
+
+# Test scripts
+test-csv.js
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db

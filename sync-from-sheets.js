@@ -34,38 +34,67 @@ function fetchCSV(url) {
   });
 }
 
+function parseCSVLine(line) {
+  const result = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    const nextChar = line[i + 1];
+
+    if (char === '"') {
+      if (inQuotes && nextChar === '"') {
+        // Escaped quote
+        current += '"';
+        i++; // Skip next quote
+      } else {
+        // Toggle quote state
+        inQuotes = !inQuotes;
+      }
+    } else if (char === ',' && !inQuotes) {
+      // End of field
+      result.push(current);
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  // Add last field
+  result.push(current);
+
+  return result;
+}
+
 function parseCSV(csvText) {
-  const lines = csvText.trim().split("\n");
-  const headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
+  const lines = csvText.trim().split("\n").filter(line => line.trim());
+
+  if (lines.length === 0) {
+    throw new Error("CSV is empty");
+  }
+
+  const headers = parseCSVLine(lines[0]);
+  console.log("   Headers found:", headers);
 
   const rows = [];
   for (let i = 1; i < lines.length; i++) {
-    const line = lines[i];
-    if (!line.trim()) continue;
+    const values = parseCSVLine(lines[i]);
 
-    // Simple CSV parsing (handles quoted fields)
-    const values = [];
-    let current = "";
-    let inQuotes = false;
-
-    for (let j = 0; j < line.length; j++) {
-      const char = line[j];
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        values.push(current.trim().replace(/^"|"$/g, ''));
-        current = "";
-      } else {
-        current += char;
-      }
+    // Skip empty rows (rows where all fields are empty)
+    if (values.every(v => !v || !v.trim())) {
+      continue;
     }
-    values.push(current.trim().replace(/^"|"$/g, ''));
 
     const row = {};
     headers.forEach((header, idx) => {
-      row[header] = values[idx] || "";
+      row[header.trim()] = values[idx] ? values[idx].trim() : "";
     });
-    rows.push(row);
+
+    // Only add rows that have at least a title or slug
+    if (row.Title || row.Slug) {
+      rows.push(row);
+    }
   }
 
   return rows;
@@ -74,11 +103,13 @@ function parseCSV(csvText) {
 function buildChaptersJSON(rows) {
   return rows.map((row, index) => {
     const chapterNum = index + 1;
-    const slug = row.Slug || row.slug || "";
-    let summary = row.Summary || row.summary || "";
+    const slug = row.Slug || "";
+    let summary = row.Summary || "";
+
     // Convert markdown italic to HTML em tags
     summary = summary.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-    const koreanLink = row["Korean Link"] || row["korean link"] || row.koreanLink || "";
+
+    const koreanLink = row["Korean Link"] || "";
 
     // Determine version query param for cover/hero (chapters 4-8 have ?v=2)
     let versionParam = "";
@@ -87,10 +118,10 @@ function buildChaptersJSON(rows) {
     }
 
     return {
-      title: row.Title || row.title || "",
+      title: row.Title || "",
       slug: slug,
       href: `chapter.html?slug=${slug}`,
-      date: row.Date || row.date || "",
+      date: row.Date || "",
       cover: `assets/ch${chapterNum}-cover.jpg${versionParam}`,
       hero: `assets/ch${chapterNum}-hero.jpg${versionParam}`,
       summary: summary,
@@ -108,13 +139,34 @@ async function main() {
 
     console.log("📊 Parsing CSV data...");
     const rows = parseCSV(csvData);
-    console.log(`   Found ${rows.length} chapters`);
+    console.log(`   Found ${rows.length} chapters with data`);
+
+    if (rows.length === 0) {
+      throw new Error("No valid chapter data found in CSV");
+    }
+
+    // Validate first row has data
+    const firstRow = rows[0];
+    if (!firstRow.Title || !firstRow.Slug) {
+      console.error("   First row data:", firstRow);
+      throw new Error("First row is missing Title or Slug. Check your Google Sheet structure.");
+    }
+
+    console.log(`   First chapter: "${firstRow.Title}" (${firstRow.Slug})`);
 
     console.log("🔨 Building chapters.json structure...");
     const chapters = buildChaptersJSON(rows);
 
     console.log("💾 Writing to chapters.json...");
     const outputPath = path.join(process.cwd(), "chapters.json");
+
+    // Create backup of existing chapters.json
+    if (fs.existsSync(outputPath)) {
+      const backupPath = path.join(process.cwd(), "chapters.json.backup");
+      fs.copyFileSync(outputPath, backupPath);
+      console.log("   Created backup: chapters.json.backup");
+    }
+
     fs.writeFileSync(outputPath, JSON.stringify(chapters, null, 2) + "\n");
 
     console.log("✅ Successfully synced chapters.json from Google Sheets!");
