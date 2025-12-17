@@ -1,6 +1,7 @@
 /**
  * sync-from-sheets.js
  * Fetches data from Google Sheets and updates chapters.json
+ * NOW WITH EXTENSIVE DEBUGGING
  */
 
 import fs from "fs";
@@ -9,6 +10,7 @@ import https from "https";
 
 const SHEET_ID = "1rz1KvXpjPzf-hshLwg6PQG1aEGaogCGzULkiKN64Pd4";
 const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
+const DEBUG = process.argv.includes('--debug');
 
 function fetchCSV(url) {
   return new Promise((resolve, reject) => {
@@ -74,8 +76,23 @@ function parseCSV(csvText) {
     throw new Error("CSV is empty");
   }
 
+  if (DEBUG) {
+    console.log("\n=== RAW CSV (first 500 chars) ===");
+    console.log(csvText.substring(0, 500));
+    console.log("\n=== TOTAL LINES ===");
+    console.log(lines.length);
+  }
+
   const headers = parseCSVLine(lines[0]);
-  console.log("   Headers found:", headers);
+  console.log("   📋 Headers found:", JSON.stringify(headers));
+
+  if (DEBUG) {
+    console.log("\n=== FIRST 3 DATA LINES (raw) ===");
+    for (let i = 1; i <= Math.min(3, lines.length - 1); i++) {
+      console.log(`Line ${i}: ${JSON.stringify(lines[i])}`);
+      console.log(`Parsed: ${JSON.stringify(parseCSVLine(lines[i]))}`);
+    }
+  }
 
   const rows = [];
   for (let i = 1; i < lines.length; i++) {
@@ -93,6 +110,9 @@ function parseCSV(csvText) {
 
     // Only add rows that have at least a title or slug
     if (row.Title || row.Slug) {
+      if (DEBUG && rows.length < 3) {
+        console.log(`\nRow ${rows.length + 1} object:`, JSON.stringify(row, null, 2));
+      }
       rows.push(row);
     }
   }
@@ -148,14 +168,23 @@ async function main() {
     // Validate first row has data
     const firstRow = rows[0];
     if (!firstRow.Title || !firstRow.Slug) {
-      console.error("   First row data:", firstRow);
+      console.error("\n❌ VALIDATION FAILED!");
+      console.error("   First row data:", JSON.stringify(firstRow, null, 2));
       throw new Error("First row is missing Title or Slug. Check your Google Sheet structure.");
     }
 
-    console.log(`   First chapter: "${firstRow.Title}" (${firstRow.Slug})`);
+    console.log(`   ✅ First chapter: "${firstRow.Title}" (${firstRow.Slug})`);
 
     console.log("🔨 Building chapters.json structure...");
     const chapters = buildChaptersJSON(rows);
+
+    if (DEBUG) {
+      console.log("\n=== FIRST CHAPTER OBJECT ===");
+      console.log(JSON.stringify(chapters[0], null, 2));
+      console.log("\n⚠️  DEBUG MODE: Not writing to chapters.json");
+      console.log("    Remove --debug flag to actually write the file");
+      return;
+    }
 
     console.log("💾 Writing to chapters.json...");
     const outputPath = path.join(process.cwd(), "chapters.json");
@@ -174,6 +203,7 @@ async function main() {
 
   } catch (error) {
     console.error("❌ Error syncing from Google Sheets:", error.message);
+    console.error("\nFull error:", error);
     process.exit(1);
   }
 }
