@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chapter Workflow Automation Tool v2</title>
+    <script src="https://js.puter.com/v2/"></script>
     <style>
         * {
             margin: 0;
@@ -740,6 +741,38 @@
             showStatus('step1Status', '🔄 Fetching from URL... Please wait (trying multiple proxies).', 'info');
 
             try {
+                let html = null;
+                let usedProxy = null;
+
+                // Try Puter fetch first if available (handles mixed content + encoding)
+                if (window.puter && window.puter.net && window.puter.net.fetch) {
+                    try {
+                        const response = await window.puter.net.fetch(url);
+                        const buffer = await response.arrayBuffer();
+                        const encodings = ['euc-kr', 'windows-949', 'utf-8'];
+
+                        for (const enc of encodings) {
+                            try {
+                                const decoder = new TextDecoder(enc);
+                                const decoded = decoder.decode(buffer);
+                                if (/[\uAC00-\uD7A3]/.test(decoded)) {
+                                    html = decoded;
+                                    usedProxy = 'puter';
+                                    break;
+                                }
+                                if (!html) {
+                                    html = decoded;
+                                    usedProxy = 'puter';
+                                }
+                            } catch (e) {
+                                continue;
+                            }
+                        }
+                    } catch (e) {
+                        console.log('Puter fetch failed:', e.message);
+                    }
+                }
+
                 // Try public CORS proxies in order
                 const proxies = [
                     { name: 'allorigins', url: (u) => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`, parseJson: true },
@@ -748,10 +781,10 @@
                     { name: 'thingproxy', url: (u) => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(u)}`, parseJson: false }
                 ];
 
-                let html = null;
-                let usedProxy = null;
-
                 for (const proxy of proxies) {
+                    if (html && /[\uAC00-\uD7A3]/.test(html)) {
+                        break;
+                    }
                     try {
                         console.log(`Trying proxy: ${proxy.name}`);
                         const response = await fetch(proxy.url(url), {
