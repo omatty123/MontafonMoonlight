@@ -358,9 +358,6 @@
 </head>
 <body>
     <div class="container">
-        <div style="text-align: center; margin: 10px 0 20px;">
-            <button class="btn-success" onclick="autoFetchFromUrl()" style="font-size: 18px; padding: 16px 34px;">🚀 Auto-Fetch from URL</button>
-        </div>
         <header>
             <h1>📚 Montafon Moonlight - Chapter Automation v2</h1>
             <p>Enhanced workflow with auto-detection, glossary, images, and GitHub commit</p>
@@ -380,7 +377,10 @@
 
                 <div class="form-group">
                     <label for="koreanUrl" style="font-size: 16px; font-weight: 600;">Korean Chapter URL (from mediabuddha.net)</label>
-                    <input type="url" id="koreanUrl" placeholder="http://www.mediabuddha.net/m/news/view.php?number=35373" style="font-size: 16px; padding: 15px;">
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="url" id="koreanUrl" placeholder="http://www.mediabuddha.net/m/news/view.php?number=35373" style="font-size: 16px; padding: 15px; flex: 1; min-width: 260px;">
+                        <button class="btn-success" onclick="autoFetchFromUrl()" style="font-size: 16px; padding: 14px 22px; white-space: nowrap;">🚀 Auto-Fetch from URL</button>
+                    </div>
                 </div>
 
                 <div class="form-group">
