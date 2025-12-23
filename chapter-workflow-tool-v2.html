@@ -593,7 +593,33 @@
             document.getElementById('chapterDate').value = today;
             loadGlossary();
             loadChaptersJson();
+            loadFromBookmarklet();
         });
+
+        // Load data from bookmarklet (if available)
+        function loadFromBookmarklet() {
+            const data = localStorage.getItem('montafonChapterData');
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+
+                    // Check if data is fresh (within last 5 minutes)
+                    const age = Date.now() - parsed.timestamp;
+                    if (age < 5 * 60 * 1000) {
+                        document.getElementById('koreanUrl').value = parsed.koreanUrl || '';
+                        document.getElementById('koreanText').value = parsed.koreanText || '';
+                        document.getElementById('imageUrl').value = parsed.imageUrl || '';
+
+                        showStatus('step1Status', '✓ Loaded from bookmarklet! Click "🚀 Process Chapter" to continue.', 'success');
+
+                        // Clear the data
+                        localStorage.removeItem('montafonChapterData');
+                    }
+                } catch (e) {
+                    console.log('No bookmarklet data found');
+                }
+            }
+        }
 
         // Load chapters.json to auto-detect next chapter
         async function loadChaptersJson() {
