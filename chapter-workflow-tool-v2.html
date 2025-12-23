@@ -1710,12 +1710,23 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
                 const updatedChaptersJson = JSON.stringify(chapters, null, 2);
                 await updateGitHubFile(owner, repo, chaptersPath, updatedChaptersJson, `Update chapters.json for chapter ${chapterNum}`, headers, currentChapters.sha);
 
-                // 3. Upload image if available
+                // 3. Upload image if available (both cover AND hero - same image)
                 if (imageBlob) {
                     const cover = document.getElementById('coverImage').value.trim();
-                    const imagePath = `assets/${cover}`;
+
+                    // Remove 'assets/' prefix if it exists (prevent double nesting)
+                    const filename = cover.startsWith('assets/') ? cover.substring(7) : cover;
+
                     const imageBase64 = await blobToBase64(imageBlob);
-                    await updateGitHubFile(owner, repo, imagePath, imageBase64, `Add cover image for chapter ${chapterNum}`, headers, null, true);
+
+                    // Upload cover image
+                    const coverPath = `assets/${filename}`;
+                    await updateGitHubFile(owner, repo, coverPath, imageBase64, `Add cover image for chapter ${chapterNum}`, headers, null, true);
+
+                    // Upload hero image (same image, different filename)
+                    const heroFilename = filename.replace('-cover.', '-hero.');
+                    const heroPath = `assets/${heroFilename}`;
+                    await updateGitHubFile(owner, repo, heroPath, imageBase64, `Add hero image for chapter ${chapterNum}`, headers, null, true);
                 }
 
                 showStatus('step5Status', `✅ Successfully committed chapter ${chapterNum} to GitHub!`, 'success');
