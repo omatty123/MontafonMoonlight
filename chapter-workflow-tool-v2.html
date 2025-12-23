@@ -593,6 +593,7 @@
         let translatedParagraphs = [];
         let chapterData = {};
         let glossary = [];
+        let glossaryWarnings = {};
         let currentChapterNum = 20;
         let imageBlob = null;
 
@@ -882,25 +883,29 @@
 
                 // Extract main image
                 let imageUrl = '';
-                const images = doc.querySelectorAll('img');
+                const imageCandidates = contentElement
+                    ? contentElement.querySelectorAll('img')
+                    : doc.querySelectorAll('img');
 
-                for (const img of images) {
-                    let src = img.src || img.getAttribute('src') || '';
+                for (const img of imageCandidates) {
+                    let src =
+                        img.getAttribute('src') ||
+                        img.getAttribute('data-src') ||
+                        img.getAttribute('data-original') ||
+                        img.getAttribute('data-lazy-src') ||
+                        '';
 
-                    // Skip small images, logos, icons
-                    if (src && !src.includes('logo') && !src.includes('icon') && !src.includes('banner')) {
-                        // Make absolute URL if needed
-                        if (src.startsWith('/')) {
-                            const urlObj = new URL(url);
-                            src = urlObj.origin + src;
-                        } else if (!src.startsWith('http')) {
-                            const urlObj = new URL(url);
-                            src = urlObj.origin + '/' + src;
-                        }
+                    if (!src) continue;
+                    if (src.includes('logo') || src.includes('icon') || src.includes('banner')) continue;
 
-                        imageUrl = src;
-                        break;
+                    try {
+                        src = new URL(src, url).toString();
+                    } catch {
+                        continue;
                     }
+
+                    imageUrl = src;
+                    break;
                 }
 
                 // Fill in the form
@@ -1117,19 +1122,34 @@ Select all cells in column B (the English translations), copy them, then paste h
         function applyGlossaryToTranslation() {
             saveGlossary(); // Save current glossary first
 
+            glossaryWarnings = {};
+
             koreanParagraphs.forEach((korean, index) => {
-                let translation = translatedParagraphs[index] || korean;
+                let translation = translatedParagraphs[index] || '';
 
                 glossary.forEach(term => {
-                    const regex = new RegExp(term.korean, 'g');
-                    translation = translation.replace(regex, term.english);
+                    const escaped = term.korean.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const regex = new RegExp(escaped, 'g');
+
+                    if (translation && regex.test(translation)) {
+                        translation = translation.replace(regex, term.english);
+                    }
+
+                    if (korean.includes(term.korean) && (!translation || !translation.includes(term.english))) {
+                        if (!glossaryWarnings[index]) glossaryWarnings[index] = [];
+                        glossaryWarnings[index].push(`${term.korean} → ${term.english}`);
+                    }
                 });
 
                 translatedParagraphs[index] = translation;
             });
 
             buildTranslationEditor();
-            showStatus('step3Status', '✓ Applied glossary suggestions', 'success');
+            const flagged = Object.keys(glossaryWarnings).length;
+            const message = flagged
+                ? `✓ Applied glossary replacements. ⚠️ Flagged ${flagged} paragraph(s) to review.`
+                : '✓ Applied glossary replacements.';
+            showStatus('step3Status', message, flagged ? 'info' : 'success');
         }
 
         // Translation editor with parallel columns
@@ -1154,13 +1174,22 @@ Select all cells in column B (the English translations), copy them, then paste h
                     ? `<div class="glossary-match">📝 ${matches.join(', ')}</div>`
                     : '';
 
+                const warningList = glossaryWarnings[index];
+                const warningBadge = warningList && warningList.length
+                    ? `<div class="glossary-match" style="background: #fed7aa; border-color: #f6ad55;">⚠️ Review terms: ${warningList.join(', ')}</div>`
+                    : '';
+                const warningStyle = warningList && warningList.length
+                    ? 'border: 2px solid #f6ad55;'
+                    : '';
+
                 pair.innerHTML = `
                     <div class="korean-column">
                         <div class="korean-text">${korean}</div>
                         ${matchBadge}
                     </div>
                     <div class="english-column">
-                        <textarea class="english-input" data-index="${index}" placeholder="English translation...">${translatedParagraphs[index] || ''}</textarea>
+                        <textarea class="english-input" data-index="${index}" placeholder="English translation..." style="${warningStyle}">${translatedParagraphs[index] || ''}</textarea>
+                        ${warningBadge}
                     </div>
                 `;
 
