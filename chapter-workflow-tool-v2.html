@@ -709,9 +709,8 @@
             showStatus('step1Status', '🔄 Fetching from URL... Please wait (trying multiple proxies).', 'info');
 
             try {
-                // Try local proxy first (most reliable), then fall back to public CORS proxies
+                // Try public CORS proxies in order
                 const proxies = [
-                    { name: 'local-proxy', url: (u) => `http://localhost:8765/?url=${encodeURIComponent(u)}`, parseJson: true, isLocal: true },
                     { name: 'allorigins', url: (u) => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`, parseJson: true },
                     { name: 'corsproxy', url: (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`, parseJson: false },
                     { name: 'codetabs', url: (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, parseJson: false },
@@ -736,27 +735,7 @@
                         if (response.ok) {
                             if (proxy.parseJson) {
                                 const data = await response.json();
-
-                                // Local proxy returns structured data
-                                if (proxy.isLocal && data.success) {
-                                    // Use local proxy's pre-parsed data directly
-                                    if (data.koreanText) {
-                                        document.getElementById('koreanText').value = data.koreanText;
-                                    }
-                                    if (data.imageUrl) {
-                                        document.getElementById('imageUrl').value = data.imageUrl;
-                                    }
-                                    chapterData.koreanLink = url;
-
-                                    showStatus('step1Status', `✓ Fetched via ${proxy.name}! "${data.title}", ${data.paragraphCount} paragraphs, Image: ${data.imageUrl ? 'Yes' : 'No'}`, 'success');
-
-                                    // Auto-process
-                                    await processKoreanChapter();
-                                    return; // Success! Exit early
-                                } else {
-                                    // Other JSON proxies
-                                    html = data.contents || data.data;
-                                }
+                                html = data.contents || data.data;
                             } else {
                                 // Get response as blob first to handle encoding properly
                                 const blob = await response.blob();
@@ -780,7 +759,7 @@
                 }
 
                 if (!html) {
-                    throw new Error('All proxy services failed. Run local proxy: python3 local-proxy-server.py');
+                    throw new Error('All proxy services failed. Use bookmarklet or paste Korean text manually.');
                 }
 
                 // Parse HTML
@@ -888,11 +867,10 @@
                 fallbackMsg.style.border = '1px solid #ffc107';
                 fallbackMsg.style.borderRadius = '5px';
                 fallbackMsg.innerHTML = `
-                    <strong>💡 Solution - Run Local Proxy:</strong><br>
-                    1. Open terminal: <code>cd ~/Documents/MontafonMoonlight</code><br>
-                    2. Run: <code>python3 local-proxy-server.py</code><br>
-                    3. Keep it running, then click "Auto-Fetch" again<br><br>
-                    Or paste Korean text manually below
+                    <strong>💡 Alternatives:</strong><br>
+                    1. Use the bookmarklet on the Korean page (see AUTOMATION-GUIDE.md)<br>
+                    2. Paste Korean text manually below<br>
+                    3. If an image URL fails, upload the image file directly
                 `;
                 document.getElementById('step1Status').appendChild(fallbackMsg);
             }
@@ -916,7 +894,16 @@
             showStatus('step1Status', 'Processing...', 'info');
 
             // Parse Korean text
-            koreanParagraphs = text.split('\n').filter(p => p.trim().length > 0);
+            const hasKorean = /[\uAC00-\uD7A3]/.test(text);
+            if (!hasKorean) {
+                showStatus('step1Status', 'No Korean characters detected. Please check the source text.', 'error');
+                return;
+            }
+
+            koreanParagraphs = text
+                .split(/\n\s*\n/)
+                .map(p => p.trim())
+                .filter(p => p.length > 0);
             translatedParagraphs = new Array(koreanParagraphs.length).fill('');
 
             // Handle image if URL provided
@@ -930,14 +917,18 @@
                     preview.src = URL.createObjectURL(imageBlob);
                     preview.classList.remove('hidden');
 
-                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image loaded!`, 'success');
+                    const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
+                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image loaded!${warn}`, 'success');
                 } catch (error) {
-                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (image failed, upload manually)`, 'info');
+                    const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
+                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (image failed, upload manually).${warn}`, 'info');
                 }
             } else if (!imageBlob) {
-                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (no image uploaded)`, 'info');
+                const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
+                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (no image uploaded).${warn}`, 'info');
             } else {
-                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image ready!`, 'success');
+                const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
+                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image ready!${warn}`, 'success');
             }
 
             buildTranslationEditor();
@@ -1155,6 +1146,14 @@ Select all cells in column B (the English translations), copy them, then paste h
             if (translatedParagraphs.length === 0 || translatedParagraphs.every(p => !p.trim())) {
                 showStatus('step5Status', 'Please translate the content first', 'error');
                 return;
+            }
+
+            if (koreanParagraphs.length > 0 && koreanParagraphs.length < 3) {
+                const proceed = confirm(`Only ${koreanParagraphs.length} paragraphs detected. Generate files anyway?`);
+                if (!proceed) {
+                    showStatus('step5Status', 'Generation cancelled. Please verify Korean text.', 'info');
+                    return;
+                }
             }
 
             const htmlContent = generateChapterHTML(translatedParagraphs);
