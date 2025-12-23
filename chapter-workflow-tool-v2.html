@@ -738,12 +738,33 @@
                                 const data = await response.json();
                                 html = data.contents || data.data;
                             } else {
-                                // Get response as blob first to handle encoding properly
-                                const blob = await response.blob();
-                                html = await blob.text();
+                                // Try multiple encodings for Korean text
+                                const buffer = await response.arrayBuffer();
+                                const encodings = ['euc-kr', 'windows-949', 'utf-8'];
+
+                                for (const enc of encodings) {
+                                    try {
+                                        const decoder = new TextDecoder(enc);
+                                        const decoded = decoder.decode(buffer);
+                                        // Check if we got valid Korean characters
+                                        if (/[\uAC00-\uD7A3]/.test(decoded)) {
+                                            html = decoded;
+                                            console.log(`✓ Decoded with ${enc} encoding`);
+                                            break;
+                                        }
+                                        // Keep trying other encodings
+                                    } catch (e) {
+                                        continue;
+                                    }
+                                }
+
+                                // Fallback to UTF-8 if no Korean detected
+                                if (!html) {
+                                    html = new TextDecoder('utf-8').decode(buffer);
+                                }
                             }
 
-                            // For non-local proxies, verify we got Korean text
+                            // Verify we got Korean text
                             if (html && /[\uAC00-\uD7A3]/.test(html)) {
                                 usedProxy = proxy.name;
                                 console.log(`Success with proxy: ${proxy.name}`);
