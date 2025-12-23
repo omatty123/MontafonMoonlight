@@ -39,7 +39,17 @@ class CORSProxyHandler(BaseHTTPRequestHandler):
 
             req = urllib.request.Request(target_url, headers=headers)
             with urllib.request.urlopen(req, timeout=10) as response:
-                html = response.read().decode('utf-8', errors='ignore')
+                # mediabuddha.net uses EUC-KR encoding, not UTF-8
+                raw_html = response.read()
+
+                # Try EUC-KR first (Korean legacy encoding), then UTF-8
+                try:
+                    html = raw_html.decode('euc-kr')
+                except:
+                    try:
+                        html = raw_html.decode('utf-8', errors='ignore')
+                    except:
+                        html = raw_html.decode('latin-1')  # Fallback
 
             # Parse with BeautifulSoup
             soup = BeautifulSoup(html, 'html.parser')
@@ -48,45 +58,37 @@ class CORSProxyHandler(BaseHTTPRequestHandler):
             title = soup.find('title')
             title_text = title.get_text().split('|')[0].split('-')[0].strip() if title else ''
 
-            # Extract main content
-            content_selectors = [
-                'article',
-                ('div', {'class': lambda x: x and ('content' in x or 'article' in x or 'view' in x)}),
-                ('div', {'id': lambda x: x and 'content' in x})
-            ]
-
-            content_element = None
-            for selector in content_selectors:
-                if isinstance(selector, str):
-                    content_element = soup.find(selector)
-                else:
-                    content_element = soup.find(selector[0], selector[1])
-                if content_element:
-                    break
+            # Extract main content - mediabuddha.net uses div id="content"
+            content_element = soup.find('div', {'id': 'content'})
 
             # Extract paragraphs
             korean_text = []
             if content_element:
-                paragraphs = content_element.find_all('p')
+                paragraphs = content_element.find_all('p', {'style': lambda x: x and 'text-align: justify' in x})
                 for p in paragraphs:
                     text = p.get_text().strip()
-                    if len(text) > 10:
+                    # Filter out very short lines and lines with just numbers/spaces
+                    if len(text) > 20 and not text.replace(' ', '').replace('&nbsp;', '').isdigit():
                         korean_text.append(text)
 
-            # Extract image URL
+            # Extract image URL - look for the main article image in content
             image_url = ''
-            for img in soup.find_all('img'):
-                src = img.get('src', '')
-                if src and not any(x in src.lower() for x in ['logo', 'icon', 'banner', 'ad']):
-                    # Make absolute URL
-                    if src.startswith('/'):
-                        parsed_target = urllib.parse.urlparse(target_url)
-                        src = f"{parsed_target.scheme}://{parsed_target.netloc}{src}"
-                    elif not src.startswith('http'):
-                        parsed_target = urllib.parse.urlparse(target_url)
-                        src = f"{parsed_target.scheme}://{parsed_target.netloc}/{src}"
-                    image_url = src
-                    break
+            if content_element:
+                # Find images in the content area
+                content_images = content_element.find_all('img')
+                for img in content_images:
+                    src = img.get('src', '')
+                    # Look for editor images (actual article images)
+                    if src and '/data/editor/' in src:
+                        # Make absolute URL
+                        if src.startswith('/'):
+                            parsed_target = urllib.parse.urlparse(target_url)
+                            src = f"{parsed_target.scheme}://{parsed_target.netloc}{src}"
+                        elif not src.startswith('http'):
+                            parsed_target = urllib.parse.urlparse(target_url)
+                            src = f"{parsed_target.scheme}://{parsed_target.netloc}/{src}"
+                        image_url = src
+                        break
 
             # Prepare JSON response
             result = {
