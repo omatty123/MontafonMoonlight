@@ -1424,6 +1424,74 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
             document.execCommand('removeFormat', false, null);
         }
 
+        // Auto-clean messy HTML from Google Sheets/Docs/html5-editor
+        function autoCleanMessyHTML(html) {
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+
+            // Remove ALL table structures but keep content
+            temp.querySelectorAll('table, tbody, thead, tr').forEach(el => {
+                // Move children out of table elements
+                while (el.firstChild) {
+                    el.parentNode.insertBefore(el.firstChild, el);
+                }
+                el.remove();
+            });
+
+            // Process table cells - each becomes a paragraph
+            const cells = temp.querySelectorAll('td, th');
+            cells.forEach(cell => {
+                const p = document.createElement('p');
+                p.innerHTML = cell.innerHTML;
+                cell.replaceWith(p);
+            });
+
+            // Convert b/i to strong/em
+            temp.querySelectorAll('b').forEach(b => {
+                const strong = document.createElement('strong');
+                strong.innerHTML = b.innerHTML;
+                b.replaceWith(strong);
+            });
+            temp.querySelectorAll('i').forEach(i => {
+                const em = document.createElement('em');
+                em.innerHTML = i.innerHTML;
+                i.replaceWith(em);
+            });
+
+            // Remove ALL spans but keep their content
+            temp.querySelectorAll('span').forEach(span => {
+                span.replaceWith(...span.childNodes);
+            });
+
+            // Remove divs but keep content
+            temp.querySelectorAll('div').forEach(div => {
+                div.replaceWith(...div.childNodes);
+            });
+
+            // Remove font tags
+            temp.querySelectorAll('font').forEach(font => {
+                font.replaceWith(...font.childNodes);
+            });
+
+            // Remove br tags
+            temp.querySelectorAll('br').forEach(br => br.remove());
+
+            // Get cleaned HTML
+            let cleaned = temp.innerHTML;
+
+            // Remove ALL style, class, id attributes
+            cleaned = cleaned.replace(/ style="[^"]*"/gi, '');
+            cleaned = cleaned.replace(/ class="[^"]*"/gi, '');
+            cleaned = cleaned.replace(/ id="[^"]*"/gi, '');
+            cleaned = cleaned.replace(/ data-[^=]*="[^"]*"/gi, '');
+
+            // Clean up whitespace
+            cleaned = cleaned.replace(/\s+/g, ' ');
+            cleaned = cleaned.replace(/<p>\s*<\/p>/gi, ''); // Remove empty paragraphs
+
+            return cleaned;
+        }
+
         // Auto-italicize known Korean terms that should stay italicized
         function autoItalicizeTerms(text) {
             // Terms from glossary that should be italicized
@@ -1464,11 +1532,22 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
         // Update translation from the contenteditable div
         function updateTranslationFromTextarea() {
             const editableDiv = document.getElementById('fullTranslation');
-            const htmlContent = editableDiv.innerHTML.trim();
+            let htmlContent = editableDiv.innerHTML.trim();
 
             if (!htmlContent || htmlContent === '' || editableDiv.textContent.trim() === '') {
                 document.getElementById('translationStatus').innerHTML = '<div style="color: #c53030; padding: 10px; background: #fff5f5; border-radius: 5px;">⚠️ Please paste your translation first</div>';
                 return;
+            }
+
+            // AUTO-CLEAN: Detect and clean messy HTML from Google Sheets/Docs/html5-editor
+            const hasTables = htmlContent.includes('<table') || htmlContent.includes('<tbody') || htmlContent.includes('<tr>');
+            const hasMessySpans = htmlContent.includes('style=') || htmlContent.includes('font-weight');
+
+            if (hasTables || hasMessySpans) {
+                console.log('🧹 Auto-cleaning messy HTML...');
+                htmlContent = autoCleanMessyHTML(htmlContent);
+                // Update the contenteditable with cleaned version
+                editableDiv.innerHTML = htmlContent;
             }
 
             // Extract paragraphs from the HTML (preserving formatting!)
