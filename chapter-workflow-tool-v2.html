@@ -883,11 +883,23 @@
 
                 // Extract main image
                 let imageUrl = '';
-                const imageCandidates = contentElement
-                    ? contentElement.querySelectorAll('img')
-                    : doc.querySelectorAll('img');
+                const imageCandidates = Array.from(
+                    contentElement ? contentElement.querySelectorAll('img') : doc.querySelectorAll('img')
+                );
 
-                for (const img of imageCandidates) {
+                const preferred = imageCandidates.find(img => {
+                    const src =
+                        img.getAttribute('src') ||
+                        img.getAttribute('data-src') ||
+                        img.getAttribute('data-original') ||
+                        img.getAttribute('data-lazy-src') ||
+                        '';
+                    return src.includes('/data/editor/');
+                });
+
+                const fallback = preferred ? [preferred] : imageCandidates;
+
+                for (const img of fallback) {
                     let src =
                         img.getAttribute('src') ||
                         img.getAttribute('data-src') ||
