@@ -1317,36 +1317,45 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
             if (cells.length > 0) {
                 // Google Sheets format - each cell is a paragraph
                 cells.forEach(cell => {
-                    let content = cell.innerHTML.trim();
+                    // Use DOM parsing for more reliable cleaning
+                    const tempCell = document.createElement('div');
+                    tempCell.innerHTML = cell.innerHTML;
+
+                    // Convert b/i to strong/em
+                    tempCell.querySelectorAll('b').forEach(b => {
+                        const strong = document.createElement('strong');
+                        strong.innerHTML = b.innerHTML;
+                        b.replaceWith(strong);
+                    });
+                    tempCell.querySelectorAll('i').forEach(i => {
+                        const em = document.createElement('em');
+                        em.innerHTML = i.innerHTML;
+                        i.replaceWith(em);
+                    });
+
+                    // Remove ALL unwanted tags (span, div, font) but keep their content
+                    ['span', 'div', 'font'].forEach(tagName => {
+                        tempCell.querySelectorAll(tagName).forEach(el => {
+                            el.replaceWith(...el.childNodes);
+                        });
+                    });
+
+                    // Remove br tags completely
+                    tempCell.querySelectorAll('br').forEach(br => br.remove());
+
+                    // Get clean content
+                    let content = tempCell.innerHTML.trim();
+
+                    // Final cleanup: remove any remaining style/class/id attributes
+                    content = content.replace(/ style="[^"]*"/gi, '');
+                    content = content.replace(/ class="[^"]*"/gi, '');
+                    content = content.replace(/ id="[^"]*"/gi, '');
+
+                    // Clean up multiple spaces
+                    content = content.replace(/\s+/g, ' ').trim();
+
                     if (content) {
-                        // Normalize formatting tags (b→strong, i→em)
-                        content = content.replace(/<b(\s[^>]*)?>/gi, '<strong>').replace(/<\/b>/gi, '</strong>');
-                        content = content.replace(/<i(\s[^>]*)?>/gi, '<em>').replace(/<\/i>/gi, '</em>');
-
-                        // Remove ALL unwanted tags and attributes
-                        content = content.replace(/ style="[^"]*"/gi, '');
-                        content = content.replace(/ class="[^"]*"/gi, '');
-                        content = content.replace(/ id="[^"]*"/gi, '');
-                        content = content.replace(/ data-[^=]*="[^"]*"/gi, '');
-
-                        // Remove span tags but keep content
-                        content = content.replace(/<span[^>]*>/gi, '').replace(/<\/span>/gi, '');
-
-                        // Remove div tags but keep content
-                        content = content.replace(/<div[^>]*>/gi, '').replace(/<\/div>/gi, '');
-
-                        // Remove line breaks
-                        content = content.replace(/<br\s*\/?>/gi, ' ');
-
-                        // Remove font tags (old-school formatting)
-                        content = content.replace(/<font[^>]*>/gi, '').replace(/<\/font>/gi, '');
-
-                        // Clean up multiple spaces
-                        content = content.replace(/\s+/g, ' ').trim();
-
-                        if (content) {
-                            paragraphs.push(`<p>${content}</p>`);
-                        }
+                        paragraphs.push(`<p>${content}</p>`);
                     }
                 });
             } else {
