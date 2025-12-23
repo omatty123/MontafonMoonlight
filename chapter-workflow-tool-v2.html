@@ -1279,8 +1279,41 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
                 <div id="translationStatus" style="margin-top: 10px;"></div>
             `;
 
-            // NO custom paste handler - let browser handle paste naturally!
-            // Auto-clean will happen when user clicks "Update Translation"
+            // Add smart paste handler to preserve Google Docs formatting
+            const fullTranslationDiv = document.getElementById('fullTranslation');
+            if (fullTranslationDiv) {
+                // Remove any existing paste listeners
+                fullTranslationDiv.removeEventListener('paste', handleSmartPaste);
+
+                // Add new paste handler
+                fullTranslationDiv.addEventListener('paste', handleSmartPaste);
+            }
+        }
+
+        // Smart paste handler: captures HTML from clipboard and preserves formatting
+        function handleSmartPaste(e) {
+            e.preventDefault();
+
+            // Get HTML from clipboard
+            const clipboardData = e.clipboardData || window.clipboardData;
+            const htmlData = clipboardData.getData('text/html');
+            const textData = clipboardData.getData('text/plain');
+
+            console.log('📋 Paste detected!');
+            console.log('HTML length:', htmlData ? htmlData.length : 0);
+            console.log('Text length:', textData ? textData.length : 0);
+
+            if (htmlData) {
+                // Use HTML data (preserves formatting from Google Docs)
+                console.log('✓ Using HTML data (formatting preserved)');
+
+                // Insert HTML at cursor position
+                document.execCommand('insertHTML', false, htmlData);
+            } else if (textData) {
+                // Fallback to plain text
+                console.log('⚠️ No HTML data, using plain text');
+                document.execCommand('insertText', false, textData);
+            }
         }
 
         // Manual formatting: wrap selected text in HTML tags (for contenteditable)
