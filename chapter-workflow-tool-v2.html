@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter Workflow Automation Tool v2</title>
+    <title>Chapter Workflow Tool - Montafon Moonlight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://js.puter.com/v2/"></script>
     <style>
         * {
@@ -13,85 +16,96 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 2rem;
+            color: #111827;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.1);
             overflow: hidden;
         }
 
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
-            padding: 30px;
+            padding: 2rem;
             text-align: center;
         }
 
         header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
         }
 
         header p {
-            opacity: 0.9;
-            font-size: 14px;
+            opacity: 0.95;
+            font-size: 0.875rem;
+            font-weight: 400;
         }
 
         .workflow {
-            padding: 30px;
+            padding: 2rem;
         }
 
         .step {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+
+        .step:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
         }
 
         .step-header {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 1.25rem;
         }
 
         .step-number {
-            background: #667eea;
+            background: #2563eb;
             color: white;
-            width: 32px;
-            height: 32px;
+            width: 2rem;
+            height: 2rem;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            margin-right: 12px;
+            font-weight: 600;
+            margin-right: 0.75rem;
+            font-size: 0.875rem;
         }
 
         .step-title {
-            font-size: 18px;
+            font-size: 1.125rem;
             font-weight: 600;
             color: #2d3748;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.25rem;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #4a5568;
+            margin-bottom: 0.5rem;
+            color: #374151;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 0.875rem;
         }
 
         input[type="text"],
@@ -101,42 +115,46 @@
         input[type="password"],
         textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.2s;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+            background: #ffffff;
         }
 
         input:focus,
         textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         textarea {
             min-height: 120px;
             resize: vertical;
-            font-family: monospace;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            line-height: 1.6;
         }
 
         button {
-            background: #667eea;
+            background: #2563eb;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         button:hover {
-            background: #5568d3;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.25);
         }
 
         button:active {
@@ -144,9 +162,10 @@
         }
 
         button:disabled {
-            background: #cbd5e0;
+            background: #d1d5db;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
         .translation-editor {
@@ -200,8 +219,9 @@
         }
 
         .english-input:focus {
-            border-color: #667eea;
+            border-color: #2563eb;
             outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         @media (max-width: 900px) {
@@ -213,7 +233,7 @@
         /* Contenteditable placeholder styling */
         [contenteditable="true"]:empty:before {
             content: attr(data-placeholder);
-            color: #a0aec0;
+            color: #9ca3af;
             font-style: italic;
             pointer-events: none;
         }
@@ -233,58 +253,67 @@
 
         .button-group {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
             flex-wrap: wrap;
         }
 
+        .btn-primary {
+            background: #2563eb;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
         .btn-secondary {
-            background: #718096;
+            background: #6b7280;
         }
 
         .btn-secondary:hover {
-            background: #4a5568;
+            background: #4b5563;
         }
 
         .btn-success {
-            background: #48bb78;
+            background: #10b981;
         }
 
         .btn-success:hover {
-            background: #38a169;
+            background: #059669;
         }
 
         .btn-warning {
-            background: #ed8936;
+            background: #f59e0b;
         }
 
         .btn-warning:hover {
-            background: #dd6b20;
+            background: #d97706;
         }
 
         .status-message {
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 15px;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
             display: none;
+            font-size: 0.875rem;
         }
 
         .status-success {
-            background: #c6f6d5;
-            color: #22543d;
-            border: 1px solid #9ae6b4;
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
         }
 
         .status-error {
-            background: #fed7d7;
-            color: #742a2a;
-            border: 1px solid #fc8181;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
         }
 
         .status-info {
-            background: #bee3f8;
-            color: #2c5282;
-            border: 1px solid #90cdf4;
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
         }
 
         .preview {
@@ -346,19 +375,19 @@
 <body>
     <div class="container">
         <header>
-            <h1>📚 Montafon Moonlight - Chapter Automation v2</h1>
-            <p>Enhanced workflow with auto-detection, glossary, images, and GitHub commit</p>
+            <h1>📚 Montafon Moonlight - Chapter Workflow Tool</h1>
+            <p>Streamlined translation workflow with auto-fetch, smart formatting, and GitHub integration</p>
         </header>
 
         <div class="workflow">
             <!-- Step 1: Input Korean URL (Most Important) -->
-            <div class="step" style="border-left: 4px solid #48bb78;">
+            <div class="step">
                 <div class="step-header">
                     <div class="step-number">1</div>
-                    <div class="step-title">Start Here: Korean Chapter URL</div>
+                    <div class="step-title">Korean Chapter Source</div>
                 </div>
 
-                <div class="info-badge" style="background: #c6f6d5; color: #22543d; font-size: 16px;">
+                <div class="info-badge" style="background: #dbeafe; color: #1e40af; font-size: 0.875rem; font-weight: 500;">
                     🎯 Next chapter is <strong id="nextChapterNum">20</strong> - Paste the Korean URL below
                 </div>
 
