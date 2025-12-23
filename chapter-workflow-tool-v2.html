@@ -1712,7 +1712,11 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
                 const chapters = JSON.parse(atob(currentChapters.content));
 
                 // Add new chapter (or update if exists)
-                const newChapter = JSON.parse(chapterData.jsonEntry);
+                // chapterData.jsonEntry might be a string or object, handle both
+                const newChapter = typeof chapterData.jsonEntry === 'string'
+                    ? JSON.parse(chapterData.jsonEntry)
+                    : chapterData.jsonEntry;
+
                 const existingIndex = chapters.findIndex(ch => ch.slug === newChapter.slug);
                 if (existingIndex >= 0) {
                     chapters[existingIndex] = newChapter;
@@ -1737,8 +1741,14 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
                 localStorage.setItem('githubToken', token);
 
             } catch (error) {
-                showStatus('step5Status', `❌ Commit failed: ${error.message}`, 'error');
+                const errorMsg = error.message || String(error);
+                showStatus('step5Status', `❌ Commit failed: ${errorMsg}`, 'error');
                 console.error('GitHub commit error:', error);
+
+                // Show detailed error for debugging
+                if (error.stack) {
+                    console.error('Error stack:', error.stack);
+                }
             }
         }
 
