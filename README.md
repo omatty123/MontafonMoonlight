@@ -44,3 +44,9 @@ const SITE = {
 }
 ```
 Commit + push. Index, stats, prev/next, RSS, and sitemap update automatically.
+
+## UI change checklist
+- Verify light/dark contrast for any new text colors.
+- Check header and hero text on both themes.
+- Confirm button text remains readable on hover/active.
+- Scan mobile widths for overflow or wrapping issues.
