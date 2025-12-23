@@ -929,10 +929,10 @@ Select all cells in column B (the English translations), copy them, then paste h
 
         function generateChapterHTML(paragraphs) {
             const paragraphsHtml = paragraphs
-                .map(p => `  <p>${p}</p>`)
+                .map(p => `<p>${p}</p>`)
                 .join('\n\n');
 
-            return `<div class="gdoc">\n\n${paragraphsHtml}\n</div>\n`;
+            return paragraphsHtml + '\n';
         }
 
         // Download functions
