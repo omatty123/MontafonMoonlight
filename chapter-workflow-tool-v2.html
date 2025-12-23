@@ -596,7 +596,11 @@
 
                 <div class="form-group">
                     <label for="githubToken">GitHub Personal Access Token</label>
-                    <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx" style="flex: 1;">
+                        <button class="btn-primary" onclick="saveGitHubToken()" style="white-space: nowrap;">💾 Save Token</button>
+                        <button class="btn-secondary" onclick="testGitHubToken()" style="white-space: nowrap;">🧪 Test</button>
+                    </div>
                     <small style="color: #718096; display: block; margin-top: 5px;">
                         Get at: Settings → Developer settings → Personal access tokens → Tokens (classic)<br>
                         Required scopes: <strong>repo</strong> (full control of private repositories)
@@ -1623,6 +1627,53 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        }
+
+        // Save GitHub token
+        function saveGitHubToken() {
+            const token = document.getElementById('githubToken').value.trim();
+            if (!token) {
+                showStatus('step6Status', 'Please enter a token first', 'error');
+                return;
+            }
+
+            if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
+                showStatus('step6Status', '⚠️ Token saved, but it doesn\'t look like a valid GitHub token (should start with ghp_ or github_pat_)', 'info');
+            } else {
+                showStatus('step6Status', '✅ Token saved! It will be remembered for future sessions.', 'success');
+            }
+
+            localStorage.setItem('githubToken', token);
+        }
+
+        // Test GitHub token
+        async function testGitHubToken() {
+            const token = document.getElementById('githubToken').value.trim();
+            if (!token) {
+                showStatus('step6Status', 'Please enter a token first', 'error');
+                return;
+            }
+
+            showStatus('step6Status', '🧪 Testing token...', 'info');
+
+            try {
+                const response = await fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    showStatus('step6Status', `✅ Token valid! Authenticated as: ${user.login}`, 'success');
+                    localStorage.setItem('githubToken', token);
+                } else {
+                    showStatus('step6Status', `❌ Token invalid: ${response.statusText}`, 'error');
+                }
+            } catch (error) {
+                showStatus('step6Status', `❌ Test failed: ${error.message}`, 'error');
+            }
         }
 
         // GitHub commit
