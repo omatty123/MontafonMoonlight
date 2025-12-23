@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://js.puter.com/v2/"></script>
     <style>
         * {
             margin: 0;
@@ -684,33 +683,31 @@
                 let html = null;
                 let usedProxy = null;
 
-                // Try Puter fetch first if available (handles mixed content + encoding)
-                if (window.puter && window.puter.net && window.puter.net.fetch) {
-                    try {
-                        const response = await window.puter.net.fetch(url);
-                        const buffer = await response.arrayBuffer();
-                        const encodings = ['euc-kr', 'windows-949', 'utf-8'];
+                // Try local proxy server first (if running)
+                try {
+                    console.log('Trying local proxy server...');
+                    const response = await fetch(`http://localhost:8765/?url=${encodeURIComponent(url)}`, {
+                        signal: AbortSignal.timeout(5000) // 5 second timeout for local server
+                    });
 
-                        for (const enc of encodings) {
-                            try {
-                                const decoder = new TextDecoder(enc);
-                                const decoded = decoder.decode(buffer);
-                                if (/[\uAC00-\uD7A3]/.test(decoded)) {
-                                    html = decoded;
-                                    usedProxy = 'puter';
-                                    break;
-                                }
-                                if (!html) {
-                                    html = decoded;
-                                    usedProxy = 'puter';
-                                }
-                            } catch (e) {
-                                continue;
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.koreanText) {
+                            html = data.koreanText;
+                            usedProxy = 'local-server';
+                            console.log('✓ Success with local proxy server!');
+
+                            // Also use the title and image if available
+                            if (data.title) {
+                                document.getElementById('koreanText').value = data.koreanText;
+                            }
+                            if (data.imageUrl) {
+                                document.getElementById('imageUrl').value = data.imageUrl;
                             }
                         }
-                    } catch (e) {
-                        console.log('Puter fetch failed:', e.message);
                     }
+                } catch (e) {
+                    console.log('Local proxy not available (this is okay):', e.message);
                 }
 
                 // Try public CORS proxies in order
