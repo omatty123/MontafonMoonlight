@@ -1304,7 +1304,7 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
             }
         }
 
-        // Clean and normalize HTML from Google Sheets
+        // Clean and normalize HTML from Google Sheets (strips table tags, keeps formatting)
         function cleanGoogleSheetsHTML(html) {
             // Create a temporary div to parse the HTML
             const temp = document.createElement('div');
@@ -1319,19 +1319,34 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
                 cells.forEach(cell => {
                     let content = cell.innerHTML.trim();
                     if (content) {
-                        // Normalize formatting tags
-                        content = content.replace(/<b>/g, '<strong>').replace(/<\/b>/g, '</strong>');
-                        content = content.replace(/<i>/g, '<em>').replace(/<\/i>/g, '</em>');
+                        // Normalize formatting tags (b→strong, i→em)
+                        content = content.replace(/<b(\s[^>]*)?>/gi, '<strong>').replace(/<\/b>/gi, '</strong>');
+                        content = content.replace(/<i(\s[^>]*)?>/gi, '<em>').replace(/<\/i>/gi, '</em>');
 
-                        // Remove Google Sheets specific styles and attributes
-                        content = content.replace(/ style="[^"]*"/g, '');
-                        content = content.replace(/ class="[^"]*"/g, '');
-                        content = content.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
+                        // Remove ALL unwanted tags and attributes
+                        content = content.replace(/ style="[^"]*"/gi, '');
+                        content = content.replace(/ class="[^"]*"/gi, '');
+                        content = content.replace(/ id="[^"]*"/gi, '');
+                        content = content.replace(/ data-[^=]*="[^"]*"/gi, '');
 
-                        // Clean up excessive tags
-                        content = content.replace(/<br\s*\/?>/g, ' ');
+                        // Remove span tags but keep content
+                        content = content.replace(/<span[^>]*>/gi, '').replace(/<\/span>/gi, '');
 
-                        paragraphs.push(`<p>${content}</p>`);
+                        // Remove div tags but keep content
+                        content = content.replace(/<div[^>]*>/gi, '').replace(/<\/div>/gi, '');
+
+                        // Remove line breaks
+                        content = content.replace(/<br\s*\/?>/gi, ' ');
+
+                        // Remove font tags (old-school formatting)
+                        content = content.replace(/<font[^>]*>/gi, '').replace(/<\/font>/gi, '');
+
+                        // Clean up multiple spaces
+                        content = content.replace(/\s+/g, ' ').trim();
+
+                        if (content) {
+                            paragraphs.push(`<p>${content}</p>`);
+                        }
                     }
                 });
             } else {
