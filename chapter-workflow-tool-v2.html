@@ -364,66 +364,36 @@
         </header>
 
         <div class="workflow">
-            <!-- Step 0: Settings -->
-            <div class="step">
-                <div class="step-header">
-                    <div class="step-number">⚙️</div>
-                    <div class="step-title">Settings & GitHub Configuration</div>
-                </div>
-
-                <div class="info-badge">
-                    ✓ Auto-detected: Next chapter is <strong id="nextChapterNum">20</strong>
-                </div>
-
-                <div class="info-badge" style="background: #c6f6d5; color: #22543d;">
-                    💡 Translation uses FREE Google Sheets GOOGLETRANSLATE formula - no API key needed!
-                </div>
-
-                <div class="form-group">
-                    <label for="githubToken">GitHub Personal Access Token (optional, for auto-commit)</label>
-                    <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
-                    <small style="color: #718096; display: block; margin-top: 5px;">
-                        Create at: Settings → Developer settings → Personal access tokens → Generate new token (classic)<br>
-                        Required scopes: repo (all)
-                    </small>
-                </div>
-
-                <button onclick="loadChaptersJson()">Load Latest Chapter Info</button>
-
-                <div id="step0Status" class="status-message"></div>
-            </div>
-
-            <!-- Step 1: Input Korean Content & Images -->
-            <div class="step">
+            <!-- Step 1: Input Korean URL (Most Important) -->
+            <div class="step" style="border-left: 4px solid #48bb78;">
                 <div class="step-header">
                     <div class="step-number">1</div>
-                    <div class="step-title">Input Korean Content & Images</div>
+                    <div class="step-title">Start Here: Korean Chapter URL</div>
+                </div>
+
+                <div class="info-badge" style="background: #c6f6d5; color: #22543d; font-size: 16px;">
+                    🎯 Next chapter is <strong id="nextChapterNum">20</strong> - Paste the Korean URL below
                 </div>
 
                 <div class="form-group">
-                    <label for="koreanUrl">Korean Chapter URL</label>
-                    <input type="url" id="koreanUrl" placeholder="http://www.mediabuddha.net/m/news/view.php?number=35373">
+                    <label for="koreanUrl" style="font-size: 16px; font-weight: 600;">Korean Chapter URL (from mediabuddha.net)</label>
+                    <input type="url" id="koreanUrl" placeholder="http://www.mediabuddha.net/m/news/view.php?number=35373" style="font-size: 16px; padding: 15px;">
                 </div>
 
                 <div class="form-group">
-                    <label for="koreanText">Korean Text (paste here)</label>
+                    <label for="koreanText">Korean Text (copy/paste from the website)</label>
                     <textarea id="koreanText" placeholder="Paste the Korean chapter text here..."></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="imageUrl">Cover Image URL (from Korean site)</label>
-                    <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg">
-                </div>
-
-                <div class="form-group">
-                    <label for="imageFile">Or Upload Image File</label>
+                    <label for="imageFile">Cover Image (upload or paste URL below)</label>
                     <input type="file" id="imageFile" accept="image/*" onchange="handleImageUpload(event)">
+                    <input type="url" id="imageUrl" placeholder="Or paste image URL here" style="margin-top: 8px;">
                     <img id="imagePreview" class="image-preview hidden">
                 </div>
 
                 <div class="button-group">
-                    <button onclick="parseKoreanText()">Parse Korean Text</button>
-                    <button onclick="downloadImageFromUrl()">Download Image from URL</button>
+                    <button class="btn-success" onclick="processKoreanChapter()" style="font-size: 16px; padding: 15px 30px;">🚀 Process Chapter</button>
                 </div>
 
                 <div id="step1Status" class="status-message"></div>
@@ -578,6 +548,33 @@
 
                 <div id="step5Status" class="status-message"></div>
             </div>
+
+            <!-- Step 6: Settings (Optional) -->
+            <div class="step" style="background: #f7fafc;">
+                <div class="step-header">
+                    <div class="step-number">⚙️</div>
+                    <div class="step-title">Settings (Optional)</div>
+                </div>
+
+                <p style="margin-bottom: 15px; color: #718096;">
+                    Configure GitHub token for auto-commit feature. Skip if you prefer manual commit.
+                </p>
+
+                <div class="info-badge" style="background: #bee3f8; color: #2c5282;">
+                    💡 Translation uses FREE Google Sheets GOOGLETRANSLATE formula - no API key needed!
+                </div>
+
+                <div class="form-group">
+                    <label for="githubToken">GitHub Personal Access Token</label>
+                    <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
+                    <small style="color: #718096; display: block; margin-top: 5px;">
+                        Get at: Settings → Developer settings → Personal access tokens → Tokens (classic)<br>
+                        Required scopes: <strong>repo</strong> (full control of private repositories)
+                    </small>
+                </div>
+
+                <div id="step6Status" class="status-message"></div>
+            </div>
         </div>
     </div>
 
@@ -611,11 +608,11 @@
                 document.getElementById('coverImage').value = `assets/ch${currentChapterNum}-cover.jpg`;
                 document.getElementById('heroImage').value = `assets/ch${currentChapterNum}-hero.jpg`;
 
-                showStatus('step0Status', `✓ Loaded: Next chapter is #${currentChapterNum}`, 'success');
+                console.log(`✓ Loaded: Next chapter is #${currentChapterNum}`);
             } catch (error) {
                 currentChapterNum = 20;
                 document.getElementById('chapterNumber').value = currentChapterNum;
-                showStatus('step0Status', 'Could not load chapters.json, defaulting to chapter 20', 'info');
+                console.log('Could not load chapters.json, defaulting to chapter 20');
             }
         }
 
@@ -665,15 +662,19 @@
             }
 
             const chapterNum = document.getElementById('chapterNumber').value;
-            const filename = `ch${chapterNum}-cover.jpg`;
-            downloadBlob(imageBlob, filename);
-            showStatus('step5Status', `✓ Downloaded ${filename}`, 'success');
+            const coverFilename = `ch${chapterNum}-cover.jpg`;
+            const heroFilename = `ch${chapterNum}-hero.jpg`;
+
+            // Download as cover (they can save the same file twice for hero)
+            downloadBlob(imageBlob, coverFilename);
+            showStatus('step5Status', `✓ Downloaded ${coverFilename} - Save to assets/ folder. Use same image for hero image.`, 'success');
         }
 
-        // Korean text parsing
-        function parseKoreanText() {
+        // Process Korean Chapter (main workflow button)
+        async function processKoreanChapter() {
             const text = document.getElementById('koreanText').value.trim();
             const url = document.getElementById('koreanUrl').value.trim();
+            const imageUrl = document.getElementById('imageUrl').value.trim();
 
             if (!text) {
                 showStatus('step1Status', 'Please paste Korean text', 'error');
@@ -684,12 +685,40 @@
                 chapterData.koreanLink = url;
             }
 
+            showStatus('step1Status', 'Processing...', 'info');
+
+            // Parse Korean text
             koreanParagraphs = text.split('\n').filter(p => p.trim().length > 0);
             translatedParagraphs = new Array(koreanParagraphs.length).fill('');
 
+            // Handle image if URL provided
+            if (imageUrl) {
+                try {
+                    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(imageUrl);
+                    const response = await fetch(proxyUrl);
+                    imageBlob = await response.blob();
+
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = URL.createObjectURL(imageBlob);
+                    preview.classList.remove('hidden');
+
+                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image loaded!`, 'success');
+                } catch (error) {
+                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (image failed, upload manually)`, 'info');
+                }
+            } else if (!imageBlob) {
+                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (no image uploaded)`, 'info');
+            } else {
+                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image ready!`, 'success');
+            }
+
             buildTranslationEditor();
             document.getElementById('sheetsTranslateBtn').disabled = false;
-            showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs. Ready to translate!`, 'success');
+        }
+
+        // Korean text parsing (backup function)
+        function parseKoreanText() {
+            processKoreanChapter();
         }
 
         // Google Sheets Translation (FREE)
