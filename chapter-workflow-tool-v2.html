@@ -883,6 +883,14 @@
 
                 // Extract main image
                 let imageUrl = '';
+                const ogImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+                if (ogImage) {
+                    try {
+                        imageUrl = new URL(ogImage, url).toString();
+                    } catch {
+                        imageUrl = ogImage;
+                    }
+                }
                 const imageCandidates = Array.from(
                     contentElement ? contentElement.querySelectorAll('img') : doc.querySelectorAll('img')
                 );
@@ -900,6 +908,7 @@
                 const fallback = preferred ? [preferred] : imageCandidates;
 
                 for (const img of fallback) {
+                    if (imageUrl) break;
                     let src =
                         img.getAttribute('src') ||
                         img.getAttribute('data-src') ||
