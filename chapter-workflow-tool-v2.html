@@ -393,7 +393,8 @@
                 </div>
 
                 <div class="button-group">
-                    <button class="btn-success" onclick="processKoreanChapter()" style="font-size: 16px; padding: 15px 30px;">🚀 Process Chapter</button>
+                    <button class="btn-success" onclick="autoFetchFromUrl()" style="font-size: 16px; padding: 15px 30px;">🚀 Auto-Fetch from URL</button>
+                    <button class="btn-secondary" onclick="processKoreanChapter()">Or Process Manually</button>
                 </div>
 
                 <div id="step1Status" class="status-message"></div>
@@ -694,6 +695,148 @@
             // Download as cover (they can save the same file twice for hero)
             downloadBlob(imageBlob, coverFilename);
             showStatus('step5Status', `✓ Downloaded ${coverFilename} - Save to assets/ folder. Use same image for hero image.`, 'success');
+        }
+
+        // Auto-fetch from URL (main automation)
+        async function autoFetchFromUrl() {
+            const url = document.getElementById('koreanUrl').value.trim();
+
+            if (!url) {
+                showStatus('step1Status', 'Please enter Korean chapter URL first', 'error');
+                return;
+            }
+
+            showStatus('step1Status', '🔄 Fetching from URL... Please wait.', 'info');
+
+            try {
+                // Try multiple CORS proxies for reliability
+                const proxies = [
+                    'https://api.allorigins.win/raw?url=',
+                    'https://corsproxy.io/?',
+                    'https://api.codetabs.com/v1/proxy?quest='
+                ];
+
+                let html = null;
+                let usedProxy = null;
+
+                for (const proxy of proxies) {
+                    try {
+                        const response = await fetch(proxy + encodeURIComponent(url), {
+                            method: 'GET',
+                            timeout: 10000
+                        });
+
+                        if (response.ok) {
+                            html = await response.text();
+                            usedProxy = proxy;
+                            break;
+                        }
+                    } catch (e) {
+                        continue; // Try next proxy
+                    }
+                }
+
+                if (!html) {
+                    throw new Error('All proxy services failed. Please paste text manually.');
+                }
+
+                // Parse HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Extract title
+                let title = doc.querySelector('title')?.textContent || '';
+                title = title.split('|')[0].split('-')[0].trim(); // Clean up title
+
+                // Extract main content text
+                let bodyText = '';
+                const contentSelectors = [
+                    'article',
+                    '.article-content',
+                    '.news-content',
+                    '#article-view-content-div',
+                    '.view-content',
+                    'div[id*="content"]',
+                    '.article_view'
+                ];
+
+                let contentElement = null;
+                for (const selector of contentSelectors) {
+                    contentElement = doc.querySelector(selector);
+                    if (contentElement) break;
+                }
+
+                if (contentElement) {
+                    // Extract paragraphs
+                    const paragraphs = contentElement.querySelectorAll('p');
+                    const textArray = [];
+
+                    paragraphs.forEach(p => {
+                        const text = p.textContent.trim();
+                        if (text.length > 10) { // Filter very short lines
+                            textArray.push(text);
+                        }
+                    });
+
+                    bodyText = textArray.join('\n\n');
+                } else {
+                    // Fallback: get all p tags
+                    const allParagraphs = doc.querySelectorAll('p');
+                    const textArray = [];
+
+                    allParagraphs.forEach(p => {
+                        const text = p.textContent.trim();
+                        if (text.length > 20) {
+                            textArray.push(text);
+                        }
+                    });
+
+                    bodyText = textArray.join('\n\n');
+                }
+
+                // Extract main image
+                let imageUrl = '';
+                const images = doc.querySelectorAll('img');
+
+                for (const img of images) {
+                    let src = img.src || img.getAttribute('src') || '';
+
+                    // Skip small images, logos, icons
+                    if (src && !src.includes('logo') && !src.includes('icon') && !src.includes('banner')) {
+                        // Make absolute URL if needed
+                        if (src.startsWith('/')) {
+                            const urlObj = new URL(url);
+                            src = urlObj.origin + src;
+                        } else if (!src.startsWith('http')) {
+                            const urlObj = new URL(url);
+                            src = urlObj.origin + '/' + src;
+                        }
+
+                        imageUrl = src;
+                        break;
+                    }
+                }
+
+                // Fill in the form
+                if (bodyText) {
+                    document.getElementById('koreanText').value = bodyText;
+                }
+
+                if (imageUrl) {
+                    document.getElementById('imageUrl').value = imageUrl;
+                }
+
+                chapterData.koreanLink = url;
+
+                showStatus('step1Status', `✓ Fetched! Title: "${title}", ${bodyText.split('\n\n').length} paragraphs, Image: ${imageUrl ? 'Yes' : 'No'}`, 'success');
+
+                // Auto-process
+                await processKoreanChapter();
+
+            } catch (error) {
+                showStatus('step1Status', `❌ Auto-fetch failed: ${error.message}. Please paste text manually below.`, 'error');
+                console.error('Fetch error:', error);
+            }
         }
 
         // Process Korean Chapter (main workflow button)
