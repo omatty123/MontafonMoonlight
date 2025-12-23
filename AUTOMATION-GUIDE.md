@@ -70,6 +70,25 @@ python3 scrape-chapter.py http://www.mediabuddha.net/m/news/view.php?number=3537
 
 ---
 
+## Option 4: Puppeteer Script (Most Reliable, Browser-Accurate)
+
+### Setup (One Time):
+```bash
+cd ~/Documents/MontafonMoonlight
+npm install puppeteer
+```
+
+### Usage Every Tuesday:
+```bash
+node scrape-chapter-puppeteer.js http://www.mediabuddha.net/m/news/view.php?number=35373
+```
+
+**Output:**
+- Creates `chapter-data.json` with extracted text and image URL
+- In the workflow tool, use the “chapter-data.json” file input to load it
+
+---
+
 ## Full Workflow (< 10 minutes):
 
 ### Tuesday Afternoon:

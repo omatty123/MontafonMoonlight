@@ -384,6 +384,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="chapterJsonFile">Or load from chapter-data.json</label>
+                    <input type="file" id="chapterJsonFile" accept="application/json" onchange="loadFromJsonFile(event)">
+                </div>
+
+                <div class="form-group">
                     <label for="koreanText">Korean Text (copy/paste from the website)</label>
                     <textarea id="koreanText" placeholder="Paste the Korean chapter text here..."></textarea>
                 </div>
@@ -622,6 +627,30 @@
                     console.log('No bookmarklet data found');
                 }
             }
+        }
+
+        function loadFromJsonFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const parsed = JSON.parse(reader.result);
+                    const koreanText = parsed.koreanText || parsed.text || '';
+                    const koreanUrl = parsed.koreanUrl || parsed.url || '';
+                    const imageUrl = parsed.imageUrl || parsed.image || '';
+
+                    if (koreanUrl) document.getElementById('koreanUrl').value = koreanUrl;
+                    if (koreanText) document.getElementById('koreanText').value = koreanText;
+                    if (imageUrl) document.getElementById('imageUrl').value = imageUrl;
+
+                    showStatus('step1Status', '✓ Loaded from chapter-data.json. Click "Or Process Manually" to continue.', 'success');
+                } catch (e) {
+                    showStatus('step1Status', 'Could not parse JSON file. Please check the file format.', 'error');
+                }
+            };
+            reader.readAsText(file);
         }
 
         // Load chapters.json to auto-detect next chapter
