@@ -1224,9 +1224,31 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
                 i.replaceWith(em);
             });
 
-            // Remove ALL spans but keep their content
+            // Convert styled spans to em/strong BEFORE removing them
             temp.querySelectorAll('span').forEach(span => {
-                span.replaceWith(...span.childNodes);
+                const style = span.getAttribute('style') || '';
+                const isBold = style.includes('font-weight: bold') || style.includes('font-weight:bold') || style.includes('font-weight: 700');
+                const isItalic = style.includes('font-style: italic') || style.includes('font-style:italic');
+
+                if (isItalic && isBold) {
+                    // Both bold and italic - wrap in both tags
+                    const strong = document.createElement('strong');
+                    const em = document.createElement('em');
+                    em.innerHTML = span.innerHTML;
+                    strong.appendChild(em);
+                    span.replaceWith(strong);
+                } else if (isBold) {
+                    const strong = document.createElement('strong');
+                    strong.innerHTML = span.innerHTML;
+                    span.replaceWith(strong);
+                } else if (isItalic) {
+                    const em = document.createElement('em');
+                    em.innerHTML = span.innerHTML;
+                    span.replaceWith(em);
+                } else {
+                    // No styling - just unwrap
+                    span.replaceWith(...span.childNodes);
+                }
             });
 
             // Remove divs but keep content
