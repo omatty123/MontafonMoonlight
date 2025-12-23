@@ -1,0 +1,244 @@
+{
+  "glossary": [
+    {
+      "korean": "정찬주",
+      "english": "Jeong Chanju",
+      "note": "Author - protagonist, Buddhist novelist"
+    },
+    {
+      "korean": "박명숙",
+      "english": "Park Myeongsuk",
+      "note": "Mrs. Park - ceramic artist, Jeong's wife"
+    },
+    {
+      "korean": "무염",
+      "english": "Muyeom",
+      "note": "Author Jeong's dharma name"
+    },
+    {
+      "korean": "무량광",
+      "english": "Muryanggwang",
+      "note": "Mrs. Park's dharma name"
+    },
+    {
+      "korean": "헤르베르트 빌리",
+      "english": "Herbert Willi",
+      "note": "Austrian composer, Mr. Willi"
+    },
+    {
+      "korean": "권숙녀",
+      "english": "Kwon Suk-nyeo",
+      "note": "Chairwoman Kwon / Sonja Steindl-Kwon"
+    },
+    {
+      "korean": "베르너 슈토킹거",
+      "english": "Werner Stockinger",
+      "note": "Dr. Werner / Dr. Bae"
+    },
+    {
+      "korean": "배훈아",
+      "english": "Bae Hoon-a",
+      "note": "Nickname for Dr. Werner"
+    },
+    {
+      "korean": "법정",
+      "english": "Beopjeong",
+      "note": "Venerable Beopjeong - Korean Zen master"
+    },
+    {
+      "korean": "프란체스카 도너",
+      "english": "Francesca Donner",
+      "note": "Mrs. Francesca, wife of Dr. Rhee"
+    },
+    {
+      "korean": "이승만",
+      "english": "Syngman Rhee",
+      "note": "Dr. Rhee - Korea's first president"
+    },
+    {
+      "korean": "홍기삼",
+      "english": "Hong Gisam",
+      "note": "Professor Hong - former president of Dongguk University"
+    },
+    {
+      "korean": "이불재",
+      "english": "Ibuljae",
+      "note": "Author Jeong's mountain retreat home"
+    },
+    {
+      "korean": "몬타폰",
+      "english": "Montafon",
+      "note": "Alpine valley in Austria, Willi's home"
+    },
+    {
+      "korean": "성철",
+      "english": "Seongcheol",
+      "note": "Venerable Seongcheol - famous Zen master"
+    },
+    {
+      "korean": "정",
+      "english": "jeong",
+      "note": "Deep affection/connection - keep italicized"
+    },
+    {
+      "korean": "화두",
+      "english": "hwadu",
+      "note": "Zen meditation question/koan - keep italicized"
+    },
+    {
+      "korean": "삼매",
+      "english": "samadhi",
+      "note": "Deep meditative concentration"
+    },
+    {
+      "korean": "선",
+      "english": "Seon",
+      "note": "Korean Zen Buddhism"
+    },
+    {
+      "korean": "열반",
+      "english": "nirvana",
+      "note": "Liberation from suffering"
+    },
+    {
+      "korean": "천만에요",
+      "english": "Cheonmaneyo",
+      "note": "You're welcome - Dr. Werner's phrase"
+    },
+    {
+      "korean": "한복",
+      "english": "hanbok",
+      "note": "Traditional Korean clothing"
+    },
+    {
+      "korean": "한글",
+      "english": "Hangeul",
+      "note": "Korean alphabet"
+    },
+    {
+      "korean": "태극기",
+      "english": "Taegeukgi",
+      "note": "Korean national flag"
+    },
+    {
+      "korean": "쌍봉사",
+      "english": "Ssangbong-sa",
+      "note": "Temple below Ibuljae"
+    },
+    {
+      "korean": "범련사",
+      "english": "Beomnyeon-sa",
+      "note": "Temple in Seoul"
+    },
+    {
+      "korean": "불일암",
+      "english": "Bulil-am",
+      "note": "Hermitage where Beopjeong lived"
+    },
+    {
+      "korean": "해인사",
+      "english": "Haein-sa",
+      "note": "Major Korean temple"
+    },
+    {
+      "korean": "이화장",
+      "english": "Ihwajang",
+      "note": "Dr. Rhee's residence"
+    },
+    {
+      "korean": "전라남도",
+      "english": "Jeollanam-do",
+      "note": "South Jeolla Province"
+    },
+    {
+      "korean": "빈",
+      "english": "Vienna",
+      "note": "Capital of Austria"
+    },
+    {
+      "korean": "인연",
+      "english": "inyeon",
+      "note": "Karmic connection - keep italicized"
+    },
+    {
+      "korean": "이순신",
+      "english": "Yi Sun-sin",
+      "note": "Admiral Yi Sun-sin"
+    },
+    {
+      "korean": "세종대왕",
+      "english": "King Sejong",
+      "note": "King Sejong the Great"
+    },
+    {
+      "korean": "신미",
+      "english": "Shinmi",
+      "note": "Monk Shinmi - created Hangeul with Sejong"
+    },
+    {
+      "korean": "보살",
+      "english": "bodhisattva",
+      "note": "Enlightened being who helps others"
+    },
+    {
+      "korean": "법구경",
+      "english": "Dhammapada",
+      "note": "Buddhist scripture"
+    },
+    {
+      "korean": "팔상도",
+      "english": "Palsangdo",
+      "note": "Eight Scenes of the Buddha's Life"
+    },
+    {
+      "korean": "거북선",
+      "english": "geobukseon",
+      "note": "Turtle ship - ironclad warship"
+    },
+    {
+      "korean": "판옥선",
+      "english": "panokseon",
+      "note": "Main warship type"
+    },
+    {
+      "korean": "청심환",
+      "english": "cheongsim-hwan",
+      "note": "Traditional herbal medicine"
+    },
+    {
+      "korean": "무소유",
+      "english": "Musoyu",
+      "note": "Non-possession - Beopjeong's philosophy"
+    },
+    {
+      "korean": "절대고요",
+      "english": "absolute silence",
+      "note": "Willi's concept - jeongmyeol"
+    },
+    {
+      "korean": "적멸",
+      "english": "jeongmyeol",
+      "note": "Absolute stillness"
+    },
+    {
+      "korean": "공",
+      "english": "kong",
+      "note": "Emptiness"
+    },
+    {
+      "korean": "진공",
+      "english": "jin'gong",
+      "note": "True emptiness"
+    },
+    {
+      "korean": "자비",
+      "english": "compassion",
+      "note": "Buddhist non-dualistic love"
+    },
+    {
+      "korean": "고맙다",
+      "english": "gomapda",
+      "note": "Thank you"
+    }
+  ]
+}
