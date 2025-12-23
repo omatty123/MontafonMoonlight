@@ -706,14 +706,16 @@
                 return;
             }
 
-            showStatus('step1Status', '🔄 Fetching from URL... Please wait.', 'info');
+            showStatus('step1Status', '🔄 Fetching from URL... Please wait (trying multiple proxies).', 'info');
 
             try {
-                // Try multiple CORS proxies for reliability
+                // Try local proxy first (most reliable), then fall back to public CORS proxies
                 const proxies = [
-                    'https://api.allorigins.win/raw?url=',
-                    'https://corsproxy.io/?',
-                    'https://api.codetabs.com/v1/proxy?quest='
+                    { name: 'local-proxy', url: (u) => `http://localhost:8765/?url=${encodeURIComponent(u)}`, parseJson: true, isLocal: true },
+                    { name: 'allorigins', url: (u) => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`, parseJson: true },
+                    { name: 'corsproxy', url: (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`, parseJson: false },
+                    { name: 'codetabs', url: (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, parseJson: false },
+                    { name: 'thingproxy', url: (u) => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(u)}`, parseJson: false }
                 ];
 
                 let html = null;
@@ -721,23 +723,64 @@
 
                 for (const proxy of proxies) {
                     try {
-                        const response = await fetch(proxy + encodeURIComponent(url), {
+                        console.log(`Trying proxy: ${proxy.name}`);
+                        const response = await fetch(proxy.url(url), {
                             method: 'GET',
-                            timeout: 10000
+                            headers: {
+                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                'Accept-Charset': 'UTF-8'
+                            },
+                            signal: AbortSignal.timeout(15000) // 15 second timeout
                         });
 
                         if (response.ok) {
-                            html = await response.text();
-                            usedProxy = proxy;
-                            break;
+                            if (proxy.parseJson) {
+                                const data = await response.json();
+
+                                // Local proxy returns structured data
+                                if (proxy.isLocal && data.success) {
+                                    // Use local proxy's pre-parsed data directly
+                                    if (data.koreanText) {
+                                        document.getElementById('koreanText').value = data.koreanText;
+                                    }
+                                    if (data.imageUrl) {
+                                        document.getElementById('imageUrl').value = data.imageUrl;
+                                    }
+                                    chapterData.koreanLink = url;
+
+                                    showStatus('step1Status', `✓ Fetched via ${proxy.name}! "${data.title}", ${data.paragraphCount} paragraphs, Image: ${data.imageUrl ? 'Yes' : 'No'}`, 'success');
+
+                                    // Auto-process
+                                    await processKoreanChapter();
+                                    return; // Success! Exit early
+                                } else {
+                                    // Other JSON proxies
+                                    html = data.contents || data.data;
+                                }
+                            } else {
+                                // Get response as blob first to handle encoding properly
+                                const blob = await response.blob();
+                                html = await blob.text();
+                            }
+
+                            // For non-local proxies, verify we got Korean text
+                            if (html && /[\uAC00-\uD7A3]/.test(html)) {
+                                usedProxy = proxy.name;
+                                console.log(`Success with proxy: ${proxy.name}`);
+                                break;
+                            } else {
+                                console.log(`${proxy.name} returned data but no Korean text found`);
+                                html = null; // Try next proxy
+                            }
                         }
                     } catch (e) {
+                        console.log(`Failed with ${proxy.name}:`, e.message);
                         continue; // Try next proxy
                     }
                 }
 
                 if (!html) {
-                    throw new Error('All proxy services failed. Please paste text manually.');
+                    throw new Error('All proxy services failed. Run local proxy: python3 local-proxy-server.py');
                 }
 
                 // Parse HTML
@@ -828,14 +871,30 @@
 
                 chapterData.koreanLink = url;
 
-                showStatus('step1Status', `✓ Fetched! Title: "${title}", ${bodyText.split('\n\n').length} paragraphs, Image: ${imageUrl ? 'Yes' : 'No'}`, 'success');
+                showStatus('step1Status', `✓ Fetched via ${usedProxy}! Title: "${title}", ${bodyText.split('\n\n').length} paragraphs, Image: ${imageUrl ? 'Yes' : 'No'}`, 'success');
 
                 // Auto-process
                 await processKoreanChapter();
 
             } catch (error) {
-                showStatus('step1Status', `❌ Auto-fetch failed: ${error.message}. Please paste text manually below.`, 'error');
+                showStatus('step1Status', `❌ Auto-fetch failed: ${error.message}`, 'error');
                 console.error('Fetch error:', error);
+
+                // Show helpful fallback message
+                const fallbackMsg = document.createElement('div');
+                fallbackMsg.style.marginTop = '10px';
+                fallbackMsg.style.padding = '10px';
+                fallbackMsg.style.backgroundColor = '#fff3cd';
+                fallbackMsg.style.border = '1px solid #ffc107';
+                fallbackMsg.style.borderRadius = '5px';
+                fallbackMsg.innerHTML = `
+                    <strong>💡 Solution - Run Local Proxy:</strong><br>
+                    1. Open terminal: <code>cd ~/Documents/MontafonMoonlight</code><br>
+                    2. Run: <code>python3 local-proxy-server.py</code><br>
+                    3. Keep it running, then click "Auto-Fetch" again<br><br>
+                    Or paste Korean text manually below
+                `;
+                document.getElementById('step1Status').appendChild(fallbackMsg);
             }
         }
 

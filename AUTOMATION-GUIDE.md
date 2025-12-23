@@ -4,7 +4,33 @@ NO MORE COPY/PASTE! True one-click automation from Korean URL to translated chap
 
 ---
 
-## Option 1: Bookmarklet (Recommended - Instant, No Installation)
+## Option 1: Local Proxy Server (Recommended - 100% Reliable)
+
+### Setup (One Time):
+```bash
+cd ~/Documents/MontafonMoonlight
+# Install dependencies (if not already installed)
+pip3 install beautifulsoup4
+```
+
+### Usage Every Tuesday:
+```bash
+# Terminal 1: Start the proxy server (keep it running)
+python3 local-proxy-server.py
+
+# Browser: Open the workflow tool
+# Paste Korean URL → Click "Auto-Fetch" → Done!
+```
+
+**Why this is best:**
+- ✅ 100% reliable (no CORS issues)
+- ✅ Proper UTF-8 encoding (Korean text works perfectly)
+- ✅ Runs locally on your machine
+- ✅ Just leave it running in a terminal
+
+---
+
+## Option 2: Bookmarklet (Quick, No Server)
 
 ### Setup (One Time):
 1. Open `korean-page-extractor.js` in your repo
@@ -25,7 +51,7 @@ NO MORE COPY/PASTE! True one-click automation from Korean URL to translated chap
 
 ---
 
-## Option 2: Python Script (Most Reliable)
+## Option 3: Python Script (Standalone)
 
 ### Setup (One Time):
 ```bash
