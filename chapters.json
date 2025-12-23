@@ -162,7 +162,7 @@
     "date": "2025-11-11",
     "cover": "assets/ch14-cover.jpg",
     "hero": "assets/ch14-hero.jpg",
-    "summary": "Saying goodbye—for now.",
+    "summary": "Saying goodbyeâfor now.",
     "status": "published",
     "contentHtml": "content/chapter-14.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35191"
@@ -226,5 +226,17 @@
     "status": "published",
     "contentHtml": "content/chapter-19.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35373"
+  },
+  {
+    "title": "Tuscan Villa",
+    "slug": "tuscan-villa",
+    "href": "chapter.html?slug=tuscan-villa",
+    "date": "2025-12-23",
+    "cover": "assets/ch20-cover.jpg",
+    "hero": "assets/ch20-hero.jpg",
+    "summary": "Mr. Willi finds his true self in Tuscany.",
+    "status": "published",
+    "contentHtml": "content/chapter-20.html",
+    "koreanLink": "http://www.mediabuddha.net/news/view.php?number=35407"
   }
 ]
