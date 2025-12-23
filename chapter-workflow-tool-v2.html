@@ -1186,8 +1186,12 @@ Select all cells in column B (the English translations), copy them, then paste h
             // SIMPLIFIED DESIGN: One big textarea for easy paste from Google Sheets
             editor.innerHTML = `
                 <div style="margin-bottom: 20px; padding: 15px; background: #e6fffa; border-radius: 8px; border: 2px solid #4fd1c5;">
-                    <h3 style="margin: 0 0 10px 0;">📋 Paste Your Corrected Translation Here</h3>
-                    <p style="margin: 0; color: #234e52; font-size: 14px;">After translating and editing in Google Sheets, copy ALL the English text and paste it below.<br>Keep <strong>one empty line</strong> between paragraphs.</p>
+                    <h3 style="margin: 0 0 10px 0;">📋 Copy from Google Sheets → Paste Here</h3>
+                    <p style="margin: 0; color: #234e52; font-size: 14px;">
+                        <strong>In Google Sheets:</strong> Select the entire English column (one paragraph per cell), then copy (Cmd+C or Ctrl+C)<br>
+                        <strong>Paste here:</strong> Each cell becomes one paragraph automatically!<br>
+                        <strong>Italics:</strong> Known terms (jeong, hwadu, inyeon, etc.) will be auto-italicized
+                    </p>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
@@ -1197,12 +1201,27 @@ Select all cells in column B (the English translations), copy them, then paste h
                     </div>
                     <div>
                         <h4 style="margin: 0 0 10px 0; color: #2d3748;">✏️ English Translation (editable)</h4>
-                        <textarea id="fullTranslation" style="width: 100%; min-height: 500px; padding: 15px; font-size: 13px; line-height: 1.8; border: 2px solid #4299e1; border-radius: 8px; font-family: inherit; resize: vertical;" placeholder="Paste your entire corrected translation here...
+                        <textarea id="fullTranslation" style="width: 100%; min-height: 500px; padding: 15px; font-size: 13px; line-height: 1.8; border: 2px solid #4299e1; border-radius: 8px; font-family: inherit; resize: vertical;" placeholder="📋 Copy from Google Sheets and paste here!
 
-Keep one empty line between paragraphs.
+In Google Sheets:
+- One paragraph per cell
+- Select the entire English column
+- Copy (Cmd+C)
 
-The tool will automatically split this into ${koreanParagraphs.length} paragraphs when you click 'Update Translation'.">${translatedParagraphs.join('\n\n')}</textarea>
+Paste here:
+- Each cell = one line = one paragraph
+- Auto-italicizes: jeong, hwadu, inyeon, etc.
+- Click 'Update Translation' when done">${translatedParagraphs.join('\n')}</textarea>
                     </div>
+                </div>
+
+                <div style="margin: 15px 0; padding: 10px; background: #f7fafc; border-radius: 5px; border: 1px solid #cbd5e0;">
+                    <div style="font-size: 12px; color: #4a5568; margin-bottom: 8px;">
+                        <strong>Manual Formatting:</strong> Select text in the box above, then click:
+                    </div>
+                    <button onclick="wrapSelection('strong')" style="padding: 6px 12px; margin-right: 5px; font-weight: bold;">Bold</button>
+                    <button onclick="wrapSelection('em')" style="padding: 6px 12px; margin-right: 5px; font-style: italic;">Italic</button>
+                    <button onclick="unwrapSelection()" style="padding: 6px 12px; background: #fed7d7; border: 1px solid #fc8181;">Remove Tags</button>
                 </div>
 
                 <div style="text-align: center; margin: 20px 0;">
@@ -1214,6 +1233,87 @@ The tool will automatically split this into ${koreanParagraphs.length} paragraph
             `;
         }
 
+        // Manual formatting: wrap selected text in HTML tags
+        function wrapSelection(tag) {
+            const textarea = document.getElementById('fullTranslation');
+            if (!textarea) return;
+
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+
+            if (!selectedText) {
+                alert('Please select some text first');
+                return;
+            }
+
+            const wrappedText = `<${tag}>${selectedText}</${tag}>`;
+            textarea.value = textarea.value.substring(0, start) + wrappedText + textarea.value.substring(end);
+
+            // Restore cursor position after the wrapped text
+            textarea.focus();
+            textarea.setSelectionRange(start + tag.length + 2, start + tag.length + 2 + selectedText.length);
+        }
+
+        function unwrapSelection() {
+            const textarea = document.getElementById('fullTranslation');
+            if (!textarea) return;
+
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            let selectedText = textarea.value.substring(start, end);
+
+            if (!selectedText) {
+                alert('Please select some text first (including the HTML tags)');
+                return;
+            }
+
+            // Remove any HTML tags from selection
+            const cleanedText = selectedText.replace(/<\/?[^>]+>/g, '');
+            textarea.value = textarea.value.substring(0, start) + cleanedText + textarea.value.substring(end);
+
+            // Restore cursor position
+            textarea.focus();
+            textarea.setSelectionRange(start, start + cleanedText.length);
+        }
+
+        // Auto-italicize known Korean terms that should stay italicized
+        function autoItalicizeTerms(text) {
+            // Terms from glossary that should be italicized
+            const italicTerms = [
+                'jeong',        // Deep affection
+                'hwadu',        // Zen meditation question
+                'samadhi',      // Deep concentration
+                'inyeon',       // Karmic connection
+                'bodhisattva',  // Enlightened being
+                'nirvana',      // Liberation
+                'kong',         // Emptiness
+                "jin'gong",     // True emptiness
+                'Seon',         // Korean Zen
+                'hanbok',       // Traditional clothing
+                'geobukseon',   // Turtle ship
+                'panokseon',    // Warship
+                'cheongsim-hwan', // Herbal medicine
+                'Musoyu',       // Non-possession
+                'jeongmyeol',   // Absolute stillness
+                'gomapda'       // Thank you
+            ];
+
+            let result = text;
+
+            // Wrap each term in <em> tags if not already wrapped
+            italicTerms.forEach(term => {
+                // Match whole words only, case-insensitive
+                const regex = new RegExp(`\\b(${term})\\b(?![^<]*>)`, 'gi');
+                result = result.replace(regex, '<em>$1</em>');
+            });
+
+            // Clean up double-wrapping
+            result = result.replace(/<em>(<em>.*?<\/em>)<\/em>/g, '$1');
+
+            return result;
+        }
+
         // Update translation from the single textarea
         function updateTranslationFromTextarea() {
             const fullText = document.getElementById('fullTranslation').value.trim();
@@ -1223,13 +1323,12 @@ The tool will automatically split this into ${koreanParagraphs.length} paragraph
                 return;
             }
 
-            // Split by double newlines (paragraph breaks)
-            let paragraphs = fullText.split(/\n\s*\n/).map(p => p.trim()).filter(p => p.length > 0);
+            // IMPORTANT: Google Sheets copies each cell as a single line
+            // So we split by SINGLE newlines (one cell = one paragraph)
+            let paragraphs = fullText.split('\n').map(p => p.trim()).filter(p => p.length > 0);
 
-            // If we got fewer paragraphs than expected, try splitting by single newlines
-            if (paragraphs.length < koreanParagraphs.length * 0.8) {
-                paragraphs = fullText.split('\n').map(p => p.trim()).filter(p => p.length > 0);
-            }
+            // Auto-italicize known terms from glossary
+            paragraphs = paragraphs.map(p => autoItalicizeTerms(p));
 
             translatedParagraphs = paragraphs;
 
