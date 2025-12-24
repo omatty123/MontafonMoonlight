@@ -1,62 +1,74 @@
 /* assets/theme.css — light/dark variables + sensible defaults */
-:root{
-  --bg:#ffffff;
-  --text:#111827;
-  --muted:#64748b;
-  --card:#f8fafc;
-  --border:#e5e7eb;
-  --link:#1f47c7;
+:root {
+  --bg: #ffffff;
+  --text: #111827;
+  --muted: #64748b;
+  --card: #f8fafc;
+  --border: #e5e7eb;
+  --link: #1f47c7;
 }
-html[data-theme="dark"]{
-  --bg:#0b1220;
-  --text:#e5e7eb;
-  --muted:#94a3b8;
-  --card:#111827;
-  --border:#243244;
-  --link:#8ab4ff;
+
+html[data-theme="dark"] {
+  --bg: #0b1220;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --card: #111827;
+  --border: #243244;
+  --link: #8ab4ff;
 }
 
 /* Base application (does not change your chosen fonts) */
-html, body{
-  background:var(--bg);
-  color:var(--text);
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
 }
-a{ color:var(--link); }
+
+a {
+  color: var(--link);
+}
 
 /* Sticky header helper (only if header has .stickybar) */
-header.stickybar{
-  position:sticky;
-  top:0;
-  z-index:40;
-  background:var(--bg);
-  border-bottom:1px solid var(--border);
+header.stickybar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
 }
 
 /* Subtle caption color */
-.caption{ color:var(--muted); }
+.caption {
+  color: var(--muted);
+}
 
 /* ---- Chapter content image sizing (Google Doc paste area) ---- */
-.gdoc img{
-  max-width:680px !important;   /* medium width */
-  width:auto !important;         /* ignore inline widths */
-  height:auto !important;
-  display:block !important;
-  margin:1.5rem auto !important;
-  border-radius:6px !important;
+.gdoc img {
+  max-width: 680px !important;
+  /* medium width */
+  width: auto !important;
+  /* ignore inline widths */
+  height: auto !important;
+  display: block !important;
+  margin: 1.5rem auto !important;
+  border-radius: 6px !important;
 }
 
 /* Optional hero image on chapter.html */
-#heroImg{
-  max-width:800px !important;
-  width:auto !important;
-  height:auto !important;
-  display:block !important;
-  margin:1.5rem auto !important;
-  border-radius:8px !important;
+#heroImg {
+  max-width: 800px !important;
+  width: auto !important;
+  height: auto !important;
+  display: block !important;
+  margin: 1.5rem auto !important;
+  border-radius: 8px !important;
 }
 
 /* Keep homepage/card covers full-bleed */
-.cover{ max-width:none !important; width:100% !important; }
+.cover {
+  max-width: none !important;
+  width: 100% !important;
+}
 
 /* ---- GLOBAL CONTENT IMAGE FALLBACK (not just .gdoc) ---- */
 /* Shrink images inside main content areas; exclude .cover */
@@ -66,12 +78,12 @@ section img:not(.cover),
 figure img:not(.cover),
 #contentRoot img,
 img.chapter-image {
-  max-width:680px !important;
-  width:auto !important;
-  height:auto !important;
-  display:block !important;
-  margin:1.5rem auto !important;
-  border-radius:6px !important;
+  max-width: 680px !important;
+  width: auto !important;
+  height: auto !important;
+  display: block !important;
+  margin: 1.5rem auto !important;
+  border-radius: 6px !important;
 }
 
 /* Neutralize inline width/height some editors inject */
@@ -90,14 +102,14 @@ section img[style*="height"],
 #contentRoot img[width],
 #contentRoot img[height],
 #contentRoot img[style*="width"],
-#contentRoot img[style*="height"]{
-  width:auto !important;
-  height:auto !important;
+#contentRoot img[style*="height"] {
+  width: auto !important;
+  height: auto !important;
 }
 
 /* Cards / blocks using the token colors */
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:.75rem;
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: .75rem;
 }

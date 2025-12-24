@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-initial,initial-scale=1" />
   <title>Chapter • Montafon Moonlight</title>
 
   <!-- Fonts / Tailwind / Icons -->
@@ -16,31 +17,136 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <style>
-    :root{ --bg:#ffffff; --text:#111827; --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#2563eb; }
-    html[data-theme="dark"]{ --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff; }
-    html,body{ background:var(--bg); color:var(--text); }
-    a{ color:var(--link); text-decoration:none; } a:hover{ text-decoration:underline; }
-    body,h1,h2,h3,h4,h5,h6,p,a,span,li,nav,div,small,button{ font-family:'Inter',sans-serif!important; }
-
-    header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
-    .chapter-wrap{ max-width:820px; margin:0 auto; padding:1.25rem; }
-    .meta{ color:var(--muted); }
-    .chapter-title{ font-size:1.875rem; font-weight:700; margin-bottom:.5rem; }
-    .gdoc p{ margin:1em 0; line-height:1.75; }
-    .gdoc em,.gdoc i{ font-style:italic; }
-
-    #heroBlock[hidden]{ display:none; }
-    #heroImg{ max-width:min(680px,100%)!important; width:auto!important; height:auto!important; display:block!important; margin:1.25rem auto .5rem!important; border-radius:8px!important; }
-    #heroCaption{ color:var(--muted); font-size:.875rem; text-align:center; }
-
-    #contentRoot img, #contentRoot figure img, #contentRoot * img{
-      max-width:min(680px,100%)!important; width:auto!important; height:auto!important;
-      display:block!important; margin:1.5rem auto!important; border-radius:6px!important;
+    :root {
+      --bg: #ffffff;
+      --text: #111827;
+      --muted: #64748b;
+      --card: #f8fafc;
+      --border: #e5e7eb;
+      --link: #2563eb;
     }
 
-    .progress-rail{ height:4px; background:#e5e7eb; }
-    html[data-theme="dark"] .progress-rail{ background:#1f2937; }
-    #progress{ height:4px; background:#3b82f6; width:0%; transition:width .2s linear; }
+    html[data-theme="dark"] {
+      --bg: #0b1220;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --card: #111827;
+      --border: #243244;
+      --link: #8ab4ff;
+    }
+
+    html,
+    body {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    a,
+    span,
+    li,
+    nav,
+    div,
+    small,
+    button {
+      font-family: 'Inter', sans-serif !important;
+    }
+
+    header.stickybar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chapter-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 1.25rem;
+    }
+
+    .meta {
+      color: var(--muted);
+    }
+
+    .chapter-title {
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .gdoc p {
+      margin: 1em 0;
+      line-height: 1.75;
+    }
+
+    .gdoc em,
+    .gdoc i {
+      font-style: italic;
+    }
+
+    #heroBlock[hidden] {
+      display: none;
+    }
+
+    #heroImg {
+      max-width: min(680px, 100%) !important;
+      width: auto !important;
+      height: auto !important;
+      display: block !important;
+      margin: 1.25rem auto .5rem !important;
+      border-radius: 8px !important;
+    }
+
+    #heroCaption {
+      color: var(--muted);
+      font-size: .875rem;
+      text-align: center;
+    }
+
+    #contentRoot img,
+    #contentRoot figure img,
+    #contentRoot * img {
+      max-width: min(680px, 100%) !important;
+      width: auto !important;
+      height: auto !important;
+      display: block !important;
+      margin: 1.5rem auto !important;
+      border-radius: 6px !important;
+    }
+
+    .progress-rail {
+      height: 4px;
+      background: #e5e7eb;
+    }
+
+    html[data-theme="dark"] .progress-rail {
+      background: #1f2937;
+    }
+
+    #progress {
+      height: 4px;
+      background: #3b82f6;
+      width: 0%;
+      transition: width .2s linear;
+    }
   </style>
 
   <!-- Dynamic Open Graph / Twitter Injection -->
@@ -101,7 +207,9 @@
         <i class="fas fa-moon"></i>
       </button>
     </div>
-    <div class="progress-rail"><div id="progress"></div></div>
+    <div class="progress-rail">
+      <div id="progress"></div>
+    </div>
   </header>
 
   <!-- Main -->
@@ -144,34 +252,34 @@
   <!-- Script -->
   <script>
     /* Theme toggle */
-    (function(){
-      const KEY="theme", root=document.documentElement, btn=document.getElementById("theme-toggle");
-      function apply(t){ t==="dark" ? root.setAttribute("data-theme","dark") : root.removeAttribute("data-theme"); }
-      function initial(){ const s=localStorage.getItem(KEY); if(s==="dark"||s==="light") return s; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"; }
-      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); const i=btn.querySelector("i"); i.className = t==="dark"?"fas fa-sun":"fas fa-moon"; }
-      let cur=initial(); apply(cur); reflect(cur);
-      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e=>{ if(localStorage.getItem(KEY)) return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
-      btn?.addEventListener("click", ()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
+    (function () {
+      const KEY = "theme", root = document.documentElement, btn = document.getElementById("theme-toggle");
+      function apply(t) { t === "dark" ? root.setAttribute("data-theme", "dark") : root.removeAttribute("data-theme"); }
+      function initial() { const s = localStorage.getItem(KEY); if (s === "dark" || s === "light") return s; return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; }
+      function reflect(t) { if (!btn) return; btn.setAttribute("aria-pressed", t === "dark" ? "true" : "false"); const i = btn.querySelector("i"); i.className = t === "dark" ? "fas fa-sun" : "fas fa-moon"; }
+      let cur = initial(); apply(cur); reflect(cur);
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e => { if (localStorage.getItem(KEY)) return; cur = e.matches ? "dark" : "light"; apply(cur); reflect(cur); });
+      btn?.addEventListener("click", () => { cur = cur === "dark" ? "light" : "dark"; localStorage.setItem(KEY, cur); apply(cur); reflect(cur); });
     })();
 
-    const fmtLong = (d)=> new Date(d).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
-    async function loadChapters(){ try{ const r=await fetch("chapters.json?v="+Date.now(),{cache:"no-store"}); if(!r.ok) throw 0; return await r.json(); }catch(e){ return []; } }
-    async function loadHtml(url){ try{ const r=await fetch(url+(url.includes("?")?"&":"?")+"v="+Date.now(),{cache:"no-store"}); return r.ok ? (await r.text()) : ""; }catch(e){ return ""; } }
-    function extractBody(html){ const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i); return m && m[1] ? m[1] : html; }
-    function normalizeImages(scope){ scope.querySelectorAll("img").forEach(img=>{ img.removeAttribute("width"); img.removeAttribute("height"); img.loading = img.loading || "lazy"; }); }
+    const fmtLong = (d) => new Date(d).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    async function loadChapters() { try { const r = await fetch("chapters.json?v=" + Date.now(), { cache: "no-store" }); if (!r.ok) throw 0; return await r.json(); } catch (e) { return []; } }
+    async function loadHtml(url) { try { const r = await fetch(url + (url.includes("?") ? "&" : "?") + "v=" + Date.now(), { cache: "no-store" }); return r.ok ? (await r.text()) : ""; } catch (e) { return ""; } }
+    function extractBody(html) { const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i); return m && m[1] ? m[1] : html; }
+    function normalizeImages(scope) { scope.querySelectorAll("img").forEach(img => { img.removeAttribute("width"); img.removeAttribute("height"); img.loading = img.loading || "lazy"; }); }
 
-    (async function main(){
+    (async function main() {
       document.getElementById("copyYear").textContent = new Date().getFullYear();
 
       const list = await loadChapters();
-      list.sort((a,b)=> new Date(a.date) - new Date(b.date));
+      list.sort((a, b) => new Date(a.date) - new Date(b.date));
 
       const slug = new URLSearchParams(location.search).get("slug");
-      let idx = list.findIndex(c=>c.slug===slug);
-      if(idx<0) idx=0;
+      let idx = list.findIndex(c => c.slug === slug);
+      if (idx < 0) idx = 0;
       const ch = list[idx] || {};
 
-      if(ch.slug === "cheonmaneyo"){
+      if (ch.slug === "cheonmaneyo") {
         document.getElementById("chapterTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
         document.getElementById("crumbTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
       } else {
@@ -179,46 +287,47 @@
         document.getElementById("crumbTitle").textContent = ch.title || "Chapter";
       }
 
-      if(ch.date){
+      if (ch.date) {
         const d = new Date(ch.date);
         const el = document.getElementById("pubDate");
-        el.dateTime = d.toISOString().slice(0,10);
+        el.dateTime = d.toISOString().slice(0, 10);
         el.textContent = fmtLong(ch.date);
       }
 
-      if(ch.koreanLink){
-        const wrap=document.getElementById("koLinkWrap");
-        const a=document.getElementById("koLink");
+      if (ch.koreanLink) {
+        const wrap = document.getElementById("koLinkWrap");
+        const a = document.getElementById("koLink");
         a.href = ch.koreanLink;
         wrap.classList.remove("hidden");
       }
 
-      if(ch.hero){
-        const fig=document.getElementById("heroBlock");
-        fig.hidden=false;
-        document.getElementById("heroImg").src=ch.hero;
+      if (ch.hero) {
+        const fig = document.getElementById("heroBlock");
+        fig.hidden = false;
+        document.getElementById("heroImg").src = ch.hero;
         document.getElementById("heroCaption").innerHTML = "<em>Illustration by artist Jeong Yun-gyeong</em>";
       }
 
-      let html="";
-      if(ch.contentHtml) html = await loadHtml(ch.contentHtml);
+      let html = "";
+      if (ch.contentHtml) html = await loadHtml(ch.contentHtml);
       html = extractBody(html);
       const root = document.getElementById("contentRoot");
       root.innerHTML = html || "<p>Chapter content coming soon.</p>";
       normalizeImages(root);
 
-      const prev=list[idx-1], next=list[idx+1];
-      const prevEl=document.getElementById("prevLink");
-      const nextEl=document.getElementById("nextLink");
-      if(prev){ prevEl.href=prev.href || ("chapter.html?slug="+encodeURIComponent(prev.slug)); prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${prev.title}`; }
-      else { prevEl.href="index.html"; prevEl.innerHTML=`<i class="fas fa-arrow-left mr-2"></i>Home`; }
-      if(next){ nextEl.href=next.href || ("chapter.html?slug="+encodeURIComponent(next.slug)); nextEl.innerHTML = `${next.title}<i class="fas fa-arrow-right ml-2"></i>`; }
-      else { nextEl.href="index.html"; nextEl.innerHTML=`Index<i class="fas fa-arrow-right ml-2"></i>`; }
+      const prev = list[idx - 1], next = list[idx + 1];
+      const prevEl = document.getElementById("prevLink");
+      const nextEl = document.getElementById("nextLink");
+      if (prev) { prevEl.href = prev.href || ("chapter.html?slug=" + encodeURIComponent(prev.slug)); prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${prev.title}`; }
+      else { prevEl.href = "index.html"; prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>Home`; }
+      if (next) { nextEl.href = next.href || ("chapter.html?slug=" + encodeURIComponent(next.slug)); nextEl.innerHTML = `${next.title}<i class="fas fa-arrow-right ml-2"></i>`; }
+      else { nextEl.href = "index.html"; nextEl.innerHTML = `Index<i class="fas fa-arrow-right ml-2"></i>`; }
 
-      const bar=document.getElementById("progress");
-      function up(){ const s=document.documentElement.scrollTop||document.body.scrollTop; const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight)||1; bar.style.width = Math.round(s/h*100) + "%"; }
-      window.addEventListener("scroll", up, {passive:true}); up();
+      const bar = document.getElementById("progress");
+      function up() { const s = document.documentElement.scrollTop || document.body.scrollTop; const h = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1; bar.style.width = Math.round(s / h * 100) + "%"; }
+      window.addEventListener("scroll", up, { passive: true }); up();
     })();
   </script>
 </body>
+
 </html>

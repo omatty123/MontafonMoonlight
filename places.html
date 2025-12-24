@@ -29,7 +29,7 @@
     .place-korean{ color:var(--muted); font-size:1rem; margin-bottom:0.75rem; }
     .place-desc{ color:var(--text); line-height:1.75; }
     .section-title{ font-size:1.875rem; font-weight:700; margin-bottom:1.5rem; padding-bottom:0.75rem; border-bottom:2px solid var(--border); }
-    #map{ height:450px; border-radius:0.75rem; border:1px solid var(--border); margin-bottom:2rem; }
+    #map-austria, #map-korea{ height:450px; border-radius:0.75rem; border:1px solid var(--border); margin-bottom:1rem; }
   </style>
 </head>
 
@@ -59,14 +59,25 @@
 
     <h2 class="section-title">Places in Montafon Moonlight</h2>
 
-    <!-- Map -->
+    <!-- Austria Map -->
     <div style="background:var(--card); padding:1.5rem; border-radius:0.75rem; border:1px solid var(--border); margin-bottom:2rem;">
       <h3 style="font-size:1.25rem; font-weight:600; margin-bottom:1rem; color:var(--text);">
-        <i class="fas fa-map-marked-alt mr-2"></i>Austria & Korea
+        <i class="fas fa-mountain mr-2"></i>Austria
       </h3>
-      <div id="map"></div>
+      <div id="map-austria"></div>
       <p style="font-size:0.875rem; color:var(--muted); text-align:center; margin-top:0.5rem;">
-        <i class="fas fa-info-circle mr-1"></i>Interactive map showing key locations in the story
+        <i class="fas fa-info-circle mr-1"></i>Click markers to see details about each location
+      </p>
+    </div>
+
+    <!-- Korea Map -->
+    <div style="background:var(--card); padding:1.5rem; border-radius:0.75rem; border:1px solid var(--border); margin-bottom:2rem;">
+      <h3 style="font-size:1.25rem; font-weight:600; margin-bottom:1rem; color:var(--text);">
+        <i class="fas fa-torii-gate mr-2"></i>Korea
+      </h3>
+      <div id="map-korea"></div>
+      <p style="font-size:0.875rem; color:var(--muted); text-align:center; margin-top:0.5rem;">
+        <i class="fas fa-info-circle mr-1"></i>Click markers to see details about each location
       </p>
     </div>
 
@@ -155,29 +166,61 @@
       btn?.addEventListener("click", ()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
     })();
 
-    /* Map */
-    const map = L.map('map').setView([47.5, 13.5], 6);
+    /* Austria Map */
+    const mapAustria = L.map('map-austria').setView([47.5, 10.5], 8);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 19
-    }).addTo(map);
+    }).addTo(mapAustria);
 
     // Montafon location
-    const montafonMarker = L.marker([47.0333, 9.9667]).addTo(map);
+    const montafonMarker = L.marker([47.0333, 9.9667]).addTo(mapAustria);
     montafonMarker.bindPopup('<strong>Montafon Valley</strong><br>Alpine valley in Vorarlberg, Austria<br>Home of Herbert Willi');
 
     // Vienna
-    const viennaMarker = L.marker([48.2082, 16.3738]).addTo(map);
-    viennaMarker.bindPopup('<strong>Vienna (Wien)</strong><br>Capital of Austria<br>Cultural center');
+    const viennaMarker = L.marker([48.2082, 16.3738]).addTo(mapAustria);
+    viennaMarker.bindPopup('<strong>Vienna (Wien)</strong><br>Capital of Austria<br>Cultural center<br>Location of Ihwajang');
 
-    // Korea marker (approximate Seoul)
-    const koreaMarker = L.marker([37.5665, 126.9780]).addTo(map);
-    koreaMarker.bindPopup('<strong>Korea</strong><br>Home of the author<br>Buddhist temples and tradition');
+    // Fit bounds for Austria
+    const groupAustria = L.featureGroup([montafonMarker, viennaMarker]);
+    mapAustria.fitBounds(groupAustria.getBounds().pad(0.2));
 
-    // Fit bounds to show all markers
-    const group = L.featureGroup([montafonMarker, viennaMarker, koreaMarker]);
-    map.fitBounds(group.getBounds().pad(0.1));
+    /* Korea Map */
+    const mapKorea = L.map('map-korea').setView([36.0, 127.5], 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(mapKorea);
+
+    // Ibuljae - author's mountain retreat
+    const ibuljaeMkr = L.marker([34.887244, 127.063604]).addTo(mapKorea);
+    ibuljaeMkr.bindPopup('<strong>Ibuljae</strong> (이불재)<br>Author Jeong Chanju\'s mountain retreat<br>Place of contemplation and writing');
+
+    // Ssangbong-sa - temple below Ibuljae
+    const ssangbongsaMkr = L.marker([34.883, 127.058]).addTo(mapKorea);
+    ssangbongsaMkr.bindPopup('<strong>Ssangbong-sa</strong> (쌍봉사)<br>Buddhist temple below Ibuljae<br>Place of spiritual practice');
+
+    // Seoul (Beomnyeon-sa)
+    const seoulMkr = L.marker([37.5665, 126.9780]).addTo(mapKorea);
+    seoulMkr.bindPopup('<strong>Beomnyeon-sa</strong> (범련사)<br>Buddhist temple in Seoul<br>Urban Buddhist community');
+
+    // Bulil-am hermitage (Gangwon Province)
+    const bulilamMkr = L.marker([37.736, 128.462]).addTo(mapKorea);
+    bulilamMkr.bindPopup('<strong>Bulil-am</strong> (불일암)<br>Mountain hermitage of Venerable Beopjeong<br>Sacred place of meditation and simplicity');
+
+    // Haein-sa temple
+    const haheinsaMkr = L.marker([35.798, 128.098]).addTo(mapKorea);
+    haheinsaMkr.bindPopup('<strong>Haein-sa</strong> (해인사)<br>One of Korea\'s most important temples<br>Houses the Tripitaka Koreana woodblocks');
+
+    // Jeollanam-do province marker (approximate center)
+    const jeollanamMkr = L.marker([34.816, 126.463]).addTo(mapKorea);
+    jeollanamMkr.bindPopup('<strong>Jeollanam-do</strong> (전라남도)<br>South Jeolla Province<br>Southwestern Korea');
+
+    // Fit bounds for Korea
+    const groupKorea = L.featureGroup([ibuljaeMkr, ssangbongsaMkr, seoulMkr, bulilamMkr, haheinsaMkr, jeollanamMkr]);
+    mapKorea.fitBounds(groupKorea.getBounds().pad(0.1));
   </script>
 </body>
 </html>
