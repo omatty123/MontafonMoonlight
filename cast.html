@@ -19,11 +19,17 @@
 
     header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
     .content-wrap{ max-width:1000px; margin:0 auto; padding:2rem 1.25rem; }
-    .character-card{ background:var(--card); border:1px solid var(--border); border-radius:0.75rem; padding:1.5rem; margin-bottom:1.5rem; transition:all 0.2s ease; }
+    .character-card{ background:var(--card); border:1px solid var(--border); border-radius:0.75rem; padding:1.5rem; margin-bottom:1.5rem; transition:all 0.2s ease; display:flex; gap:1.5rem; align-items:start; }
     .character-card:hover{ transform:translateY(-2px); box-shadow:0 4px 6px rgba(0,0,0,0.1); }
+    .character-photo{ width:120px; height:120px; border-radius:0.5rem; object-fit:cover; flex-shrink:0; border:2px solid var(--border); }
+    .character-info{ flex:1; }
     .character-name{ font-size:1.5rem; font-weight:700; color:var(--text); margin-bottom:0.25rem; }
     .character-korean{ color:var(--muted); font-size:1rem; margin-bottom:0.75rem; }
-    .character-role{ color:var(--muted); font-size:0.875rem; font-style:italic; }
+    .character-role{ color:var(--text); line-height:1.6; }
+    @media (max-width: 640px) {
+      .character-card{ flex-direction:column; }
+      .character-photo{ width:100%; height:200px; }
+    }
     .section-title{ font-size:1.875rem; font-weight:700; margin-bottom:1.5rem; padding-bottom:0.75rem; border-bottom:2px solid var(--border); }
   </style>
 </head>
@@ -58,33 +64,47 @@
     <h3 style="font-size:1.25rem; font-weight:600; margin-bottom:1rem; color:var(--text);">Main Characters</h3>
 
     <div class="character-card">
-      <h4 class="character-name">Jeong Chanju</h4>
-      <p class="character-korean">정찬주 • Dharma name: <em>Muyeom</em> (무염)</p>
-      <p class="character-role">The protagonist - a Buddhist novelist and author who travels to Austria</p>
+      <img src="assets/character-jeong.jpg" alt="Jeong Chanju" class="character-photo" loading="lazy">
+      <div class="character-info">
+        <h4 class="character-name">Jeong Chanju</h4>
+        <p class="character-korean">정찬주 • Dharma name: <em>Muyeom</em> (무염)</p>
+        <p class="character-role">The protagonist - a Buddhist novelist and author who travels to Austria</p>
+      </div>
     </div>
 
     <div class="character-card">
-      <h4 class="character-name">Park Myeongsuk</h4>
-      <p class="character-korean">박명숙 • Dharma name: <em>Muryanggwang</em> (무량광)</p>
-      <p class="character-role">Mrs. Park - ceramic artist and Jeong Chanju's wife</p>
+      <img src="assets/character-park.jpg" alt="Park Myeongsuk" class="character-photo" loading="lazy">
+      <div class="character-info">
+        <h4 class="character-name">Park Myeongsuk</h4>
+        <p class="character-korean">박명숙 • Dharma name: <em>Muryanggwang</em> (무량광)</p>
+        <p class="character-role">Mrs. Park - ceramic artist and Jeong Chanju's wife</p>
+      </div>
     </div>
 
     <div class="character-card">
-      <h4 class="character-name">Herbert Willi</h4>
-      <p class="character-korean">헤르베르트 빌리</p>
-      <p class="character-role">Austrian composer from Montafon, friend of the Jeongs</p>
+      <img src="assets/character-willi.jpg" alt="Herbert Willi" class="character-photo" loading="lazy">
+      <div class="character-info">
+        <h4 class="character-name">Herbert Willi</h4>
+        <p class="character-korean">헤르베르트 빌리</p>
+        <p class="character-role">Austrian composer from Montafon, friend of the Jeongs</p>
+      </div>
     </div>
 
     <div class="character-card">
-      <h4 class="character-name">Werner Stockinger</h4>
-      <p class="character-korean">베르너 슈토킹거 • Also known as: Dr. Werner, "Dr. Bae," <em>Bae Hoon-a</em> (배훈아)</p>
-      <p class="character-role">Austrian friend and guide, known for his love of Korean culture</p>
+      <div class="character-info">
+        <h4 class="character-name">Werner Stockinger</h4>
+        <p class="character-korean">베르너 슈토킹거 • Also known as: Dr. Werner, "Dr. Bae," <em>Bae Hoon-a</em> (배훈아)</p>
+        <p class="character-role">Austrian friend and guide, known for his love of Korean culture</p>
+      </div>
     </div>
 
     <div class="character-card">
-      <h4 class="character-name">Kwon Suk-nyeo</h4>
-      <p class="character-korean">권숙녀 • Also known as: Sonja Steindl-Kwon</p>
-      <p class="character-role">Chairwoman Kwon - Korean expatriate in Austria</p>
+      <img src="assets/character-kwon.jpg" alt="Kwon Suk-nyeo (Sonja Steindl-Kwon)" class="character-photo" loading="lazy">
+      <div class="character-info">
+        <h4 class="character-name">Kwon Suk-nyeo</h4>
+        <p class="character-korean">권숙녀 • Also known as: Sonja Steindl-Kwon</p>
+        <p class="character-role">Chairwoman Kwon - Korean expatriate in Austria</p>
+      </div>
     </div>
 
     <!-- Historical Figures -->
