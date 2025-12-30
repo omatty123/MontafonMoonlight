@@ -943,10 +943,24 @@
                 return;
             }
 
-            koreanParagraphs = text
+            // Clean up common website junk
+            let cleanedText = text
+                // Remove footer elements
+                .replace(/로그인\s*회원가입/g, '')
+                .replace(/PC버전/g, '')
+                .replace(/"로그인\s+회원가입"/g, '')
+                // Trim everything after <계속> marker (end of article)
+                .replace(/(<계속>)[\s\S]*$/i, '$1')
+                // Remove excessive whitespace
+                .replace(/\n{3,}/g, '\n\n')
+                .trim();
+
+            koreanParagraphs = cleanedText
                 .split(/\n\s*\n/)
                 .map(p => p.trim())
-                .filter(p => p.length > 0);
+                .filter(p => p.length > 0)
+                // Filter out very short paragraphs that are likely junk
+                .filter(p => p.length > 5 || /[\uAC00-\uD7A3]/.test(p));
             translatedParagraphs = new Array(koreanParagraphs.length).fill('');
 
             // Handle image if URL provided
