@@ -19,12 +19,22 @@ jobs:
       - name: Check for new article
         id: check
         run: |
+          # Fetch page and decode Korean
           CONTENT=$(curl -s "http://www.mediabuddha.net/m/news/section.php?section=40" | iconv -f euc-kr -t utf-8 2>/dev/null || curl -s "http://www.mediabuddha.net/m/news/section.php?section=40")
-          LATEST_LINK=$(echo "$CONTENT" | grep -oP 'href="[^"]*view\.php\?number=\d+[^"]*"' | head -1 | grep -oP 'number=\d+' | head -1)
+
+          # Find the FIRST 몬타폰의 달빛 article (look 5 lines before the title for the link)
+          LATEST_LINK=$(echo "$CONTENT" | grep -B5 "몬타폰의 달빛" | grep -oP 'number=\d+' | head -1)
+
+          echo "Found article: $LATEST_LINK"
+
           PREVIOUS=""
           if [ -f ".github/last-korean-article.txt" ]; then
             PREVIOUS=$(cat .github/last-korean-article.txt)
           fi
+
+          echo "Previous: $PREVIOUS"
+          echo "Current: $LATEST_LINK"
+
           if [ -n "$LATEST_LINK" ] && [ "$LATEST_LINK" != "$PREVIOUS" ]; then
             echo "new_article=true" >> $GITHUB_OUTPUT
             echo "article_id=$LATEST_LINK" >> $GITHUB_OUTPUT
