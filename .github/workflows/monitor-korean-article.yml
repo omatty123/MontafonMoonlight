@@ -1,0 +1,63 @@
+name: Monitor Korean Article
+
+  on:
+    schedule:
+      - cron: '0 * * * *'
+    workflow_dispatch:
+
+  jobs:
+    check-for-new-article:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Setup Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+
+        - name: Check for new article
+          id: check
+          run: |
+            CONTENT=$(curl -s "http://www.mediabuddha.net/m/news/section.php?section=40" | iconv -f euc-kr -t utf-8 2>/dev/null || curl -s "http://www.mediabuddha.net/m/news/section.php?section=40")
+            LATEST_LINK=$(echo "$CONTENT" | grep -oP 'href="[^"]*view\.php\?number=\d+[^"]*"' | head -1 | grep -oP 'number=\d+' | head -1)
+            PREVIOUS=""
+            if [ -f ".github/last-korean-article.txt" ]; then
+              PREVIOUS=$(cat .github/last-korean-article.txt)
+            fi
+            if [ -n "$LATEST_LINK" ] && [ "$LATEST_LINK" != "$PREVIOUS" ]; then
+              echo "new_article=true" >> $GITHUB_OUTPUT
+              echo "article_id=$LATEST_LINK" >> $GITHUB_OUTPUT
+              echo "$LATEST_LINK" > .github/last-korean-article.txt
+            else
+              echo "new_article=false" >> $GITHUB_OUTPUT
+            fi
+
+        - name: Commit updated state
+          if: steps.check.outputs.new_article == 'true'
+          run: |
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+            git add .github/last-korean-article.txt
+            git commit -m "Update last known Korean article" || true
+            git push
+
+        - name: Send email notification
+          if: steps.check.outputs.new_article == 'true'
+          uses: dawidd6/action-send-mail@v3
+          with:
+            server_address: smtp.sendgrid.net
+            server_port: 587
+            username: apikey
+            password: ${{ secrets.SENDGRID_API_KEY }}
+            subject: "New 몬타폰의 달빛 Article!"
+            to: omatty@gmail.com
+            from: Montafon Monitor <noreply@montafon.monitor>
+            body: |
+              New article: http://www.mediabuddha.net/m/news/view.php?${{ steps.check.outputs.article_id }}
+
+              Workflow Tool: https://omatty123.github.io/MontafonMoonlight/chapter-workflow-tool-v2.html
