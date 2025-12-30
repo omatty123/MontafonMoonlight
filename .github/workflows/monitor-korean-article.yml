@@ -1,55 +1,55 @@
 name: Monitor Korean Article
 
-  on:
-    schedule:
-      - cron: '0 * * * *'
-    workflow_dispatch:
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
-  jobs:
-    check-for-new-article:
-      runs-on: ubuntu-latest
-      permissions:
-        contents: write
-        issues: write
+jobs:
+  check-for-new-article:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-        - name: Check for new article
-          id: check
-          run: |
-            CONTENT=$(curl -s "http://www.mediabuddha.net/m/news/section.php?section=40" | iconv -f euc-kr -t utf-8 2>/dev/null || curl -s "http://www.mediabuddha.net/m/news/section.php?section=40")
-            LATEST_LINK=$(echo "$CONTENT" | grep -oP 'href="[^"]*view\.php\?number=\d+[^"]*"' | head -1 | grep -oP 'number=\d+' | head -1)
-            PREVIOUS=""
-            if [ -f ".github/last-korean-article.txt" ]; then
-              PREVIOUS=$(cat .github/last-korean-article.txt)
-            fi
-            if [ -n "$LATEST_LINK" ] && [ "$LATEST_LINK" != "$PREVIOUS" ]; then
-              echo "new_article=true" >> $GITHUB_OUTPUT
-              echo "article_id=$LATEST_LINK" >> $GITHUB_OUTPUT
-              echo "$LATEST_LINK" > .github/last-korean-article.txt
-            else
-              echo "new_article=false" >> $GITHUB_OUTPUT
-            fi
+      - name: Check for new article
+        id: check
+        run: |
+          CONTENT=$(curl -s "http://www.mediabuddha.net/m/news/section.php?section=40" | iconv -f euc-kr -t utf-8 2>/dev/null || curl -s "http://www.mediabuddha.net/m/news/section.php?section=40")
+          LATEST_LINK=$(echo "$CONTENT" | grep -oP 'href="[^"]*view\.php\?number=\d+[^"]*"' | head -1 | grep -oP 'number=\d+' | head -1)
+          PREVIOUS=""
+          if [ -f ".github/last-korean-article.txt" ]; then
+            PREVIOUS=$(cat .github/last-korean-article.txt)
+          fi
+          if [ -n "$LATEST_LINK" ] && [ "$LATEST_LINK" != "$PREVIOUS" ]; then
+            echo "new_article=true" >> $GITHUB_OUTPUT
+            echo "article_id=$LATEST_LINK" >> $GITHUB_OUTPUT
+            echo "$LATEST_LINK" > .github/last-korean-article.txt
+          else
+            echo "new_article=false" >> $GITHUB_OUTPUT
+          fi
 
-        - name: Commit updated state
-          if: steps.check.outputs.new_article == 'true'
-          run: |
-            git config user.name "GitHub Actions"
-            git config user.email "actions@github.com"
-            git add .github/last-korean-article.txt
-            git commit -m "Update last known Korean article" || true
-            git push
+      - name: Commit updated state
+        if: steps.check.outputs.new_article == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .github/last-korean-article.txt
+          git commit -m "Update last known Korean article" || true
+          git push
 
-        - name: Create GitHub Issue
-          if: steps.check.outputs.new_article == 'true'
-          uses: actions/github-script@v7
-          with:
-            script: |
-              github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: '📖 New 몬타폰의 달빛 Article Available!',
-                body: `A new article has been published!\n\n**Read it here:** http://www.mediabuddha.net/m/news/view.php?${{ steps.check.outputs.article_id }}\n\n**Workflow Tool:** https://omatty123.github.io/MontafonMoonlight/chapter-workflow-tool-v2.html`
-              })
+      - name: Create GitHub Issue
+        if: steps.check.outputs.new_article == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '📖 New 몬타폰의 달빛 Article Available!',
+              body: `A new article has been published!\n\n**Read it here:** http://www.mediabuddha.net/m/news/view.php?${{ steps.check.outputs.article_id }}\n\n**Workflow Tool:** https://omatty123.github.io/MontafonMoonlight/chapter-workflow-tool-v2.html`
+            })
