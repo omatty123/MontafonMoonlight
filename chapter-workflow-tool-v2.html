@@ -791,27 +791,30 @@
                 // Extract main content text
                 let bodyText = '';
                 const contentSelectors = [
+                    '#writeContents',           // mediabuddha.net
                     'article',
                     '.article-content',
                     '.news-content',
                     '#article-view-content-div',
                     '.view-content',
-                    'div[id*="content"]',
                     '.article_view'
                 ];
 
                 let contentElement = null;
                 for (const selector of contentSelectors) {
                     contentElement = doc.querySelector(selector);
-                    if (contentElement) break;
+                    if (contentElement) {
+                        console.log(`Found content in: ${selector}`);
+                        break;
+                    }
                 }
 
                 if (contentElement) {
                     // Get ALL text from content element exactly as it appears
                     bodyText = contentElement.innerText || contentElement.textContent || '';
                 } else {
-                    // Fallback: try to get body text
-                    const bodyEl = doc.querySelector('body');
+                    // Fallback: try common content patterns
+                    const bodyEl = doc.querySelector('.consection') || doc.querySelector('body');
                     bodyText = bodyEl ? (bodyEl.innerText || bodyEl.textContent || '') : '';
                 }
 
