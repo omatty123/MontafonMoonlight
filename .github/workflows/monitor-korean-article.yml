@@ -8,17 +8,13 @@ name: Monitor Korean Article
   jobs:
     check-for-new-article:
       runs-on: ubuntu-latest
+      permissions:
+        contents: write
+        issues: write
 
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-
-        - name: Setup Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: '20'
 
         - name: Check for new article
           id: check
@@ -46,18 +42,14 @@ name: Monitor Korean Article
             git commit -m "Update last known Korean article" || true
             git push
 
-        - name: Send email notification
+        - name: Create GitHub Issue
           if: steps.check.outputs.new_article == 'true'
-          uses: dawidd6/action-send-mail@v3
+          uses: actions/github-script@v7
           with:
-            server_address: smtp.sendgrid.net
-            server_port: 587
-            username: apikey
-            password: ${{ secrets.SENDGRID_API_KEY }}
-            subject: "New 몬타폰의 달빛 Article!"
-            to: omatty@gmail.com
-            from: Montafon Monitor <noreply@montafon.monitor>
-            body: |
-              New article: http://www.mediabuddha.net/m/news/view.php?${{ steps.check.outputs.article_id }}
-
-              Workflow Tool: https://omatty123.github.io/MontafonMoonlight/chapter-workflow-tool-v2.html
+            script: |
+              github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '📖 New 몬타폰의 달빛 Article Available!',
+                body: `A new article has been published!\n\n**Read it here:** http://www.mediabuddha.net/m/news/view.php?${{ steps.check.outputs.article_id }}\n\n**Workflow Tool:** https://omatty123.github.io/MontafonMoonlight/chapter-workflow-tool-v2.html`
+              })
