@@ -162,7 +162,7 @@
     "date": "2025-11-11",
     "cover": "assets/ch14-cover.jpg",
     "hero": "assets/ch14-hero.jpg",
-    "summary": "Saying goodbyeâfor now.",
+    "summary": "Saying goodbyeÃ¢ÂÂfor now.",
     "status": "published",
     "contentHtml": "content/chapter-14.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35191"
@@ -238,5 +238,17 @@
     "status": "published",
     "contentHtml": "content/chapter-20.html",
     "koreanLink": "http://www.mediabuddha.net/news/view.php?number=35407"
+  },
+  {
+    "title": "Meeting Abbado and Messiaen",
+    "slug": "Abbado-Messiaen",
+    "href": "chapter.html?slug=Abbado-Messiaen",
+    "date": "2025-12-30",
+    "cover": "assets/ch21-cover.jpg",
+    "hero": "assets/ch21-hero.jpg",
+    "summary": "Chance encounters shape a lifetime.",
+    "status": "published",
+    "contentHtml": "content/chapter-21.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35438"
   }
 ]
