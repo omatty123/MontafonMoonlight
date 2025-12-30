@@ -711,9 +711,9 @@
                     console.log('Local proxy not available (this is okay):', e.message);
                 }
 
-                // Try public CORS proxies in order
+                // Try public CORS proxies in order (all use raw mode for proper encoding)
                 const proxies = [
-                    { name: 'allorigins', url: (u) => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`, parseJson: true },
+                    { name: 'allorigins', url: (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`, parseJson: false },
                     { name: 'corsproxy', url: (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`, parseJson: false },
                     { name: 'codetabs', url: (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, parseJson: false },
                     { name: 'thingproxy', url: (u) => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(u)}`, parseJson: false }
@@ -735,34 +735,29 @@
                         });
 
                         if (response.ok) {
-                            if (proxy.parseJson) {
-                                const data = await response.json();
-                                html = data.contents || data.data;
-                            } else {
-                                // Try multiple encodings for Korean text
-                                const buffer = await response.arrayBuffer();
-                                const encodings = ['euc-kr', 'windows-949', 'utf-8'];
+                            // Try multiple encodings for Korean text
+                            const buffer = await response.arrayBuffer();
+                            const encodings = ['euc-kr', 'cp949', 'windows-949', 'utf-8', 'iso-8859-1'];
 
-                                for (const enc of encodings) {
-                                    try {
-                                        const decoder = new TextDecoder(enc);
-                                        const decoded = decoder.decode(buffer);
-                                        // Check if we got valid Korean characters
-                                        if (/[\uAC00-\uD7A3]/.test(decoded)) {
-                                            html = decoded;
-                                            console.log(`✓ Decoded with ${enc} encoding`);
-                                            break;
-                                        }
-                                        // Keep trying other encodings
-                                    } catch (e) {
-                                        continue;
+                            for (const enc of encodings) {
+                                try {
+                                    const decoder = new TextDecoder(enc);
+                                    const decoded = decoder.decode(buffer);
+                                    // Check if we got valid Korean characters (Hangul syllables range)
+                                    if (/[\uAC00-\uD7A3]/.test(decoded)) {
+                                        html = decoded;
+                                        console.log(`✓ Decoded with ${enc} encoding`);
+                                        break;
                                     }
+                                    // Keep trying other encodings
+                                } catch (e) {
+                                    continue;
                                 }
+                            }
 
-                                // Fallback to UTF-8 if no Korean detected
-                                if (!html) {
-                                    html = new TextDecoder('utf-8').decode(buffer);
-                                }
+                            // Fallback to UTF-8 if no Korean detected
+                            if (!html) {
+                                html = new TextDecoder('utf-8').decode(buffer);
                             }
 
                             // Verify we got Korean text
