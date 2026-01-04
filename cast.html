@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cast of Characters • Montafon Moonlight</title>
+
+  <!-- Fonts / Tailwind / Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+
+  <style>
+    :root{ --bg:#ffffff; --text:#111827; --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#2563eb; }
+    html[data-theme="dark"]{ --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff; }
+    html,body{ background:var(--bg); color:var(--text); }
+    a{ color:var(--link); text-decoration:none; } a:hover{ text-decoration:underline; }
+    body,h1,h2,h3,h4,h5,h6,p,a,span,li,nav,div,small,button{ font-family:'Inter',sans-serif!important; }
+
+    header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
+    .content-wrap{ max-width:1000px; margin:0 auto; padding:2rem 1.25rem; }
+    .character-card{ background:var(--card); border:1px solid var(--border); border-radius:0.5rem; padding:1rem; margin-bottom:1rem; transition:all 0.2s ease; display:flex; gap:1rem; align-items:start; }
+    .character-card:hover{ transform:translateY(-2px); box-shadow:0 4px 6px rgba(0,0,0,0.1); }
+    .character-photo{ width:80px; height:80px; border-radius:0.375rem; object-fit:cover; flex-shrink:0; border:1px solid var(--border); }
+    .character-info{ flex:1; }
+    .character-name{ font-size:1.125rem; font-weight:600; color:var(--text); margin-bottom:0.25rem; }
+    .character-korean{ color:var(--muted); font-size:0.875rem; margin-bottom:0.5rem; }
+    .character-role{ color:var(--text); line-height:1.5; font-size:0.9rem; }
+    @media (max-width: 640px) {
+      .character-card{ flex-direction:column; }
+      .character-photo{ width:100%; height:150px; }
+    }
+    .section-title{ font-size:1.875rem; font-weight:700; margin-bottom:1.5rem; padding-bottom:0.75rem; border-bottom:2px solid var(--border); }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="stickybar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <div class="min-w-0">
+        <h1 class="font-bold text-2xl" style="color:#2563eb;">
+          <i class="fas fa-book mr-2"></i>
+          <a href="index.html" class="hover:underline" style="color:#2563eb;">Montafon Moonlight</a>
+        </h1>
+        <p class="text-sm" style="color:var(--muted);">Translated from Korean • Updates weekly</p>
+      </div>
+      <button id="theme-toggle" class="p-2 rounded border" style="color:var(--muted); border-color:var(--border);" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="content-wrap">
+    <nav class="text-sm mb-3" style="color:var(--muted);" aria-label="Breadcrumb">
+      <a href="index.html" class="hover:underline">Home</a> <span aria-hidden="true">›</span>
+      <span>Cast of Characters</span>
+    </nav>
+
+    <h2 class="section-title">Cast of Characters</h2>
+
+    <!-- Main Characters -->
+    <h3 style="font-size:1.25rem; font-weight:600; margin-bottom:1rem; color:var(--text);">Main Characters</h3>
+
+    <div class="character-card">
+      <img src="assets/character-jeong.jpg" alt="Jeong Chanju" class="character-photo" loading="lazy">
+      <div class="character-info">
+        <h4 class="character-name">Jeong Chanju</h4>
+        <p class="character-korean">정찬주 • Dharma name: <em>Muyeom</em> (무염)</p>
+        <p class="character-role">The protagonist - a Buddhist novelist and author who travels to Austria</p>
+      </div>
+    </div>
+
+    <div class="character-card">
+      <img src="assets/character-park.jpg" alt="Park Myeongsuk" class="character-photo" loading="lazy">
+      <div class="character-info">
+        <h4 class="character-name">Park Myeongsuk</h4>
+        <p class="character-korean">박명숙 • Dharma name: <em>Muryanggwang</em> (무량광)</p>
+        <p class="character-role">Mrs. Park - ceramic artist and Jeong Chanju's wife</p>
+      </div>
+    </div>
+
+    <div class="character-card">
+      <img src="assets/character-willi.jpg" alt="Herbert Willi" class="character-photo" loading="lazy">
+      <div class="character-info">
+        <h4 class="character-name">Herbert Willi</h4>
+        <p class="character-korean">헤르베르트 빌리</p>
+        <p class="character-role">Austrian composer from Montafon, friend of the Jeongs</p>
+      </div>
+    </div>
+
+    <div class="character-card">
+      <div class="character-info">
+        <h4 class="character-name">Werner Stockinger</h4>
+        <p class="character-korean">베르너 슈토킹거 • Also known as: Dr. Werner, "Dr. Bae," <em>Bae Hoon-a</em> (배훈아)</p>
+        <p class="character-role">Austrian friend and guide, known for his love of Korean culture</p>
+      </div>
+    </div>
+
+    <div class="character-card">
+      <img src="assets/character-kwon.jpg" alt="Kwon Suk-nyeo (Sonja Steindl-Kwon)" class="character-photo" loading="lazy">
+      <div class="character-info">
+        <h4 class="character-name">Kwon Suk-nyeo</h4>
+        <p class="character-korean">권숙녀 • Also known as: Sonja Steindl-Kwon</p>
+        <p class="character-role">Chairwoman Kwon - Korean expatriate in Austria</p>
+      </div>
+    </div>
+
+    <!-- Historical Figures -->
+    <h3 style="font-size:1.25rem; font-weight:600; margin:2rem 0 1rem 0; color:var(--text);">Historical & Religious Figures</h3>
+
+    <div class="character-card">
+      <h4 class="character-name">Venerable Beopjeong</h4>
+      <p class="character-korean">법정</p>
+      <p class="character-role">Renowned Korean Zen master, author of <em>Musoyu</em> (Non-possession), lived at Bulil-am hermitage</p>
+    </div>
+
+    <div class="character-card">
+      <h4 class="character-name">Venerable Seongcheol</h4>
+      <p class="character-korean">성철</p>
+      <p class="character-role">Famous Korean Zen master</p>
+    </div>
+
+    <div class="character-card">
+      <h4 class="character-name">Syngman Rhee</h4>
+      <p class="character-korean">이승만</p>
+      <p class="character-role">Dr. Rhee - Korea's first president, historical figure</p>
+    </div>
+
+    <div class="character-card">
+      <h4 class="character-name">Francesca Donner</h4>
+      <p class="character-korean">프란체스카 도너</p>
+      <p class="character-role">Mrs. Francesca - wife of Dr. Rhee</p>
+    </div>
+
+    <div class="character-card">
+      <h4 class="character-name">Hong Gisam</h4>
+      <p class="character-korean">홍기삼</p>
+      <p class="character-role">Professor Hong - former president of Dongguk University</p>
+    </div>
+
+    <div class="character-card">
+      <h4 class="character-name">King Sejong</h4>
+      <p class="character-korean">세종대왕</p>
+      <p class="character-role">King Sejong the Great - creator of Hangeul</p>
+    </div>
+
+    <div class="character-card">
+      <h4 class="character-name">Shinmi</h4>
+      <p class="character-korean">신미</p>
+      <p class="character-role">Buddhist monk who helped King Sejong create Hangeul</p>
+    </div>
+
+    <div class="character-card">
+      <h4 class="character-name">Admiral Yi Sun-sin</h4>
+      <p class="character-korean">이순신</p>
+      <p class="character-role">Korean naval commander, hero of the Imjin War, inventor of the turtle ship (<em>geobukseon</em>)</p>
+    </div>
+
+    <footer class="border-t mt-10 pt-5" style="border-color:var(--border);">
+      <p class="text-center text-sm" style="color:var(--muted);">
+        <a href="index.html" class="hover:underline">← Back to Index</a> •
+        <a href="places.html" class="hover:underline">View Places →</a>
+      </p>
+    </footer>
+  </main>
+
+  <!-- Script -->
+  <script>
+    /* Theme toggle */
+    (function(){
+      const KEY="theme", root=document.documentElement, btn=document.getElementById("theme-toggle");
+      function apply(t){ t==="dark" ? root.setAttribute("data-theme","dark") : root.removeAttribute("data-theme"); }
+      function initial(){ const s=localStorage.getItem(KEY); if(s==="dark"||s==="light") return s; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"; }
+      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); const i=btn.querySelector("i"); i.className = t==="dark"?"fas fa-sun":"fas fa-moon"; }
+      let cur=initial(); apply(cur); reflect(cur);
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e=>{ if(localStorage.getItem(KEY)) return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
+      btn?.addEventListener("click", ()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
+    })();
+  </script>
+</body>
+</html>

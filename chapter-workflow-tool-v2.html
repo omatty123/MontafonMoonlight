@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter Workflow Tool - Montafon Moonlight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #111827;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        header p {
+            opacity: 0.95;
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        .workflow {
+            padding: 2rem;
+        }
+
+        .step {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+
+        .step:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .step-number {
+            background: #2563eb;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .step-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        input[type="text"],
+        input[type="url"],
+        input[type="date"],
+        input[type="file"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+            background: #ffffff;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            line-height: 1.6;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .translation-editor {
+            display: none;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .translation-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 15px 0;
+            align-items: start;
+        }
+
+        .translation-pair:last-child {
+            border-bottom: none;
+        }
+
+        .korean-text {
+            background: #fef5e7;
+            padding: 12px;
+            border-radius: 6px;
+            color: #2d3748;
+            line-height: 1.8;
+            border: 2px solid #f9e79f;
+        }
+
+        .english-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .english-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.8;
+            min-height: 80px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .english-input:focus {
+            border-color: #2563eb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        @media (max-width: 900px) {
+            .translation-pair {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Contenteditable placeholder styling */
+        [contenteditable="true"]:empty:before {
+            content: attr(data-placeholder);
+            color: #9ca3af;
+            font-style: italic;
+            pointer-events: none;
+        }
+
+        [contenteditable="true"]:focus {
+            outline: none;
+        }
+
+        /* Format preserved content nicely */
+        #fullTranslation p {
+            margin-bottom: 1em;
+        }
+
+        #fullTranslation p:last-child {
+            margin-bottom: 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-success {
+            background: #10b981;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .status-message {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            display: none;
+            font-size: 0.875rem;
+        }
+
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .status-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        .preview {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .preview code {
+            display: block;
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .image-preview {
+            max-width: 300px;
+            max-height: 200px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .info-badge {
+            background: #e6fffa;
+            color: #234e52;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Montafon Moonlight - Chapter Workflow Tool</h1>
+            <p>Streamlined translation workflow with auto-fetch, smart formatting, and GitHub integration</p>
+        </header>
+
+        <div class="workflow">
+            <!-- Step 1: Input Korean URL (Most Important) -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Korean Chapter Source</div>
+                </div>
+
+                <div class="info-badge" style="background: #dbeafe; color: #1e40af; font-size: 0.875rem; font-weight: 500;">
+                    🎯 Next chapter is <strong id="nextChapterNum">20</strong> - Paste the Korean URL below
+                </div>
+
+                <div class="form-group">
+                    <label for="koreanUrl" style="font-size: 16px; font-weight: 600;">Korean Chapter URL (from mediabuddha.net)</label>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="url" id="koreanUrl" placeholder="http://www.mediabuddha.net/m/news/view.php?number=35373" style="font-size: 16px; padding: 15px; flex: 1; min-width: 260px;">
+                        <a href="http://www.mediabuddha.net/m/news/section.php?section=40" target="_blank" style="background: #8b5cf6; color: white; padding: 14px 18px; border-radius: 0.5rem; font-size: 16px; font-weight: 600; text-decoration: none; white-space: nowrap;">📖 Latest Article</a>
+                        <button class="btn-success" onclick="autoFetchFromUrl()" style="font-size: 16px; padding: 14px 22px; white-space: nowrap;">🚀 Auto-Fetch from URL</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="koreanText">Korean Text (copy/paste from the website)</label>
+                    <textarea id="koreanText" placeholder="Paste the Korean chapter text here..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrl">Cover Image URL</label>
+                    <input type="url" id="imageUrl" placeholder="Paste image URL here">
+                    <img id="imagePreview" class="image-preview hidden">
+                </div>
+
+                <div id="step1Status" class="status-message"></div>
+            </div>
+
+            <!-- Step 2: Review & Edit Translation -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Translate & Edit (Parallel View)</div>
+                </div>
+
+                <p style="margin-bottom: 15px; color: #718096;">
+                    Korean on left, English on right. Use Google Sheets for free translation, then paste back here.
+                </p>
+
+                <div class="button-group">
+                    <button id="sheetsTranslateBtn" onclick="generateGoogleSheetsFormula()" disabled>📊 Generate Google Sheets Formula</button>
+                    <button onclick="pasteFromGoogleSheets()">📋 Paste Translations from Sheets</button>
+                    <button class="btn-secondary" onclick="clearTranslations()">Clear All</button>
+                </div>
+
+                <div id="sheetsInstructions" class="hidden" style="background: #e6fffa; border: 2px solid #81e6d9; padding: 15px; border-radius: 6px; margin-top: 15px;">
+                    <h4 style="margin-bottom: 10px;">📊 Google Sheets Translation Steps:</h4>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li>Formula copied to clipboard!</li>
+                        <li>Open Google Sheets, paste in column A</li>
+                        <li>Translations will appear instantly (takes a few seconds)</li>
+                        <li>Copy all English translations (column B)</li>
+                        <li>Come back here and click "📋 Paste Translations from Sheets"</li>
+                    </ol>
+                </div>
+
+                <div id="translationEditor" class="translation-editor"></div>
+
+                <div id="step3Status" class="status-message"></div>
+            </div>
+
+            <!-- Step 3: Chapter Metadata -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Chapter Metadata</div>
+                </div>
+
+                <div class="two-column">
+                    <div class="form-group">
+                        <label for="chapterNumber">Chapter Number</label>
+                        <input type="text" id="chapterNumber" placeholder="20" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chapterDate">Publication Date</label>
+                        <input type="date" id="chapterDate" value="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="chapterTitle">Chapter Title</label>
+                    <input type="text" id="chapterTitle" placeholder="Enter chapter title in English">
+                </div>
+
+                <div class="form-group">
+                    <label for="chapterSlug">URL Slug</label>
+                    <input type="text" id="chapterSlug" placeholder="chapter-title-slug">
+                    <button onclick="autoFillSlug()" style="margin-top: 8px;">Auto-Generate Slug</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="chapterSummary">Summary</label>
+                    <textarea id="chapterSummary" placeholder="Brief summary of the chapter..." style="min-height: 80px;"></textarea>
+                </div>
+
+                <div class="two-column">
+                    <div class="form-group">
+                        <label for="coverImage">Cover Image Path</label>
+                        <input type="text" id="coverImage" placeholder="assets/ch20-cover.jpg">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="heroImage">Hero Image Path</label>
+                        <input type="text" id="heroImage" placeholder="assets/ch20-hero.jpg">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Generate & Commit -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Generate Files & Commit</div>
+                </div>
+
+                <p style="margin-bottom: 15px; color: #718096;">
+                    Generate chapter files and optionally commit directly to GitHub.
+                </p>
+
+                <div class="button-group">
+                    <button onclick="generateFiles()">Generate Files</button>
+                    <button class="btn-success" onclick="commitToGitHub()">Commit to GitHub</button>
+                </div>
+
+                <div id="htmlPreview" class="preview hidden">
+                    <h3 style="margin-bottom: 10px;">Chapter HTML:</h3>
+                    <code id="htmlCode"></code>
+                </div>
+
+                <div id="jsonPreview" class="preview hidden">
+                    <h3 style="margin-bottom: 10px;">chapters.json Entry:</h3>
+                    <code id="jsonCode"></code>
+                </div>
+
+                <div class="button-group" id="downloadButtons" style="display: none; margin-top: 20px;">
+                    <button class="btn-success" onclick="downloadHTML()">Download Chapter HTML</button>
+                    <button class="btn-success" onclick="copyJSON()">Copy JSON to Clipboard</button>
+                    <button class="btn-success" onclick="downloadImage()">Download Image</button>
+                </div>
+
+                <div id="step5Status" class="status-message"></div>
+            </div>
+
+            <!-- Step 6: Settings (Optional) -->
+            <div class="step" style="background: #f7fafc;">
+                <div class="step-header">
+                    <div class="step-number">⚙️</div>
+                    <div class="step-title">Settings (Optional)</div>
+                </div>
+
+                <p style="margin-bottom: 15px; color: #718096;">
+                    Configure GitHub token for auto-commit feature. Skip if you prefer manual commit.
+                </p>
+
+                <div class="info-badge" style="background: #bee3f8; color: #2c5282;">
+                    💡 Translation uses FREE Google Sheets GOOGLETRANSLATE formula - no API key needed!
+                </div>
+
+                <div class="form-group">
+                    <label for="githubToken">GitHub Personal Access Token</label>
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx" style="flex: 1;">
+                        <button class="btn-primary" onclick="saveGitHubToken()" style="white-space: nowrap;">💾 Save Token</button>
+                        <button class="btn-secondary" onclick="testGitHubToken()" style="white-space: nowrap;">🧪 Test</button>
+                    </div>
+                    <small style="color: #718096; display: block; margin-top: 5px;">
+                        Get at: Settings → Developer settings → Personal access tokens → Tokens (classic)<br>
+                        Required scopes: <strong>repo</strong> (full control of private repositories)
+                    </small>
+                </div>
+
+                <div id="step6Status" class="status-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let koreanParagraphs = [];
+        let translatedParagraphs = [];
+        let chapterData = {};
+        let currentChapterNum = 20;
+        let imageBlob = null;
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('chapterDate').value = today;
+            loadChaptersJson();
+            loadFromBookmarklet();
+
+            // Load saved GitHub token
+            const savedToken = localStorage.getItem('githubToken');
+            if (savedToken) {
+                document.getElementById('githubToken').value = savedToken;
+            }
+        });
+
+        // Load data from bookmarklet (if available)
+        function loadFromBookmarklet() {
+            const data = localStorage.getItem('montafonChapterData');
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+
+                    // Check if data is fresh (within last 5 minutes)
+                    const age = Date.now() - parsed.timestamp;
+                    if (age < 5 * 60 * 1000) {
+                        document.getElementById('koreanUrl').value = parsed.koreanUrl || '';
+                        document.getElementById('koreanText').value = parsed.koreanText || '';
+                        document.getElementById('imageUrl').value = parsed.imageUrl || '';
+
+                        showStatus('step1Status', '✓ Loaded from bookmarklet! Click "🚀 Process Chapter" to continue.', 'success');
+
+                        // Clear the data
+                        localStorage.removeItem('montafonChapterData');
+                    }
+                } catch (e) {
+                    console.log('No bookmarklet data found');
+                }
+            }
+        }
+
+        // Load chapters.json to auto-detect next chapter
+        async function loadChaptersJson() {
+            try {
+                const response = await fetch('chapters.json');
+                const chapters = await JSON.parse(await response.text());
+                currentChapterNum = chapters.length + 1;
+                document.getElementById('nextChapterNum').textContent = currentChapterNum;
+                document.getElementById('chapterNumber').value = currentChapterNum;
+
+                // Auto-fill image paths
+                document.getElementById('coverImage').value = `assets/ch${currentChapterNum}-cover.jpg`;
+                document.getElementById('heroImage').value = `assets/ch${currentChapterNum}-hero.jpg`;
+
+                console.log(`✓ Loaded: Next chapter is #${currentChapterNum}`);
+            } catch (error) {
+                currentChapterNum = 20;
+                document.getElementById('chapterNumber').value = currentChapterNum;
+                console.log('Could not load chapters.json, defaulting to chapter 20');
+            }
+        }
+
+        // Image handling
+        async function downloadImageFromUrl() {
+            const url = document.getElementById('imageUrl').value.trim();
+            if (!url) {
+                showStatus('step1Status', 'Please enter image URL', 'error');
+                return;
+            }
+
+            try {
+                // Use CORS proxy for fetching
+                const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+                const response = await fetch(proxyUrl);
+                imageBlob = await response.blob();
+
+                const preview = document.getElementById('imagePreview');
+                preview.src = URL.createObjectURL(imageBlob);
+                preview.classList.remove('hidden');
+
+                showStatus('step1Status', '✓ Image downloaded', 'success');
+            } catch (error) {
+                showStatus('step1Status', 'Could not download image. Try uploading manually.', 'error');
+            }
+        }
+
+        function downloadImage() {
+            if (!imageBlob) {
+                showStatus('step5Status', 'No image to download', 'error');
+                return;
+            }
+
+            const chapterNum = document.getElementById('chapterNumber').value;
+            const coverFilename = `ch${chapterNum}-cover.jpg`;
+            const heroFilename = `ch${chapterNum}-hero.jpg`;
+
+            // Download as cover (they can save the same file twice for hero)
+            downloadBlob(imageBlob, coverFilename);
+            showStatus('step5Status', `✓ Downloaded ${coverFilename} - Save to assets/ folder. Use same image for hero image.`, 'success');
+        }
+
+        // Auto-fetch from URL (main automation)
+        async function autoFetchFromUrl() {
+            const url = document.getElementById('koreanUrl').value.trim();
+
+            if (!url) {
+                showStatus('step1Status', 'Please enter Korean chapter URL first', 'error');
+                return;
+            }
+
+            showStatus('step1Status', '🔄 Fetching from URL... Please wait (trying multiple proxies).', 'info');
+
+            try {
+                let html = null;
+                let usedProxy = null;
+
+                // Try local proxy server first (if running)
+                try {
+                    console.log('Trying local proxy server...');
+                    const response = await fetch(`http://localhost:8765/?url=${encodeURIComponent(url)}`, {
+                        signal: AbortSignal.timeout(5000) // 5 second timeout for local server
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.koreanText) {
+                            html = data.koreanText;
+                            usedProxy = 'local-server';
+                            console.log('✓ Success with local proxy server!');
+
+                            // Also use the title and image if available
+                            if (data.title) {
+                                document.getElementById('koreanText').value = data.koreanText;
+                            }
+                            if (data.imageUrl) {
+                                document.getElementById('imageUrl').value = data.imageUrl;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.log('Local proxy not available (this is okay):', e.message);
+                }
+
+                // Try public CORS proxies in order (all use raw mode for proper encoding)
+                const proxies = [
+                    { name: 'allorigins', url: (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`, parseJson: false },
+                    { name: 'corsproxy', url: (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`, parseJson: false },
+                    { name: 'codetabs', url: (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, parseJson: false },
+                    { name: 'thingproxy', url: (u) => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(u)}`, parseJson: false }
+                ];
+
+                for (const proxy of proxies) {
+                    if (html && /[\uAC00-\uD7A3]/.test(html)) {
+                        break;
+                    }
+                    try {
+                        console.log(`Trying proxy: ${proxy.name}`);
+                        const response = await fetch(proxy.url(url), {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                'Accept-Charset': 'UTF-8'
+                            },
+                            signal: AbortSignal.timeout(15000) // 15 second timeout
+                        });
+
+                        if (response.ok) {
+                            // Try multiple encodings for Korean text
+                            const buffer = await response.arrayBuffer();
+                            const encodings = ['euc-kr', 'cp949', 'windows-949', 'utf-8', 'iso-8859-1'];
+
+                            for (const enc of encodings) {
+                                try {
+                                    const decoder = new TextDecoder(enc);
+                                    const decoded = decoder.decode(buffer);
+                                    // Check if we got valid Korean characters (Hangul syllables range)
+                                    if (/[\uAC00-\uD7A3]/.test(decoded)) {
+                                        html = decoded;
+                                        console.log(`✓ Decoded with ${enc} encoding`);
+                                        break;
+                                    }
+                                    // Keep trying other encodings
+                                } catch (e) {
+                                    continue;
+                                }
+                            }
+
+                            // Fallback to UTF-8 if no Korean detected
+                            if (!html) {
+                                html = new TextDecoder('utf-8').decode(buffer);
+                            }
+
+                            // Verify we got Korean text
+                            if (html && /[\uAC00-\uD7A3]/.test(html)) {
+                                usedProxy = proxy.name;
+                                console.log(`Success with proxy: ${proxy.name}`);
+                                break;
+                            } else {
+                                console.log(`${proxy.name} returned data but no Korean text found`);
+                                html = null; // Try next proxy
+                            }
+                        }
+                    } catch (e) {
+                        console.log(`Failed with ${proxy.name}:`, e.message);
+                        continue; // Try next proxy
+                    }
+                }
+
+                if (!html) {
+                    throw new Error('All proxy services failed. Use bookmarklet or paste Korean text manually.');
+                }
+
+                // Parse HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Extract title
+                let title = doc.querySelector('title')?.textContent || '';
+                title = title.split('|')[0].split('-')[0].trim(); // Clean up title
+
+                // Extract main content text
+                let bodyText = '';
+                const contentSelectors = [
+                    '#writeContents',           // mediabuddha.net
+                    'article',
+                    '.article-content',
+                    '.news-content',
+                    '#article-view-content-div',
+                    '.view-content',
+                    '.article_view'
+                ];
+
+                let contentElement = null;
+                for (const selector of contentSelectors) {
+                    contentElement = doc.querySelector(selector);
+                    if (contentElement) {
+                        console.log(`Found content in: ${selector}`);
+                        break;
+                    }
+                }
+
+                if (contentElement) {
+                    // Extract all <p> tags and join with double newlines to preserve paragraphs
+                    const paragraphs = contentElement.querySelectorAll('p');
+                    if (paragraphs.length > 0) {
+                        const textArray = [];
+                        paragraphs.forEach(p => {
+                            const text = p.textContent.trim();
+                            if (text.length > 0) {
+                                textArray.push(text);
+                            }
+                        });
+                        bodyText = textArray.join('\n\n');
+                    } else {
+                        // Fallback to innerText if no <p> tags
+                        bodyText = contentElement.innerText || contentElement.textContent || '';
+                    }
+                } else {
+                    // Fallback: try common content patterns
+                    const bodyEl = doc.querySelector('.consection') || doc.querySelector('body');
+                    bodyText = bodyEl ? (bodyEl.innerText || bodyEl.textContent || '') : '';
+                }
+
+                // Extract main image
+                let imageUrl = '';
+                const ogImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+                if (ogImage) {
+                    try {
+                        imageUrl = new URL(ogImage, url).toString();
+                    } catch {
+                        imageUrl = ogImage;
+                    }
+                }
+                const imageCandidates = Array.from(
+                    contentElement ? contentElement.querySelectorAll('img') : doc.querySelectorAll('img')
+                );
+
+                const preferred = imageCandidates.find(img => {
+                    const src =
+                        img.getAttribute('src') ||
+                        img.getAttribute('data-src') ||
+                        img.getAttribute('data-original') ||
+                        img.getAttribute('data-lazy-src') ||
+                        '';
+                    return src.includes('/data/editor/');
+                });
+
+                const fallback = preferred ? [preferred] : imageCandidates;
+
+                for (const img of fallback) {
+                    if (imageUrl) break;
+                    let src =
+                        img.getAttribute('src') ||
+                        img.getAttribute('data-src') ||
+                        img.getAttribute('data-original') ||
+                        img.getAttribute('data-lazy-src') ||
+                        '';
+
+                    if (!src) continue;
+                    if (src.includes('logo') || src.includes('icon') || src.includes('banner')) continue;
+
+                    try {
+                        src = new URL(src, url).toString();
+                    } catch {
+                        continue;
+                    }
+
+                    imageUrl = src;
+                    break;
+                }
+
+                // Fill in the form
+                if (bodyText) {
+                    document.getElementById('koreanText').value = bodyText;
+                }
+
+                if (imageUrl) {
+                    document.getElementById('imageUrl').value = imageUrl;
+                }
+
+                chapterData.koreanLink = url;
+
+                showStatus('step1Status', `✓ Fetched via ${usedProxy}! Title: "${title}", ${bodyText.split('\n\n').length} paragraphs, Image: ${imageUrl ? 'Yes' : 'No'}`, 'success');
+
+                // Auto-process
+                await processKoreanChapter();
+
+            } catch (error) {
+                showStatus('step1Status', `❌ Auto-fetch failed: ${error.message}`, 'error');
+                console.error('Fetch error:', error);
+
+                // Show helpful fallback message
+                const fallbackMsg = document.createElement('div');
+                fallbackMsg.style.marginTop = '10px';
+                fallbackMsg.style.padding = '10px';
+                fallbackMsg.style.backgroundColor = '#fff3cd';
+                fallbackMsg.style.border = '1px solid #ffc107';
+                fallbackMsg.style.borderRadius = '5px';
+                fallbackMsg.innerHTML = `
+                    <strong>💡 Alternatives:</strong><br>
+                    1. Use the bookmarklet on the Korean page (see AUTOMATION-GUIDE.md)<br>
+                    2. Paste Korean text manually below<br>
+                    3. If an image URL fails, upload the image file directly
+                `;
+                document.getElementById('step1Status').appendChild(fallbackMsg);
+            }
+        }
+
+        // Process Korean Chapter (main workflow button)
+        async function processKoreanChapter() {
+            const text = document.getElementById('koreanText').value.trim();
+            const url = document.getElementById('koreanUrl').value.trim();
+            const imageUrl = document.getElementById('imageUrl').value.trim();
+
+            if (!text) {
+                showStatus('step1Status', 'Please paste Korean text', 'error');
+                return;
+            }
+
+            if (url) {
+                chapterData.koreanLink = url;
+            }
+
+            showStatus('step1Status', 'Processing...', 'info');
+
+            // Parse Korean text
+            const hasKorean = /[\uAC00-\uD7A3]/.test(text);
+            if (!hasKorean) {
+                showStatus('step1Status', 'No Korean characters detected. Please check the source text.', 'error');
+                return;
+            }
+
+            // Clean up common website junk
+            let cleanedText = text
+                // Remove footer elements
+                .replace(/로그인\s*회원가입/g, '')
+                .replace(/PC버전/g, '')
+                .replace(/"로그인\s+회원가입"/g, '')
+                // Trim everything after <계속> marker (end of article)
+                .replace(/(<계속>)[\s\S]*$/i, '$1')
+                // Remove excessive whitespace
+                .replace(/\n{3,}/g, '\n\n')
+                .trim();
+
+            koreanParagraphs = cleanedText
+                .split(/\n\s*\n/)
+                .map(p => p.trim())
+                .filter(p => p.length > 0)
+                // Filter out very short paragraphs that are likely junk
+                .filter(p => p.length > 5 || /[\uAC00-\uD7A3]/.test(p));
+            translatedParagraphs = new Array(koreanParagraphs.length).fill('');
+
+            // Handle image if URL provided
+            if (imageUrl) {
+                try {
+                    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(imageUrl);
+                    const response = await fetch(proxyUrl);
+                    imageBlob = await response.blob();
+
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = URL.createObjectURL(imageBlob);
+                    preview.classList.remove('hidden');
+
+                    const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
+                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image loaded!${warn}`, 'success');
+                } catch (error) {
+                    const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
+                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (image failed, upload manually).${warn}`, 'info');
+                }
+            } else if (!imageBlob) {
+                const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
+                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (no image uploaded).${warn}`, 'info');
+            } else {
+                const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
+                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image ready!${warn}`, 'success');
+            }
+
+            buildTranslationEditor();
+            document.getElementById('sheetsTranslateBtn').disabled = false;
+        }
+
+        // Korean text parsing (backup function)
+        function parseKoreanText() {
+            processKoreanChapter();
+        }
+
+        // Google Sheets Translation (FREE)
+        function generateGoogleSheetsFormula() {
+            if (koreanParagraphs.length === 0) {
+                showStatus('step3Status', 'No content to translate', 'error');
+                return;
+            }
+
+            // Generate formulas for Google Sheets
+            let sheetsContent = '';
+            koreanParagraphs.forEach((korean, index) => {
+                const escapedKorean = korean.replace(/"/g, '""'); // Escape quotes for CSV
+                // Column A: Korean text, Column B: GOOGLETRANSLATE formula
+                sheetsContent += `"${escapedKorean}"\t=GOOGLETRANSLATE(A${index + 1},"ko","en")\n`;
+            });
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(sheetsContent).then(() => {
+                document.getElementById('sheetsInstructions').classList.remove('hidden');
+                showStatus('step3Status', '✓ Copied! Open Google Sheets and paste (Ctrl+V or Cmd+V)', 'success');
+            }).catch(() => {
+                // Fallback: show in a textarea
+                showSheetsFormulaModal(sheetsContent);
+            });
+        }
+
+        function showSheetsFormulaModal(content) {
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); z-index: 1000; max-width: 600px;';
+            modal.innerHTML = `
+                <h3 style="margin-bottom: 15px;">Copy this to Google Sheets:</h3>
+                <textarea style="width: 100%; height: 300px; font-family: monospace; padding: 12px; border: 2px solid #e2e8f0; border-radius: 6px;">${content}</textarea>
+                <button onclick="this.parentElement.remove()" style="margin-top: 15px;">Close</button>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function pasteFromGoogleSheets() {
+            const message = `Paste the English translations from Google Sheets (column B only).
+
+Select all cells in column B (the English translations), copy them, then paste here:`;
+
+            const translations = prompt(message);
+            if (!translations) return;
+
+            // Split by newlines
+            const translatedLines = translations.split('\n').filter(line => line.trim());
+
+            if (translatedLines.length !== koreanParagraphs.length) {
+                showStatus('step3Status', `Expected ${koreanParagraphs.length} translations, got ${translatedLines.length}. Please copy all translations.`, 'error');
+                return;
+            }
+
+            // Apply translations
+            translatedParagraphs = translatedLines;
+            buildTranslationEditor();
+            showStatus('step3Status', `✓ Imported ${translatedLines.length} translations! Review and edit.`, 'success');
+        }
+
+        function clearTranslations() {
+            translatedParagraphs = new Array(koreanParagraphs.length).fill('');
+            buildTranslationEditor();
+            showStatus('step3Status', 'Cleared all translations', 'info');
+        }
+
+        // Translation editor with parallel columns
+        function buildTranslationEditor() {
+            const editor = document.getElementById('translationEditor');
+            editor.innerHTML = '';
+            editor.style.display = 'block';
+
+            // SIMPLIFIED DESIGN: One big textarea for easy paste from Google Sheets
+            editor.innerHTML = `
+                <div style="margin-bottom: 20px; padding: 15px; background: #e6fffa; border-radius: 8px; border: 2px solid #4fd1c5;">
+                    <h3 style="margin: 0 0 10px 0;">📋 Paste from Google Docs → Auto-Clean!</h3>
+                    <p style="margin: 0; color: #234e52; font-size: 14px;">
+                        <strong>Workflow:</strong> Google Sheets → Paste into Google Doc (unlinked) → Copy from Doc → Paste here<br>
+                        <strong>Magic:</strong> Formatting preserved! Tables/spans auto-cleaned when you click "Update Translation"<br>
+                        <strong>Result:</strong> Clean paragraphs with only <code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code> tags
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                    <div>
+                        <h4 style="margin: 0 0 10px 0; color: #2d3748;">📖 Korean Original (${koreanParagraphs.length} paragraphs)</h4>
+                        <div style="background: #f7fafc; padding: 15px; border-radius: 8px; max-height: 500px; overflow-y: auto; font-size: 13px; line-height: 1.8; white-space: pre-wrap; border: 1px solid #cbd5e0;">${koreanParagraphs.join('\n\n')}</div>
+                    </div>
+                    <div>
+                        <h4 style="margin: 0 0 10px 0; color: #2d3748;">✏️ English Translation (editable)</h4>
+                        <div id="fullTranslation" contenteditable="true" style="width: 100%; min-height: 500px; padding: 15px; font-size: 13px; line-height: 1.8; border: 2px solid #4299e1; border-radius: 8px; font-family: inherit; overflow-y: auto; background: white; white-space: pre-wrap;" data-placeholder="📋 Copy from Google Sheets and paste here!
+
+✨ FORMATTING PRESERVED!
+- Bold text stays bold
+- Italic text stays italic
+- Paragraph breaks maintained
+
+In Google Sheets:
+- Format cells with bold/italic as needed
+- Select the entire English column
+- Copy (Cmd+C)
+- Paste here (Cmd+V)
+
+Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).join('')}</div>
+                    </div>
+                </div>
+
+                <div style="margin: 15px 0; padding: 10px; background: #f7fafc; border-radius: 5px; border: 1px solid #cbd5e0;">
+                    <div style="font-size: 12px; color: #4a5568; margin-bottom: 8px;">
+                        <strong>Manual Formatting:</strong> Select text in the box above, then click:
+                    </div>
+                    <button onclick="wrapSelection('strong')" style="padding: 6px 12px; margin-right: 5px; font-weight: bold;">Bold</button>
+                    <button onclick="wrapSelection('em')" style="padding: 6px 12px; margin-right: 5px; font-style: italic;">Italic</button>
+                    <button onclick="unwrapSelection()" style="padding: 6px 12px; background: #fed7d7; border: 1px solid #fc8181;">Remove Tags</button>
+                </div>
+
+                <div style="text-align: center; margin: 20px 0;">
+                    <button class="btn-primary" onclick="updateTranslationFromTextarea()" style="font-size: 16px; padding: 12px 30px;">✓ Update Translation</button>
+                </div>
+
+                <div id="translationStatus" style="margin-top: 10px;"></div>
+            `;
+
+            // Add smart paste handler to preserve Google Docs formatting
+            const fullTranslationDiv = document.getElementById('fullTranslation');
+            if (fullTranslationDiv) {
+                // Remove any existing paste listeners
+                fullTranslationDiv.removeEventListener('paste', handleSmartPaste);
+
+                // Add new paste handler
+                fullTranslationDiv.addEventListener('paste', handleSmartPaste);
+            }
+        }
+
+        // Smart paste handler: captures HTML from clipboard and preserves formatting
+        function handleSmartPaste(e) {
+            e.preventDefault();
+
+            // Get HTML from clipboard
+            const clipboardData = e.clipboardData || window.clipboardData;
+            const htmlData = clipboardData.getData('text/html');
+            const textData = clipboardData.getData('text/plain');
+
+            console.log('📋 Paste detected!');
+            console.log('HTML length:', htmlData ? htmlData.length : 0);
+            console.log('Text length:', textData ? textData.length : 0);
+
+            if (htmlData) {
+                // Use HTML data (preserves formatting from Google Docs)
+                console.log('✓ Using HTML data (formatting preserved)');
+
+                // Insert HTML at cursor position
+                document.execCommand('insertHTML', false, htmlData);
+            } else if (textData) {
+                // Fallback to plain text
+                console.log('⚠️ No HTML data, using plain text');
+                document.execCommand('insertText', false, textData);
+            }
+        }
+
+        // Manual formatting: wrap selected text in HTML tags (for contenteditable)
+        function wrapSelection(tag) {
+            const editableDiv = document.getElementById('fullTranslation');
+            if (!editableDiv) return;
+
+            const selection = window.getSelection();
+            if (!selection.rangeCount) {
+                alert('Please select some text first');
+                return;
+            }
+
+            const range = selection.getRangeAt(0);
+            const selectedText = range.toString();
+
+            if (!selectedText.trim()) {
+                alert('Please select some text first');
+                return;
+            }
+
+            // Use execCommand for better browser compatibility
+            editableDiv.focus();
+
+            if (tag === 'strong') {
+                document.execCommand('bold', false, null);
+            } else if (tag === 'em') {
+                document.execCommand('italic', false, null);
+            }
+        }
+
+        function unwrapSelection() {
+            const editableDiv = document.getElementById('fullTranslation');
+            if (!editableDiv) return;
+
+            const selection = window.getSelection();
+            if (!selection.rangeCount) {
+                alert('Please select some text first');
+                return;
+            }
+
+            editableDiv.focus();
+
+            // Try to remove formatting
+            document.execCommand('removeFormat', false, null);
+        }
+
+        // Auto-clean messy HTML from Google Sheets/Docs/html5-editor
+        function autoCleanMessyHTML(html) {
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+
+            // Remove ALL table structures but keep content
+            temp.querySelectorAll('table, tbody, thead, tr').forEach(el => {
+                // Move children out of table elements
+                while (el.firstChild) {
+                    el.parentNode.insertBefore(el.firstChild, el);
+                }
+                el.remove();
+            });
+
+            // Process table cells - each becomes a paragraph
+            const cells = temp.querySelectorAll('td, th');
+            cells.forEach(cell => {
+                const p = document.createElement('p');
+                p.innerHTML = cell.innerHTML;
+                cell.replaceWith(p);
+            });
+
+            // Convert b/i to strong/em
+            temp.querySelectorAll('b').forEach(b => {
+                const strong = document.createElement('strong');
+                strong.innerHTML = b.innerHTML;
+                b.replaceWith(strong);
+            });
+            temp.querySelectorAll('i').forEach(i => {
+                const em = document.createElement('em');
+                em.innerHTML = i.innerHTML;
+                i.replaceWith(em);
+            });
+
+            // Convert styled spans to em/strong BEFORE removing them
+            temp.querySelectorAll('span').forEach(span => {
+                const style = span.getAttribute('style') || '';
+                const isBold = style.includes('font-weight: bold') || style.includes('font-weight:bold') || style.includes('font-weight: 700');
+                const isItalic = style.includes('font-style: italic') || style.includes('font-style:italic');
+
+                if (isItalic && isBold) {
+                    // Both bold and italic - wrap in both tags
+                    const strong = document.createElement('strong');
+                    const em = document.createElement('em');
+                    em.innerHTML = span.innerHTML;
+                    strong.appendChild(em);
+                    span.replaceWith(strong);
+                } else if (isBold) {
+                    const strong = document.createElement('strong');
+                    strong.innerHTML = span.innerHTML;
+                    span.replaceWith(strong);
+                } else if (isItalic) {
+                    const em = document.createElement('em');
+                    em.innerHTML = span.innerHTML;
+                    span.replaceWith(em);
+                } else {
+                    // No styling - just unwrap
+                    span.replaceWith(...span.childNodes);
+                }
+            });
+
+            // Remove divs but keep content
+            temp.querySelectorAll('div').forEach(div => {
+                div.replaceWith(...div.childNodes);
+            });
+
+            // Remove font tags
+            temp.querySelectorAll('font').forEach(font => {
+                font.replaceWith(...font.childNodes);
+            });
+
+            // Remove br tags
+            temp.querySelectorAll('br').forEach(br => br.remove());
+
+            // Get cleaned HTML
+            let cleaned = temp.innerHTML;
+
+            // Remove ALL style, class, id attributes
+            cleaned = cleaned.replace(/ style="[^"]*"/gi, '');
+            cleaned = cleaned.replace(/ class="[^"]*"/gi, '');
+            cleaned = cleaned.replace(/ id="[^"]*"/gi, '');
+            cleaned = cleaned.replace(/ data-[^=]*="[^"]*"/gi, '');
+
+            // Clean up whitespace
+            cleaned = cleaned.replace(/\s+/g, ' ');
+            cleaned = cleaned.replace(/<p>\s*<\/p>/gi, ''); // Remove empty paragraphs
+
+            return cleaned;
+        }
+
+        // Auto-italicize known Korean terms that should stay italicized
+        function autoItalicizeTerms(text) {
+            // Terms from glossary that should be italicized
+            const italicTerms = [
+                'jeong',        // Deep affection
+                'hwadu',        // Zen meditation question
+                'samadhi',      // Deep concentration
+                'inyeon',       // Karmic connection
+                'bodhisattva',  // Enlightened being
+                'nirvana',      // Liberation
+                'kong',         // Emptiness
+                "jin'gong",     // True emptiness
+                'Seon',         // Korean Zen
+                'hanbok',       // Traditional clothing
+                'geobukseon',   // Turtle ship
+                'panokseon',    // Warship
+                'cheongsim-hwan', // Herbal medicine
+                'Musoyu',       // Non-possession
+                'jeongmyeol',   // Absolute stillness
+                'gomapda'       // Thank you
+            ];
+
+            let result = text;
+
+            // Wrap each term in <em> tags if not already wrapped
+            italicTerms.forEach(term => {
+                // Match whole words only, case-insensitive
+                const regex = new RegExp(`\\b(${term})\\b(?![^<]*>)`, 'gi');
+                result = result.replace(regex, '<em>$1</em>');
+            });
+
+            // Clean up double-wrapping
+            result = result.replace(/<em>(<em>.*?<\/em>)<\/em>/g, '$1');
+
+            return result;
+        }
+
+        // Update translation from the contenteditable div
+        function updateTranslationFromTextarea() {
+            const editableDiv = document.getElementById('fullTranslation');
+            let htmlContent = editableDiv.innerHTML.trim();
+
+            if (!htmlContent || htmlContent === '' || editableDiv.textContent.trim() === '') {
+                document.getElementById('translationStatus').innerHTML = '<div style="color: #c53030; padding: 10px; background: #fff5f5; border-radius: 5px;">⚠️ Please paste your translation first</div>';
+                return;
+            }
+
+            // AUTO-CLEAN: Detect and clean messy HTML from Google Sheets/Docs/html5-editor
+            const hasTables = htmlContent.includes('<table') || htmlContent.includes('<tbody') || htmlContent.includes('<tr>');
+            const hasMessySpans = htmlContent.includes('style=') || htmlContent.includes('font-weight');
+
+            if (hasTables || hasMessySpans) {
+                console.log('🧹 Auto-cleaning messy HTML...');
+                htmlContent = autoCleanMessyHTML(htmlContent);
+                // Update the contenteditable with cleaned version
+                editableDiv.innerHTML = htmlContent;
+            }
+
+            // Extract paragraphs from the HTML (preserving formatting!)
+            const temp = document.createElement('div');
+            temp.innerHTML = htmlContent;
+
+            const paragraphElements = temp.querySelectorAll('p');
+            let paragraphs = [];
+
+            if (paragraphElements.length > 0) {
+                // Get paragraphs with preserved formatting
+                paragraphElements.forEach(p => {
+                    const content = p.innerHTML.trim();
+                    if (content) {
+                        paragraphs.push(content);
+                    }
+                });
+            } else {
+                // Fallback: split by line breaks if no <p> tags
+                const text = temp.textContent || temp.innerText;
+                paragraphs = text.split('\n').map(p => p.trim()).filter(p => p.length > 0);
+                // Auto-italicize for fallback text
+                paragraphs = paragraphs.map(p => autoItalicizeTerms(p));
+            }
+
+            translatedParagraphs = paragraphs;
+
+            const expectedCount = koreanParagraphs.length;
+            const actualCount = paragraphs.length;
+
+            let message = '';
+            let color = '';
+            let bgColor = '';
+
+            if (actualCount === expectedCount) {
+                message = `✓ Perfect! Updated ${actualCount} paragraphs. Ready to generate files.`;
+                color = '#22543d';
+                bgColor = '#c6f6d5';
+            } else if (actualCount < expectedCount) {
+                message = `⚠️ Warning: Expected ${expectedCount} paragraphs but got ${actualCount}. You may need to add paragraph breaks.`;
+                color = '#744210';
+                bgColor = '#feebc8';
+            } else {
+                message = `⚠️ Warning: Expected ${expectedCount} paragraphs but got ${actualCount}. You may have extra paragraph breaks.`;
+                color = '#744210';
+                bgColor = '#feebc8';
+            }
+
+            document.getElementById('translationStatus').innerHTML = `<div style="color: ${color}; padding: 10px; background: ${bgColor}; border-radius: 5px; font-weight: 600;">${message}</div>`;
+
+            // Enable the generate button
+            document.getElementById('generateBtn').disabled = false;
+            showStatus('step3Status', message, actualCount === expectedCount ? 'success' : 'info');
+        }
+
+        // Slug generation
+        function autoFillSlug() {
+            const title = document.getElementById('chapterTitle').value.trim();
+            if (!title) return;
+
+            const slug = title
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim();
+
+            document.getElementById('chapterSlug').value = slug;
+        }
+
+        // Generate files
+        function generateFiles() {
+            const chapterNum = document.getElementById('chapterNumber').value.trim();
+            const title = document.getElementById('chapterTitle').value.trim();
+            const slug = document.getElementById('chapterSlug').value.trim();
+            const date = document.getElementById('chapterDate').value.trim();
+            const summary = document.getElementById('chapterSummary').value.trim();
+            const cover = document.getElementById('coverImage').value.trim();
+            const hero = document.getElementById('heroImage').value.trim();
+            const koreanUrl = document.getElementById('koreanUrl').value.trim() || chapterData.koreanLink || '';
+
+            if (!title || !slug || !date || !summary || !cover || !hero) {
+                showStatus('step5Status', 'Please fill in all metadata fields', 'error');
+                return;
+            }
+
+            if (translatedParagraphs.length === 0 || translatedParagraphs.every(p => !p.trim())) {
+                showStatus('step5Status', 'Please translate the content first', 'error');
+                return;
+            }
+
+            if (koreanParagraphs.length > 0 && koreanParagraphs.length < 3) {
+                const proceed = confirm(`Only ${koreanParagraphs.length} paragraphs detected. Generate files anyway?`);
+                if (!proceed) {
+                    showStatus('step5Status', 'Generation cancelled. Please verify Korean text.', 'info');
+                    return;
+                }
+            }
+
+            const htmlContent = generateChapterHTML(translatedParagraphs);
+            const jsonEntry = {
+                title: title,
+                slug: slug,
+                href: `chapter.html?slug=${slug}`,
+                date: date,
+                cover: cover,
+                hero: hero,
+                summary: summary,
+                status: "published",
+                contentHtml: `content/chapter-${chapterNum}.html`,
+                koreanLink: koreanUrl
+            };
+
+            chapterData.htmlContent = htmlContent;
+            chapterData.jsonEntry = jsonEntry;
+            chapterData.chapterNum = chapterNum;
+
+            document.getElementById('htmlCode').textContent = htmlContent;
+            document.getElementById('jsonCode').textContent = JSON.stringify(jsonEntry, null, 2);
+            document.getElementById('htmlPreview').classList.remove('hidden');
+            document.getElementById('jsonPreview').classList.remove('hidden');
+            document.getElementById('downloadButtons').style.display = 'flex';
+
+            showStatus('step5Status', '✓ Files generated successfully!', 'success');
+        }
+
+        function generateChapterHTML(paragraphs) {
+            // Add image credit as first element
+            const imageCredit = '<p class="image-credit" style="text-align: center; font-size: 0.875rem; color: #6b7280; margin-top: -1rem; margin-bottom: 2rem;"><em>Illustration by artist Jeong Yun-gyeong</em></p>\n\n';
+
+            const paragraphsHtml = paragraphs
+                .map(p => `<p>${p}</p>`)
+                .join('\n\n');
+
+            return imageCredit + paragraphsHtml + '\n';
+        }
+
+        // Download functions
+        function downloadHTML() {
+            const filename = `chapter-${chapterData.chapterNum}.html`;
+            const blob = new Blob([chapterData.htmlContent], { type: 'text/html' });
+            downloadBlob(blob, filename);
+            showStatus('step5Status', `✓ Downloaded ${filename}`, 'success');
+        }
+
+        function copyJSON() {
+            const jsonText = JSON.stringify(chapterData.jsonEntry, null, 2);
+            navigator.clipboard.writeText(jsonText).then(() => {
+                showStatus('step5Status', '✓ JSON copied! Add it to chapters.json', 'success');
+            });
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Save GitHub token
+        function saveGitHubToken() {
+            const token = document.getElementById('githubToken').value.trim();
+            if (!token) {
+                showStatus('step6Status', 'Please enter a token first', 'error');
+                return;
+            }
+
+            if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
+                showStatus('step6Status', '⚠️ Token saved, but it doesn\'t look like a valid GitHub token (should start with ghp_ or github_pat_)', 'info');
+            } else {
+                showStatus('step6Status', '✅ Token saved! It will be remembered for future sessions.', 'success');
+            }
+
+            localStorage.setItem('githubToken', token);
+        }
+
+        // Test GitHub token
+        async function testGitHubToken() {
+            const token = document.getElementById('githubToken').value.trim();
+            if (!token) {
+                showStatus('step6Status', 'Please enter a token first', 'error');
+                return;
+            }
+
+            showStatus('step6Status', '🧪 Testing token...', 'info');
+
+            try {
+                const response = await fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    showStatus('step6Status', `✅ Token valid! Authenticated as: ${user.login}`, 'success');
+                    localStorage.setItem('githubToken', token);
+                } else {
+                    showStatus('step6Status', `❌ Token invalid: ${response.statusText}`, 'error');
+                }
+            } catch (error) {
+                showStatus('step6Status', `❌ Test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // GitHub commit
+        async function commitToGitHub() {
+            const token = document.getElementById('githubToken').value.trim();
+            if (!token) {
+                showStatus('step5Status', 'Please enter GitHub token to commit', 'error');
+                return;
+            }
+
+            if (!chapterData.htmlContent || !chapterData.jsonEntry) {
+                showStatus('step5Status', 'Please generate files first', 'error');
+                return;
+            }
+
+            const chapterNum = document.getElementById('chapterNumber').value.trim();
+            const owner = 'omatty123'; // Your GitHub username
+            const repo = 'MontafonMoonlight'; // Your repo name
+
+            showStatus('step5Status', '🚀 Committing to GitHub...', 'info');
+
+            try {
+                const headers = {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/vnd.github.v3+json'
+                };
+
+                // 1. Update chapter HTML file
+                const htmlPath = `content/chapter-${chapterNum}.html`;
+                await updateGitHubFile(owner, repo, htmlPath, chapterData.htmlContent, `Add chapter ${chapterNum}`, headers);
+
+                // 2. Update chapters.json
+                const chaptersPath = 'chapters.json';
+                const currentChapters = await getGitHubFile(owner, repo, chaptersPath, headers);
+                const chapters = JSON.parse(atob(currentChapters.content));
+
+                // Add new chapter (or update if exists)
+                // chapterData.jsonEntry might be a string or object, handle both
+                const newChapter = typeof chapterData.jsonEntry === 'string'
+                    ? JSON.parse(chapterData.jsonEntry)
+                    : chapterData.jsonEntry;
+
+                const existingIndex = chapters.findIndex(ch => ch.slug === newChapter.slug);
+                if (existingIndex >= 0) {
+                    chapters[existingIndex] = newChapter;
+                } else {
+                    chapters.push(newChapter);
+                }
+
+                const updatedChaptersJson = JSON.stringify(chapters, null, 2);
+                await updateGitHubFile(owner, repo, chaptersPath, updatedChaptersJson, `Update chapters.json for chapter ${chapterNum}`, headers, currentChapters.sha);
+
+                // 3. Upload image if available (both cover AND hero - same image)
+                if (imageBlob) {
+                    const cover = document.getElementById('coverImage').value.trim();
+
+                    // Remove 'assets/' prefix if it exists (prevent double nesting)
+                    const filename = cover.startsWith('assets/') ? cover.substring(7) : cover;
+
+                    const imageBase64 = await blobToBase64(imageBlob);
+
+                    // Upload cover image
+                    const coverPath = `assets/${filename}`;
+                    await updateGitHubFile(owner, repo, coverPath, imageBase64, `Add cover image for chapter ${chapterNum}`, headers, null, true);
+
+                    // Upload hero image (same image, different filename)
+                    const heroFilename = filename.replace('-cover.', '-hero.');
+                    const heroPath = `assets/${heroFilename}`;
+                    await updateGitHubFile(owner, repo, heroPath, imageBase64, `Add hero image for chapter ${chapterNum}`, headers, null, true);
+                }
+
+                showStatus('step5Status', `✅ Successfully committed chapter ${chapterNum} to GitHub!`, 'success');
+
+                // Save token to localStorage for next time
+                localStorage.setItem('githubToken', token);
+
+            } catch (error) {
+                const errorMsg = error.message || String(error);
+                showStatus('step5Status', `❌ Commit failed: ${errorMsg}`, 'error');
+                console.error('GitHub commit error:', error);
+
+                // Show detailed error for debugging
+                if (error.stack) {
+                    console.error('Error stack:', error.stack);
+                }
+            }
+        }
+
+        // Helper: Get file from GitHub
+        async function getGitHubFile(owner, repo, path, headers) {
+            const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+                headers: headers
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to get ${path}: ${response.statusText}`);
+            }
+
+            return await response.json();
+        }
+
+        // Helper: Update/create file on GitHub
+        async function updateGitHubFile(owner, repo, path, content, message, headers, sha = null, isBase64 = false) {
+            // Get current file SHA if not provided
+            if (!sha) {
+                try {
+                    const existing = await getGitHubFile(owner, repo, path, headers);
+                    sha = existing.sha;
+                } catch (e) {
+                    // File doesn't exist yet, that's ok
+                }
+            }
+
+            const body = {
+                message: message + '\n\n🤖 Generated with Claude Code\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>',
+                content: isBase64 ? content : btoa(unescape(encodeURIComponent(content)))
+            };
+
+            if (sha) {
+                body.sha = sha;
+            }
+
+            const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+                method: 'PUT',
+                headers: headers,
+                body: JSON.stringify(body)
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || response.statusText);
+            }
+
+            return await response.json();
+        }
+
+        // Helper: Convert blob to base64
+        function blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        // Utility
+        function showStatus(elementId, message, type) {
+            const statusEl = document.getElementById(elementId);
+            statusEl.textContent = message;
+            statusEl.className = `status-message status-${type}`;
+            statusEl.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
