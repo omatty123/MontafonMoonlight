@@ -49,10 +49,19 @@ function cleanOldChapters() {
   // Clean old chapter files from root directory
   console.log("🧹 Cleaning old chapter files from root...");
   const rootFiles = fs.readdirSync(ROOT);
+  // IMPORTANT: Keep this allowlist updated with all non-chapter HTML files!
+  const PROTECTED_FILES = [
+    "index.html",
+    "chapter.html",
+    "chapter-template.html",
+    "chapter-maker.html",
+    "chapter-workflow-tool-v2.html",
+    "cast.html",
+    "places.html",
+    "404.html"
+  ];
   const htmlFiles = rootFiles.filter(f =>
-    f.endsWith(".html") &&
-    !["index.html", "chapter.html", "chapter-template.html",
-      "chapter-maker.html", "404.html"].includes(f)
+    f.endsWith(".html") && !PROTECTED_FILES.includes(f)
   );
   for (const f of htmlFiles) {
     fs.unlinkSync(path.join(ROOT, f));
