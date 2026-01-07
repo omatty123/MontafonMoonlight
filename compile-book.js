@@ -155,7 +155,7 @@ function generateGlossary(glossary) {
 function generateGlossaryHtml(glossary) {
   if (glossary.length === 0) return '';
 
-  let html = '\n<!-- Glossary -->\n<div class="page glossary-page"><h1>Glossary</h1>';
+  let html = '\n<!-- Glossary -->\n<div class="spread single"><article class="page recto glossary-page"><div class="spine-shadow-right"></div><div class="content"><h1>Glossary</h1>';
 
   // Group by type (people, places, concepts)
   const people = glossary.filter(g => g.note && (g.note.includes('Author') || g.note.includes('Mrs.') || g.note.includes('Mr.') || g.note.includes('Venerable') || g.note.includes('Professor') || g.note.includes('Chairwoman') || g.note.includes('Dr.')));
@@ -186,7 +186,7 @@ function generateGlossaryHtml(glossary) {
     html += '</dl>';
   }
 
-  html += '</div>';
+  html += '</div></article></div>';
   return html;
 }
 
@@ -213,259 +213,326 @@ function compileBook() {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${BOOK_META.title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --paper: #ffffff;
+      --ink: #1a1a1a;
+      --font-serif: 'Literata', serif;
+      --font-sans: 'Inter', sans-serif;
+      --page-width: 5.8in;
+      --page-height: 8.7in;
+      --margin-outer: 0.8in;
+      --margin-inner: 1.1in;
+      --margin-top: 1in;
+      --margin-bottom: 1in;
+      --line-height: 1.65;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: Georgia, 'Times New Roman', serif;
-      background: #4a4a4a;
-      margin: 0;
-      padding: 2rem;
-      line-height: 1.8;
-      font-size: 11pt;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 0;
+      font-family: var(--font-serif);
+      color: var(--ink);
     }
 
-    /* Book page styling */
+    /* Two-page spread */
+    .spread {
+      display: flex;
+      gap: 2px;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+      margin-bottom: 60px;
+    }
+
+    /* Single page (title, etc) */
+    .spread.single .page {
+      border-radius: 4px;
+    }
+
+    /* Book page */
     .page {
-      background: #fffef8;
-      max-width: 550px;
-      min-height: 750px;
-      margin: 0 auto 3rem auto;
-      padding: 60px 70px;
-      box-shadow:
-        0 0 20px rgba(0,0,0,0.3),
-        inset 0 0 60px rgba(0,0,0,0.05);
+      width: var(--page-width);
+      height: var(--page-height);
+      background: var(--paper);
       position: relative;
-      border: 1px solid #d4d0c8;
+      display: flex;
+      flex-direction: column;
+      padding: var(--margin-top) 0 var(--margin-bottom) 0;
+      overflow: hidden;
     }
 
-    .page::before {
-      content: '';
+    .page.verso {
+      padding-left: var(--margin-outer);
+      padding-right: var(--margin-inner);
+      border-radius: 4px 0 0 4px;
+    }
+
+    .page.recto {
+      padding-left: var(--margin-inner);
+      padding-right: var(--margin-outer);
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* Content area */
+    .content {
+      flex: 1;
+      overflow: hidden;
+      text-align: justify;
+      hyphens: auto;
+      font-size: 11.5pt;
+      line-height: var(--line-height);
+      font-variant-numeric: oldstyle-nums;
+    }
+
+    /* Running headers */
+    .running-head {
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 30px;
-      background: linear-gradient(to right, rgba(0,0,0,0.08), transparent);
+      top: 0.5in;
+      width: calc(100% - var(--margin-inner) - var(--margin-outer));
+      font-family: var(--font-sans);
+      font-size: 8pt;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #bbb;
+      text-align: center;
+    }
+
+    .verso .running-head { left: var(--margin-outer); }
+    .recto .running-head { left: var(--margin-inner); }
+
+    /* Page numbers */
+    .page-number {
+      position: absolute;
+      bottom: 0.5in;
+      width: 100%;
+      text-align: center;
+      font-family: var(--font-sans);
+      font-size: 9pt;
+      font-weight: 400;
+      color: #ccc;
+    }
+
+    /* Spine shadows */
+    .spine-shadow-left {
+      position: absolute;
+      top: 0; right: 0;
+      width: 40px; height: 100%;
+      background: linear-gradient(to right, transparent, rgba(0,0,0,0.05));
+      pointer-events: none;
+    }
+
+    .spine-shadow-right {
+      position: absolute;
+      top: 0; left: 0;
+      width: 40px; height: 100%;
+      background: linear-gradient(to left, transparent, rgba(0,0,0,0.05));
+      pointer-events: none;
+    }
+
+    /* Frontispiece */
+    .frontispiece {
+      justify-content: center;
+      align-items: center;
+      padding: 1in;
+    }
+
+    .frontispiece img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
 
     /* Title page */
     .title-page {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       text-align: center;
+      justify-content: space-between;
+      padding: 1.25in 0.9in;
     }
 
-    .title-page h1 {
-      font-size: 2.5rem;
-      margin: 0 0 0.5rem 0;
-      font-weight: normal;
-      letter-spacing: 0.05em;
+    .book-title {
+      font-family: var(--font-sans);
+      font-size: 3.5rem;
+      line-height: 0.85;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-top: 0.5in;
     }
 
-    .title-page h2 {
-      font-size: 1.2rem;
-      font-weight: normal;
-      font-style: italic;
-      color: #555;
-      margin: 0 0 3rem 0;
-    }
-
-    .title-page .author {
-      font-size: 1.1rem;
-      margin: 2rem 0 0.5rem 0;
-    }
-
-    .title-page .meta {
-      font-size: 0.9rem;
+    .author-name {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      margin-top: 2.5rem;
       color: #666;
-      font-style: italic;
     }
 
-    .title-page hr {
-      width: 40%;
-      border: none;
-      border-top: 1px solid #999;
-      margin: 2rem 0;
-    }
-
-    .title-page .description {
-      font-size: 0.95rem;
-      max-width: 400px;
-      color: #444;
-      line-height: 1.6;
+    .publisher-info {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #999;
+      margin-bottom: 0.2in;
     }
 
     /* Table of contents */
+    .toc-page { font-family: var(--font-sans); }
+
     .toc-page h2 {
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: normal;
-      margin-bottom: 2rem;
-      letter-spacing: 0.1em;
+      font-size: 8pt;
+      font-weight: 700;
       text-transform: uppercase;
+      letter-spacing: 0.3em;
+      margin-bottom: 2rem;
+      text-align: center;
     }
 
     .toc-page ol {
       list-style: none;
-      padding: 0;
-      margin: 0;
+      font-size: 10pt;
     }
 
     .toc-page li {
-      padding: 0.4rem 0;
-      border-bottom: 1px dotted #ccc;
+      padding: 0.3rem 0;
       display: flex;
       justify-content: space-between;
+      border-bottom: 1px dotted #ddd;
     }
 
-    .toc-page li:last-child {
-      border-bottom: none;
-    }
+    .toc-page li:last-child { border-bottom: none; }
+    .toc-page .num { color: #999; }
 
-    /* Chapter pages */
-    .chapter-page .chapter-header {
+    /* Chapter header */
+    .chapter-header {
       text-align: center;
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid #ddd;
+      margin-bottom: 50pt;
     }
 
-    .chapter-page .chapter-num {
-      font-size: 0.8rem;
-      color: #888;
+    .chapter-num {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 8pt;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: 0.5rem;
-    }
-
-    .chapter-page .chapter-title {
-      font-size: 1.6rem;
-      font-weight: normal;
-      margin: 0.5rem 0;
-      line-height: 1.3;
-    }
-
-    .chapter-page .chapter-date {
-      font-size: 0.85rem;
-      color: #888;
-      font-style: italic;
-    }
-
-    .chapter-page .chapter-image {
-      max-width: 100%;
-      max-height: 250px;
-      margin: 1.5rem auto;
+      letter-spacing: 0.3em;
+      color: #999;
+      margin-bottom: 8pt;
       display: block;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
-    .chapter-page p {
+    h1.chapter-title {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 20pt;
+      letter-spacing: -0.03em;
+      color: #000;
+      margin: 0;
+    }
+
+    .chapter-image {
+      max-width: 100%;
+      max-height: 180px;
+      margin: 0 auto 1.5rem auto;
+      display: block;
+    }
+
+    /* Body text */
+    p {
+      margin-bottom: 0.5em;
       text-indent: 1.5em;
-      margin: 0 0 0.8em 0;
-      text-align: justify;
-      hyphens: auto;
     }
 
-    .chapter-page p:first-of-type {
-      text-indent: 0;
-    }
-
-    .chapter-page p:first-of-type::first-letter {
-      font-size: 3em;
-      float: left;
-      line-height: 0.8;
-      padding-right: 0.1em;
-      color: #333;
-    }
+    p:first-of-type { text-indent: 0; }
 
     em { font-style: italic; }
-    strong { font-weight: bold; }
+    strong { font-weight: 700; }
 
     /* Glossary */
     .glossary-page h1 {
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: normal;
-      margin-bottom: 2rem;
-      letter-spacing: 0.1em;
+      font-family: var(--font-sans);
+      font-size: 8pt;
+      font-weight: 700;
       text-transform: uppercase;
+      letter-spacing: 0.3em;
+      text-align: center;
+      margin-bottom: 1.5rem;
     }
 
     .glossary-page h2 {
-      font-size: 1.1rem;
-      margin: 1.5rem 0 0.75rem 0;
-      color: #444;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 0.25rem;
+      font-family: var(--font-sans);
+      font-size: 8pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin: 1.25rem 0 0.5rem 0;
+      color: #666;
     }
 
     .glossary dt {
-      font-weight: bold;
-      font-size: 0.95rem;
-      margin-top: 0.75rem;
+      font-weight: 600;
+      font-size: 10pt;
+      margin-top: 0.5rem;
     }
 
     .glossary dd {
-      margin: 0.25rem 0 0 1.5rem;
-      font-size: 0.9rem;
+      margin: 0.1rem 0 0 0;
+      font-size: 9.5pt;
       color: #555;
-    }
-
-    /* Page number */
-    .page-number {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #888;
     }
 
     /* Print styles */
     @media print {
       body { background: white; padding: 0; }
-      .page {
-        box-shadow: none;
-        margin: 0;
-        page-break-after: always;
-        border: none;
-      }
-      .page::before { display: none; }
+      .spread { box-shadow: none; gap: 0; margin: 0; page-break-after: always; }
+      .page { border: 1px solid #eee; }
     }
   </style>
 </head>
 <body>
-<!-- Title Page -->
-<div class="page title-page">
-  <h1>${BOOK_META.title}</h1>
-  <h2>${BOOK_META.subtitle}</h2>
-  <hr>
-  <p class="author">By ${BOOK_META.author}</p>
-  <p class="meta">${BOOK_META.translator}</p>
-  <p class="meta">${BOOK_META.illustrator}</p>
-  <hr>
-  <p class="description">${BOOK_META.description}</p>
+<!-- Title Page Spread -->
+<div class="spread">
+  <article class="page verso frontispiece">
+    <div class="spine-shadow-left"></div>
+    <img src="assets/og-cover.jpg" alt="Cover artwork">
+  </article>
+  <article class="page recto title-page">
+    <div class="spine-shadow-right"></div>
+    <div class="title-top">
+      <h1 class="book-title">Montafon<br>Moonlight</h1>
+      <p class="author-name">${BOOK_META.author}</p>
+    </div>
+    <div class="publisher-info">
+      Banglangdang Press<br>
+      ${BOOK_META.year}
+    </div>
+  </article>
 </div>
 `;
 
   // Add table of contents
   markdown += '# Table of Contents\n\n';
-  html += '<!-- Table of Contents -->\n<div class="page toc-page"><h2>Contents</h2><ol>';
+  html += '<!-- Table of Contents -->\n<div class="spread single"><article class="page recto toc-page"><div class="spine-shadow-right"></div><div class="content"><h2>Contents</h2><ol>';
 
   let tocNum = 0;
   for (const chapter of chapters) {
     if (chapter.status !== 'published') continue;
     tocNum++;
     markdown += `- ${chapter.title}\n`;
-    html += `<li><span>${chapter.title}</span><span>${tocNum}</span></li>`;
+    html += `<li><span>${chapter.title}</span><span class="num">${tocNum}</span></li>`;
   }
   markdown += '\n\\newpage\n\n';
-  html += '</ol></div>';
+  html += '</ol></div></article></div>';
 
   // Compile each chapter
   let chapterNum = 0;
@@ -493,19 +560,41 @@ function compileBook() {
     markdown += chapterMd;
     markdown += '\n\n\\newpage\n\n';
 
-    // HTML version
-    html += `\n<!-- Chapter ${chapterNum} -->\n<div class="page chapter-page">
-  <div class="chapter-header">
-    <div class="chapter-num">Chapter ${chapterNum}</div>
-    <h1 class="chapter-title">${chapter.title}</h1>
-    <div class="chapter-date">${chapter.date}</div>
-  </div>`;
+    // HTML version - create a two-page spread for each chapter
+    const pageNum = chapterNum * 2; // Simple page numbering
+    html += `\n<!-- Chapter ${chapterNum}: ${chapter.title} -->
+<div class="spread">
+  <article class="page verso">
+    <div class="running-head">${BOOK_META.author}</div>
+    <div class="spine-shadow-left"></div>
+    <div class="content">
+      <div class="chapter-header">
+        <span class="chapter-num">Chapter ${chapterNum}</span>
+        <h1 class="chapter-title">${chapter.title}</h1>
+      </div>`;
     if (chapter.hero) {
-      html += `\n  <img src="${chapter.hero}" alt="${chapter.title}" class="chapter-image">`;
+      html += `\n      <img src="${chapter.hero}" alt="${chapter.title}" class="chapter-image">`;
     }
-    html += '\n  <div class="chapter-content">\n';
-    html += cleanedHtml.split('\n\n').map(p => `    <p>${p}</p>`).join('\n');
-    html += '\n  </div>\n  <div class="page-number">' + chapterNum + '</div>\n</div>';
+    // Split content roughly in half for two pages
+    const paragraphs = cleanedHtml.split('\n\n').filter(p => p.trim());
+    const midpoint = Math.ceil(paragraphs.length / 2);
+    const leftPageContent = paragraphs.slice(0, midpoint);
+    const rightPageContent = paragraphs.slice(midpoint);
+
+    html += '\n' + leftPageContent.map(p => `      <p>${p}</p>`).join('\n');
+    html += `
+    </div>
+    <div class="page-number">${pageNum}</div>
+  </article>
+  <article class="page recto">
+    <div class="running-head">${BOOK_META.title}</div>
+    <div class="spine-shadow-right"></div>
+    <div class="content">
+` + rightPageContent.map(p => `      <p>${p}</p>`).join('\n') + `
+    </div>
+    <div class="page-number">${pageNum + 1}</div>
+  </article>
+</div>`;
 
     console.log(`✅ Chapter ${chapterNum}: ${chapter.title}`);
   }
