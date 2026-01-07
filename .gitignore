@@ -10,3 +10,7 @@ node_modules/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Generated manuscript files
+manuscript.md
+manuscript.html
