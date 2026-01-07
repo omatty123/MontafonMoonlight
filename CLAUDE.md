@@ -143,6 +143,48 @@ gh run rerun <run-id> --failed
 - Chapters 23-50: Remaining (28 chapters)
 - Publishing pace: ~1 chapter per week
 
+## Future Goal: Print Book
+
+When all 50 chapters are complete, create a printed book. Considerations:
+
+### Content Compilation
+- Combine all 50 chapter HTML files into single manuscript
+- Review for consistency (character names, terminology, formatting)
+- Add front matter (title page, copyright, dedication, table of contents)
+- Add back matter (about the author, glossary of Korean/Buddhist terms)
+
+### Illustrations
+- Current: Web-optimized JPGs by artist Jeong Yun-gyeong
+- Need: High-resolution versions for print (300 DPI minimum)
+- Consider: Full-page chapter openers vs inline illustrations
+
+### Formatting Options
+- **PDF** for print-ready files
+- **ePub** for ebook distribution
+- Tools: Pandoc, LaTeX, Adobe InDesign, or Vellum (Mac)
+
+### Print-on-Demand Services
+- Amazon KDP (Kindle Direct Publishing) - widest reach
+- IngramSpark - better bookstore distribution
+- Lulu - good for small runs
+- Blurb - premium quality photo books
+
+### ISBN & Copyright
+- Obtain ISBN for official publication
+- Copyright registration
+- Consider Korean rights coordination with original author
+
+### Special Editions
+- Bilingual edition (Korean/English parallel text)?
+- Illustrated collector's edition?
+- Audiobook narration?
+
+### Technical Tasks (when ready)
+- Script to compile chapters into single document
+- Generate table of contents from chapters.json
+- Export glossary from translation-glossary.json
+- Create print-ready PDF with proper margins/bleeds
+
 ## Useful Links
 
 - **Workflow Tool:** https://omatty123.github.io/MontafonMoonlight/chapter-workflow-tool-v2.html
