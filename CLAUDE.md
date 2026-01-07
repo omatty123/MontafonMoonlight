@@ -73,6 +73,25 @@ See `translation-glossary.json` for complete terminology reference.
 
 ## Adding a New Chapter
 
+### Option 1: Web Workflow Tool (Recommended)
+
+Use the **Chapter Workflow Tool**: https://omatty123.github.io/MontafonMoonlight/chapter-workflow-tool-v2.html
+
+This tool automates the entire process:
+1. **Paste Korean URL** → Auto-fetches text and image from mediabuddha.net
+2. **Translate** → Generates Google Sheets formula for free translation
+3. **Edit** → Side-by-side Korean/English editor with formatting preservation
+4. **Metadata** → Auto-fills chapter number, image paths, generates slug
+5. **Commit** → Direct GitHub commit with PAT token (or download files manually)
+
+Features:
+- Preserves bold/italic formatting from Google Docs
+- Auto-italicizes Korean terms (jeong, hwadu, samadhi, etc.)
+- Uploads both cover and hero images automatically
+- Triggers the OG page generation workflow
+
+### Option 2: Manual Process
+
 1. **Add content:** Create `content/chapter-{N}.html` with the translated text
 2. **Add images:** Upload `assets/ch{N}-cover.jpg` and `assets/ch{N}-hero.jpg`
 3. **Update metadata:** Add entry to `chapters.json`:
