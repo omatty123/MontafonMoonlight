@@ -261,13 +261,12 @@ function compileBook() {
     /* Book page */
     .page {
       width: var(--page-width);
-      height: var(--page-height);
+      min-height: var(--page-height);
       background: var(--paper);
       position: relative;
       display: flex;
       flex-direction: column;
       padding: var(--margin-top) 0 var(--margin-bottom) 0;
-      overflow: hidden;
     }
 
     .page.verso {
@@ -285,7 +284,6 @@ function compileBook() {
     /* Content area */
     .content {
       flex: 1;
-      overflow: hidden;
       text-align: justify;
       hyphens: auto;
       font-size: 11.5pt;
@@ -312,14 +310,13 @@ function compileBook() {
 
     /* Page numbers */
     .page-number {
-      position: absolute;
-      bottom: 0.5in;
-      width: 100%;
       text-align: center;
       font-family: var(--font-sans);
       font-size: 9pt;
       font-weight: 400;
       color: #ccc;
+      margin-top: 2rem;
+      padding-bottom: 0.5in;
     }
 
     /* Spine shadows */
@@ -560,13 +557,12 @@ function compileBook() {
     markdown += chapterMd;
     markdown += '\n\n\\newpage\n\n';
 
-    // HTML version - create a two-page spread for each chapter
-    const pageNum = chapterNum * 2; // Simple page numbering
+    // HTML version - single page per chapter that grows naturally
     html += `\n<!-- Chapter ${chapterNum}: ${chapter.title} -->
-<div class="spread">
-  <article class="page verso">
-    <div class="running-head">${BOOK_META.author}</div>
-    <div class="spine-shadow-left"></div>
+<div class="spread single">
+  <article class="page recto chapter-page">
+    <div class="running-head">${BOOK_META.title}</div>
+    <div class="spine-shadow-right"></div>
     <div class="content">
       <div class="chapter-header">
         <span class="chapter-num">Chapter ${chapterNum}</span>
@@ -575,24 +571,10 @@ function compileBook() {
     if (chapter.hero) {
       html += `\n      <img src="${chapter.hero}" alt="${chapter.title}" class="chapter-image">`;
     }
-    // Split content roughly in half for two pages
-    const paragraphs = cleanedHtml.split('\n\n').filter(p => p.trim());
-    const midpoint = Math.ceil(paragraphs.length / 2);
-    const leftPageContent = paragraphs.slice(0, midpoint);
-    const rightPageContent = paragraphs.slice(midpoint);
-
-    html += '\n' + leftPageContent.map(p => `      <p>${p}</p>`).join('\n');
+    html += '\n' + cleanedHtml.split('\n\n').filter(p => p.trim()).map(p => `      <p>${p}</p>`).join('\n');
     html += `
     </div>
-    <div class="page-number">${pageNum}</div>
-  </article>
-  <article class="page recto">
-    <div class="running-head">${BOOK_META.title}</div>
-    <div class="spine-shadow-right"></div>
-    <div class="content">
-` + rightPageContent.map(p => `      <p>${p}</p>`).join('\n') + `
-    </div>
-    <div class="page-number">${pageNum + 1}</div>
+    <div class="page-number">${chapterNum}</div>
   </article>
 </div>`;
 
