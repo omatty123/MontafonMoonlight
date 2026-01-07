@@ -162,7 +162,7 @@
     "date": "2025-11-11",
     "cover": "assets/ch14-cover.jpg",
     "hero": "assets/ch14-hero.jpg",
-    "summary": "Saying goodbyeÃ¢ÂÂfor now.",
+    "summary": "Saying goodbyeÃÂ¢ÃÂÃÂfor now.",
     "status": "published",
     "contentHtml": "content/chapter-14.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35191"
@@ -250,5 +250,17 @@
     "status": "published",
     "contentHtml": "content/chapter-21.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35438"
+  },
+  {
+    "title": "Roman Vacation Begins",
+    "slug": "roman-vacation-begins",
+    "href": "chapter.html?slug=roman-vacation-begins",
+    "date": "2026-01-06",
+    "cover": "assets/ch22-cover.jpg",
+    "hero": "assets/ch22-hero.jpg",
+    "summary": "They came, they saw, they conquered Rome.",
+    "status": "published",
+    "contentHtml": "content/chapter-22.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35450"
   }
 ]
