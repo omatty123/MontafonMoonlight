@@ -151,6 +151,45 @@ function generateGlossary(glossary) {
   return md;
 }
 
+// Generate glossary for HTML
+function generateGlossaryHtml(glossary) {
+  if (glossary.length === 0) return '';
+
+  let html = '<div class="chapter"><h1>Glossary of Korean and Buddhist Terms</h1>';
+
+  // Group by type (people, places, concepts)
+  const people = glossary.filter(g => g.note && (g.note.includes('Author') || g.note.includes('Mrs.') || g.note.includes('Mr.') || g.note.includes('Venerable') || g.note.includes('Professor') || g.note.includes('Chairwoman') || g.note.includes('Dr.')));
+  const places = glossary.filter(g => g.note && (g.note.includes('Temple') || g.note.includes('Province') || g.note.includes('valley') || g.note.includes('Austria') || g.note.includes('residence') || g.note.includes('Hermitage')));
+  const concepts = glossary.filter(g => !people.includes(g) && !places.includes(g));
+
+  if (people.length > 0) {
+    html += '<h2>People</h2><dl class="glossary">';
+    for (const term of people) {
+      html += `<dt>${term.english} (${term.korean})</dt><dd>${term.note}</dd>`;
+    }
+    html += '</dl>';
+  }
+
+  if (places.length > 0) {
+    html += '<h2>Places</h2><dl class="glossary">';
+    for (const term of places) {
+      html += `<dt>${term.english} (${term.korean})</dt><dd>${term.note}</dd>`;
+    }
+    html += '</dl>';
+  }
+
+  if (concepts.length > 0) {
+    html += '<h2>Concepts and Terms</h2><dl class="glossary">';
+    for (const term of concepts) {
+      html += `<dt>${term.english} (${term.korean})</dt><dd>${term.note}</dd>`;
+    }
+    html += '</dl>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
 // Main compilation function
 function compileBook() {
   console.log('📚 Compiling Montafon Moonlight book...\n');
@@ -259,6 +298,7 @@ function compileBook() {
 
   // Add glossary
   markdown += generateGlossary(glossary);
+  html += generateGlossaryHtml(glossary);
 
   // Close HTML
   html += '</body></html>';
