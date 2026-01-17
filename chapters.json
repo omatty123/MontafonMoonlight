@@ -264,13 +264,13 @@
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35450"
   },
   {
-    "title": "Goethe’s Rome",
-    "slug": "goethes-rome",
-    "href": "chapter.html?slug=goethes-rome",
+    "title": "Goethe’s Italian Journey",
+    "slug": "goethes-italy",
+    "href": "chapter.html?slug=goethes-italy",
     "date": "2026-01-17",
     "cover": "assets/ch23-cover.jpg",
     "hero": "assets/ch23-hero.jpg",
-    "summary": "Art, Rome, and Goethe",
+    "summary": "Art, Italy, and Goethe",
     "status": "published",
     "contentHtml": "content/chapter-23.html",
     "koreanLink": ""
