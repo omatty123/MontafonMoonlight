@@ -162,7 +162,7 @@
     "date": "2025-11-11",
     "cover": "assets/ch14-cover.jpg",
     "hero": "assets/ch14-hero.jpg",
-    "summary": "Saying goodbyeÃÂÃÂ¢ÃÂÃÂÃÂÃÂfor now.",
+    "summary": "Saying goodbyeÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂfor now.",
     "status": "published",
     "contentHtml": "content/chapter-14.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35191"
@@ -264,7 +264,7 @@
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35450"
   },
   {
-    "title": "Goethe’s Italian Journey",
+    "title": "Goetheâs Italian Journey",
     "slug": "goethes-italy",
     "href": "chapter.html?slug=goethes-italy",
     "date": "2026-01-17",
@@ -273,6 +273,18 @@
     "summary": "Art, Italy, and Goethe",
     "status": "published",
     "contentHtml": "content/chapter-23.html",
+    "koreanLink": ""
+  },
+  {
+    "title": "Vatican Museum",
+    "slug": "vatican-museum",
+    "href": "chapter.html?slug=vatican-museum",
+    "date": "2026-01-20",
+    "cover": "assets/ch24-cover.jpg",
+    "hero": "assets/ch24-hero.jpg",
+    "summary": "Rome's memories resonate deeply, but there is something missing.",
+    "status": "published",
+    "contentHtml": "content/chapter-24.html",
     "koreanLink": ""
   }
 ]
