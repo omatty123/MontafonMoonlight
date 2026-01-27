@@ -59,7 +59,6 @@ function cleanOldChapters() {
     "cast.html",
     "places.html",
     "404.html",
-    "book.html",
     "read.html"
   ];
   const htmlFiles = rootFiles.filter(f =>
