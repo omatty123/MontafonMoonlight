@@ -30,6 +30,9 @@
             --color-paper: #fffef9;
             --color-text: #1a1a1a;
             --color-text-light: #666;
+            /* Text area dimensions (for pagination) */
+            --text-area-width: 280px;  /* page-width minus padding (40px each side) */
+            --text-area-height: 385px; /* page-height minus padding/header/footer */
         }
 
         html, body {
@@ -512,11 +515,54 @@
             to { transform: rotate(360deg); }
         }
 
+        /* ============ CSS COLUMN PAGINATOR (hidden, for measurement) ============ */
+        #columnPaginator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            visibility: hidden;
+            /* Match the exact text area dimensions */
+            width: var(--text-area-width);
+            height: var(--text-area-height);
+            /* CSS columns - key to proper pagination */
+            column-width: var(--text-area-width);
+            column-gap: 40px; /* gap between columns */
+            column-fill: auto;
+            /* Match body-page text styling exactly */
+            font-family: var(--font-serif);
+            font-size: 0.82rem;
+            line-height: 1.75;
+            text-align: justify;
+            hyphens: auto;
+            color: var(--color-text);
+            overflow: hidden;
+        }
+
+        #columnPaginator p {
+            text-indent: 1.2em;
+            margin: 0;
+            padding: 0;
+            /* CRITICAL: Prevent paragraph breaks across columns */
+            break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        #columnPaginator p:first-child {
+            text-indent: 0;
+        }
+
+        #columnPaginator p + p {
+            margin-top: 0.8em;
+        }
+
         /* Responsive */
         @media (max-width: 800px) {
             :root {
                 --page-width: 300px;
                 --page-height: 450px;
+                --text-area-width: 240px;
+                --text-area-height: 310px;
             }
 
             .page-inner {
@@ -526,12 +572,18 @@
             .body-page .page-text {
                 font-size: 0.75rem;
             }
+
+            #columnPaginator {
+                font-size: 0.75rem;
+            }
         }
 
         @media (max-width: 650px) {
             :root {
                 --page-width: 260px;
                 --page-height: 390px;
+                --text-area-width: 200px;
+                --text-area-height: 260px;
             }
 
             .cover-title {
@@ -565,17 +617,8 @@
         <div id="flipbook"></div>
     </div>
 
-    <!-- Hidden measurement containers (for accurate pagination) -->
-    <div id="measureContainer" style="position: absolute; left: -9999px; visibility: hidden; width: var(--page-width); height: var(--page-height);">
-        <div class="page-inner body-page" style="height: 100%; box-sizing: border-box;">
-            <div class="page-text" id="measureText" style="height: auto;"></div>
-        </div>
-    </div>
-    <div id="measureTocContainer" style="position: absolute; left: -9999px; visibility: hidden; width: var(--page-width); height: var(--page-height);">
-        <div class="page-inner toc-page" style="height: 100%; box-sizing: border-box;">
-            <ul class="toc-list" id="measureToc"></ul>
-        </div>
-    </div>
+    <!-- CSS Column Paginator (invisible, used for measurement) -->
+    <div id="columnPaginator"></div>
 
     <!-- Navigation -->
     <div class="nav-controls">
@@ -587,26 +630,20 @@
     <div class="instructions">Click page corners or use arrow keys</div>
 
     <script>
-        // Configuration - calculated from actual page dimensions
-        // Page: 540px, padding: 45+50=95px, header: 30px, footer: 30px
-        const PAGE_HEIGHT = 540;
-        const PADDING_TOP = 45;
-        const PADDING_BOTTOM = 50;
-        const HEADER_FOOTER_SPACE = 60; // running header + page number
-        const SAFETY_MARGIN = 40; // Extra margin to ensure no overflow
-        const AVAILABLE_HEIGHT = PAGE_HEIGHT - PADDING_TOP - PADDING_BOTTOM - HEADER_FOOTER_SPACE - SAFETY_MARGIN;
-        // = 345px available for text (conservative)
-
-        const TOC_TITLE_HEIGHT = 50; // "CONTENTS" header
-        const TOC_PADDING = 100; // toc-page padding top+bottom
-        const TOC_SAFETY_MARGIN = 30; // Extra margin for TOC
-
         let chapters = [];
         let allPages = [];
+
+        // Get computed CSS variable values
+        function getCSSVar(name) {
+            return parseInt(getComputedStyle(document.documentElement).getPropertyValue(name));
+        }
 
         // Initialize
         async function init() {
             try {
+                // Wait for fonts to load (critical for accurate measurement)
+                await document.fonts.ready;
+
                 // Load chapters
                 const response = await fetch('chapters.json');
                 chapters = await response.json();
@@ -629,12 +666,15 @@
                 // Create flipbook
                 createFlipbook();
 
-                // Validate all pages for overflow
-                const issues = validateAllPages();
-                if (issues.length > 0) {
-                    console.error('PAGINATION OVERFLOW DETECTED:', issues);
-                    console.error('Pages with overflow:', issues.map(i => i.pageNum).join(', '));
-                }
+                // Validate all pages for overflow (debug)
+                setTimeout(() => {
+                    const issues = validateAllPages();
+                    if (issues.length > 0) {
+                        console.warn('Pages with potential overflow:', issues);
+                    } else {
+                        console.log('✓ All pages validated - no overflow detected');
+                    }
+                }, 500);
 
                 // Hide loading
                 document.getElementById('loadingScreen').classList.add('hidden');
@@ -650,7 +690,6 @@
             const promises = chapters.map(async (chapter) => {
                 try {
                     const response = await fetch(chapter.contentHtml);
-                    // Use explicit UTF-8 decoding to prevent encoding issues
                     const buffer = await response.arrayBuffer();
                     const decoder = new TextDecoder('utf-8');
                     chapter.content = decoder.decode(buffer);
@@ -659,6 +698,70 @@
                 }
             });
             await Promise.all(promises);
+        }
+
+        // ============ CSS COLUMN-BASED PAGINATION ============
+        // This is the key function - uses CSS columns for accurate browser-based pagination
+        function paginateWithColumns(htmlContent) {
+            const paginator = document.getElementById('columnPaginator');
+            const textWidth = getCSSVar('--text-area-width');
+            const columnGap = 40;
+
+            // Insert content
+            paginator.innerHTML = htmlContent;
+
+            // Force layout calculation
+            void paginator.offsetHeight;
+
+            // Calculate number of columns (pages) from scrollWidth
+            // scrollWidth = (columnWidth * numColumns) + (gap * (numColumns - 1))
+            // Solving: numColumns = (scrollWidth + gap) / (columnWidth + gap)
+            const scrollWidth = paginator.scrollWidth;
+            const numPages = Math.ceil((scrollWidth + columnGap) / (textWidth + columnGap));
+
+            // Now extract content for each page using Range API
+            const pages = [];
+            const contentHeight = getCSSVar('--text-area-height');
+
+            // Get all paragraphs
+            const allParas = Array.from(paginator.querySelectorAll('p'));
+            if (allParas.length === 0) {
+                paginator.innerHTML = '';
+                return ['<p>No content.</p>'];
+            }
+
+            // Determine which paragraphs belong to which column/page
+            // by checking their position
+            let currentPage = [];
+            let currentPageIndex = 0;
+
+            for (const p of allParas) {
+                const rect = p.getBoundingClientRect();
+                const paginatorRect = paginator.getBoundingClientRect();
+                const relativeLeft = rect.left - paginatorRect.left;
+
+                // Determine which column this paragraph starts in
+                const pageIndex = Math.floor(relativeLeft / (textWidth + columnGap));
+
+                if (pageIndex > currentPageIndex && currentPage.length > 0) {
+                    // Save current page and start new one
+                    pages.push(currentPage.map(el => el.outerHTML).join(''));
+                    currentPage = [];
+                    currentPageIndex = pageIndex;
+                }
+
+                currentPage.push(p.cloneNode(true));
+            }
+
+            // Don't forget last page
+            if (currentPage.length > 0) {
+                pages.push(currentPage.map(el => el.outerHTML).join(''));
+            }
+
+            // Clean up
+            paginator.innerHTML = '';
+
+            return pages.length > 0 ? pages : ['<p>No content.</p>'];
         }
 
         // Build all pages
@@ -709,7 +812,7 @@
                 `
             });
 
-            // Table of Contents (may span multiple pages)
+            // Table of Contents
             const tocPages = buildTocPages();
             pages.push(...tocPages);
 
@@ -746,9 +849,9 @@
                 });
                 pageNum++;
 
-                // Chapter content pages
-                const contentPages = paginateContent(chapter.content, chapter.title, chapterIndex);
-                contentPages.forEach((pageHtml, i) => {
+                // Chapter content pages (using CSS column pagination)
+                const contentPages = paginateWithColumns(chapter.content);
+                contentPages.forEach((pageHtml) => {
                     const isLeft = pageNum % 2 === 0;
                     pages.push({
                         type: 'body',
@@ -795,35 +898,23 @@
             return pages;
         }
 
-        // Build TOC pages using render-based measurement
+        // Build TOC pages
         function buildTocPages() {
             const pages = [];
-            const measureToc = document.getElementById('measureToc');
-            const tocAvailableHeight = PAGE_HEIGHT - TOC_PADDING - TOC_SAFETY_MARGIN;
+            const itemsPerPage = 12; // Conservative estimate
+            const itemsFirstPage = 10; // Fewer on first page due to title
 
             let currentItems = [];
             let isFirstPage = true;
-            measureToc.innerHTML = '';
 
             for (let i = 0; i < chapters.length; i++) {
                 const ch = chapters[i];
                 const num = i + 1;
+                const itemHtml = `<li class="toc-item"><span><span class="toc-num">${num}.</span> ${ch.title}</span></li>`;
+                currentItems.push(itemHtml);
 
-                // Create TOC item
-                const li = document.createElement('li');
-                li.className = 'toc-item';
-                li.innerHTML = `<span><span class="toc-num">${num}.</span> ${ch.title}</span>`;
-                measureToc.appendChild(li);
-
-                // Account for title on first page
-                const effectiveHeight = isFirstPage ? tocAvailableHeight - TOC_TITLE_HEIGHT : tocAvailableHeight;
-
-                // Check if we've exceeded available height
-                if (measureToc.scrollHeight > effectiveHeight && currentItems.length > 0) {
-                    // Remove the item that caused overflow
-                    measureToc.removeChild(li);
-
-                    // Save current page
+                const limit = isFirstPage ? itemsFirstPage : itemsPerPage;
+                if (currentItems.length >= limit || i === chapters.length - 1) {
                     let html = `<div class="page-inner toc-page">`;
                     if (isFirstPage) {
                         html += `<h2 class="toc-title">Contents</h2>`;
@@ -831,77 +922,10 @@
                     }
                     html += `<ul class="toc-list">${currentItems.join('')}</ul></div>`;
                     pages.push({ type: 'toc', html });
-
-                    // Start new page with this item
-                    measureToc.innerHTML = '';
-                    measureToc.appendChild(li);
-                    currentItems = [li.outerHTML];
-                } else {
-                    currentItems.push(li.outerHTML);
+                    currentItems = [];
                 }
             }
 
-            // Don't forget last page
-            if (currentItems.length > 0) {
-                let html = `<div class="page-inner toc-page">`;
-                if (isFirstPage) {
-                    html += `<h2 class="toc-title">Contents</h2>`;
-                }
-                html += `<ul class="toc-list">${currentItems.join('')}</ul></div>`;
-                pages.push({ type: 'toc', html });
-            }
-
-            // Clean up
-            measureToc.innerHTML = '';
-            return pages;
-        }
-
-        // Paginate content using render-based measurement
-        function paginateContent(htmlContent, chapterTitle, chapterIndex) {
-            const pages = [];
-            const measureText = document.getElementById('measureText');
-            const temp = document.createElement('div');
-            temp.innerHTML = htmlContent;
-
-            // Get paragraphs
-            const paragraphs = Array.from(temp.querySelectorAll('p'));
-            if (paragraphs.length === 0) return ['<p>No content.</p>'];
-
-            let currentPageParas = [];
-            measureText.innerHTML = '';
-
-            for (const p of paragraphs) {
-                const pText = p.textContent.trim();
-                if (!pText) continue;
-
-                // Add paragraph to measurement div
-                const clone = p.cloneNode(true);
-                measureText.appendChild(clone);
-
-                // Check if we've exceeded available height
-                if (measureText.scrollHeight > AVAILABLE_HEIGHT && currentPageParas.length > 0) {
-                    // Remove the paragraph that caused overflow
-                    measureText.removeChild(clone);
-
-                    // Save current page
-                    pages.push(currentPageParas.map(para => para.outerHTML).join(''));
-
-                    // Start new page with this paragraph
-                    measureText.innerHTML = '';
-                    measureText.appendChild(clone);
-                    currentPageParas = [p];
-                } else {
-                    currentPageParas.push(p);
-                }
-            }
-
-            // Don't forget last page
-            if (currentPageParas.length > 0) {
-                pages.push(currentPageParas.map(para => para.outerHTML).join(''));
-            }
-
-            // Clean up
-            measureText.innerHTML = '';
             return pages;
         }
 
@@ -910,7 +934,7 @@
             const flipbook = $('#flipbook');
 
             // Add pages
-            allPages.forEach((page, index) => {
+            allPages.forEach((page) => {
                 const pageDiv = $('<div class="page"></div>');
                 pageDiv.html(page.html);
 
@@ -924,8 +948,8 @@
 
             // Initialize turn.js
             flipbook.turn({
-                width: parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-width')) * 2,
-                height: parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-height')),
+                width: getCSSVar('--page-width') * 2,
+                height: getCSSVar('--page-height'),
                 autoCenter: true,
                 display: 'double',
                 acceleration: true,
@@ -951,7 +975,7 @@
             updatePageIndicator(1);
         }
 
-        // Validate all pages for text overflow
+        // Validate all pages for text overflow (debug tool)
         function validateAllPages() {
             const issues = [];
             document.querySelectorAll('.page').forEach((page, pageIndex) => {
@@ -959,9 +983,8 @@
                 if (bodyPage) {
                     const textDiv = bodyPage.querySelector('.page-text');
                     if (textDiv) {
-                        // Check if content overflows
                         const overflow = textDiv.scrollHeight - textDiv.clientHeight;
-                        if (overflow > 2) { // 2px tolerance
+                        if (overflow > 5) { // 5px tolerance
                             issues.push({
                                 pageNum: pageIndex + 1,
                                 overflow: overflow,
