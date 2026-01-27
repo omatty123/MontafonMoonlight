@@ -58,7 +58,9 @@ function cleanOldChapters() {
     "chapter-workflow-tool-v2.html",
     "cast.html",
     "places.html",
-    "404.html"
+    "404.html",
+    "book.html",
+    "read.html"
   ];
   const htmlFiles = rootFiles.filter(f =>
     f.endsWith(".html") && !PROTECTED_FILES.includes(f)
