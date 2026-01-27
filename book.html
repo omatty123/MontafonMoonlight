@@ -565,6 +565,18 @@
         <div id="flipbook"></div>
     </div>
 
+    <!-- Hidden measurement containers (for accurate pagination) -->
+    <div id="measureContainer" style="position: absolute; left: -9999px; visibility: hidden; width: var(--page-width); height: var(--page-height);">
+        <div class="page-inner body-page" style="height: 100%; box-sizing: border-box;">
+            <div class="page-text" id="measureText" style="height: auto;"></div>
+        </div>
+    </div>
+    <div id="measureTocContainer" style="position: absolute; left: -9999px; visibility: hidden; width: var(--page-width); height: var(--page-height);">
+        <div class="page-inner toc-page" style="height: 100%; box-sizing: border-box;">
+            <ul class="toc-list" id="measureToc"></ul>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <div class="nav-controls">
         <button class="nav-btn" id="prevBtn">&#8249;</button>
@@ -576,10 +588,16 @@
 
     <script>
         // Configuration - calculated from actual page dimensions
-        // Page: 540px, padding: 95px, header: 30px, footer: 30px = 385px usable
-        // Line height ~23px = ~16 lines max, minus paragraph spacing = ~14 safe
-        // ~45 chars/line average = ~630 chars
-        const CHARS_PER_PAGE = 620;
+        // Page: 540px, padding: 45+50=95px, header: 30px, footer: 30px
+        const PAGE_HEIGHT = 540;
+        const PADDING_TOP = 45;
+        const PADDING_BOTTOM = 50;
+        const HEADER_FOOTER_SPACE = 60; // running header + page number
+        const AVAILABLE_HEIGHT = PAGE_HEIGHT - PADDING_TOP - PADDING_BOTTOM - HEADER_FOOTER_SPACE;
+        // = 385px available for text
+
+        const TOC_TITLE_HEIGHT = 50; // "CONTENTS" header
+        const TOC_PADDING = 100; // toc-page padding top+bottom
 
         let chapters = [];
         let allPages = [];
@@ -765,111 +783,113 @@
             return pages;
         }
 
-        // Build TOC pages
-        // TOC line-height: 2, font ~13px = ~26px per item + border
-        // ~385px usable / ~30px per item = ~12 items, minus title = 10 safe
+        // Build TOC pages using render-based measurement
         function buildTocPages() {
             const pages = [];
-            const itemsPerPage = 10;
+            const measureToc = document.getElementById('measureToc');
+            const tocAvailableHeight = PAGE_HEIGHT - TOC_PADDING;
 
-            for (let i = 0; i < chapters.length; i += itemsPerPage) {
-                const slice = chapters.slice(i, i + itemsPerPage);
-                const isFirst = i === 0;
+            let currentItems = [];
+            let isFirstPage = true;
+            measureToc.innerHTML = '';
 
+            for (let i = 0; i < chapters.length; i++) {
+                const ch = chapters[i];
+                const num = i + 1;
+
+                // Create TOC item
+                const li = document.createElement('li');
+                li.className = 'toc-item';
+                li.innerHTML = `<span><span class="toc-num">${num}.</span> ${ch.title}</span>`;
+                measureToc.appendChild(li);
+
+                // Account for title on first page
+                const effectiveHeight = isFirstPage ? tocAvailableHeight - TOC_TITLE_HEIGHT : tocAvailableHeight;
+
+                // Check if we've exceeded available height
+                if (measureToc.scrollHeight > effectiveHeight && currentItems.length > 0) {
+                    // Remove the item that caused overflow
+                    measureToc.removeChild(li);
+
+                    // Save current page
+                    let html = `<div class="page-inner toc-page">`;
+                    if (isFirstPage) {
+                        html += `<h2 class="toc-title">Contents</h2>`;
+                        isFirstPage = false;
+                    }
+                    html += `<ul class="toc-list">${currentItems.join('')}</ul></div>`;
+                    pages.push({ type: 'toc', html });
+
+                    // Start new page with this item
+                    measureToc.innerHTML = '';
+                    measureToc.appendChild(li);
+                    currentItems = [li.outerHTML];
+                } else {
+                    currentItems.push(li.outerHTML);
+                }
+            }
+
+            // Don't forget last page
+            if (currentItems.length > 0) {
                 let html = `<div class="page-inner toc-page">`;
-                if (isFirst) {
+                if (isFirstPage) {
                     html += `<h2 class="toc-title">Contents</h2>`;
                 }
-                html += `<ul class="toc-list">`;
-
-                slice.forEach((ch, j) => {
-                    const num = i + j + 1;
-                    html += `
-                        <li class="toc-item">
-                            <span><span class="toc-num">${num}.</span> ${ch.title}</span>
-                        </li>
-                    `;
-                });
-
-                html += `</ul></div>`;
+                html += `<ul class="toc-list">${currentItems.join('')}</ul></div>`;
                 pages.push({ type: 'toc', html });
             }
 
+            // Clean up
+            measureToc.innerHTML = '';
             return pages;
         }
 
-        // Paginate content with proper paragraph handling
+        // Paginate content using render-based measurement
         function paginateContent(htmlContent, chapterTitle, chapterIndex) {
             const pages = [];
+            const measureText = document.getElementById('measureText');
             const temp = document.createElement('div');
             temp.innerHTML = htmlContent;
 
             // Get paragraphs
             const paragraphs = Array.from(temp.querySelectorAll('p'));
+            if (paragraphs.length === 0) return ['<p>No content.</p>'];
 
-            let currentPageHtml = '';
-            let currentCharCount = 0;
-            let isFirstPara = true;
+            let currentPageParas = [];
+            measureText.innerHTML = '';
 
-            paragraphs.forEach((p) => {
+            for (const p of paragraphs) {
                 const pText = p.textContent.trim();
-                if (!pText) return;
+                if (!pText) continue;
 
-                const pCharCount = pText.length;
+                // Add paragraph to measurement div
+                const clone = p.cloneNode(true);
+                measureText.appendChild(clone);
 
-                // Check if this paragraph fits on current page
-                if (currentCharCount + pCharCount > CHARS_PER_PAGE && currentPageHtml) {
+                // Check if we've exceeded available height
+                if (measureText.scrollHeight > AVAILABLE_HEIGHT && currentPageParas.length > 0) {
+                    // Remove the paragraph that caused overflow
+                    measureText.removeChild(clone);
+
                     // Save current page
-                    pages.push(currentPageHtml);
-                    currentPageHtml = '';
-                    currentCharCount = 0;
-                    isFirstPara = true;
-                }
+                    pages.push(currentPageParas.map(para => para.outerHTML).join(''));
 
-                // Check if single paragraph is too long - split it
-                if (pCharCount > CHARS_PER_PAGE) {
-                    // Split long paragraph
-                    const words = pText.split(' ');
-                    let chunk = '';
-                    let chunkCount = 0;
-
-                    words.forEach((word, wi) => {
-                        if (chunkCount + word.length + 1 > CHARS_PER_PAGE && chunk) {
-                            if (currentPageHtml) {
-                                currentPageHtml += `<p>${chunk}</p>`;
-                                pages.push(currentPageHtml);
-                            } else {
-                                pages.push(`<p>${chunk}</p>`);
-                            }
-                            currentPageHtml = '';
-                            currentCharCount = 0;
-                            chunk = word;
-                            chunkCount = word.length;
-                            isFirstPara = true;
-                        } else {
-                            chunk += (chunk ? ' ' : '') + word;
-                            chunkCount += word.length + 1;
-                        }
-                    });
-
-                    if (chunk) {
-                        currentPageHtml += `<p>${chunk}</p>`;
-                        currentCharCount += chunkCount;
-                        isFirstPara = false;
-                    }
+                    // Start new page with this paragraph
+                    measureText.innerHTML = '';
+                    measureText.appendChild(clone);
+                    currentPageParas = [p];
                 } else {
-                    // Normal paragraph
-                    currentPageHtml += p.outerHTML;
-                    currentCharCount += pCharCount;
-                    isFirstPara = false;
+                    currentPageParas.push(p);
                 }
-            });
-
-            // Don't forget last page
-            if (currentPageHtml) {
-                pages.push(currentPageHtml);
             }
 
+            // Don't forget last page
+            if (currentPageParas.length > 0) {
+                pages.push(currentPageParas.map(para => para.outerHTML).join(''));
+            }
+
+            // Clean up
+            measureText.innerHTML = '';
             return pages;
         }
 
