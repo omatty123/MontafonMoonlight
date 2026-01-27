@@ -575,10 +575,11 @@
     <div class="instructions">Click page corners or use arrow keys</div>
 
     <script>
-        // Configuration - reduced to prevent text cutoff
-        const LINES_PER_PAGE = 18;
-        const CHARS_PER_LINE = 50;
-        const CHARS_PER_PAGE = LINES_PER_PAGE * CHARS_PER_LINE; // ~900 chars
+        // Configuration - calculated from actual page dimensions
+        // Page: 540px, padding: 95px, header: 30px, footer: 30px = 385px usable
+        // Line height ~23px = ~16 lines max, minus paragraph spacing = ~14 safe
+        // ~45 chars/line average = ~630 chars
+        const CHARS_PER_PAGE = 620;
 
         let chapters = [];
         let allPages = [];
@@ -765,9 +766,11 @@
         }
 
         // Build TOC pages
+        // TOC line-height: 2, font ~13px = ~26px per item + border
+        // ~385px usable / ~30px per item = ~12 items, minus title = 10 safe
         function buildTocPages() {
             const pages = [];
-            const itemsPerPage = 12; // Reduced to prevent cutoff
+            const itemsPerPage = 10;
 
             for (let i = 0; i < chapters.length; i += itemsPerPage) {
                 const slice = chapters.slice(i, i + itemsPerPage);
