@@ -162,7 +162,7 @@
     "date": "2025-11-11",
     "cover": "assets/ch14-cover.jpg",
     "hero": "assets/ch14-hero.jpg",
-    "summary": "Saying goodbyeÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂfor now.",
+    "summary": "Saying goodbyeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂfor now.",
     "status": "published",
     "contentHtml": "content/chapter-14.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35191"
@@ -264,7 +264,7 @@
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35450"
   },
   {
-    "title": "Goetheâs Italian Journey",
+    "title": "GoetheÃ¢ÂÂs Italian Journey",
     "slug": "goethes-italy",
     "href": "chapter.html?slug=goethes-italy",
     "date": "2026-01-17",
@@ -285,6 +285,18 @@
     "summary": "Rome's memories resonate deeply, but there is something missing.",
     "status": "published",
     "contentHtml": "content/chapter-24.html",
+    "koreanLink": ""
+  },
+  {
+    "title": "Gazing at Elba",
+    "slug": "gazing-at-elba",
+    "href": "chapter.html?slug=gazing-at-elba",
+    "date": "2026-01-27",
+    "cover": "assets/ch25-cover.jpg",
+    "hero": "assets/ch25-hero.jpg",
+    "summary": "Tuscany opens up new thoughts and gets us closer to Willi's return.",
+    "status": "published",
+    "contentHtml": "content/chapter-25.html",
     "koreanLink": ""
   }
 ]
