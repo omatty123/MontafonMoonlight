@@ -375,11 +375,11 @@
     <div class="container">
         <header>
             <h1>📚 Montafon Moonlight - Chapter Workflow Tool</h1>
-            <p>Streamlined translation workflow with auto-fetch, smart formatting, and GitHub integration</p>
+            <p>Paste Korean text from HWP → Translate → Generate chapter files → Commit to GitHub</p>
         </header>
 
         <div class="workflow">
-            <!-- Step 1: Input Korean URL (Most Important) -->
+            <!-- Step 1: Korean Source (from HWP file) -->
             <div class="step">
                 <div class="step-header">
                     <div class="step-number">1</div>
@@ -387,28 +387,41 @@
                 </div>
 
                 <div class="info-badge" style="background: #dbeafe; color: #1e40af; font-size: 0.875rem; font-weight: 500;">
-                    🎯 Next chapter is <strong id="nextChapterNum">20</strong> - Paste the Korean URL below
+                    🎯 Next chapter is <strong id="nextChapterNum">20</strong> - Paste Korean text from the HWP file
                 </div>
 
                 <div class="form-group">
-                    <label for="koreanUrl" style="font-size: 16px; font-weight: 600;">Korean Chapter URL (from mediabuddha.net)</label>
-                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                        <input type="url" id="koreanUrl" placeholder="http://www.mediabuddha.net/m/news/view.php?number=35373" style="font-size: 16px; padding: 15px; flex: 1; min-width: 260px;">
-                        <a href="http://www.mediabuddha.net/m/news/section.php?section=40" target="_blank" style="background: #8b5cf6; color: white; padding: 14px 18px; border-radius: 0.5rem; font-size: 16px; font-weight: 600; text-decoration: none; white-space: nowrap;">📖 Latest Article</a>
-                        <button class="btn-success" onclick="autoFetchFromUrl()" style="font-size: 16px; padding: 14px 22px; white-space: nowrap;">🚀 Auto-Fetch from URL</button>
+                    <label for="koreanText" style="font-size: 16px; font-weight: 600;">Korean Text (copy from HWP file)</label>
+                    <textarea id="koreanText" placeholder="Open the HWP file from the author, select all text (Cmd+A), copy (Cmd+C), and paste here..." style="min-height: 200px; font-size: 15px;"></textarea>
+                    <div class="button-group" style="margin-top: 10px;">
+                        <button class="btn-primary" onclick="processKoreanChapter()" style="font-size: 16px; padding: 12px 24px;">📝 Process Korean Text</button>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="koreanText">Korean Text (copy/paste from the website)</label>
-                    <textarea id="koreanText" placeholder="Paste the Korean chapter text here..."></textarea>
+                <div class="form-group" style="margin-top: 20px; padding: 15px; background: #f0fdf4; border: 2px solid #86efac; border-radius: 8px;">
+                    <label for="imageUpload" style="font-size: 16px; font-weight: 600;">📷 Upload Cover Image</label>
+                    <p style="color: #166534; font-size: 13px; margin: 5px 0 10px 0;">Upload the image file sent by the author (JPG, PNG, WebP)</p>
+                    <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(event)" style="font-size: 14px;">
+                    <img id="imagePreview" class="image-preview hidden" style="margin-top: 15px;">
                 </div>
 
-                <div class="form-group">
-                    <label for="imageUrl">Cover Image URL</label>
-                    <input type="url" id="imageUrl" placeholder="Paste image URL here">
-                    <img id="imagePreview" class="image-preview hidden">
-                </div>
+                <!-- Collapsible: Legacy URL fetch (in case site comes back) -->
+                <details style="margin-top: 20px; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <summary style="cursor: pointer; font-weight: 600; color: #64748b;">🔗 Fetch from URL (if mediabuddha.net comes back)</summary>
+                    <div style="margin-top: 15px;">
+                        <div class="form-group">
+                            <label for="koreanUrl">Korean Chapter URL</label>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                <input type="url" id="koreanUrl" placeholder="http://www.mediabuddha.net/m/news/view.php?number=..." style="flex: 1; min-width: 260px;">
+                                <button class="btn-success" onclick="autoFetchFromUrl()" style="white-space: nowrap;">🚀 Auto-Fetch</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUrl">Image URL (optional)</label>
+                            <input type="url" id="imageUrl" placeholder="Paste image URL here">
+                        </div>
+                    </div>
+                </details>
 
                 <div id="step1Status" class="status-message"></div>
             </div>
@@ -575,7 +588,6 @@
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('chapterDate').value = today;
             loadChaptersJson();
-            loadFromBookmarklet();
 
             // Load saved GitHub token
             const savedToken = localStorage.getItem('githubToken');
@@ -583,31 +595,6 @@
                 document.getElementById('githubToken').value = savedToken;
             }
         });
-
-        // Load data from bookmarklet (if available)
-        function loadFromBookmarklet() {
-            const data = localStorage.getItem('montafonChapterData');
-            if (data) {
-                try {
-                    const parsed = JSON.parse(data);
-
-                    // Check if data is fresh (within last 5 minutes)
-                    const age = Date.now() - parsed.timestamp;
-                    if (age < 5 * 60 * 1000) {
-                        document.getElementById('koreanUrl').value = parsed.koreanUrl || '';
-                        document.getElementById('koreanText').value = parsed.koreanText || '';
-                        document.getElementById('imageUrl').value = parsed.imageUrl || '';
-
-                        showStatus('step1Status', '✓ Loaded from bookmarklet! Click "🚀 Process Chapter" to continue.', 'success');
-
-                        // Clear the data
-                        localStorage.removeItem('montafonChapterData');
-                    }
-                } catch (e) {
-                    console.log('No bookmarklet data found');
-                }
-            }
-        }
 
         // Load chapters.json to auto-detect next chapter
         async function loadChaptersJson() {
@@ -630,7 +617,27 @@
             }
         }
 
-        // Image handling
+        // Image handling - File Upload
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate it's an image
+            if (!file.type.startsWith('image/')) {
+                showStatus('step1Status', '❌ Please upload an image file (JPG, PNG, WebP)', 'error');
+                return;
+            }
+
+            imageBlob = file;
+
+            const preview = document.getElementById('imagePreview');
+            preview.src = URL.createObjectURL(file);
+            preview.classList.remove('hidden');
+
+            showStatus('step1Status', `✓ Image loaded: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`, 'success');
+        }
+
+        // Legacy: Image handling from URL (kept for backwards compatibility)
         async function downloadImageFromUrl() {
             const url = document.getElementById('imageUrl').value.trim();
             if (!url) {
@@ -919,16 +926,10 @@
         // Process Korean Chapter (main workflow button)
         async function processKoreanChapter() {
             const text = document.getElementById('koreanText').value.trim();
-            const url = document.getElementById('koreanUrl').value.trim();
-            const imageUrl = document.getElementById('imageUrl').value.trim();
 
             if (!text) {
-                showStatus('step1Status', 'Please paste Korean text', 'error');
+                showStatus('step1Status', 'Please paste Korean text from the HWP file', 'error');
                 return;
-            }
-
-            if (url) {
-                chapterData.koreanLink = url;
             }
 
             showStatus('step1Status', 'Processing...', 'info');
@@ -940,9 +941,9 @@
                 return;
             }
 
-            // Clean up common website junk
+            // Clean up text (remove common HWP/website artifacts)
             let cleanedText = text
-                // Remove footer elements
+                // Remove footer elements (legacy website artifacts)
                 .replace(/로그인\s*회원가입/g, '')
                 .replace(/PC버전/g, '')
                 .replace(/"로그인\s+회원가입"/g, '')
@@ -960,30 +961,10 @@
                 .filter(p => p.length > 5 || /[\uAC00-\uD7A3]/.test(p));
             translatedParagraphs = new Array(koreanParagraphs.length).fill('');
 
-            // Handle image if URL provided
-            if (imageUrl) {
-                try {
-                    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(imageUrl);
-                    const response = await fetch(proxyUrl);
-                    imageBlob = await response.blob();
-
-                    const preview = document.getElementById('imagePreview');
-                    preview.src = URL.createObjectURL(imageBlob);
-                    preview.classList.remove('hidden');
-
-                    const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
-                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image loaded!${warn}`, 'success');
-                } catch (error) {
-                    const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
-                    showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (image failed, upload manually).${warn}`, 'info');
-                }
-            } else if (!imageBlob) {
-                const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
-                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs (no image uploaded).${warn}`, 'info');
-            } else {
-                const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
-                showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs + image ready!${warn}`, 'success');
-            }
+            // Status message
+            const warn = koreanParagraphs.length < 3 ? ' ⚠️ Low paragraph count; verify content.' : '';
+            const imageStatus = imageBlob ? ' + image ready!' : ' (remember to upload image above)';
+            showStatus('step1Status', `✓ Parsed ${koreanParagraphs.length} paragraphs${imageStatus}${warn}`, imageBlob ? 'success' : 'info');
 
             buildTranslationEditor();
             document.getElementById('sheetsTranslateBtn').disabled = false;
