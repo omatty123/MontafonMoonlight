@@ -593,11 +593,13 @@
         const PADDING_TOP = 45;
         const PADDING_BOTTOM = 50;
         const HEADER_FOOTER_SPACE = 60; // running header + page number
-        const AVAILABLE_HEIGHT = PAGE_HEIGHT - PADDING_TOP - PADDING_BOTTOM - HEADER_FOOTER_SPACE;
-        // = 385px available for text
+        const SAFETY_MARGIN = 40; // Extra margin to ensure no overflow
+        const AVAILABLE_HEIGHT = PAGE_HEIGHT - PADDING_TOP - PADDING_BOTTOM - HEADER_FOOTER_SPACE - SAFETY_MARGIN;
+        // = 345px available for text (conservative)
 
         const TOC_TITLE_HEIGHT = 50; // "CONTENTS" header
         const TOC_PADDING = 100; // toc-page padding top+bottom
+        const TOC_SAFETY_MARGIN = 30; // Extra margin for TOC
 
         let chapters = [];
         let allPages = [];
@@ -627,6 +629,13 @@
                 // Create flipbook
                 createFlipbook();
 
+                // Validate all pages for overflow
+                const issues = validateAllPages();
+                if (issues.length > 0) {
+                    console.error('PAGINATION OVERFLOW DETECTED:', issues);
+                    console.error('Pages with overflow:', issues.map(i => i.pageNum).join(', '));
+                }
+
                 // Hide loading
                 document.getElementById('loadingScreen').classList.add('hidden');
 
@@ -636,12 +645,15 @@
             }
         }
 
-        // Load chapter content
+        // Load chapter content with explicit UTF-8 decoding
         async function loadAllChapterContent() {
             const promises = chapters.map(async (chapter) => {
                 try {
                     const response = await fetch(chapter.contentHtml);
-                    chapter.content = await response.text();
+                    // Use explicit UTF-8 decoding to prevent encoding issues
+                    const buffer = await response.arrayBuffer();
+                    const decoder = new TextDecoder('utf-8');
+                    chapter.content = decoder.decode(buffer);
                 } catch (e) {
                     chapter.content = '<p>Content unavailable.</p>';
                 }
@@ -787,7 +799,7 @@
         function buildTocPages() {
             const pages = [];
             const measureToc = document.getElementById('measureToc');
-            const tocAvailableHeight = PAGE_HEIGHT - TOC_PADDING;
+            const tocAvailableHeight = PAGE_HEIGHT - TOC_PADDING - TOC_SAFETY_MARGIN;
 
             let currentItems = [];
             let isFirstPage = true;
@@ -937,6 +949,30 @@
             });
 
             updatePageIndicator(1);
+        }
+
+        // Validate all pages for text overflow
+        function validateAllPages() {
+            const issues = [];
+            document.querySelectorAll('.page').forEach((page, pageIndex) => {
+                const bodyPage = page.querySelector('.page-inner.body-page');
+                if (bodyPage) {
+                    const textDiv = bodyPage.querySelector('.page-text');
+                    if (textDiv) {
+                        // Check if content overflows
+                        const overflow = textDiv.scrollHeight - textDiv.clientHeight;
+                        if (overflow > 2) { // 2px tolerance
+                            issues.push({
+                                pageNum: pageIndex + 1,
+                                overflow: overflow,
+                                scrollHeight: textDiv.scrollHeight,
+                                clientHeight: textDiv.clientHeight
+                            });
+                        }
+                    }
+                }
+            });
+            return issues;
         }
 
         // Update indicator
