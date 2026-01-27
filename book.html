@@ -9,10 +9,11 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- StPageFlip library -->
-    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+    <!-- Turn.js for realistic page flipping -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
 
     <style>
         * {
@@ -24,12 +25,11 @@
         :root {
             --font-serif: 'Literata', Georgia, serif;
             --font-sans: 'Inter', -apple-system, sans-serif;
-            --page-width: 400px;
-            --page-height: 560px;
-            --color-paper: #fdfaf5;
-            --color-paper-edge: #e8e0d4;
-            --color-text: #2c2420;
-            --color-accent: #8b4513;
+            --page-width: 360px;
+            --page-height: 540px;
+            --color-paper: #fffef9;
+            --color-text: #1a1a1a;
+            --color-text-light: #666;
         }
 
         html, body {
@@ -39,7 +39,7 @@
 
         body {
             font-family: var(--font-serif);
-            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -61,9 +61,9 @@
 
         .book-title-small {
             font-family: var(--font-sans);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            color: rgba(255,255,255,0.9);
+            color: rgba(255,255,255,0.85);
         }
 
         .header-links {
@@ -73,8 +73,8 @@
 
         .header-link {
             font-family: var(--font-sans);
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
             text-decoration: none;
             transition: color 0.2s;
         }
@@ -83,294 +83,346 @@
             color: #fff;
         }
 
-        /* Book Container */
-        .book-container {
-            position: relative;
-            perspective: 2000px;
+        /* Book wrapper */
+        .book-wrapper {
+            perspective: 3000px;
         }
 
-        /* The flipbook */
-        .flipbook {
-            position: relative;
-            box-shadow: 0 20px 80px rgba(0,0,0,0.5), 0 0 3px rgba(0,0,0,0.2);
+        /* The flipbook container */
+        #flipbook {
+            width: calc(var(--page-width) * 2);
+            height: var(--page-height);
         }
 
         /* Individual pages */
-        .page {
+        #flipbook .page {
             background: var(--color-paper);
-            color: var(--color-text);
+            background-image:
+                linear-gradient(90deg, rgba(0,0,0,0.03) 0%, transparent 5%, transparent 95%, rgba(0,0,0,0.03) 100%);
+        }
+
+        #flipbook .page-wrapper {
+            perspective: 3000px;
+        }
+
+        /* Hard covers */
+        #flipbook .hard {
+            background: #1a3a4a;
+            color: #fff;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
+        }
+
+        /* Page content wrapper */
+        .page-inner {
+            width: 100%;
+            height: 100%;
+            padding: 48px 42px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
             overflow: hidden;
         }
 
-        .page-content {
-            width: 100%;
-            height: 100%;
-            padding: 40px 45px;
-            display: flex;
-            flex-direction: column;
-            font-size: 14px;
-            line-height: 1.75;
-            text-align: justify;
-            hyphens: auto;
-        }
-
-        /* Cover page */
-        .page.cover {
-            background: url('assets/ch1-cover.jpg') center center;
+        /* ============ COVER ============ */
+        .cover-page {
+            background: url('assets/book-cover.jpg') center center;
             background-size: cover;
-            color: #fff;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            align-items: center;
-            text-align: center;
+            padding: 0;
             position: relative;
         }
 
-        .page.cover::before {
+        .cover-page::before {
             content: '';
             position: absolute;
             inset: 0;
             background: linear-gradient(
                 to bottom,
-                rgba(15, 25, 35, 0.2) 0%,
-                rgba(15, 25, 35, 0.4) 40%,
-                rgba(15, 25, 35, 0.85) 75%,
-                rgba(15, 25, 35, 0.95) 100%
+                rgba(10, 25, 40, 0.1) 0%,
+                rgba(10, 25, 40, 0.3) 50%,
+                rgba(10, 25, 40, 0.85) 80%,
+                rgba(10, 25, 40, 0.95) 100%
             );
         }
 
         .cover-content {
             position: relative;
             z-index: 1;
-            padding: 40px 30px;
+            padding: 40px 35px;
+            text-align: center;
+            color: #fff;
         }
 
         .cover-title {
             font-family: var(--font-sans);
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            line-height: 1.05;
-            margin-bottom: 0.5rem;
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 0.4rem;
             text-shadow: 0 2px 20px rgba(0,0,0,0.5);
         }
 
         .cover-subtitle {
             font-family: var(--font-serif);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-style: italic;
             opacity: 0.9;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+            margin-bottom: 1.2rem;
         }
 
         .cover-author {
             font-family: var(--font-sans);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            opacity: 0.85;
-        }
-
-        .cover-decoration {
-            width: 50px;
-            height: 1px;
-            background: rgba(255,255,255,0.5);
-            margin: 1rem auto;
-        }
-
-        .cover-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 1;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-family: var(--font-sans);
             font-size: 0.6rem;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.35em;
+            opacity: 0.8;
         }
 
-        /* Back cover */
-        .page.back-cover {
-            background: url('assets/ch1-cover.jpg') center center;
-            background-size: cover;
-            color: #fff;
+        /* ============ INSIDE COVERS ============ */
+        .inside-cover {
+            background: #f5f3ee;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 40px;
-            position: relative;
         }
 
-        .page.back-cover::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(15, 25, 35, 0.9);
-        }
-
-        .back-cover-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .back-cover p {
-            font-size: 0.85rem;
-            line-height: 1.8;
-            max-width: 260px;
-            opacity: 0.9;
-        }
-
-        /* Title page (inside) */
-        .page.title-page {
+        /* ============ FRONTISPIECE ============ */
+        .frontispiece {
+            padding: 50px;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
+            background: var(--color-paper);
         }
 
-        .title-page .cover-title {
-            color: var(--color-text);
-            font-size: 2rem;
+        .frontispiece img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        .title-page .cover-subtitle {
-            color: var(--color-text);
-            opacity: 0.7;
-        }
-
-        .title-page .cover-author {
-            color: var(--color-text);
-            opacity: 0.6;
-        }
-
-        .title-page .cover-decoration {
-            background: var(--color-accent);
-            opacity: 0.4;
-        }
-
-        /* Chapter title page */
-        .page.chapter-start {
+        /* ============ TITLE PAGE ============ */
+        .title-page {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: space-between;
             text-align: center;
+            padding: 60px 40px;
         }
 
-        .chapter-num {
+        .title-page .book-title {
             font-family: var(--font-sans);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--color-accent);
-            margin-bottom: 0.5rem;
-        }
-
-        .chapter-title {
-            font-family: var(--font-sans);
-            font-size: 1.4rem;
-            font-weight: 600;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
             color: var(--color-text);
-            line-height: 1.3;
-            max-width: 280px;
+            margin-top: 1rem;
         }
 
-        .chapter-image {
-            width: 80%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-top: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-
-        /* Page content paragraphs */
-        .page-content p {
-            margin-bottom: 1em;
-        }
-
-        .page-content p:last-child {
-            margin-bottom: 0;
-        }
-
-        .page-content em {
-            font-style: italic;
-        }
-
-        .page-content strong {
-            font-weight: 600;
-        }
-
-        /* Page number */
-        .page-number {
-            position: absolute;
-            bottom: 20px;
+        .title-page .author-name {
             font-family: var(--font-sans);
             font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: var(--color-text-light);
+            margin-top: 2rem;
+        }
+
+        .title-page .publisher {
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
             color: #999;
         }
 
-        .page-number.left {
-            left: 45px;
-        }
-
-        .page-number.right {
-            right: 45px;
-        }
-
-        /* TOC page */
-        .page.toc-page .page-content {
-            padding-top: 50px;
+        /* ============ TOC ============ */
+        .toc-page {
+            padding: 50px 40px;
         }
 
         .toc-title {
             font-family: var(--font-sans);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--color-accent);
+            letter-spacing: 0.25em;
+            color: var(--color-text-light);
             margin-bottom: 1.5rem;
             text-align: center;
         }
 
         .toc-list {
             list-style: none;
+            font-size: 0.8rem;
+            line-height: 2;
         }
 
         .toc-item {
             display: flex;
             justify-content: space-between;
-            padding: 0.4rem 0;
             border-bottom: 1px dotted #ddd;
-            font-size: 0.85rem;
+            padding: 2px 0;
         }
 
-        .toc-item:last-child {
-            border-bottom: none;
-        }
-
-        .toc-item-num {
+        .toc-num {
             color: #999;
-            min-width: 2rem;
+            min-width: 1.5rem;
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
         }
 
-        .toc-item-title {
+        /* ============ CHAPTER START ============ */
+        .chapter-start {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 50px 40px;
+        }
+
+        .chapter-num {
+            font-family: var(--font-sans);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--color-text-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .chapter-title {
+            font-family: var(--font-sans);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-text);
+            line-height: 1.25;
+            max-width: 90%;
+        }
+
+        .chapter-image {
+            width: 85%;
+            max-height: 180px;
+            object-fit: cover;
+            border-radius: 3px;
+            margin-top: 1.5rem;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.12);
+        }
+
+        /* ============ BODY PAGES ============ */
+        .body-page {
+            padding: 45px 40px 50px;
+        }
+
+        .body-page .page-text {
+            font-size: 0.82rem;
+            line-height: 1.75;
+            text-align: justify;
+            hyphens: auto;
+            color: var(--color-text);
             flex: 1;
+            overflow: hidden;
         }
 
-        /* Navigation controls */
+        .body-page .page-text p {
+            text-indent: 1.2em;
+            margin: 0;
+            padding: 0;
+        }
+
+        .body-page .page-text p:first-child {
+            text-indent: 0;
+        }
+
+        .body-page .page-text p + p {
+            margin-top: 0.8em;
+        }
+
+        .body-page em {
+            font-style: italic;
+        }
+
+        .body-page strong {
+            font-weight: 600;
+        }
+
+        /* Page numbers */
+        .page-number {
+            position: absolute;
+            bottom: 25px;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            color: #aaa;
+        }
+
+        .page-number.left { left: 40px; }
+        .page-number.right { right: 40px; }
+
+        /* Running header */
+        .running-header {
+            position: absolute;
+            top: 25px;
+            font-family: var(--font-sans);
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #bbb;
+        }
+
+        .running-header.left { left: 40px; }
+        .running-header.right { right: 40px; text-align: right; }
+
+        /* ============ BACK COVER ============ */
+        .back-cover {
+            background: url('assets/book-cover.jpg') center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        .back-cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 25, 40, 0.92);
+        }
+
+        .back-cover-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            color: #fff;
+        }
+
+        .back-cover-content p {
+            font-size: 0.8rem;
+            line-height: 1.8;
+            max-width: 240px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .back-cover-content .url {
+            margin-top: 2rem;
+            font-family: var(--font-sans);
+            font-size: 0.6rem;
+            opacity: 0.6;
+            font-style: normal;
+        }
+
+        /* ============ NAVIGATION ============ */
         .nav-controls {
             position: fixed;
-            bottom: 2rem;
+            bottom: 1.5rem;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -383,12 +435,15 @@
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
             color: #fff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
             cursor: pointer;
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
+            font-size: 1.1rem;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .nav-btn:hover {
@@ -402,17 +457,28 @@
 
         .page-indicator {
             font-family: var(--font-sans);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: rgba(255,255,255,0.7);
-            min-width: 100px;
+            min-width: 80px;
             text-align: center;
+        }
+
+        /* Instructions */
+        .instructions {
+            position: fixed;
+            bottom: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
         }
 
         /* Loading */
         .loading-screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -426,73 +492,54 @@
             pointer-events: none;
         }
 
-        .loading-text {
-            font-family: var(--font-sans);
-            color: rgba(255,255,255,0.8);
-            font-size: 1rem;
-            margin-top: 1rem;
-        }
-
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255,255,255,0.1);
             border-top-color: rgba(255,255,255,0.8);
             border-radius: 50%;
             animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            font-family: var(--font-sans);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            margin-top: 1rem;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Instructions */
-        .instructions {
-            position: fixed;
-            bottom: 5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: var(--font-sans);
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.5);
-            text-align: center;
-        }
-
         /* Responsive */
-        @media (max-width: 900px) {
+        @media (max-width: 800px) {
             :root {
-                --page-width: 320px;
+                --page-width: 300px;
                 --page-height: 450px;
             }
 
-            .page-content {
-                padding: 30px 35px;
-                font-size: 12px;
+            .page-inner {
+                padding: 35px 30px;
             }
 
-            .cover-title {
-                font-size: 1.8rem;
-            }
-
-            .chapter-title {
-                font-size: 1.2rem;
+            .body-page .page-text {
+                font-size: 0.75rem;
             }
         }
 
-        @media (max-width: 500px) {
+        @media (max-width: 650px) {
             :root {
-                --page-width: 280px;
-                --page-height: 400px;
+                --page-width: 260px;
+                --page-height: 390px;
             }
 
-            .page-content {
-                padding: 25px 28px;
-                font-size: 11px;
+            .cover-title {
+                font-size: 1.5rem;
             }
 
-            .nav-btn {
-                padding: 0.6rem 1rem;
-                font-size: 0.8rem;
+            .title-page .book-title {
+                font-size: 2rem;
             }
         }
     </style>
@@ -501,7 +548,7 @@
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
-        <div class="loading-text">Preparing your book...</div>
+        <div class="loading-text">Opening book...</div>
     </div>
 
     <!-- Header -->
@@ -513,29 +560,28 @@
         </div>
     </header>
 
-    <!-- Book Container -->
-    <div class="book-container">
-        <div id="flipbook" class="flipbook"></div>
+    <!-- Book -->
+    <div class="book-wrapper">
+        <div id="flipbook"></div>
     </div>
 
     <!-- Navigation -->
     <div class="nav-controls">
-        <button class="nav-btn" id="prevBtn">← Previous</button>
-        <span class="page-indicator" id="pageIndicator">Page 1</span>
-        <button class="nav-btn" id="nextBtn">Next →</button>
+        <button class="nav-btn" id="prevBtn">&#8249;</button>
+        <span class="page-indicator" id="pageIndicator"></span>
+        <button class="nav-btn" id="nextBtn">&#8250;</button>
     </div>
 
-    <div class="instructions">Click page edges or use arrow keys to flip</div>
+    <div class="instructions">Click page corners or use arrow keys</div>
 
     <script>
         // Configuration
-        const PAGE_WIDTH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-width'));
-        const PAGE_HEIGHT = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-height'));
-        const CHARS_PER_PAGE = 1200; // Approximate characters per page
+        const LINES_PER_PAGE = 22;
+        const CHARS_PER_LINE = 55;
+        const CHARS_PER_PAGE = LINES_PER_PAGE * CHARS_PER_LINE;
 
         let chapters = [];
-        let pageFlip = null;
-        let totalPages = 0;
+        let allPages = [];
 
         // Initialize
         async function init() {
@@ -557,229 +603,328 @@
                 await loadAllChapterContent();
 
                 // Build pages
-                const pages = buildPages();
-                totalPages = pages.length;
+                allPages = buildAllPages();
 
-                // Create page elements
-                const flipbookEl = document.getElementById('flipbook');
-                pages.forEach((pageHtml, index) => {
-                    const pageDiv = document.createElement('div');
-                    pageDiv.className = 'page';
-                    pageDiv.innerHTML = pageHtml;
-                    flipbookEl.appendChild(pageDiv);
-                });
+                // Create flipbook
+                createFlipbook();
 
-                // Initialize PageFlip
-                pageFlip = new St.PageFlip(flipbookEl, {
-                    width: PAGE_WIDTH,
-                    height: PAGE_HEIGHT,
-                    size: 'fixed',
-                    minWidth: 280,
-                    maxWidth: 500,
-                    minHeight: 400,
-                    maxHeight: 600,
-                    showCover: true,
-                    maxShadowOpacity: 0.5,
-                    mobileScrollSupport: false,
-                    useMouseEvents: true,
-                    swipeDistance: 30,
-                    clickEventForward: true,
-                    usePortrait: true,
-                    startPage: 0,
-                    drawShadow: true,
-                    flippingTime: 800,
-                    startZIndex: 0,
-                    autoSize: true,
-                });
-
-                pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-
-                // Event listeners
-                pageFlip.on('flip', (e) => {
-                    updatePageIndicator(e.data);
-                });
-
-                document.getElementById('prevBtn').addEventListener('click', () => {
-                    pageFlip.flipPrev();
-                });
-
-                document.getElementById('nextBtn').addEventListener('click', () => {
-                    pageFlip.flipNext();
-                });
-
-                // Keyboard navigation
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowLeft') {
-                        pageFlip.flipPrev();
-                    } else if (e.key === 'ArrowRight') {
-                        pageFlip.flipNext();
-                    }
-                });
-
-                // Hide loading screen
+                // Hide loading
                 document.getElementById('loadingScreen').classList.add('hidden');
-                updatePageIndicator(0);
 
             } catch (error) {
-                console.error('Failed to initialize book:', error);
-                document.getElementById('loadingScreen').innerHTML = `
-                    <div style="color: #fff; text-align: center;">
-                        <p>Failed to load book.</p>
-                        <p style="opacity: 0.7; margin-top: 0.5rem;">${error.message}</p>
-                    </div>
-                `;
+                console.error('Failed to initialize:', error);
+                document.querySelector('.loading-text').textContent = 'Failed to load book';
             }
         }
 
-        // Load all chapter content
+        // Load chapter content
         async function loadAllChapterContent() {
             const promises = chapters.map(async (chapter) => {
                 try {
                     const response = await fetch(chapter.contentHtml);
                     chapter.content = await response.text();
                 } catch (e) {
-                    chapter.content = '<p>Chapter content unavailable.</p>';
+                    chapter.content = '<p>Content unavailable.</p>';
                 }
             });
             await Promise.all(promises);
         }
 
         // Build all pages
-        function buildPages() {
+        function buildAllPages() {
             const pages = [];
 
-            // Cover page
-            pages.push(`
-                <div class="page-content cover">
-                    <div class="cover-badge">A Novel</div>
-                    <div class="cover-content">
-                        <h1 class="cover-title">Montafon<br>Moonlight</h1>
-                        <div class="cover-decoration"></div>
-                        <p class="cover-subtitle">A Journey of Friendship,<br>Music, and Silence</p>
-                        <p class="cover-author">Jeong Chanju</p>
+            // Cover (front)
+            pages.push({
+                type: 'cover',
+                html: `
+                    <div class="page-inner cover-page">
+                        <div class="cover-content">
+                            <h1 class="cover-title">Montafon<br>Moonlight</h1>
+                            <p class="cover-subtitle">A Journey of Friendship, Music, and Silence</p>
+                            <p class="cover-author">Jeong Chanju</p>
+                        </div>
                     </div>
-                </div>
-            `);
-
-            // Inside title page
-            pages.push(`
-                <div class="page-content title-page">
-                    <h1 class="cover-title">Montafon<br>Moonlight</h1>
-                    <div class="cover-decoration"></div>
-                    <p class="cover-subtitle">A Journey of Friendship,<br>Music, and Silence</p>
-                    <p class="cover-author">Jeong Chanju</p>
-                    <p style="margin-top: 3rem; font-size: 0.75rem; color: #999;">Translated from Korean</p>
-                </div>
-            `);
-
-            // Table of Contents
-            let tocHtml = `
-                <div class="page-content toc-page">
-                    <h2 class="toc-title">Contents</h2>
-                    <ul class="toc-list">
-            `;
-            chapters.forEach((ch, i) => {
-                tocHtml += `
-                    <li class="toc-item">
-                        <span class="toc-item-num">${i + 1}.</span>
-                        <span class="toc-item-title">${ch.title}</span>
-                    </li>
-                `;
+                `
             });
-            tocHtml += `</ul></div>`;
-            pages.push(tocHtml);
 
-            // Blank page after TOC (for proper spread)
-            pages.push(`<div class="page-content" style="display: flex; justify-content: center; align-items: center; color: #ccc; font-style: italic;">This page intentionally left blank</div>`);
+            // Inside front cover (blank)
+            pages.push({
+                type: 'inside-cover',
+                html: `<div class="page-inner inside-cover"></div>`
+            });
 
-            // Chapter pages
-            let pageNum = 1;
-            chapters.forEach((chapter, chapterIndex) => {
-                // Chapter title page
-                pages.push(`
-                    <div class="page-content chapter-start">
-                        <span class="chapter-num">Chapter ${chapterIndex + 1}</span>
-                        <h2 class="chapter-title">${chapter.title}</h2>
-                        ${chapter.hero ? `<img src="${chapter.hero}" alt="${chapter.title}" class="chapter-image">` : ''}
+            // Frontispiece
+            pages.push({
+                type: 'frontispiece',
+                html: `
+                    <div class="page-inner frontispiece">
+                        <img src="assets/og-cover.jpg" alt="Frontispiece">
                     </div>
-                `);
+                `
+            });
+
+            // Title page
+            pages.push({
+                type: 'title',
+                html: `
+                    <div class="page-inner title-page">
+                        <div>
+                            <h1 class="book-title">Montafon<br>Moonlight</h1>
+                            <p class="author-name">Jeong Chanju</p>
+                        </div>
+                        <p class="publisher">Banglangdang Press<br>2025</p>
+                    </div>
+                `
+            });
+
+            // Table of Contents (may span multiple pages)
+            const tocPages = buildTocPages();
+            pages.push(...tocPages);
+
+            // Add blank page if needed to start chapters on right side
+            if (pages.length % 2 === 1) {
+                pages.push({
+                    type: 'blank',
+                    html: `<div class="page-inner"></div>`
+                });
+            }
+
+            // Chapters
+            let pageNum = pages.length + 1;
+            chapters.forEach((chapter, chapterIndex) => {
+                // Chapter title page (always starts on right/recto)
+                if (pages.length % 2 === 1) {
+                    pages.push({
+                        type: 'blank',
+                        html: `<div class="page-inner"></div>`
+                    });
+                    pageNum++;
+                }
+
+                pages.push({
+                    type: 'chapter-start',
+                    chapter: chapterIndex,
+                    html: `
+                        <div class="page-inner chapter-start">
+                            <span class="chapter-num">Chapter ${chapterIndex + 1}</span>
+                            <h2 class="chapter-title">${chapter.title}</h2>
+                            ${chapter.hero ? `<img src="${chapter.hero}" alt="" class="chapter-image">` : ''}
+                        </div>
+                    `
+                });
                 pageNum++;
 
-                // Split chapter content into pages
-                const contentPages = splitContentIntoPages(chapter.content);
-                contentPages.forEach((pageContent, i) => {
+                // Chapter content pages
+                const contentPages = paginateContent(chapter.content, chapter.title, chapterIndex);
+                contentPages.forEach((pageHtml, i) => {
                     const isLeft = pageNum % 2 === 0;
-                    pages.push(`
-                        <div class="page-content">
-                            ${pageContent}
-                            <span class="page-number ${isLeft ? 'left' : 'right'}">${pageNum}</span>
-                        </div>
-                    `);
+                    pages.push({
+                        type: 'body',
+                        chapter: chapterIndex,
+                        html: `
+                            <div class="page-inner body-page">
+                                <span class="running-header ${isLeft ? 'left' : 'right'}">${isLeft ? 'Jeong Chanju' : chapter.title}</span>
+                                <div class="page-text">${pageHtml}</div>
+                                <span class="page-number ${isLeft ? 'left' : 'right'}">${pageNum}</span>
+                            </div>
+                        `
+                    });
                     pageNum++;
                 });
             });
 
+            // Ensure even number of pages before back cover
+            if (pages.length % 2 === 1) {
+                pages.push({
+                    type: 'blank',
+                    html: `<div class="page-inner"></div>`
+                });
+            }
+
+            // Inside back cover
+            pages.push({
+                type: 'inside-cover',
+                html: `<div class="page-inner inside-cover"></div>`
+            });
+
             // Back cover
-            pages.push(`
-                <div class="page-content back-cover">
-                    <div class="back-cover-content">
-                        <p><em>"A beautiful meditation on friendship, silence, and the spaces between cultures where true understanding blooms."</em></p>
-                        <div class="cover-decoration" style="margin: 2rem 0;"></div>
-                        <p style="font-size: 0.75rem; opacity: 0.8;">omatty123.github.io/MontafonMoonlight</p>
+            pages.push({
+                type: 'back-cover',
+                html: `
+                    <div class="page-inner back-cover">
+                        <div class="back-cover-content">
+                            <p>"A beautiful meditation on friendship, silence, and the spaces between cultures where true understanding blooms."</p>
+                            <p class="url">omatty123.github.io/MontafonMoonlight</p>
+                        </div>
                     </div>
-                </div>
-            `);
+                `
+            });
 
             return pages;
         }
 
-        // Split content into pages based on estimated character count
-        function splitContentIntoPages(htmlContent) {
-            // Parse HTML
-            const temp = document.createElement('div');
-            temp.innerHTML = htmlContent;
-
-            // Get all paragraphs
-            const paragraphs = Array.from(temp.querySelectorAll('p'));
+        // Build TOC pages
+        function buildTocPages() {
             const pages = [];
-            let currentPageContent = '';
-            let currentCharCount = 0;
+            const itemsPerPage = 18;
 
-            paragraphs.forEach((p) => {
-                const pHtml = p.outerHTML;
-                const pText = p.textContent;
-                const pCharCount = pText.length;
+            for (let i = 0; i < chapters.length; i += itemsPerPage) {
+                const slice = chapters.slice(i, i + itemsPerPage);
+                const isFirst = i === 0;
 
-                if (currentCharCount + pCharCount > CHARS_PER_PAGE && currentPageContent) {
-                    // Start new page
-                    pages.push(currentPageContent);
-                    currentPageContent = pHtml;
-                    currentCharCount = pCharCount;
-                } else {
-                    currentPageContent += pHtml;
-                    currentCharCount += pCharCount;
+                let html = `<div class="page-inner toc-page">`;
+                if (isFirst) {
+                    html += `<h2 class="toc-title">Contents</h2>`;
                 }
-            });
+                html += `<ul class="toc-list">`;
 
-            // Add remaining content
-            if (currentPageContent) {
-                pages.push(currentPageContent);
+                slice.forEach((ch, j) => {
+                    const num = i + j + 1;
+                    html += `
+                        <li class="toc-item">
+                            <span><span class="toc-num">${num}.</span> ${ch.title}</span>
+                        </li>
+                    `;
+                });
+
+                html += `</ul></div>`;
+                pages.push({ type: 'toc', html });
             }
 
             return pages;
         }
 
-        // Update page indicator
-        function updatePageIndicator(pageIndex) {
-            const indicator = document.getElementById('pageIndicator');
-            indicator.textContent = `Page ${pageIndex + 1} of ${totalPages}`;
+        // Paginate content with proper paragraph handling
+        function paginateContent(htmlContent, chapterTitle, chapterIndex) {
+            const pages = [];
+            const temp = document.createElement('div');
+            temp.innerHTML = htmlContent;
 
-            // Update button states
-            document.getElementById('prevBtn').disabled = pageIndex === 0;
-            document.getElementById('nextBtn').disabled = pageIndex >= totalPages - 1;
+            // Get paragraphs
+            const paragraphs = Array.from(temp.querySelectorAll('p'));
+
+            let currentPageHtml = '';
+            let currentCharCount = 0;
+            let isFirstPara = true;
+
+            paragraphs.forEach((p) => {
+                const pText = p.textContent.trim();
+                if (!pText) return;
+
+                const pCharCount = pText.length;
+
+                // Check if this paragraph fits on current page
+                if (currentCharCount + pCharCount > CHARS_PER_PAGE && currentPageHtml) {
+                    // Save current page
+                    pages.push(currentPageHtml);
+                    currentPageHtml = '';
+                    currentCharCount = 0;
+                    isFirstPara = true;
+                }
+
+                // Check if single paragraph is too long - split it
+                if (pCharCount > CHARS_PER_PAGE) {
+                    // Split long paragraph
+                    const words = pText.split(' ');
+                    let chunk = '';
+                    let chunkCount = 0;
+
+                    words.forEach((word, wi) => {
+                        if (chunkCount + word.length + 1 > CHARS_PER_PAGE && chunk) {
+                            if (currentPageHtml) {
+                                currentPageHtml += `<p>${chunk}</p>`;
+                                pages.push(currentPageHtml);
+                            } else {
+                                pages.push(`<p>${chunk}</p>`);
+                            }
+                            currentPageHtml = '';
+                            currentCharCount = 0;
+                            chunk = word;
+                            chunkCount = word.length;
+                            isFirstPara = true;
+                        } else {
+                            chunk += (chunk ? ' ' : '') + word;
+                            chunkCount += word.length + 1;
+                        }
+                    });
+
+                    if (chunk) {
+                        currentPageHtml += `<p>${chunk}</p>`;
+                        currentCharCount += chunkCount;
+                        isFirstPara = false;
+                    }
+                } else {
+                    // Normal paragraph
+                    currentPageHtml += p.outerHTML;
+                    currentCharCount += pCharCount;
+                    isFirstPara = false;
+                }
+            });
+
+            // Don't forget last page
+            if (currentPageHtml) {
+                pages.push(currentPageHtml);
+            }
+
+            return pages;
         }
 
-        // Initialize on load
+        // Create flipbook
+        function createFlipbook() {
+            const flipbook = $('#flipbook');
+
+            // Add pages
+            allPages.forEach((page, index) => {
+                const pageDiv = $('<div class="page"></div>');
+                pageDiv.html(page.html);
+
+                // Mark covers as hard
+                if (page.type === 'cover' || page.type === 'back-cover') {
+                    pageDiv.addClass('hard');
+                }
+
+                flipbook.append(pageDiv);
+            });
+
+            // Initialize turn.js
+            flipbook.turn({
+                width: parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-width')) * 2,
+                height: parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-height')),
+                autoCenter: true,
+                display: 'double',
+                acceleration: true,
+                gradients: true,
+                elevation: 50,
+                when: {
+                    turned: function(e, page) {
+                        updatePageIndicator(page);
+                    }
+                }
+            });
+
+            // Navigation
+            $('#prevBtn').click(() => flipbook.turn('previous'));
+            $('#nextBtn').click(() => flipbook.turn('next'));
+
+            // Keyboard
+            $(document).keydown((e) => {
+                if (e.keyCode === 37) flipbook.turn('previous');
+                if (e.keyCode === 39) flipbook.turn('next');
+            });
+
+            updatePageIndicator(1);
+        }
+
+        // Update indicator
+        function updatePageIndicator(page) {
+            const total = allPages.length;
+            $('#pageIndicator').text(`${page} / ${total}`);
+            $('#prevBtn').prop('disabled', page <= 1);
+            $('#nextBtn').prop('disabled', page >= total);
+        }
+
+        // Start
         init();
     </script>
 </body>
