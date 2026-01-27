@@ -116,50 +116,89 @@
 
         /* Cover page */
         .page.cover {
-            background: linear-gradient(145deg, #1a3a4a 0%, #0d2633 100%);
+            background: url('assets/ch1-cover.jpg') center center;
+            background-size: cover;
             color: #fff;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
             text-align: center;
+            position: relative;
+        }
+
+        .page.cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(15, 25, 35, 0.2) 0%,
+                rgba(15, 25, 35, 0.4) 40%,
+                rgba(15, 25, 35, 0.85) 75%,
+                rgba(15, 25, 35, 0.95) 100%
+            );
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+            padding: 40px 30px;
         }
 
         .cover-title {
             font-family: var(--font-sans);
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            line-height: 1.1;
-            margin-bottom: 0.75rem;
+            line-height: 1.05;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
         }
 
         .cover-subtitle {
             font-family: var(--font-serif);
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-style: italic;
-            opacity: 0.8;
-            margin-bottom: 2rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.5);
         }
 
         .cover-author {
             font-family: var(--font-sans);
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.25em;
-            opacity: 0.7;
+            letter-spacing: 0.3em;
+            opacity: 0.85;
         }
 
         .cover-decoration {
-            width: 60px;
-            height: 2px;
-            background: rgba(255,255,255,0.3);
-            margin: 1.5rem 0;
+            width: 50px;
+            height: 1px;
+            background: rgba(255,255,255,0.5);
+            margin: 1rem auto;
+        }
+
+        .cover-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
         }
 
         /* Back cover */
         .page.back-cover {
-            background: linear-gradient(145deg, #1a3a4a 0%, #0d2633 100%);
+            background: url('assets/ch1-cover.jpg') center center;
+            background-size: cover;
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -167,13 +206,26 @@
             align-items: center;
             text-align: center;
             padding: 40px;
+            position: relative;
+        }
+
+        .page.back-cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 25, 35, 0.9);
+        }
+
+        .back-cover-content {
+            position: relative;
+            z-index: 1;
         }
 
         .back-cover p {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.8;
-            max-width: 280px;
-            opacity: 0.85;
+            max-width: 260px;
+            opacity: 0.9;
         }
 
         /* Title page (inside) */
@@ -599,10 +651,13 @@
             // Cover page
             pages.push(`
                 <div class="page-content cover">
-                    <h1 class="cover-title">Montafon<br>Moonlight</h1>
-                    <div class="cover-decoration"></div>
-                    <p class="cover-subtitle">A Journey of Friendship,<br>Music, and Silence</p>
-                    <p class="cover-author">Jeong Chanju</p>
+                    <div class="cover-badge">A Novel</div>
+                    <div class="cover-content">
+                        <h1 class="cover-title">Montafon<br>Moonlight</h1>
+                        <div class="cover-decoration"></div>
+                        <p class="cover-subtitle">A Journey of Friendship,<br>Music, and Silence</p>
+                        <p class="cover-author">Jeong Chanju</p>
+                    </div>
                 </div>
             `);
 
@@ -667,9 +722,11 @@
             // Back cover
             pages.push(`
                 <div class="page-content back-cover">
-                    <p><em>"A beautiful meditation on friendship, silence, and the spaces between cultures where true understanding blooms."</em></p>
-                    <div class="cover-decoration" style="margin: 2rem 0;"></div>
-                    <p style="font-size: 0.8rem; opacity: 0.7;">montafonmoonlight.com</p>
+                    <div class="back-cover-content">
+                        <p><em>"A beautiful meditation on friendship, silence, and the spaces between cultures where true understanding blooms."</em></p>
+                        <div class="cover-decoration" style="margin: 2rem 0;"></div>
+                        <p style="font-size: 0.75rem; opacity: 0.8;">omatty123.github.io/MontafonMoonlight</p>
+                    </div>
                 </div>
             `);
 
