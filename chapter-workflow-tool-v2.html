@@ -1451,14 +1451,11 @@ Magic happens automatically!">${translatedParagraphs.map(p => `<p>${p}</p>`).joi
         }
 
         function generateChapterHTML(paragraphs) {
-            // Add image credit as first element
-            const imageCredit = '<p class="image-credit" style="text-align: center; font-size: 0.875rem; color: #6b7280; margin-top: -1rem; margin-bottom: 2rem;"><em>Illustration by artist Jeong Yun-gyeong</em></p>\n\n';
-
             const paragraphsHtml = paragraphs
                 .map(p => `<p>${p}</p>`)
                 .join('\n\n');
 
-            return imageCredit + paragraphsHtml + '\n';
+            return paragraphsHtml + '\n';
         }
 
         // Download functions
