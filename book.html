@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montafon Moonlight - Book Reader</title>
+    <meta name="description" content="Read Montafon Moonlight - flip through the pages like a real book">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- StPageFlip library -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-serif: 'Literata', Georgia, serif;
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --page-width: 400px;
+            --page-height: 560px;
+            --color-paper: #fdfaf5;
+            --color-paper-edge: #e8e0d4;
+            --color-text: #2c2420;
+            --color-accent: #8b4513;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: var(--font-serif);
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Header */
+        .book-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .book-title-small {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .header-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .header-link {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .header-link:hover {
+            color: #fff;
+        }
+
+        /* Book Container */
+        .book-container {
+            position: relative;
+            perspective: 2000px;
+        }
+
+        /* The flipbook */
+        .flipbook {
+            position: relative;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.5), 0 0 3px rgba(0,0,0,0.2);
+        }
+
+        /* Individual pages */
+        .page {
+            background: var(--color-paper);
+            color: var(--color-text);
+            overflow: hidden;
+        }
+
+        .page-content {
+            width: 100%;
+            height: 100%;
+            padding: 40px 45px;
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            line-height: 1.75;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        /* Cover page */
+        .page.cover {
+            background: linear-gradient(145deg, #1a3a4a 0%, #0d2633 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cover-title {
+            font-family: var(--font-sans);
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.75rem;
+        }
+
+        .cover-subtitle {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .cover-author {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            opacity: 0.7;
+        }
+
+        .cover-decoration {
+            width: 60px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            margin: 1.5rem 0;
+        }
+
+        /* Back cover */
+        .page.back-cover {
+            background: linear-gradient(145deg, #1a3a4a 0%, #0d2633 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .back-cover p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            max-width: 280px;
+            opacity: 0.85;
+        }
+
+        /* Title page (inside) */
+        .page.title-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-page .cover-title {
+            color: var(--color-text);
+            font-size: 2rem;
+        }
+
+        .title-page .cover-subtitle {
+            color: var(--color-text);
+            opacity: 0.7;
+        }
+
+        .title-page .cover-author {
+            color: var(--color-text);
+            opacity: 0.6;
+        }
+
+        .title-page .cover-decoration {
+            background: var(--color-accent);
+            opacity: 0.4;
+        }
+
+        /* Chapter title page */
+        .page.chapter-start {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .chapter-num {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-title {
+            font-family: var(--font-sans);
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--color-text);
+            line-height: 1.3;
+            max-width: 280px;
+        }
+
+        .chapter-image {
+            width: 80%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Page content paragraphs */
+        .page-content p {
+            margin-bottom: 1em;
+        }
+
+        .page-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .page-content em {
+            font-style: italic;
+        }
+
+        .page-content strong {
+            font-weight: 600;
+        }
+
+        /* Page number */
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        .page-number.left {
+            left: 45px;
+        }
+
+        .page-number.right {
+            right: 45px;
+        }
+
+        /* TOC page */
+        .page.toc-page .page-content {
+            padding-top: 50px;
+        }
+
+        .toc-title {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            border-bottom: 1px dotted #ddd;
+            font-size: 0.85rem;
+        }
+
+        .toc-item:last-child {
+            border-bottom: none;
+        }
+
+        .toc-item-num {
+            color: #999;
+            min-width: 2rem;
+        }
+
+        .toc-item-title {
+            flex: 1;
+        }
+
+        /* Navigation controls */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            min-width: 100px;
+            text-align: center;
+        }
+
+        /* Loading */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-text {
+            font-family: var(--font-sans);
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Instructions */
+        .instructions {
+            position: fixed;
+            bottom: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            :root {
+                --page-width: 320px;
+                --page-height: 450px;
+            }
+
+            .page-content {
+                padding: 30px 35px;
+                font-size: 12px;
+            }
+
+            .cover-title {
+                font-size: 1.8rem;
+            }
+
+            .chapter-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            :root {
+                --page-width: 280px;
+                --page-height: 400px;
+            }
+
+            .page-content {
+                padding: 25px 28px;
+                font-size: 11px;
+            }
+
+            .nav-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Preparing your book...</div>
+    </div>
+
+    <!-- Header -->
+    <header class="book-header">
+        <div class="book-title-small">Montafon Moonlight</div>
+        <div class="header-links">
+            <a href="read.html" class="header-link">Scroll Reader</a>
+            <a href="index.html" class="header-link">Home</a>
+        </div>
+    </header>
+
+    <!-- Book Container -->
+    <div class="book-container">
+        <div id="flipbook" class="flipbook"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn">← Previous</button>
+        <span class="page-indicator" id="pageIndicator">Page 1</span>
+        <button class="nav-btn" id="nextBtn">Next →</button>
+    </div>
+
+    <div class="instructions">Click page edges or use arrow keys to flip</div>
+
+    <script>
+        // Configuration
+        const PAGE_WIDTH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-width'));
+        const PAGE_HEIGHT = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-height'));
+        const CHARS_PER_PAGE = 1200; // Approximate characters per page
+
+        let chapters = [];
+        let pageFlip = null;
+        let totalPages = 0;
+
+        // Initialize
+        async function init() {
+            try {
+                // Load chapters
+                const response = await fetch('chapters.json');
+                chapters = await response.json();
+
+                // Filter and sort
+                chapters = chapters
+                    .filter(ch => ch.status === 'published')
+                    .sort((a, b) => {
+                        const numA = parseInt(a.contentHtml?.match(/chapter-(\d+)/)?.[1] || '0');
+                        const numB = parseInt(b.contentHtml?.match(/chapter-(\d+)/)?.[1] || '0');
+                        return numA - numB;
+                    });
+
+                // Load all chapter content
+                await loadAllChapterContent();
+
+                // Build pages
+                const pages = buildPages();
+                totalPages = pages.length;
+
+                // Create page elements
+                const flipbookEl = document.getElementById('flipbook');
+                pages.forEach((pageHtml, index) => {
+                    const pageDiv = document.createElement('div');
+                    pageDiv.className = 'page';
+                    pageDiv.innerHTML = pageHtml;
+                    flipbookEl.appendChild(pageDiv);
+                });
+
+                // Initialize PageFlip
+                pageFlip = new St.PageFlip(flipbookEl, {
+                    width: PAGE_WIDTH,
+                    height: PAGE_HEIGHT,
+                    size: 'fixed',
+                    minWidth: 280,
+                    maxWidth: 500,
+                    minHeight: 400,
+                    maxHeight: 600,
+                    showCover: true,
+                    maxShadowOpacity: 0.5,
+                    mobileScrollSupport: false,
+                    useMouseEvents: true,
+                    swipeDistance: 30,
+                    clickEventForward: true,
+                    usePortrait: true,
+                    startPage: 0,
+                    drawShadow: true,
+                    flippingTime: 800,
+                    startZIndex: 0,
+                    autoSize: true,
+                });
+
+                pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+                // Event listeners
+                pageFlip.on('flip', (e) => {
+                    updatePageIndicator(e.data);
+                });
+
+                document.getElementById('prevBtn').addEventListener('click', () => {
+                    pageFlip.flipPrev();
+                });
+
+                document.getElementById('nextBtn').addEventListener('click', () => {
+                    pageFlip.flipNext();
+                });
+
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        pageFlip.flipPrev();
+                    } else if (e.key === 'ArrowRight') {
+                        pageFlip.flipNext();
+                    }
+                });
+
+                // Hide loading screen
+                document.getElementById('loadingScreen').classList.add('hidden');
+                updatePageIndicator(0);
+
+            } catch (error) {
+                console.error('Failed to initialize book:', error);
+                document.getElementById('loadingScreen').innerHTML = `
+                    <div style="color: #fff; text-align: center;">
+                        <p>Failed to load book.</p>
+                        <p style="opacity: 0.7; margin-top: 0.5rem;">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load all chapter content
+        async function loadAllChapterContent() {
+            const promises = chapters.map(async (chapter) => {
+                try {
+                    const response = await fetch(chapter.contentHtml);
+                    chapter.content = await response.text();
+                } catch (e) {
+                    chapter.content = '<p>Chapter content unavailable.</p>';
+                }
+            });
+            await Promise.all(promises);
+        }
+
+        // Build all pages
+        function buildPages() {
+            const pages = [];
+
+            // Cover page
+            pages.push(`
+                <div class="page-content cover">
+                    <h1 class="cover-title">Montafon<br>Moonlight</h1>
+                    <div class="cover-decoration"></div>
+                    <p class="cover-subtitle">A Journey of Friendship,<br>Music, and Silence</p>
+                    <p class="cover-author">Jeong Chanju</p>
+                </div>
+            `);
+
+            // Inside title page
+            pages.push(`
+                <div class="page-content title-page">
+                    <h1 class="cover-title">Montafon<br>Moonlight</h1>
+                    <div class="cover-decoration"></div>
+                    <p class="cover-subtitle">A Journey of Friendship,<br>Music, and Silence</p>
+                    <p class="cover-author">Jeong Chanju</p>
+                    <p style="margin-top: 3rem; font-size: 0.75rem; color: #999;">Translated from Korean</p>
+                </div>
+            `);
+
+            // Table of Contents
+            let tocHtml = `
+                <div class="page-content toc-page">
+                    <h2 class="toc-title">Contents</h2>
+                    <ul class="toc-list">
+            `;
+            chapters.forEach((ch, i) => {
+                tocHtml += `
+                    <li class="toc-item">
+                        <span class="toc-item-num">${i + 1}.</span>
+                        <span class="toc-item-title">${ch.title}</span>
+                    </li>
+                `;
+            });
+            tocHtml += `</ul></div>`;
+            pages.push(tocHtml);
+
+            // Blank page after TOC (for proper spread)
+            pages.push(`<div class="page-content" style="display: flex; justify-content: center; align-items: center; color: #ccc; font-style: italic;">This page intentionally left blank</div>`);
+
+            // Chapter pages
+            let pageNum = 1;
+            chapters.forEach((chapter, chapterIndex) => {
+                // Chapter title page
+                pages.push(`
+                    <div class="page-content chapter-start">
+                        <span class="chapter-num">Chapter ${chapterIndex + 1}</span>
+                        <h2 class="chapter-title">${chapter.title}</h2>
+                        ${chapter.hero ? `<img src="${chapter.hero}" alt="${chapter.title}" class="chapter-image">` : ''}
+                    </div>
+                `);
+                pageNum++;
+
+                // Split chapter content into pages
+                const contentPages = splitContentIntoPages(chapter.content);
+                contentPages.forEach((pageContent, i) => {
+                    const isLeft = pageNum % 2 === 0;
+                    pages.push(`
+                        <div class="page-content">
+                            ${pageContent}
+                            <span class="page-number ${isLeft ? 'left' : 'right'}">${pageNum}</span>
+                        </div>
+                    `);
+                    pageNum++;
+                });
+            });
+
+            // Back cover
+            pages.push(`
+                <div class="page-content back-cover">
+                    <p><em>"A beautiful meditation on friendship, silence, and the spaces between cultures where true understanding blooms."</em></p>
+                    <div class="cover-decoration" style="margin: 2rem 0;"></div>
+                    <p style="font-size: 0.8rem; opacity: 0.7;">montafonmoonlight.com</p>
+                </div>
+            `);
+
+            return pages;
+        }
+
+        // Split content into pages based on estimated character count
+        function splitContentIntoPages(htmlContent) {
+            // Parse HTML
+            const temp = document.createElement('div');
+            temp.innerHTML = htmlContent;
+
+            // Get all paragraphs
+            const paragraphs = Array.from(temp.querySelectorAll('p'));
+            const pages = [];
+            let currentPageContent = '';
+            let currentCharCount = 0;
+
+            paragraphs.forEach((p) => {
+                const pHtml = p.outerHTML;
+                const pText = p.textContent;
+                const pCharCount = pText.length;
+
+                if (currentCharCount + pCharCount > CHARS_PER_PAGE && currentPageContent) {
+                    // Start new page
+                    pages.push(currentPageContent);
+                    currentPageContent = pHtml;
+                    currentCharCount = pCharCount;
+                } else {
+                    currentPageContent += pHtml;
+                    currentCharCount += pCharCount;
+                }
+            });
+
+            // Add remaining content
+            if (currentPageContent) {
+                pages.push(currentPageContent);
+            }
+
+            return pages;
+        }
+
+        // Update page indicator
+        function updatePageIndicator(pageIndex) {
+            const indicator = document.getElementById('pageIndicator');
+            indicator.textContent = `Page ${pageIndex + 1} of ${totalPages}`;
+
+            // Update button states
+            document.getElementById('prevBtn').disabled = pageIndex === 0;
+            document.getElementById('nextBtn').disabled = pageIndex >= totalPages - 1;
+        }
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>
