@@ -162,7 +162,7 @@
     "date": "2025-11-11",
     "cover": "assets/ch14-cover.jpg",
     "hero": "assets/ch14-hero.jpg",
-    "summary": "Saying goodbyeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂfor now.",
+    "summary": "Saying goodbyeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂfor now.",
     "status": "published",
     "contentHtml": "content/chapter-14.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35191"
@@ -297,6 +297,18 @@
     "summary": "Tuscany opens up new thoughts and gets us closer to Willi's return.",
     "status": "published",
     "contentHtml": "content/chapter-25.html",
+    "koreanLink": ""
+  },
+  {
+    "title": "Sculptor Giacometti and Composer Willi",
+    "slug": "sculptor-giacometti-and-composer-willi",
+    "href": "chapter.html?slug=sculptor-giacometti-and-composer-willi",
+    "date": "2026-02-03",
+    "cover": "assets/ch26-cover.jpg",
+    "hero": "assets/ch26-hero.jpg",
+    "summary": "Deeper into Tuscany, where Author Jeong sees a familiar figure.",
+    "status": "published",
+    "contentHtml": "content/chapter-26.html",
     "koreanLink": ""
   }
 ]
