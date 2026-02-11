@@ -310,5 +310,17 @@
     "status": "published",
     "contentHtml": "content/chapter-26.html",
     "koreanLink": ""
+  },
+  {
+    "title": "In Search of Dante's House",
+    "slug": "dantes-house",
+    "href": "chapter.html?slug=dantes-house",
+    "date": "2026-02-10",
+    "cover": "assets/ch27-cover.jpg",
+    "hero": "assets/ch27-hero.jpg",
+    "summary": "Florence, the Medicis, and a pilgrimage to the birthplace of the Divine Comedy.",
+    "status": "published",
+    "contentHtml": "content/chapter-27.html",
+    "koreanLink": ""
   }
 ]
