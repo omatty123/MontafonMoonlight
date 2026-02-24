@@ -322,5 +322,17 @@
     "status": "published",
     "contentHtml": "content/chapter-27.html",
     "koreanLink": ""
+  },
+  {
+    "title": "From Cinque Terre to Siena",
+    "slug": "cinque-terre-to-siena",
+    "href": "chapter.html?slug=cinque-terre-to-siena",
+    "date": "2026-02-24",
+    "cover": "assets/ch28-cover.jpg",
+    "hero": "assets/ch28-hero.jpg",
+    "summary": "Deeper into Italy, closer to Willi, the Jeongs find Siena.",
+    "status": "published",
+    "contentHtml": "content/chapter-28.html",
+    "koreanLink": ""
   }
 ]
