@@ -334,5 +334,17 @@
     "status": "published",
     "contentHtml": "content/chapter-28.html",
     "koreanLink": ""
+  },
+  {
+    "title": "The Eternal Child, Schiele",
+    "slug": "eternal-child-schiele",
+    "href": "chapter.html?slug=eternal-child-schiele",
+    "date": "2026-03-03",
+    "cover": "assets/ch29-cover.jpg",
+    "hero": "assets/ch29-hero.jpg",
+    "summary": "From Krems to Willendorf to Tulln, Author Jeong traces the turbulent life of Egon Schiele.",
+    "status": "published",
+    "contentHtml": "content/chapter-29.html",
+    "koreanLink": ""
   }
 ]
