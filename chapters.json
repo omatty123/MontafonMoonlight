@@ -346,5 +346,21 @@
     "status": "published",
     "contentHtml": "content/chapter-29.html",
     "koreanLink": ""
+  },
+  {
+    "title": "Reunion with Composer Willi",
+    "slug": "reunion-with-composer-willi",
+    "href": "chapter.html?slug=reunion-with-composer-willi",
+    "date": "2026-03-10",
+    "cover": "assets/ch30-cover.jpg",
+    "hero": "assets/ch30-hero.jpg",
+    "summary": "Back in Vienna, Author Jeong reunites with Mr. Willi to discuss absolute silence, the Ten Ox-Herding Pictures, and a dream of peace at Panmunjom.",
+    "status": "published",
+    "contentHtml": "content/chapter-30.html",
+    "koreanLink": "",
+    "links": {
+      "tenOxHerding": "https://webspace.ship.edu/cgboer/ox.html",
+      "jeong": "https://leadershipforumcommunity.org/resource/jeong-the-korean-practice-of-cultivating-deep-connection/"
+    }
   }
 ]
