@@ -10,26 +10,31 @@ const BASE_URL = "https://omatty123.github.io/MontafonMoonlight/";
 const ROOT = process.cwd();
 const OG_DIR = path.join(ROOT, "og");
 
-const template = (chapter) => `
+const strip = (s) => (s || "").replace(/<[^>]*>/g, "");
+
+const template = (chapter) => {
+  const plainTitle = strip(chapter.title);
+  const plainSummary = strip(chapter.summary);
+  return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Montafon Moonlight – ${chapter.title}</title>
+  <title>Montafon Moonlight – ${plainTitle}</title>
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Montafon Moonlight">
-  <meta property="og:title" content="Montafon Moonlight – ${chapter.title}">
-  <meta property="og:description" content="${chapter.summary.replace(/"/g, '&quot;')}">
+  <meta property="og:title" content="Montafon Moonlight – ${plainTitle}">
+  <meta property="og:description" content="${plainSummary.replace(/"/g, '&quot;')}">
   <meta property="og:image" content="${BASE_URL}${chapter.cover}">
   <meta property="og:url" content="${BASE_URL}og/${chapter.slug}.html">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Montafon Moonlight – ${chapter.title}">
-  <meta name="twitter:description" content="${chapter.summary.replace(/"/g, '&quot;')}">
+  <meta name="twitter:title" content="Montafon Moonlight – ${plainTitle}">
+  <meta name="twitter:description" content="${plainSummary.replace(/"/g, '&quot;')}">
   <meta name="twitter:image" content="${BASE_URL}${chapter.cover}">
 
   <link rel="stylesheet" href="../assets/all-serif.css">
@@ -44,6 +49,7 @@ const template = (chapter) => `
 </body>
 </html>
 `;
+};
 
 function cleanOldChapters() {
   // Clean old chapter files from root directory
