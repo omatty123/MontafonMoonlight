@@ -283,8 +283,8 @@
         document.getElementById("chapterTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
         document.getElementById("crumbTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
       } else {
-        document.getElementById("chapterTitle").textContent = ch.title || "Chapter";
-        document.getElementById("crumbTitle").textContent = ch.title || "Chapter";
+        document.getElementById("chapterTitle").innerHTML = ch.title || "Chapter";
+        document.getElementById("crumbTitle").innerHTML = ch.title || "Chapter";
       }
 
       if (ch.date) {
