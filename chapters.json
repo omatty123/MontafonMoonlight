@@ -374,5 +374,17 @@
     "status": "published",
     "contentHtml": "content/chapter-31.html",
     "koreanLink": ""
+  },
+  {
+    "title": "<em>Ten Ox-Herding Pictures</em>",
+    "slug": "ten-ox-herding-pictures",
+    "href": "chapter.html?slug=ten-ox-herding-pictures",
+    "date": "2026-03-24",
+    "cover": "assets/ch32-cover.jpg",
+    "hero": "assets/ch32-hero.jpg",
+    "summary": "Through Prague and Budapest, Kafka and Attila, we get to Jeong and the Ten Ox-Herding Pictures.",
+    "status": "published",
+    "contentHtml": "content/chapter-32.html",
+    "koreanLink": ""
   }
 ]
