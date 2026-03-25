@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About the Author • Montafon Moonlight</title>
+  <meta name="description" content="Jeong Chanju (정찬주) - Buddhist novelist, biographer of Korea's great monks, and author of Montafon Moonlight">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="About the Author: Jeong Chanju (정찬주)">
+  <meta property="og:description" content="Meet the Buddhist novelist who has spent a lifetime chronicling Korea's spiritual masters.">
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://omatty123.github.io/MontafonMoonlight/author.html">
+  <meta property="og:image" content="https://omatty123.github.io/MontafonMoonlight/assets/jeong-chanju/portrait.jpg">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --text: #3d3d3d;
+      --text-light: #6b6b6b;
+      --heading: #2c2c2c;
+      --card: #ffffff;
+      --border: #e8e4df;
+      --link: #5a7c65;
+      --link-hover: #3d5a45;
+      --accent: #8b7355;
+      --accent-light: #c4b5a0;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #1a1a1a;
+      --text: #d4d4d4;
+      --text-light: #9a9a9a;
+      --heading: #e8e8e8;
+      --card: #242424;
+      --border: #3a3a3a;
+      --link: #8fb89a;
+      --link-hover: #a8d4b4;
+      --accent: #c4a77d;
+      --accent-light: #8b7355;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.125rem;
+      line-height: 1.85;
+    }
+
+    a { color: var(--link); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--link-hover); }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .site-title {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    .site-title a { color: inherit; }
+    #theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-light);
+      padding: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    #theme-toggle:hover { border-color: var(--text-light); }
+
+    /* Main content */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    /* Portrait section */
+    .portrait-section {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .portrait {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      border: 4px solid var(--card);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+    html[data-theme="dark"] .portrait {
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    }
+    .author-name {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--heading);
+      margin: 0 0 0.25rem;
+      letter-spacing: 0.01em;
+    }
+    .korean-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.25rem;
+      color: var(--text-light);
+      margin-bottom: 0.75rem;
+    }
+    .dharma-name {
+      font-size: 1rem;
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin: 3rem 0;
+      padding: 0 2rem;
+      text-align: center;
+    }
+    .epigraph blockquote {
+      margin: 0;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.9;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      font-style: normal;
+      color: var(--text-light);
+    }
+
+    /* Section headings */
+    h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--heading);
+      margin: 3rem 0 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Prose */
+    .prose p {
+      margin-bottom: 1.5rem;
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
+    }
+    .prose strong {
+      font-weight: 600;
+      color: var(--heading);
+    }
+    .prose em {
+      font-style: italic;
+    }
+
+    /* Quote blocks */
+    .quote-block {
+      margin: 2rem 0;
+      padding: 1.5rem 1.5rem 1.5rem 2rem;
+      background: var(--card);
+      border-left: 3px solid var(--accent-light);
+      border-radius: 0 8px 8px 0;
+    }
+    .quote-block p {
+      margin: 0;
+      font-style: italic;
+      text-align: left;
+    }
+    .quote-block cite {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-style: normal;
+      color: var(--text-light);
+    }
+
+    /* Works grid */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .work-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+    }
+    .work-card h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 0.25rem;
+      color: var(--heading);
+    }
+    .work-card .korean {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+    .work-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin: 0;
+      text-align: left;
+    }
+
+    /* Timeline */
+    .timeline {
+      margin: 1.5rem 0;
+      padding-left: 0;
+      list-style: none;
+    }
+    .timeline li {
+      position: relative;
+      padding: 0 0 1.5rem 2rem;
+      border-left: 1px solid var(--border);
+    }
+    .timeline li:last-child {
+      padding-bottom: 0;
+      border-left-color: transparent;
+    }
+    .timeline li::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 0.4rem;
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+    .timeline .year {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .timeline .event {
+      font-size: 1rem;
+    }
+
+    /* Awards */
+    .awards-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    .awards-list li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 1rem;
+      display: flex;
+      gap: 1rem;
+      align-items: baseline;
+    }
+    .awards-list li:last-child { border-bottom: none; }
+    .awards-list .year {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      min-width: 45px;
+    }
+
+    /* Connection card */
+    .connection-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2.5rem 0;
+    }
+    .connection-section h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--heading);
+      margin: 0 0 1rem;
+    }
+    .connection-section p {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+    .connection-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Closing quote */
+    .closing-quote {
+      text-align: center;
+      margin: 3rem 0 2rem;
+      padding: 2rem;
+      font-style: italic;
+      color: var(--text-light);
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    footer nav {
+      margin-bottom: 1rem;
+    }
+    footer nav a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      margin: 0 0.75rem;
+    }
+    footer p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      main { padding: 2rem 1.25rem 3rem; }
+      .portrait { width: 200px; height: 200px; }
+      .author-name { font-size: 2rem; }
+      .epigraph { padding: 0 0.5rem; }
+      .works-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="site-title">
+        <a href="index.html">Montafon Moonlight</a>
+      </div>
+      <button id="theme-toggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Portrait -->
+    <section class="portrait-section">
+      <img src="assets/jeong-chanju/portrait.jpg" alt="Jeong Chanju" class="portrait">
+      <h1 class="author-name">Jeong Chanju</h1>
+      <p class="korean-name">정찬주 · 鄭燦柱</p>
+      <p class="dharma-name">Dharma name: Muyeom (無染) — "Unstained"</p>
+    </section>
+
+    <div class="prose">
+      <p>
+        Jeong Chanju is one of Korea's most distinguished Buddhist novelists—a writer who has spent over four decades chronicling the spiritual masters and contemplative traditions that form the bedrock of Korean identity. His body of work, more than one hundred novels and essay collections, represents an extraordinary literary pilgrimage through Korea's Buddhist heritage.
+      </p>
+
+      <p>
+        Born in 1953 in Boseong, in the green tea country of South Jeolla Province, Jeong studied Korean literature at Dongguk University, Korea's foremost Buddhist institution. After a brief period teaching at Sangmyeong Girls' High School in Seoul, he found his calling in Buddhist publishing—first at <em>Buddhist Thought</em> magazine, then for more than a decade at Saemteo Publishing, where a fateful encounter would shape the rest of his life.
+      </p>
+
+      <h2>The Teacher</h2>
+
+      <p>
+        At Saemteo, Jeong became the editor responsible for the books of <a href="https://en.wikipedia.org/wiki/Beopjeong" target="_blank" rel="noopener">Venerable Beopjeong</a> (법정스님, 1932–2010), the beloved monk whose philosophy of <em>musoyu</em>—non-possession—touched millions of Korean readers. Their relationship deepened from professional collaboration into spiritual discipleship.
+      </p>
+
+      <p>
+        In 1991, Jeong made his first pilgrimage to Bulilam, Beopjeong's remote hermitage at Songgwangsa temple. There, the monk accepted him as a lay disciple and bestowed upon him the dharma name <strong>Muyeom</strong> (無染), meaning "unstained."
+      </p>
+
+      <p>
+        He would later write <a href="https://product.kyobobook.co.kr/detail/S000001079633" target="_blank" rel="noopener"><em>Novel Musoyu</em></a>, the definitive biography of his teacher, which has sold over 300,000 copies. After Beopjeong's death in 2010, Jeong published <em>My Last Teacher</em>, a personal memoir of their twenty years together.
+      </p>
+
+      <h2>The Hermitage</h2>
+
+      <p>
+        In 2002, after raising his children, Jeong left Seoul and built a small mountain retreat called <strong>Ibuljae</strong> (耳佛齋, "Hermitage of the Ear of Buddha") on the slopes of Gyedang Mountain in Hwasun, South Jeolla Province—a withdrawal from urban life that echoes the ancient tradition of forest-dwelling in one's later years.
+      </p>
+
+      <p>
+        There, surrounded by the green mountains that cradle the ancient temples he has spent a lifetime visiting, Jeong tends a vegetable garden and devotes himself entirely to writing.
+      </p>
+
+      <p>
+        It is from Ibuljae that he wrote this novel—a meditation on friendship, music, silence, and the Korean concept of <em>jeong</em> that transcends cultural boundaries.
+      </p>
+
+      <h2>Selected Works</h2>
+
+      <div class="works-grid">
+        <div class="work-card">
+          <h3><a href="https://store.kyobobook.co.kr/person/detail/1000030001" target="_blank" rel="noopener">Mountains Are Mountains, Water Is Water</a></h3>
+          <p class="korean">산은 산 물은 물</p>
+          <p>The life of Master Seongcheol (1912–1993), one of Korea's most influential Zen masters, whose famous teaching gave the novel its title.</p>
+        </div>
+
+        <div class="work-card">
+          <h3><a href="https://product.kyobobook.co.kr/detail/S000001079633" target="_blank" rel="noopener">Novel Musoyu</a></h3>
+          <p class="korean">소설 무소유</p>
+          <p>The definitive biography of Venerable Beopjeong, tracing how a young man became Korea's beloved apostle of non-possession. Over 300,000 copies sold.</p>
+        </div>
+
+        <div class="work-card">
+          <h3><a href="https://store.kyobobook.co.kr/person/detail/1000030001" target="_blank" rel="noopener">The Road to the Hermitage</a></h3>
+          <p class="korean">암자로 가는 길</p>
+          <p>A three-volume pilgrimage to over 400 Korean hermitages—the contemplative essays that earned Jeong the title "Writer of the Hermitages."</p>
+        </div>
+
+        <div class="work-card">
+          <h3><a href="https://product.kyobobook.co.kr/detail/S000000555706" target="_blank" rel="noopener">Seven Years of Yi Sun-sin</a></h3>
+          <p class="korean">이순신의 7년</p>
+          <p>A seven-volume historical epic of Admiral Yi Sun-sin's campaigns during the Imjin War. Ten years in the making.</p>
+        </div>
+
+        <div class="work-card">
+          <h3><a href="https://product.kyobobook.co.kr/detail/S000000620195" target="_blank" rel="noopener">Moon Reflected in a Thousand Rivers</a></h3>
+          <p class="korean">천강에 비친 달</p>
+          <p>A novel exploring Korean Buddhist history and the transmission of dharma across generations, like moonlight reflected in countless streams.</p>
+        </div>
+
+        <div class="work-card">
+          <h3><a href="https://m.xn--q20b51t9le1sh.com/164289" target="_blank" rel="noopener">Gwangju Arirang</a></h3>
+          <p class="korean">광주 아리랑</p>
+          <p>A docu-novel of the May 18th Gwangju Uprising (1980), told through the eyes of ordinary citizens. Published in English 2025.</p>
+        </div>
+
+        <div class="work-card">
+          <h3><a href="read.html">Montafon Moonlight</a></h3>
+          <p class="korean">몬타폰의 달빛</p>
+          <p>A meditation on friendship, music, and <em>jeong</em>, set in the Austrian Alps. Currently being translated into English.</p>
+        </div>
+      </div>
+
+      <h2>Life & Career</h2>
+
+      <ul class="timeline">
+        <li>
+          <span class="year">1953</span>
+          <span class="event">Born in <a href="https://en.wikipedia.org/wiki/Boseong_County" target="_blank" rel="noopener">Boseong</a>, South Jeolla Province—the heart of Korea's green tea country</span>
+        </li>
+        <li>
+          <span class="year">1970s</span>
+          <span class="event">Studies Korean Literature at <a href="https://www.dongguk.edu" target="_blank" rel="noopener">Dongguk University</a>, Seoul</span>
+        </li>
+        <li>
+          <span class="year">1983</span>
+          <span class="event">Literary debut with the <em>Korean Literature</em> New Writer Award</span>
+        </li>
+        <li>
+          <span class="year">1980s–90s</span>
+          <span class="event">Editor at Saemteo Publishing; becomes Beopjeong's editor and lay disciple</span>
+        </li>
+        <li>
+          <span class="year">1991</span>
+          <span class="event">Receives dharma name <em>Muyeom</em> from Venerable Beopjeong at <a href="https://en.wikipedia.org/wiki/Songgwangsa" target="_blank" rel="noopener">Bulilam hermitage, Songgwangsa</a></span>
+        </li>
+        <li>
+          <span class="year">1997</span>
+          <span class="event">Publishes <a href="https://store.kyobobook.co.kr/person/detail/1000030001" target="_blank" rel="noopener"><em>The Road to the Hermitage</em></a>, beginning a decade of hermitage pilgrimages</span>
+        </li>
+        <li>
+          <span class="year">2002</span>
+          <span class="event">Leaves Seoul; builds Ibuljae hermitage in <a href="https://en.wikipedia.org/wiki/Hwasun_County" target="_blank" rel="noopener">Hwasun</a></span>
+        </li>
+        <li>
+          <span class="year">2015</span>
+          <span class="event">First journey to Austria; meets composer <a href="https://herbertwillisociety.org/en/herbert-willi" target="_blank" rel="noopener">Herbert Willi</a> in the <a href="https://en.wikipedia.org/wiki/Montafon" target="_blank" rel="noopener">Montafon Valley</a></span>
+        </li>
+        <li>
+          <span class="year">2018</span>
+          <span class="event">Completes <a href="https://product.kyobobook.co.kr/detail/S000000555706" target="_blank" rel="noopener"><em>Seven Years of Yi Sun-sin</em></a> after a decade of research</span>
+        </li>
+        <li>
+          <span class="year">2024–25</span>
+          <span class="event">Serializes <em>Montafon Moonlight</em> on <a href="http://www.mediabuddha.net" target="_blank" rel="noopener">Media Buddha</a></span>
+        </li>
+        <li>
+          <span class="year">2025</span>
+          <span class="event"><a href="read.html"><em>Montafon Moonlight</em></a> English translation begins (following <em>Gwangju Arirang</em>, published in English 2025)</span>
+        </li>
+      </ul>
+
+      <h2>Recognition</h2>
+
+      <ul class="awards-list">
+        <li><span class="year">1983</span> <em>Korean Literature</em> New Writer Award</li>
+        <li><span class="year">1996</span> Haengwon Literary Prize (행원문학상)</li>
+        <li><span class="year">2010</span> Dongguk Literary Prize (동국문학상)</li>
+        <li><span class="year">—</span> Hwajung Culture Grand Prize</li>
+        <li><span class="year">—</span> Ryu Juhyeon Literary Prize</li>
+        <li><span class="year">—</span> Yusim Works Award for <em>King Ashoka</em></li>
+      </ul>
+
+      <div class="connection-section">
+        <h3>The Montafon Connection</h3>
+        <p>
+          In 2015, at the invitation of Chairwoman Sonja Steindl-Kwon, Jeong traveled to Austria to lecture on Buddhism and Korean spirituality. In the alpine village of <a href="https://en.wikipedia.org/wiki/Sankt_Anton_im_Montafon" target="_blank" rel="noopener">Sankt Anton im Montafon</a>, he met the composer <a href="https://herbertwillisociety.org/en/herbert-willi" target="_blank" rel="noopener"><strong>Herbert Willi</strong></a>—and discovered a kindred spirit. Both men had built their lives around silence: Willi wandering the mountains to capture the sounds of birds and water, Jeong walking the paths to Korea's hidden hermitages.
+        </p>
+        <p>
+          Their conversations—about music, meditation, nature, and the ineffable concept of <em>jeong</em>—became the heart of this novel. In 2024, Willi premiered <a href="https://www.schott-music.com/en/dsong-no559271.html" target="_blank" rel="noopener"><strong>DSONG</strong></a> at the <a href="https://bregenzerfestspiele.com" target="_blank" rel="noopener">Bregenz Festival</a>—a 40-minute orchestral meditation on the Korean symbol for togetherness and peace, inspired by his friendship with Jeong.
+        </p>
+      </div>
+
+      <div class="closing-quote">
+        "All the sounds of nature already reside within the mind's absolute stillness."<br>
+        <span style="font-style: normal; color: var(--text-light);">— Herbert Willi, <a href="chapter.html?slug=chapter-13"><em>Montafon Moonlight</em>, Chapter 13</a></span>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="read.html">Read</a>
+      <a href="cast.html">Cast</a>
+      <a href="places.html">Places</a>
+    </nav>
+    <p>
+      <em>Montafon Moonlight</em> by Jeong Chanju<br>
+      Translated by Matty Wegehaupt · <a href="http://www.mediabuddha.net" target="_blank" rel="noopener">Original Korean</a>
+    </p>
+  </footer>
+
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const icon = btn.querySelector('i');
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+      let dark = stored ? stored === 'dark' : prefersDark;
+
+      function apply() {
+        root.setAttribute('data-theme', dark ? 'dark' : 'light');
+        icon.className = dark ? 'fas fa-sun' : 'fas fa-moon';
+      }
+
+      apply();
+      btn.addEventListener('click', () => {
+        dark = !dark;
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+        apply();
+      });
+    })();
+  </script>
+</body>
+</html>
