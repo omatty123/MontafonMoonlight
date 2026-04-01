@@ -386,5 +386,17 @@
     "status": "published",
     "contentHtml": "content/chapter-32.html",
     "koreanLink": ""
+  },
+  {
+    "title": "Vienna Streets",
+    "slug": "vienna-streets",
+    "href": "chapter.html?slug=vienna-streets",
+    "date": "2026-03-31",
+    "cover": "assets/ch33-cover.jpg",
+    "hero": "assets/ch33-hero.jpg",
+    "summary": "Learning more about Composer Willi by tracing his footsteps in Vienna.",
+    "status": "published",
+    "contentHtml": "content/chapter-33.html",
+    "koreanLink": ""
   }
 ]
