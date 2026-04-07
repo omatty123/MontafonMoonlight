@@ -398,5 +398,17 @@
     "status": "published",
     "contentHtml": "content/chapter-33.html",
     "koreanLink": ""
+  },
+  {
+    "title": "Montafon Revisited After Ten Years",
+    "slug": "montafon-revisited-after-ten-years",
+    "href": "chapter.html?slug=montafon-revisited-after-ten-years",
+    "date": "2026-04-07",
+    "cover": "assets/ch34-cover.jpg",
+    "hero": "assets/ch34-hero.jpg",
+    "summary": "Back in Montafon, memories, mysteries, and <em>mua</em>. RIP Dr. Werner.",
+    "status": "published",
+    "contentHtml": "content/chapter-34.html",
+    "koreanLink": ""
   }
 ]
