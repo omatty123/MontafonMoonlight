@@ -410,5 +410,17 @@
     "status": "published",
     "contentHtml": "content/chapter-34.html",
     "koreanLink": ""
+  },
+  {
+    "title": "Deep Conversations with Mr. Willi 1",
+    "slug": "deep-conversations-with-mr-willi-1",
+    "href": "chapter.html?slug=deep-conversations-with-mr-willi-1",
+    "date": "2026-04-14",
+    "cover": "assets/ch35-cover.jpg",
+    "hero": "assets/ch35-hero.jpg",
+    "summary": "A forgotten book, a folding fan, and the first deep exchange in Mr. Willi’s Korean-filled home.",
+    "status": "published",
+    "contentHtml": "content/chapter-35.html",
+    "koreanLink": ""
   }
 ]
