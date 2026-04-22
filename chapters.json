@@ -422,5 +422,17 @@
     "status": "published",
     "contentHtml": "content/chapter-35.html",
     "koreanLink": ""
+  },
+  {
+    "title": "Deep Conversations with Mr. Willi 2",
+    "slug": "deep-conversations-with-mr-willi-2",
+    "href": "chapter.html?slug=deep-conversations-with-mr-willi-2",
+    "date": "2026-04-21",
+    "cover": "assets/ch36-cover.jpg",
+    "hero": "assets/ch36-hero.jpg",
+    "summary": "Laughing together in Montafon, thinking about hard times in the past.",
+    "status": "published",
+    "contentHtml": "content/chapter-36.html",
+    "koreanLink": ""
   }
 ]
