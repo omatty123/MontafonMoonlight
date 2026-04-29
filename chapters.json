@@ -434,5 +434,17 @@
     "status": "published",
     "contentHtml": "content/chapter-36.html",
     "koreanLink": ""
+  },
+  {
+    "title": "The Figure of Jesus",
+    "slug": "the-figure-of-jesus",
+    "href": "chapter.html?slug=the-figure-of-jesus",
+    "date": "2026-04-29",
+    "cover": "assets/ch37-cover.jpg",
+    "hero": "assets/ch37-hero.jpg",
+    "summary": "A raindrop’s sound, a carved crucifix, and a mysterious voice in Mr. Willi’s illness.",
+    "status": "published",
+    "contentHtml": "content/chapter-37.html",
+    "koreanLink": ""
   }
 ]
