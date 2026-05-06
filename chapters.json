@@ -446,5 +446,17 @@
     "status": "published",
     "contentHtml": "content/chapter-37.html",
     "koreanLink": ""
+  },
+  {
+    "title": "Pater von Lama",
+    "slug": "pater-von-lama",
+    "href": "chapter.html?slug=pater-von-lama",
+    "date": "2026-05-06",
+    "cover": "assets/ch38-cover.jpg",
+    "hero": "assets/ch38-hero.jpg",
+    "summary": "A healing encounter with an old priest leads Mr. Willi back to life, sound, and the mountains where his music was born.",
+    "status": "published",
+    "contentHtml": "content/chapter-38.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35971"
   }
 ]
