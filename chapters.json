@@ -458,5 +458,17 @@
     "status": "published",
     "contentHtml": "content/chapter-38.html",
     "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=35971"
+  },
+  {
+    "title": "The Basilica’s Baroque Concert",
+    "slug": "the-basilicas-baroque-concert",
+    "href": "chapter.html?slug=the-basilicas-baroque-concert",
+    "date": "2026-05-13",
+    "cover": "assets/ch39-cover.jpg",
+    "hero": "assets/ch39-hero.jpg",
+    "summary": "Brahms in Bregenz after a mesmerizing tale of the Novice Fool, brings us into a new place in our journey.",
+    "status": "published",
+    "contentHtml": "content/chapter-39.html",
+    "koreanLink": "http://www.mediabuddha.net/m/news/view.php?number=36029"
   }
 ]
