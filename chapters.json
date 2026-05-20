@@ -470,5 +470,17 @@
     "status": "published",
     "contentHtml": "content/chapter-39.html",
     "koreanLink": "https://testlocal.ly/tests/6a045223de2a776090019c7a#seoul"
+  },
+  {
+    "title": "Montafon Moonlight House",
+    "slug": "montafon-moonlight-house",
+    "href": "chapter.html?slug=montafon-moonlight-house",
+    "date": "2026-05-19",
+    "cover": "assets/ch40-cover.jpg",
+    "hero": "assets/ch40-hero.jpg",
+    "summary": "A moonlit morning, Max Weiler’s abstraction, and a promise to honor Mr. Willi’s Montafon house.",
+    "status": "published",
+    "contentHtml": "content/chapter-40.html",
+    "koreanLink": "https://testlocal.ly/tests/f378271b1c9202fd0aefd766c571e74a5ece4ff3#seoul"
   }
 ]
