@@ -221,6 +221,7 @@
     </nav>
 
     <header class="mb-3">
+      <p id="chapterNumber" class="text-sm meta font-semibold mb-1">Chapter</p>
       <h2 id="chapterTitle" class="chapter-title">Loading…</h2>
       <div class="text-sm meta flex flex-wrap gap-x-4 gap-y-2 items-center">
         <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
@@ -279,6 +280,8 @@
       let idx = list.findIndex(c => c.slug === slug);
       if (idx < 0) idx = 0;
       const ch = list[idx] || {};
+      const chapterNumber = idx + 1;
+      document.getElementById("chapterNumber").textContent = `Chapter ${chapterNumber}`;
 
       if (ch.slug === "cheonmaneyo") {
         document.getElementById("chapterTitle").innerHTML = "“<em>Cheonmaneyo</em>”";
