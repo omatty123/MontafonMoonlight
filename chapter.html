@@ -225,12 +225,6 @@
       <h2 id="chapterTitle" class="chapter-title">Loading…</h2>
       <div class="text-sm meta flex flex-wrap gap-x-4 gap-y-2 items-center">
         <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
-        <span id="koLinkWrap" class="hidden">
-          <span class="mx-2">·</span>
-          <a id="koLink" href="#" target="_blank" rel="noopener" class="hover:underline">
-            <i class="fas fa-link mr-1"></i> Korean original
-          </a>
-        </span>
       </div>
     </header>
 
@@ -296,13 +290,6 @@
         const el = document.getElementById("pubDate");
         el.dateTime = d.toISOString().slice(0, 10);
         el.textContent = fmtLong(ch.date);
-      }
-
-      if (ch.koreanLink) {
-        const wrap = document.getElementById("koLinkWrap");
-        const a = document.getElementById("koLink");
-        a.href = ch.koreanLink;
-        wrap.classList.remove("hidden");
       }
 
       if (ch.hero) {
