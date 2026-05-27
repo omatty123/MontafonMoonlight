@@ -482,5 +482,17 @@
     "status": "published",
     "contentHtml": "content/chapter-40.html",
     "koreanLink": "https://testlocal.ly/tests/f378271b1c9202fd0aefd766c571e74a5ece4ff3#seoul"
+  },
+  {
+    "title": "Montafon's Nature Sounds",
+    "slug": "montafons-nature-sounds",
+    "href": "chapter.html?slug=montafons-nature-sounds",
+    "date": "2026-05-27",
+    "cover": "assets/ch41-cover.jpg",
+    "hero": "assets/ch41-hero.jpg",
+    "summary": "Absolute silence reveals sound, emptiness reveals reality, and Mr. Willi takes us to his highest levels of creation",
+    "status": "published",
+    "contentHtml": "content/chapter-41.html",
+    "koreanLink": ""
   }
 ]
