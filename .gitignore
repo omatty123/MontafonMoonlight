@@ -11,6 +11,20 @@ node_modules/
 .DS_Store
 Thumbs.db
 
+# Python cache files
+__pycache__/
+*.pyc
+
 # Generated manuscript files
 manuscript.md
 manuscript.html
+
+# Local chapter source/review bundles; keep these on Desktop, not in the repo
+/[0-9][0-9]/
+/*.hwp
+/*.zip
+/chapter*-images/
+/chapter*-translation.txt
+
+# Old generated static output folder; current share pages live in /og
+/chapters/
