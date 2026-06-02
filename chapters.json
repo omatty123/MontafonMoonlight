@@ -494,5 +494,17 @@
     "status": "published",
     "contentHtml": "content/chapter-41.html",
     "koreanLink": ""
+  },
+  {
+    "title": "Lonely Mr. Willi",
+    "slug": "lonely-mr-willi",
+    "href": "chapter.html?slug=lonely-mr-willi",
+    "date": "2026-06-02",
+    "cover": "assets/ch42-cover.jpg",
+    "hero": "assets/ch42-hero.jpg",
+    "summary": "Their friendship deepens as their time together grows shorter, dreaming about the future while reflecting on the past.",
+    "status": "published",
+    "contentHtml": "content/chapter-42.html",
+    "koreanLink": ""
   }
 ]
