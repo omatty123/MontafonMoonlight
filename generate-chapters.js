@@ -64,6 +64,7 @@ function cleanOldChapters() {
     "chapter-workflow-tool-v2.html",
     "cast.html",
     "places.html",
+    "glossary.html",
     "404.html",
     "read.html"
   ];

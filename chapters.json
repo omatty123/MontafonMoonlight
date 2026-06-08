@@ -506,5 +506,17 @@
     "status": "published",
     "contentHtml": "content/chapter-42.html",
     "koreanLink": ""
+  },
+  {
+    "title": "Kairos im Kronos 1756 / 1956",
+    "slug": "kairos-im-kronos-1756-1956",
+    "href": "chapter.html?slug=kairos-im-kronos-1756-1956",
+    "date": "2026-06-08",
+    "cover": "assets/ch43-cover.jpg",
+    "hero": "assets/ch43-hero.jpg",
+    "summary": "Musical connections at the ultimate level are revealed in Salzburg!",
+    "status": "published",
+    "contentHtml": "content/chapter-43.html",
+    "koreanLink": ""
   }
 ]

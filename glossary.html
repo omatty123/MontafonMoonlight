@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Glossary • Montafon Moonlight</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111827;
+      --muted: #64748b;
+      --panel: #f8fafc;
+      --border: #e5e7eb;
+      --link: #2563eb;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0b1220;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --panel: #111827;
+      --border: #243244;
+      --link: #8ab4ff;
+    }
+
+    html,
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header.stickybar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .meta {
+      color: var(--muted);
+    }
+
+    .page-wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1.25rem;
+    }
+
+    .term-row {
+      border-top: 1px solid var(--border);
+      padding: 1rem 0;
+      scroll-margin-top: 90px;
+    }
+
+    .term-row:target {
+      background: var(--panel);
+      box-shadow: 0 0 0 9999px var(--panel);
+      clip-path: inset(0 -9999px);
+    }
+
+    .korean {
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .search {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="stickybar">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="min-w-0">
+        <h1 class="font-bold text-2xl" style="color:#2563eb;">
+          <i class="fas fa-book mr-2"></i>
+          <a href="index.html" class="hover:underline" style="color:#2563eb;">Montafon Moonlight</a>
+        </h1>
+        <p class="text-sm meta">Glossary of Korean and Buddhist terms</p>
+      </div>
+      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <nav class="text-sm meta mb-4" aria-label="Breadcrumb">
+      <a href="index.html" class="hover:underline">Home</a> <span aria-hidden="true">›</span>
+      <span>Glossary</span>
+    </nav>
+
+    <header class="mb-6">
+      <h2 class="text-3xl font-bold mb-2">Glossary</h2>
+      <p class="meta max-w-2xl">A quick reference for retained Korean terms, Buddhist concepts, people, and places used in the translation.</p>
+    </header>
+
+    <label class="block text-sm font-semibold mb-2" for="filter">Search</label>
+    <input id="filter" class="search w-full rounded px-3 py-2 mb-8" type="search" placeholder="Filter by English, Korean, or note" autocomplete="off" />
+
+    <section id="terms" aria-live="polite">
+      <p class="meta">Loading glossary…</p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const KEY = "theme", root = document.documentElement, btn = document.getElementById("theme-toggle");
+      function apply(t) { t === "dark" ? root.setAttribute("data-theme", "dark") : root.removeAttribute("data-theme"); }
+      function initial() { const s = localStorage.getItem(KEY); if (s === "dark" || s === "light") return s; return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; }
+      function reflect(t) { if (!btn) return; btn.setAttribute("aria-pressed", t === "dark" ? "true" : "false"); const i = btn.querySelector("i"); i.className = t === "dark" ? "fas fa-sun" : "fas fa-moon"; }
+      let cur = initial(); apply(cur); reflect(cur);
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e => { if (localStorage.getItem(KEY)) return; cur = e.matches ? "dark" : "light"; apply(cur); reflect(cur); });
+      btn?.addEventListener("click", () => { cur = cur === "dark" ? "light" : "dark"; localStorage.setItem(KEY, cur); apply(cur); reflect(cur); });
+    })();
+
+    const stripOperationalNotes = note =>
+      (note || "")
+        .replace(/\s*-\s*keep italicized\s*$/i, "")
+        .replace(/\s*-\s*keep italicized\s*/i, " ");
+
+    const slug = text =>
+      (text || "")
+        .toLowerCase()
+        .replace(/<[^>]*>/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+    const classify = term => {
+      const note = term.note || "";
+      if (/(Author|Mrs\.|Mr\.|Venerable|Professor|Chairwoman|Dr\.|president|wife|composer|master|monk|singer)/i.test(note)) return "People";
+      if (/(Temple|Province|valley|Austria|residence|Hermitage|Montafon|Vienna|Seoul|Korea|Jeolla)/i.test(note)) return "Places";
+      return "Concepts and Terms";
+    };
+
+    const escapeHtml = value => String(value || "").replace(/[&<>"']/g, ch => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    }[ch]));
+
+    const render = terms => {
+      const root = document.getElementById("terms");
+      const groups = ["Concepts and Terms", "People", "Places"];
+      const html = groups.map(group => {
+        const items = terms.filter(term => classify(term) === group);
+        if (!items.length) return "";
+        return `
+          <section class="mb-8" data-group="${group}">
+            <h3 class="text-xl font-bold mb-2">${group}</h3>
+            ${items.map(term => {
+              const id = slug(term.english);
+              const note = stripOperationalNotes(term.note);
+              return `
+                <article id="${id}" class="term-row" data-search="${escapeHtml(`${term.english} ${term.korean} ${note}`.toLowerCase())}">
+                  <h4 class="text-lg font-semibold">${escapeHtml(term.english)}</h4>
+                  <p class="korean">${escapeHtml(term.korean)}</p>
+                  <p>${escapeHtml(note)}</p>
+                </article>
+              `;
+            }).join("")}
+          </section>
+        `;
+      }).join("");
+
+      root.innerHTML = html || '<p class="meta">No glossary terms found.</p>';
+      if (location.hash) {
+        requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
+      }
+    };
+
+    (async function main() {
+      try {
+        const response = await fetch("translation-glossary.json?v=" + Date.now(), { cache: "no-store" });
+        if (!response.ok) throw new Error("Could not load glossary");
+        const data = await response.json();
+        render(data.glossary || []);
+      } catch (error) {
+        document.getElementById("terms").innerHTML = '<p class="meta">Glossary could not be loaded.</p>';
+      }
+
+      document.getElementById("filter").addEventListener("input", event => {
+        const query = event.target.value.trim().toLowerCase();
+        document.querySelectorAll(".term-row").forEach(row => {
+          row.hidden = query && !row.dataset.search.includes(query);
+        });
+        document.querySelectorAll("[data-group]").forEach(group => {
+          group.hidden = !group.querySelector(".term-row:not([hidden])");
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>
