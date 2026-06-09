@@ -67,7 +67,7 @@ Retain Korean terms when they carry cultural weight that English equivalents wou
 | 이불재 | Ibuljae | Author Jeong's hermitage name |
 | 정 | jeong | Korean concept of deep affection/bond |
 | 인연 | inyeon | Karmic connection; destined encounter |
-| 화두 | hwadu | Zen koan; question for meditation |
+| 화두 | hwadu | Seon meditation question |
 
 **Terms to Translate**
 
@@ -93,7 +93,7 @@ Generic terms without unique cultural resonance should be translated. For exampl
 | 적멸 / 정적 | absolute silence / absolute stillness | Mr. Willi's key concept |
 | 공 (空) | emptiness (kong) | Buddhist concept of void |
 | 삼매 | samadhi | Meditative concentration |
-| 선 | Seon | Korean pronunciation of Zen |
+| 선 | Seon | Korean Seon Buddhism |
 
 ---
 

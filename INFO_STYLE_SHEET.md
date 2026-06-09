@@ -46,12 +46,12 @@ These terms carry cultural weight. Keep them in romanized Korean, *italicized* o
 |--------|--------------|---------|
 | 정 | *jeong* | deep affection/bond |
 | 인연 | *inyeon* | karmic connection |
-| 화두 | *hwadu* | Zen meditation question |
+| 화두 | *hwadu* | Seon meditation question |
 | 공 | *kong* | emptiness |
 | 진공 | *jin'gong* | true emptiness |
 | 적멸 | *jeongmyeol* | absolute stillness |
 | 삼매 | *samadhi* | meditative concentration |
-| 선 | *Seon* | Korean Zen |
+| 선 | *Seon* | Korean Seon Buddhism |
 | 무소유 | *Musoyu* | non-possession (Beopjeong's philosophy) |
 
 ---

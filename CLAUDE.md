@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Montafon Moonlight** is an English translation of a Korean serialized novel by **Jeong Chanju** (정찬주), a Buddhist novelist. The story follows the author's friendship with Austrian composer **Herbert Willi** in the alpine Montafon valley, exploring themes of Zen Buddhism, music, silence, and cross-cultural connection.
+**Montafon Moonlight** is an English translation of a Korean serialized novel by **Jeong Chanju** (정찬주), a Buddhist novelist. The story follows the author's friendship with Austrian composer **Herbert Willi** in the alpine Montafon valley, exploring themes of Seon Buddhism, music, silence, and cross-cultural connection.
 
 - **Live site:** https://omatty123.github.io/MontafonMoonlight/
 - **Original Korean:** Published weekly on mediabuddha.net (section 40)

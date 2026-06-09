@@ -204,7 +204,7 @@ These carry cultural weight that English flattens. Keep them:
 |--------|-------------|---------|
 | 정 | *jeong* | Deep affection/bond |
 | 인연 | *inyeon* | Karmic connection |
-| 화두 | *hwadu* | Zen koan / meditation question |
+| 화두 | *hwadu* | Seon meditation question |
 | 청심환 | *cheongsim-hwan* | Traditional herbal medicine |
 | 이불재 | Ibuljae | Author Jeong's hermitage |
 
