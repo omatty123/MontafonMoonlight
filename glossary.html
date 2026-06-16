@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Glossary • Montafon Moonlight</title>
 
-  <meta name="description" content="A reader's glossary of the Korean and Buddhist terms in Montafon Moonlight: jeong, inyeon, hwadu, samadhi, and the language of absolute silence." />
+  <meta name="description" content="An alphabetical glossary of Korean, Buddhist, musical, and cultural terms in Montafon Moonlight." />
   <meta property="og:title" content="Glossary • Montafon Moonlight" />
-  <meta property="og:description" content="A reader's glossary of the Korean and Buddhist terms in Montafon Moonlight: jeong, inyeon, hwadu, samadhi, and the language of absolute silence." />
+  <meta property="og:description" content="An alphabetical glossary of Korean, Buddhist, musical, and cultural terms in Montafon Moonlight." />
   <meta property="og:image" content="https://omatty123.github.io/MontafonMoonlight/assets/book-cover.jpg" />
   <meta property="og:url" content="https://omatty123.github.io/MontafonMoonlight/glossary.html" />
   <meta property="og:type" content="website" />
@@ -61,23 +61,15 @@
     .brand {
       font-family: 'DM Serif Display', Georgia, serif;
       font-weight: 400;
-      font-size: 1.25rem;
+      font-size: 1.28rem;
     }
 
     .page-wrap { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 3rem; }
 
-    .glossary-hero {
+    .page-head {
       border-bottom: 1px solid var(--border);
-      padding: .35rem 0 .8rem;
-      margin-bottom: .85rem;
-    }
-
-    .eyebrow {
-      color: var(--muted);
-      font-size: .68rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin-bottom: .2rem;
+      padding: .2rem 0 1rem;
+      margin-bottom: .9rem;
     }
 
     .page-title {
@@ -88,85 +80,44 @@
       margin-bottom: .35rem;
     }
 
-    .glossary-intro {
+    .page-summary {
+      color: var(--muted);
       font-size: .9rem;
       line-height: 1.5;
-      max-width: 72ch;
+      max-width: 62ch;
     }
 
-    .featured-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: .5rem;
-      margin: .75rem 0 .05rem;
-    }
-
-    @media (max-width: 760px) {
-      .featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    .featured-card {
-      border: 1px solid var(--border);
-      border-radius: .35rem;
-      padding: .55rem .6rem;
-      color: var(--text);
-      min-height: 0;
-      display: block;
-      text-decoration: none;
-    }
-
-    .featured-card:hover,
-    .featured-card:focus {
-      background: var(--card);
-      text-decoration: none;
-    }
-
-    .featured-name {
-      font-size: .98rem;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .featured-script {
-      color: var(--muted);
-      font-size: .75rem;
-      margin-top: .1rem;
-    }
-
-    .section-title {
-      font-weight: 700;
-      font-size: 1.08rem;
-      margin: 1.45rem 0 .18rem;
-      scroll-margin-top: 90px;
-    }
-
-    .section-sub {
-      color: var(--muted);
-      font-size: .84rem;
-      line-height: 1.45;
-      margin-bottom: .25rem;
-      max-width: 78ch;
-    }
-
-    .glossary-controls {
+    .toolbar {
       border-bottom: 1px solid var(--border);
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
-      gap: .75rem 1rem;
+      grid-template-columns: minmax(0, 1fr) minmax(15rem, 20rem);
+      gap: .75rem;
       align-items: start;
-      margin-bottom: .75rem;
       padding-bottom: .8rem;
+      margin-bottom: 1rem;
     }
 
-    .toc { font-size: .8rem; margin: 0; }
-    .toc a {
-      display: inline-block;
-      border: 1px solid var(--border);
-      border-radius: .35rem;
-      padding: .1rem .45rem;
-      margin: 0 .22rem .25rem 0;
+    .alpha-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .25rem;
+      font-size: .78rem;
+      line-height: 1.7;
     }
-    .toc a:hover { background: var(--card); text-decoration: none; }
+
+    .alpha-nav a {
+      border: 1px solid var(--border);
+      border-radius: .25rem;
+      color: var(--text);
+      min-width: 1.6rem;
+      padding: 0 .34rem;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .alpha-nav a:hover {
+      background: var(--card);
+    }
 
     .search-label {
       display: block;
@@ -181,27 +132,54 @@
       border: 1px solid var(--border);
       border-radius: .4rem;
       width: 100%;
-      padding: .42rem .6rem;
+      padding: .46rem .6rem;
       font-size: .88rem;
     }
 
+    .match-count {
+      color: var(--muted);
+      font-size: .75rem;
+      margin: .32rem 0 0;
+    }
+
+    .letter-group {
+      margin-top: 1.15rem;
+    }
+
+    .letter-group[hidden],
+    .term-row[hidden] {
+      display: none;
+    }
+
+    .letter-heading {
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      line-height: 1;
+      padding-bottom: .35rem;
+      scroll-margin-top: 90px;
+      text-transform: uppercase;
+    }
+
     .term-row {
-      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
       display: grid;
-      grid-template-columns: minmax(10.5rem, 15rem) minmax(0, 1fr);
-      column-gap: 1rem;
-      padding: .58rem 0;
+      grid-template-columns: minmax(11rem, 14rem) minmax(0, 1fr);
+      gap: .75rem 1rem;
+      padding: .7rem 0;
       scroll-margin-top: 90px;
     }
 
     .term-row:target {
       background: var(--card);
       border-left: 3px solid var(--accent);
+      margin-left: -.75rem;
       padding-left: .75rem;
-      padding-right: .75rem;
     }
 
-    .term-main { min-width: 0; }
+    .term-head { min-width: 0; }
 
     .term-name {
       font-weight: 700;
@@ -218,17 +196,13 @@
       margin-top: .08rem;
     }
 
+    .term-body { min-width: 0; }
+
     .term-def {
       font-size: .88rem;
-      line-height: 1.48;
+      line-height: 1.5;
       margin-top: 0;
       max-width: 74ch;
-    }
-
-    .match-count {
-      color: var(--muted);
-      font-size: .75rem;
-      margin: .3rem 0 0;
     }
 
     .empty-state {
@@ -237,7 +211,13 @@
       padding: 1rem 0;
     }
 
-    .ch-chips { margin-top: .35rem; font-size: .7rem; line-height: 1.8; }
+    .ch-chips {
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.8;
+      margin-top: .3rem;
+    }
+
     .ch-chips a {
       display: inline-block;
       border: 1px solid var(--border);
@@ -248,34 +228,14 @@
     .ch-chips a:hover { background: var(--card); text-decoration: none; }
 
     @media (max-width: 760px) {
-      .glossary-controls {
+      .toolbar {
         grid-template-columns: 1fr;
       }
 
       .term-row {
         grid-template-columns: 1fr;
-        row-gap: .25rem;
-        padding: .68rem 0;
-      }
-    }
-
-    @media (max-width: 460px) {
-      .featured-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: .45rem;
-        margin-top: .7rem;
-      }
-
-      .featured-card {
-        padding: .45rem .5rem;
-      }
-
-      .featured-name {
-        font-size: .9rem;
-      }
-
-      .featured-script {
-        font-size: .72rem;
+        gap: .25rem;
+        padding: .72rem 0;
       }
     }
   </style>
@@ -294,24 +254,15 @@
       <a href="index.html">Home</a> <span aria-hidden="true">›</span> <span>Glossary</span>
     </nav>
 
-    <section class="glossary-hero">
-      <p class="eyebrow">Reader Companion</p>
+    <section class="page-head">
       <h2 class="page-title">Glossary</h2>
-      <p class="k-meta glossary-intro">
-        Certain Korean and Buddhist words stay in the translation because English would flatten
-        them. These are the terms that carry the novel's emotional, musical, and contemplative
-        logic.
+      <p class="page-summary">
+        Korean, Buddhist, musical, and cultural terms retained in <em>Montafon Moonlight</em>.
       </p>
-      <div id="featuredTerms" class="featured-grid" aria-label="Core glossary terms"></div>
     </section>
 
-    <section class="glossary-controls" aria-label="Glossary controls">
-      <nav class="toc" aria-label="Sections">
-        <a href="#seon">Seon and Buddhist Concepts</a>
-        <a href="#heart">The Korean Heart</a>
-        <a href="#temple">Temple and Tradition</a>
-        <a href="#daily">Food, Dress, and Daily Life</a>
-      </nav>
+    <section class="toolbar" aria-label="Glossary controls">
+      <nav id="alphaNav" class="alpha-nav" aria-label="Alphabetical glossary navigation"></nav>
 
       <div>
         <label class="search-label" for="filter">Search</label>
@@ -359,8 +310,6 @@
       40: "montafon-moonlight-house", 41: "montafons-nature-sounds", 42: "lonely-mr-willi",
       43: "kairos-im-kronos-1756-1956", 44: "salzburg-concert"
     };
-
-    const CORE_TERMS = ["jeong", "inyeon", "hwadu", "absolute silence"];
 
     const SECTIONS = [
       {
@@ -498,23 +447,52 @@
     ];
 
     const allTerms = () => SECTIONS.flatMap(sec => sec.terms.map(term => ({ ...term, section: sec.title })));
+    const sortKey = term => term.t.toLowerCase().replace(/^(a|an|the)\s+/, "");
+    const letterFor = term => {
+      const first = sortKey(term).charAt(0).toUpperCase();
+      return /[A-Z]/.test(first) ? first : "#";
+    };
+    const letterId = letter => letter === "#" ? "letter-numbers" : `letter-${letter.toLowerCase()}`;
+    const sortedTerms = () => allTerms().sort((a, b) =>
+      sortKey(a).localeCompare(sortKey(b), undefined, { sensitivity: "base" })
+    );
 
     const chipLinks = chs => chs.filter(n => SLUGS[n]).map(n =>
       `<a href="chapter.html?slug=${SLUGS[n]}" title="Chapter ${n}">Ch. ${n}</a>`).join("");
 
     const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    const escapeAttr = value => String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+    const searchText = term => [term.t, term.s, term.d, ...term.ch.map(n => `Chapter ${n}`)].join(" ").toLowerCase();
 
-    function renderFeaturedTerms() {
-      const terms = allTerms();
-      document.getElementById("featuredTerms").innerHTML = CORE_TERMS.map(name => {
-        const term = terms.find(item => item.t.toLowerCase() === name);
-        if (!term) return "";
-        return `
-          <a class="featured-card" href="#${slug(term.t)}">
-            <h3 class="featured-name">${term.t}</h3>
-            <p class="featured-script">${term.s}</p>
-          </a>`;
-      }).join("");
+    function renderGlossary() {
+      const groups = new Map();
+      sortedTerms().forEach(term => {
+        const letter = letterFor(term);
+        if (!groups.has(letter)) groups.set(letter, []);
+        groups.get(letter).push(term);
+      });
+
+      const groupedTerms = [...groups.entries()];
+      document.getElementById("alphaNav").innerHTML = groupedTerms.map(([letter]) =>
+        `<a href="#${letterId(letter)}">${letter}</a>`
+      ).join("");
+
+      document.getElementById("glossary").innerHTML = groupedTerms.map(([letter, terms]) => `
+        <section id="${letterId(letter)}" class="letter-group" data-letter-group>
+          <h3 class="letter-heading">${letter}</h3>
+          ${terms.map(term => `
+            <article id="${slug(term.t)}" class="term-row"
+                     data-search="${escapeAttr(searchText(term))}">
+              <div class="term-head">
+                <h4 class="term-name">${term.t}</h4>
+                <p class="term-script">${term.s}</p>
+                <p class="ch-chips">${chipLinks(term.ch)}</p>
+              </div>
+              <div class="term-body">
+                <p class="term-def">${term.d}</p>
+              </div>
+            </article>`).join("")}
+        </section>`).join("");
     }
 
     function updateMatches() {
@@ -524,22 +502,7 @@
       document.getElementById("emptyState").hidden = visible !== 0;
     }
 
-    renderFeaturedTerms();
-    document.getElementById("glossary").innerHTML = SECTIONS.map(sec => `
-      <section data-group="${sec.id}">
-        <h3 id="${sec.id}" class="section-title">${sec.title}</h3>
-        <p class="section-sub">${sec.sub}</p>
-        ${sec.terms.map(term => `
-          <article id="${slug(term.t)}" class="term-row"
-                   data-search="${(term.t + " " + term.s + " " + term.d).toLowerCase().replace(/"/g, "&quot;")}">
-            <div class="term-main">
-              <h4 class="term-name">${term.t}</h4>
-              <span class="term-script">${term.s}</span>
-              <p class="ch-chips k-meta">${chipLinks(term.ch)}</p>
-            </div>
-            <p class="term-def">${term.d}</p>
-          </article>`).join("")}
-      </section>`).join("");
+    renderGlossary();
 
     if (location.hash) {
       requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
@@ -550,7 +513,7 @@
       document.querySelectorAll(".term-row").forEach(row => {
         row.hidden = q && !row.dataset.search.includes(q);
       });
-      document.querySelectorAll("[data-group]").forEach(group => {
+      document.querySelectorAll("[data-letter-group]").forEach(group => {
         group.hidden = !group.querySelector(".term-row:not([hidden])");
       });
       updateMatches();
