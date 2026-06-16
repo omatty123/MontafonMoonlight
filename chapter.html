@@ -328,7 +328,9 @@
       { id: "gong-kong", label: "gong / kong", script: "공", matches: ["gong", "kong"], definition: "Emptiness: not a void, but fullness beyond ordinary grasping." },
       { id: "jeongmyeol", label: "jeongmyeol", script: "적멸", matches: ["jeongmyeol"], definition: "Absolute stillness: the extinction of afflictions." },
       { id: "musoyu", label: "musoyu", script: "무소유", matches: ["musoyu"], definition: "Non-possession, the teaching associated with Venerable Beopjeong." },
-      { id: "hanbok-jeogori", label: "hanbok", script: "한복", matches: ["hanbok", "jeogori"], definition: "Traditional Korean clothing." },
+      { id: "jajak-jasu", label: "jajak jasu", script: "자작자수", matches: ["jajak jasu"], definition: "One reaps what one sows." },
+      { id: "ingwa-eungbo", label: "ingwa eungbo", script: "인과응보", matches: ["ingwa eungbo"], definition: "The law that cause precedes effect, and that deeds return in kind." },
+      { id: "hanbok-jeogori", label: "hanbok", script: "한복", matches: ["hanbok", "jeogori"], plainMatches: ["hanbok"], definition: "Traditional Korean clothing." },
       { id: "cheongsim-hwan", label: "cheongsim-hwan", script: "청심환", matches: ["cheongsim-hwan"], definition: "A traditional heart-calming herbal pill." },
       { id: "ten-ox-herding-pictures", label: "Ten Ox-Herding Pictures", script: "십우도", matches: ["ten ox-herding pictures", "ten oxherding pictures"], definition: "Ten Seon images for the stages of seeking and returning with truth." }
     ];
@@ -362,6 +364,39 @@
         annotateGlossaryLink(link, term);
         em.replaceWith(link);
         link.appendChild(em);
+        found.set(term.id, term);
+      });
+
+      GLOSSARY_TERMS.forEach(term => {
+        if (found.has(term.id) || !term.plainMatches) return;
+        const walker = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT, {
+          acceptNode(node) {
+            const parent = node.parentElement;
+            if (!parent || parent.closest("a, script, style")) return NodeFilter.FILTER_REJECT;
+            return term.plainMatches.some(match => new RegExp(`\\b${match}\\b`, "i").test(node.nodeValue))
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_SKIP;
+          }
+        });
+        const node = walker.nextNode();
+        if (!node) return;
+        const match = term.plainMatches.find(item => new RegExp(`\\b${item}\\b`, "i").test(node.nodeValue));
+        if (!match) return;
+        const regex = new RegExp(`\\b${match}\\b`, "i");
+        const matchResult = node.nodeValue.match(regex);
+        if (!matchResult) return;
+        const start = matchResult.index;
+        const end = start + matchResult[0].length;
+        const before = document.createTextNode(node.nodeValue.slice(0, start));
+        const after = document.createTextNode(node.nodeValue.slice(end));
+        const link = document.createElement("a");
+        link.href = `glossary.html#${term.id}`;
+        annotateGlossaryLink(link, term);
+        link.textContent = matchResult[0];
+        node.parentNode.insertBefore(before, node);
+        node.parentNode.insertBefore(link, node);
+        node.parentNode.insertBefore(after, node);
+        node.remove();
         found.set(term.id, term);
       });
 
