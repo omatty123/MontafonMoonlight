@@ -518,5 +518,17 @@
     "status": "published",
     "contentHtml": "content/chapter-43.html",
     "koreanLink": ""
+  },
+  {
+    "title": "Salzburg Concert",
+    "slug": "salzburg-concert",
+    "href": "chapter.html?slug=salzburg-concert",
+    "date": "2026-06-16",
+    "cover": "assets/ch44-cover.jpg",
+    "hero": "assets/ch44-hero.jpg",
+    "summary": "a night of musical ecstasy leaves us ready to go home",
+    "status": "published",
+    "contentHtml": "content/chapter-44.html",
+    "koreanLink": ""
   }
 ]
