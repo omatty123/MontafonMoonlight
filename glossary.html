@@ -7,44 +7,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Glossary • Montafon Moonlight</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="A reader's glossary of the Korean and Buddhist terms in Montafon Moonlight: jeong, inyeon, hwadu, samadhi, and the language of absolute silence." />
+  <meta property="og:title" content="Glossary • Montafon Moonlight" />
+  <meta property="og:description" content="A reader's glossary of the Korean and Buddhist terms in Montafon Moonlight: jeong, inyeon, hwadu, samadhi, and the language of absolute silence." />
+  <meta property="og:image" content="https://omatty123.github.io/MontafonMoonlight/assets/book-cover.jpg" />
+  <meta property="og:url" content="https://omatty123.github.io/MontafonMoonlight/glossary.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="https://omatty123.github.io/MontafonMoonlight/assets/book-cover.jpg" />
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
   <style>
     :root {
       --bg: #ffffff;
-      --text: #111827;
-      --muted: #64748b;
-      --panel: #f8fafc;
-      --border: #e5e7eb;
-      --link: #2563eb;
+      --text: #1a232b;
+      --muted: #5b6b77;
+      --card: #f7fafb;
+      --border: #e3e9ed;
+      --accent: #3d5f7a;
+      --link: #3d5f7a;
     }
 
     html[data-theme="dark"] {
-      --bg: #0b1220;
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --panel: #111827;
-      --border: #243244;
-      --link: #8ab4ff;
+      --bg: #0c151d;
+      --text: #e7edf1;
+      --muted: #93a7b5;
+      --card: #13202b;
+      --border: #24394a;
+      --accent: #3d5f7a;
+      --link: #a8cbdf;
     }
 
-    html,
-    body {
+    html, body {
       background: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
     }
 
-    a {
-      color: var(--link);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .k-meta { color: var(--muted); }
 
     header.stickybar {
       position: sticky;
@@ -54,164 +58,441 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .meta {
+    .brand {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.4rem;
+    }
+
+    .page-wrap { max-width: 880px; margin: 0 auto; padding: 1.25rem 1rem 4rem; }
+
+    .glossary-hero {
+      border-bottom: 1px solid var(--border);
+      padding: .5rem 0 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .eyebrow {
       color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: .35rem;
     }
 
-    .page-wrap {
-      max-width: 920px;
-      margin: 0 auto;
-      padding: 1.25rem;
+    .page-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 2.2rem;
+      margin-bottom: .5rem;
     }
 
-    .term-row {
-      border-top: 1px solid var(--border);
-      padding: 1rem 0;
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .75rem;
+      margin: 1.25rem 0 1.5rem;
+    }
+
+    @media (max-width: 760px) {
+      .featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 460px) {
+      .featured-grid { grid-template-columns: 1fr; }
+    }
+
+    .featured-card {
+      border: 1px solid var(--border);
+      border-radius: .45rem;
+      padding: .75rem;
+      color: var(--text);
+      min-height: 7.5rem;
+      display: block;
+      text-decoration: none;
+    }
+
+    .featured-card:hover,
+    .featured-card:focus {
+      background: var(--card);
+      text-decoration: none;
+    }
+
+    .featured-name {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.25rem;
+      line-height: 1.15;
+    }
+
+    .featured-script {
+      color: var(--muted);
+      font-size: .82rem;
+      margin-top: .1rem;
+    }
+
+    .featured-def {
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.45;
+      margin-top: .45rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.5rem;
+      margin: 2.25rem 0 .25rem;
       scroll-margin-top: 90px;
     }
 
-    .term-row:target {
-      background: var(--panel);
-      box-shadow: 0 0 0 9999px var(--panel);
-      clip-path: inset(0 -9999px);
-    }
+    .section-sub { color: var(--muted); font-size: .92rem; margin-bottom: .5rem; max-width: 68ch; }
 
-    .korean {
-      color: var(--muted);
-      font-size: .95rem;
+    .toc { font-size: .9rem; margin-bottom: 1.25rem; }
+    .toc a {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: .4rem;
+      padding: .15rem .6rem;
+      margin: 0 .3rem .3rem 0;
     }
+    .toc a:hover { background: var(--card); text-decoration: none; }
 
     .search {
       background: var(--bg);
       color: var(--text);
       border: 1px solid var(--border);
+      border-radius: .5rem;
+      width: 100%;
+      padding: .55rem .8rem;
+      margin-bottom: 1.5rem;
     }
+
+    .term-row {
+      border-top: 1px solid var(--border);
+      padding: .85rem 0;
+      scroll-margin-top: 90px;
+    }
+
+    .term-row:target {
+      background: var(--card);
+      border-left: 3px solid var(--accent);
+      padding-left: .75rem;
+      padding-right: .75rem;
+    }
+
+    .term-name {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.15rem;
+      display: inline;
+    }
+
+    .term-script { color: var(--muted); font-size: .92rem; margin-left: .5rem; }
+    .term-def { font-size: .95rem; line-height: 1.6; margin-top: .25rem; max-width: 70ch; }
+
+    .match-count {
+      color: var(--muted);
+      font-size: .82rem;
+      margin: -.85rem 0 1.25rem;
+    }
+
+    .empty-state {
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      padding: 1rem 0;
+    }
+
+    .ch-chips { margin-top: .4rem; font-size: .78rem; }
+    .ch-chips a {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: .35rem;
+      padding: .03rem .4rem;
+      margin: 0 .2rem 0 0;
+    }
+    .ch-chips a:hover { background: var(--card); text-decoration: none; }
   </style>
 </head>
 
 <body>
   <header class="stickybar">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-      <div class="min-w-0">
-        <h1 class="font-bold text-2xl" style="color:#2563eb;">
-          <i class="fas fa-book mr-2"></i>
-          <a href="index.html" class="hover:underline" style="color:#2563eb;">Montafon Moonlight</a>
-        </h1>
-        <p class="text-sm meta">Glossary of Korean and Buddhist terms</p>
-      </div>
-      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle theme">
-        <i class="fas fa-moon"></i>
-      </button>
+      <h1 class="brand"><a href="index.html" style="color:var(--text);">Montafon Moonlight</a></h1>
+      <button id="theme-toggle" class="p-2 rounded border k-meta" aria-label="Toggle dark mode"><span aria-hidden="true">☾</span></button>
     </div>
   </header>
 
   <main class="page-wrap">
-    <nav class="text-sm meta mb-4" aria-label="Breadcrumb">
-      <a href="index.html" class="hover:underline">Home</a> <span aria-hidden="true">›</span>
-      <span>Glossary</span>
+    <nav class="text-sm k-meta mb-4" aria-label="Breadcrumb">
+      <a href="index.html">Home</a> <span aria-hidden="true">›</span> <span>Glossary</span>
     </nav>
 
-    <header class="mb-6">
-      <h2 class="text-3xl font-bold mb-2">Glossary</h2>
-      <p class="meta max-w-2xl">A quick reference for retained Korean terms, Buddhist concepts, people, and places used in the translation.</p>
-    </header>
+    <section class="glossary-hero">
+      <p class="eyebrow">Reader Companion</p>
+      <h2 class="page-title">Glossary</h2>
+      <p class="k-meta" style="max-width:70ch;">
+        Certain Korean and Buddhist words stay in the translation because English would flatten
+        them. These are the terms that carry the novel's emotional, musical, and contemplative
+        logic.
+      </p>
+      <div id="featuredTerms" class="featured-grid" aria-label="Core glossary terms"></div>
+    </section>
+
+    <nav class="toc" aria-label="Sections">
+      <a href="#seon">Seon and Buddhist Concepts</a>
+      <a href="#heart">The Korean Heart</a>
+      <a href="#temple">Temple and Tradition</a>
+      <a href="#daily">Food, Dress, and Daily Life</a>
+    </nav>
 
     <label class="block text-sm font-semibold mb-2" for="filter">Search</label>
-    <input id="filter" class="search w-full rounded px-3 py-2 mb-8" type="search" placeholder="Filter by English, Korean, or note" autocomplete="off" />
+    <input id="filter" class="search" type="search" placeholder="Filter terms…" autocomplete="off" />
+    <p id="matchCount" class="match-count" aria-live="polite"></p>
 
-    <section id="terms" aria-live="polite">
-      <p class="meta">Loading glossary…</p>
-    </section>
+    <div id="glossary"></div>
+    <p id="emptyState" class="empty-state" hidden>No matching terms.</p>
+
+    <footer class="border-t mt-12 pt-6 text-sm k-meta" style="border-color:var(--border);">
+      <p>
+        <a href="index.html">Home</a> •
+        <a href="authors/jeong-chanju.html">About the Author</a> •
+        <a href="cast.html">Cast of Characters</a> •
+        <a href="places.html">Places</a>
+      </p>
+    </footer>
   </main>
 
   <script>
     (function () {
       const KEY = "theme", root = document.documentElement, btn = document.getElementById("theme-toggle");
       function apply(t) { t === "dark" ? root.setAttribute("data-theme", "dark") : root.removeAttribute("data-theme"); }
-      function initial() { const s = localStorage.getItem(KEY); if (s === "dark" || s === "light") return s; return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; }
-      function reflect(t) { if (!btn) return; btn.setAttribute("aria-pressed", t === "dark" ? "true" : "false"); const i = btn.querySelector("i"); i.className = t === "dark" ? "fas fa-sun" : "fas fa-moon"; }
-      let cur = initial(); apply(cur); reflect(cur);
-      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e => { if (localStorage.getItem(KEY)) return; cur = e.matches ? "dark" : "light"; apply(cur); reflect(cur); });
-      btn?.addEventListener("click", () => { cur = cur === "dark" ? "light" : "dark"; localStorage.setItem(KEY, cur); apply(cur); reflect(cur); });
+      function reflect(t) { btn.querySelector("span").textContent = t === "dark" ? "☀" : "☾"; }
+      let cur = localStorage.getItem(KEY) || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      apply(cur); reflect(cur);
+      btn.addEventListener("click", () => { cur = cur === "dark" ? "light" : "dark"; localStorage.setItem(KEY, cur); apply(cur); reflect(cur); });
     })();
 
-    const stripOperationalNotes = note =>
-      (note || "")
-        .replace(/\s*-\s*keep italicized\s*$/i, "")
-        .replace(/\s*-\s*keep italicized\s*/i, " ");
-
-    const slug = text =>
-      (text || "")
-        .toLowerCase()
-        .replace(/<[^>]*>/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-
-    const classify = term => {
-      const note = term.note || "";
-      if (/(Author|Mrs\.|Mr\.|Venerable|Professor|Chairwoman|Dr\.|president|wife|composer|master|monk|singer)/i.test(note)) return "People";
-      if (/(Temple|Province|valley|Austria|residence|Hermitage|Montafon|Vienna|Seoul|Korea|Jeolla)/i.test(note)) return "Places";
-      return "Concepts and Terms";
+    const SLUGS = {
+      1: "vienna-bound-plane", 2: "three-phonecalls", 3: "determination", 4: "cheonmaneyo",
+      5: "absolutesilence", 6: "jeong", 7: "firstencounter", 8: "deep-conversations-part-1",
+      9: "deep-conversations-part-2", 10: "deep-conversations-part-3", 11: "deep-conversations-part-4",
+      12: "deep-conversations-part-5", 13: "deep-conversations-part-6", 14: "so-long-montafon",
+      15: "danube-taegeukgi", 16: "night-in-krems", 17: "warm-river-water", 18: "special-lecture",
+      19: "month-vacation", 20: "tuscan-villa", 21: "Abbado-Messiaen", 22: "roman-vacation-begins",
+      23: "goethes-italy", 24: "vatican-museum", 25: "gazing-at-elba",
+      26: "sculptor-giacometti-and-composer-willi", 27: "dantes-house", 28: "cinque-terre-to-siena",
+      29: "eternal-child-schiele", 30: "reunion-with-composer-willi", 31: "what-is-jeong",
+      32: "ten-ox-herding-pictures", 33: "vienna-streets", 34: "montafon-revisited-after-ten-years",
+      35: "deep-conversations-with-mr-willi-1", 36: "deep-conversations-with-mr-willi-2",
+      37: "the-figure-of-jesus", 38: "pater-von-lama", 39: "the-basilicas-baroque-concert",
+      40: "montafon-moonlight-house", 41: "montafons-nature-sounds", 42: "lonely-mr-willi",
+      43: "kairos-im-kronos-1756-1956", 44: "salzburg-concert"
     };
 
-    const escapeHtml = value => String(value || "").replace(/[&<>"']/g, ch => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      "\"": "&quot;",
-      "'": "&#39;"
-    }[ch]));
+    const CORE_TERMS = ["jeong", "inyeon", "hwadu", "absolute silence"];
+    const CORE_SUMMARIES = {
+      "jeong": "Warm, binding affection: the emotional current that gives and receives the heart.",
+      "inyeon": "Karmic connection: the causes and conditions that make a meeting feel destined.",
+      "hwadu": "A Seon question held in meditation without a fixed answer.",
+      "absolute silence": "The stillness from which Willi hears music begin."
+    };
 
-    const render = terms => {
-      const root = document.getElementById("terms");
-      const groups = ["Concepts and Terms", "People", "Places"];
-      const html = groups.map(group => {
-        const items = terms.filter(term => classify(term) === group);
-        if (!items.length) return "";
+    const SECTIONS = [
+      {
+        id: "seon",
+        title: "Seon and Buddhist Concepts",
+        sub: "The vocabulary Author Jeong reaches for when Willi describes his music, and the teachings of Venerable Beopjeong that run beneath the novel.",
+        terms: [
+          { t: "Seon", s: "선 禪", ch: [5, 8, 30],
+            d: "The Korean school of meditation Buddhism. The lens through which the author reads Willi: \"Like an Eastern Seon master, he says, 'Human beings and the universe are one.'\"" },
+          { t: "hwadu", s: "화두 話頭", ch: [9, 12, 32],
+            d: "A Seon question held in meditation that admits no fixed answer; the classic is \"What is this?\" Willi carries his illness, and his search for the raindrop sound, \"like a hwadu.\"" },
+          { t: "samadhi", s: "삼매 三昧", ch: [5, 15],
+            d: "Absorbed meditative concentration, in which day and night pass unnoticed. The author's verdict on his friend: \"Mr. Willi is in samadhi twenty-four hours a day.\"" },
+          { t: "absolute silence", s: "Willi's own phrase", ch: [5, 10, 41],
+            d: "The stillness Willi finds in the primeval forests and glaciers of the Montafon, and finally within himself: the ground from which his music begins. The author matches it with the Buddhist gong, emptiness." },
+          { t: "gong (kong)", s: "공 空", ch: [10, 26, 41],
+            d: "Emptiness. \"What you call the absolute stillness or absolute silence within is what Buddhism calls kong (空).\" Not a void but a fullness: empty, \"yet full of wisdom and Buddha-nature.\"" },
+          { t: "jingong myoyu", s: "진공묘유 眞空妙有", ch: [41],
+            d: "\"True Emptiness, Wondrous Being\": the paradox that perfect emptiness brims with existence." },
+          { t: "jeongmyeol", s: "寂滅", ch: [10, 13, 30],
+            d: "The extinction of all afflictions; perfect stillness. \"A state of utter emptiness where everything has perfectly vanished,\" which Willi came to find not only in nature but within his own mind." },
+          { t: "mua", s: "무아 無我", ch: [34],
+            d: "No-self. \"Having become no-self (無我, mua), you became one with the world.\"" },
+          { t: "musoyu", s: "무소유 無所有", ch: [17, 18],
+            d: "Non-possession, the signature teaching of Venerable Beopjeong: living as an experience of \"enough\" rather than always \"more.\" The title of the author's biographical novel of his teacher." },
+          { t: "inyeon", s: "인연 因緣", ch: [8, 26, 40, 44],
+            d: "Karmic connection: the causes and conditions that make a meeting destined rather than accidental. \"The arrow of inyeon finds its target even in the night.\"" },
+          { t: "eob", s: "업 業", ch: [35],
+            d: "Karma; the weight of deeds carried across lives, as in the tale of the mice working off their \"karma of stealing food.\"" },
+          { t: "jajak jasu", s: "자작자수 自作自受", ch: [18],
+            d: "\"One reaps what one sows.\" Where Christianity has original sin, the author explains, Buddhism has this instead." },
+          { t: "ingwa eungbo", s: "인과응보 因果應報", ch: [18],
+            d: "The law that cause precedes effect, and that good and evil deeds each return in kind." },
+          { t: "jari ita", s: "자리이타 自利利他", ch: [24],
+            d: "Benefiting oneself by benefiting others; the author hears it in Audrey Hepburn's late-life words, \"the wise language of a cleric.\"" },
+          { t: "jungeum", s: "중음 中陰", ch: [11],
+            d: "The intermediate state after death: forty-nine days at \"a kind of waystation where one waits for rebirth.\" Willi's Geräum Zeit dwells in this in-between." },
+          { t: "Ten Ox-Herding Pictures", s: "십우도 十牛圖", ch: [31, 32, 41],
+            d: "Ten images of the Seon path: leaving the marketplace to search for the ox of truth, finding its footprints, and returning at last to everyday life in silent peace. The author finds the same ten-stage arc in Willi's symphony Jeong." },
+          { t: "jogo gakha", s: "조고각하 照顧脚下", ch: [41],
+            d: "\"Look always beneath your own feet\": the monk's instruction to attend to the present step." },
+          { t: "mugeon", s: "the vow of silence", ch: [39],
+            d: "The practice of not speaking at all; in The Fool Novice, Monk Geumgang has kept it for ten years." },
+          { t: "unsuseong", s: "운수승 雲水僧", ch: [26],
+            d: "A \"cloud-and-water monk,\" forever on pilgrimage. How the author sees Giacometti's thin walking figures." },
+          { t: "bodhisattva", s: "보살 菩薩", ch: [4, 24],
+            d: "A being who postpones their own rest to ease the suffering of others, as in Vimalakīrti's saying, \"Because living beings suffer, I too suffer.\" The author's inward word for Dr. Werner." },
+          { t: "Avalokitesvara (Gwanseeum)", s: "관세음보살", ch: [38, 39],
+            d: "The bodhisattva of compassion, who \"has eyes that see all things in the world and ears that hear its sounds,\" and who appears in whatever form a wish requires." },
+          { t: "Buddha-nature", s: "불성 佛性", ch: [41],
+            d: "The awakened nature present in every living being, and therefore in oneself." },
+          { t: "nirvana", s: "열반 涅槃", ch: [16, 19],
+            d: "The extinguishing of the fires of affliction: \"To desire nothing... To fear nothing.\"" },
+          { t: "Pure Land", s: "정토 淨土", ch: [41],
+            d: "The realm of the enlightened, where one may go after the forty-nine days of the intermediate state." }
+        ]
+      },
+      {
+        id: "heart",
+        title: "The Korean Heart",
+        sub: "Words for feeling that the novel insists cannot be translated, beginning with the one Willi set to music.",
+        terms: [
+          { t: "jeong", s: "정 情", ch: [6, 31],
+            d: "Warm, binding affection: \"the heart that forgives, the heart that considers others... a heart capable of saving a person.\" It is why Mrs. Francesca returned to Korea, and the name of Willi's ten-movement symphony. The novel unfolds its compounds: bujeong, a father's affection; mojeong, a mother's; ujeong, between friends." },
+          { t: "han", s: "한 恨", ch: [31],
+            d: "Grief refined into resilience, \"tempered deep within the heart.\" For Willi, the lowest register music can sound." },
+          { t: "heung", s: "흥 興", ch: [31],
+            d: "Exuberant, rising joy: \"a joyful sound,\" and music's highest pitch." },
+          { t: "nim", s: "님", ch: [31],
+            d: "The beloved: a word for a truly cherished person that \"cannot be translated as a mere 'you.'\"" },
+          { t: "ppalli-ppalli", s: "빨리빨리", ch: [8],
+            d: "\"Hurry, hurry\": the Korean habit of being ahead of time. Mrs. Park's affectionate tease for her husband." },
+          { t: "cheonmaneyo", s: "천만에요", ch: [4, 6],
+            d: "\"You're welcome\": the one Korean phrase Dr. Werner learned from his wife, deployed at every opportunity." },
+          { t: "gomapda / gamsahada", s: "고맙다 / 감사하다", ch: [14],
+            d: "Two ways of saying thank you; the author muses on why Koreans so often reach for the older, warmer gomapda." }
+        ]
+      },
+      {
+        id: "temple",
+        title: "Temple and Tradition",
+        sub: "The architecture, images, and books of Korean Buddhism that the novel walks Willi (and the reader) through.",
+        terms: [
+          { t: "Iljumun", s: "일주문 一柱門", ch: [8],
+            d: "The gate one passes through to reach a temple's Dharma Hall. The author thinks of Willi's two great questions as his Iljumun." },
+          { t: "Daejeokgwangjeon", s: "대적광전 大寂光殿", ch: [5],
+            d: "The \"Hall of Great Silence and Light,\" Haein-sa's main hall, where Willi stood completely still before the murals." },
+          { t: "Palsangdo", s: "팔상도 八相圖", ch: [5],
+            d: "The Eight Scenes of the Buddha's life, painted on temple hall walls." },
+          { t: "Yeongsanjeon", s: "영산전 靈山殿", ch: [6],
+            d: "The hall of the Vulture Peak assembly; at Bongeun-sa, where Willi prayed before the Buddha." },
+          { t: "Chilseonggak", s: "칠성각 七星閣", ch: [16],
+            d: "The shrine to the Big Dipper found inside Korean temples: a trace of Daoism living within Buddhism." },
+          { t: "Sangingak", s: "shrine to the mountain spirit", ch: [16],
+            d: "The mountain-spirit shrine, companion to the Chilseonggak; older beliefs given a home in the temple courtyard." },
+          { t: "moktak", s: "목탁 木鐸", ch: [35],
+            d: "The hollow wooden bell that keeps time for chanting; in The Fool Novice, the old pillars are furrowed \"leaving holes like a moktak.\"" },
+          { t: "dharma name", s: "법명 法名", ch: [18],
+            d: "A Buddhist name given to a practitioner. The author's is Muyeom (무염); Mrs. Park's is Muryanggwang (무량광)." },
+          { t: "Seon dongwha", s: "선동화 禪童話", ch: [35],
+            d: "A \"Seon fairy tale\": a teaching story in folktale form, like The Fool Novice that Willi hears in the Montafon." },
+          { t: "Samguk Yusa", s: "삼국유사 三國遺事", ch: [14],
+            d: "The thirteenth-century chronicle by the monk Ilyeon that records Korea's founding stories, beginning with Gojoseon in 2333 BCE." },
+          { t: "Dhammapada", s: "법구경 法句經", ch: [17, 19],
+            d: "The early collection of the Buddha's sayings; its verses inspired the Buddhist opera Wagner planned but never wrote, The Victors." },
+          { t: "Lotus Sutra", s: "법화경 法華經", ch: [16],
+            d: "The great Mahayana scripture: \"Do you want to know what happened in the past? It is what you receive today.\"" },
+          { t: "hangeul", s: "한글", ch: [2, 15],
+            d: "The Korean alphabet, created under King Sejong in secret collaboration with the monk Sinmi." },
+          { t: "Taegeukgi", s: "태극기", ch: [6, 15],
+            d: "The Korean flag. Placed in Mrs. Francesca's coffin with Dr. Rhee's Bible and hymn book, at her own request." }
+        ]
+      },
+      {
+        id: "daily",
+        title: "Food, Dress, and Daily Life",
+        sub: "The Korea that travels in Mrs. Park's luggage.",
+        terms: [
+          { t: "hanbok / jeogori", s: "한복 / 저고리", ch: [4, 18, 30],
+            d: "Traditional Korean dress and its short jacket. Director Buisman arrives in a hanbok bought thirty years earlier, its ribbon knotted like a bow tie; Mrs. Francesca wore hanbok to live as a Korean." },
+          { t: "cheongsim-hwan", s: "청심환", ch: [1],
+            d: "A heart-calming herbal pill; Mrs. Park chews half at every takeoff and landing." },
+          { t: "gim / gochujang / kimchi", s: "김 / 고추장 / 김치", ch: [36, 37],
+            d: "The travel pantry: seaweed sheets, chili paste in a tube, vacuum-packed kimchi, shared with Willi, who pronounces \"kimchi\" exactly." },
+          { t: "sannamul / ssukguk / songi", s: "산나물 / 쑥국 / 송이", ch: [35],
+            d: "Wild mountain greens, mugwort soup, and pine mushrooms: the monastery flavors of The Fool Novice." },
+          { t: "gyeong-ok-go", s: "경옥고", ch: [33],
+            d: "Restorative pills from an Oriental-medicine doctor, sent along as a remedy for travel fatigue." },
+          { t: "geomungo", s: "거문고", ch: [35],
+            d: "Korea's six-string zither, plucked with a bamboo stick." },
+          { t: "miindo / mungnando / mudong", s: "美人圖 / 墨蘭圖 / 舞童", ch: [35],
+            d: "A \"portrait of a beauty\" in hanbok, an ink-orchid painting, and a dancing boy out of Kim Hongdo's genre scenes: Korean images the couple is startled to meet far from home." }
+        ]
+      }
+    ];
+
+    const allTerms = () => SECTIONS.flatMap(sec => sec.terms.map(term => ({ ...term, section: sec.title })));
+
+    const chipLinks = chs => chs.filter(n => SLUGS[n]).map(n =>
+      `<a href="chapter.html?slug=${SLUGS[n]}" title="Chapter ${n}">Ch. ${n}</a>`).join("");
+
+    const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+    function renderFeaturedTerms() {
+      const terms = allTerms();
+      document.getElementById("featuredTerms").innerHTML = CORE_TERMS.map(name => {
+        const term = terms.find(item => item.t.toLowerCase() === name);
+        if (!term) return "";
         return `
-          <section class="mb-8" data-group="${group}">
-            <h3 class="text-xl font-bold mb-2">${group}</h3>
-            ${items.map(term => {
-              const id = slug(term.english);
-              const note = stripOperationalNotes(term.note);
-              return `
-                <article id="${id}" class="term-row" data-search="${escapeHtml(`${term.english} ${term.korean} ${note}`.toLowerCase())}">
-                  <h4 class="text-lg font-semibold">${escapeHtml(term.english)}</h4>
-                  <p class="korean">${escapeHtml(term.korean)}</p>
-                  <p>${escapeHtml(note)}</p>
-                </article>
-              `;
-            }).join("")}
-          </section>
-        `;
+          <a class="featured-card" href="#${slug(term.t)}">
+            <h3 class="featured-name">${term.t}</h3>
+            <p class="featured-script">${term.s}</p>
+            <p class="featured-def">${CORE_SUMMARIES[term.t.toLowerCase()] || term.d}</p>
+          </a>`;
       }).join("");
+    }
 
-      root.innerHTML = html || '<p class="meta">No glossary terms found.</p>';
-      if (location.hash) {
-        requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
-      }
-    };
+    function updateMatches() {
+      const visible = [...document.querySelectorAll(".term-row")].filter(row => !row.hidden).length;
+      const total = document.querySelectorAll(".term-row").length;
+      document.getElementById("matchCount").textContent = `${visible} of ${total} terms`;
+      document.getElementById("emptyState").hidden = visible !== 0;
+    }
 
-    (async function main() {
-      try {
-        const response = await fetch("translation-glossary.json?v=" + Date.now(), { cache: "no-store" });
-        if (!response.ok) throw new Error("Could not load glossary");
-        const data = await response.json();
-        render(data.glossary || []);
-      } catch (error) {
-        document.getElementById("terms").innerHTML = '<p class="meta">Glossary could not be loaded.</p>';
-      }
+    renderFeaturedTerms();
+    document.getElementById("glossary").innerHTML = SECTIONS.map(sec => `
+      <section data-group="${sec.id}">
+        <h3 id="${sec.id}" class="section-title">${sec.title}</h3>
+        <p class="section-sub">${sec.sub}</p>
+        ${sec.terms.map(term => `
+          <article id="${slug(term.t)}" class="term-row"
+                   data-search="${(term.t + " " + term.s + " " + term.d).toLowerCase().replace(/"/g, "&quot;")}">
+            <h4 class="term-name">${term.t}</h4><span class="term-script">${term.s}</span>
+            <p class="term-def">${term.d}</p>
+            <p class="ch-chips k-meta">${chipLinks(term.ch)}</p>
+          </article>`).join("")}
+      </section>`).join("");
 
-      document.getElementById("filter").addEventListener("input", event => {
-        const query = event.target.value.trim().toLowerCase();
-        document.querySelectorAll(".term-row").forEach(row => {
-          row.hidden = query && !row.dataset.search.includes(query);
-        });
-        document.querySelectorAll("[data-group]").forEach(group => {
-          group.hidden = !group.querySelector(".term-row:not([hidden])");
-        });
+    if (location.hash) {
+      requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
+    }
+
+    function applyFilter() {
+      const q = document.getElementById("filter").value.trim().toLowerCase();
+      document.querySelectorAll(".term-row").forEach(row => {
+        row.hidden = q && !row.dataset.search.includes(q);
       });
-    })();
+      document.querySelectorAll("[data-group]").forEach(group => {
+        group.hidden = !group.querySelector(".term-row:not([hidden])");
+      });
+      updateMatches();
+    }
+
+    const filter = document.getElementById("filter");
+    ["input", "search", "change"].forEach(eventName => filter.addEventListener(eventName, applyFilter));
+    applyFilter();
+    updateMatches();
   </script>
 </body>
 

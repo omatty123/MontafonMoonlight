@@ -4,13 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <meta name="viewport" content="width=device-initial,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Chapter • Montafon Moonlight</title>
 
-  <!-- Fonts / Tailwind / Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
   <!-- Default Open Graph / Twitter Card -->
   <meta property="og:type" content="article">
@@ -20,26 +18,29 @@
   <style>
     :root {
       --bg: #ffffff;
-      --text: #111827;
-      --muted: #64748b;
-      --card: #f8fafc;
-      --border: #e5e7eb;
-      --link: #2563eb;
+      --text: #1a232b;
+      --muted: #5b6b77;
+      --card: #f7fafb;
+      --border: #e3e9ed;
+      --accent: #3d5f7a;
+      --link: #3d5f7a;
     }
 
     html[data-theme="dark"] {
-      --bg: #0b1220;
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --card: #111827;
-      --border: #243244;
-      --link: #8ab4ff;
+      --bg: #0c151d;
+      --text: #e7edf1;
+      --muted: #93a7b5;
+      --card: #13202b;
+      --border: #24394a;
+      --accent: #3d5f7a;
+      --link: #a8cbdf;
     }
 
     html,
     body {
       background: var(--bg);
       color: var(--text);
+      font-family: 'Inter', sans-serif;
     }
 
     a {
@@ -51,30 +52,18 @@
       text-decoration: underline;
     }
 
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    a,
-    span,
-    li,
-    nav,
-    div,
-    small,
-    button {
-      font-family: 'Inter', sans-serif !important;
-    }
-
     header.stickybar {
       position: sticky;
       top: 0;
       z-index: 40;
       background: var(--bg);
       border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.4rem;
     }
 
     .chapter-wrap {
@@ -88,19 +77,83 @@
     }
 
     .chapter-title {
-      font-size: 1.875rem;
-      font-weight: 700;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 2.1rem;
+      line-height: 1.2;
       margin-bottom: .5rem;
+    }
+
+    .gdoc {
+      font-size: 1.02rem;
     }
 
     .gdoc p {
       margin: 1em 0;
-      line-height: 1.75;
+      line-height: 1.8;
     }
 
     .gdoc em,
     .gdoc i {
       font-style: italic;
+    }
+
+    .gdoc a.glossary-term {
+      color: var(--text);
+      border-bottom: 1px dotted var(--accent);
+      text-decoration: none;
+    }
+
+    .gdoc a.glossary-term:hover,
+    .gdoc a.glossary-term:focus {
+      color: var(--link);
+      border-bottom-style: solid;
+      background: var(--card);
+      outline: none;
+    }
+
+    .glossary-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: .75rem 0;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .glossary-strip[hidden] {
+      display: none;
+    }
+
+    .glossary-strip-title {
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: .45rem;
+    }
+
+    .glossary-chip {
+      display: inline-flex;
+      align-items: baseline;
+      gap: .35rem;
+      border: 1px solid var(--border);
+      border-radius: .35rem;
+      padding: .18rem .55rem;
+      margin: 0 .35rem .35rem 0;
+      color: var(--text);
+      font-size: .86rem;
+      text-decoration: none;
+    }
+
+    .glossary-chip:hover,
+    .glossary-chip:focus {
+      background: var(--card);
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .glossary-chip span {
+      color: var(--muted);
+      font-size: .78rem;
     }
 
     #heroBlock[hidden] {
@@ -135,16 +188,12 @@
 
     .progress-rail {
       height: 4px;
-      background: #e5e7eb;
-    }
-
-    html[data-theme="dark"] .progress-rail {
-      background: #1f2937;
+      background: var(--border);
     }
 
     #progress {
       height: 4px;
-      background: #3b82f6;
+      background: var(--accent);
       width: 0%;
       transition: width .2s linear;
     }
@@ -158,7 +207,7 @@
       const slug = params.get("slug");
       if (!slug) return;
 
-      const res = await fetch("/chapters.json?"+Date.now());
+      const res = await fetch("chapters.json?"+Date.now());
       const chapters = await res.json();
       const ch = chapters.find(c => c.slug === slug);
       if (!ch) return;
@@ -198,14 +247,13 @@
   <header class="stickybar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
       <div class="min-w-0">
-        <h1 class="font-bold text-2xl" style="color:#2563eb;">
-          <i class="fas fa-book mr-2"></i>
-          <a href="index.html" class="hover:underline" style="color:#2563eb;">Montafon Moonlight</a>
+        <h1 class="brand">
+          <a href="index.html" style="color:var(--text);">Montafon Moonlight</a>
         </h1>
         <p class="text-sm meta">Translated from Korean • Updates weekly</p>
       </div>
-      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle theme">
-        <i class="fas fa-moon"></i>
+      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle dark mode">
+        <span aria-hidden="true">☾</span>
       </button>
     </div>
     <div class="progress-rail">
@@ -221,12 +269,17 @@
     </nav>
 
     <header class="mb-3">
-      <p id="chapterNumber" class="text-sm meta font-semibold mb-1">Chapter</p>
+      <p id="chapterNumber" class="text-sm meta font-semibold mb-1" style="text-transform:uppercase; letter-spacing:.12em; font-size:.75rem;">Chapter</p>
       <h2 id="chapterTitle" class="chapter-title">Loading…</h2>
       <div class="text-sm meta flex flex-wrap gap-x-4 gap-y-2 items-center">
-        <span><i class="fas fa-calendar mr-1"></i><time id="pubDate" datetime="">—</time></span>
+        <span><time id="pubDate" datetime="">—</time></span>
       </div>
     </header>
+
+    <section id="glossaryStrip" class="glossary-strip" aria-label="Glossary terms in this chapter" hidden>
+      <p class="glossary-strip-title">Reader Terms</p>
+      <div id="glossaryTerms"></div>
+    </section>
 
     <figure id="heroBlock" hidden class="mb-6">
       <img id="heroImg" src="" alt="Chapter image">
@@ -236,8 +289,8 @@
     <article id="contentRoot" class="gdoc"></article>
 
     <nav class="mt-10 flex items-center justify-between text-sm">
-      <a id="prevLink" href="index.html" class="hover:underline"><i class="fas fa-arrow-left mr-2"></i>Previous</a>
-      <a id="nextLink" href="index.html" class="hover:underline">Next<i class="fas fa-arrow-right ml-2"></i></a>
+      <a id="prevLink" href="index.html" class="hover:underline">← Previous</a>
+      <a id="nextLink" href="index.html" class="hover:underline">Next →</a>
     </nav>
 
     <footer class="border-t mt-10 pt-5" style="border-color:var(--border);">
@@ -252,17 +305,80 @@
       const KEY = "theme", root = document.documentElement, btn = document.getElementById("theme-toggle");
       function apply(t) { t === "dark" ? root.setAttribute("data-theme", "dark") : root.removeAttribute("data-theme"); }
       function initial() { const s = localStorage.getItem(KEY); if (s === "dark" || s === "light") return s; return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; }
-      function reflect(t) { if (!btn) return; btn.setAttribute("aria-pressed", t === "dark" ? "true" : "false"); const i = btn.querySelector("i"); i.className = t === "dark" ? "fas fa-sun" : "fas fa-moon"; }
+      function reflect(t) { if (!btn) return; btn.setAttribute("aria-pressed", t === "dark" ? "true" : "false"); btn.querySelector("span").textContent = t === "dark" ? "☀" : "☾"; }
       let cur = initial(); apply(cur); reflect(cur);
       matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e => { if (localStorage.getItem(KEY)) return; cur = e.matches ? "dark" : "light"; apply(cur); reflect(cur); });
       btn?.addEventListener("click", () => { cur = cur === "dark" ? "light" : "dark"; localStorage.setItem(KEY, cur); apply(cur); reflect(cur); });
     })();
 
-    const fmtLong = (d) => new Date(d).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    const fmtLong = (d) => {
+      const [y, m, day] = String(d).split("-").map(Number);
+      return new Date(y, m - 1, day).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    };
     async function loadChapters() { try { const r = await fetch("chapters.json?v=" + Date.now(), { cache: "no-store" }); if (!r.ok) throw 0; return await r.json(); } catch (e) { return []; } }
     async function loadHtml(url) { try { const r = await fetch(url + (url.includes("?") ? "&" : "?") + "v=" + Date.now(), { cache: "no-store" }); return r.ok ? (await r.text()) : ""; } catch (e) { return ""; } }
     function extractBody(html) { const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i); return m && m[1] ? m[1] : html; }
     function normalizeImages(scope) { scope.querySelectorAll("img").forEach(img => { img.removeAttribute("width"); img.removeAttribute("height"); img.loading = img.loading || "lazy"; }); }
+
+    const GLOSSARY_TERMS = [
+      { id: "jeong", label: "jeong", script: "정", matches: ["jeong"], definition: "Warm, binding Korean affection: a gift of the heart, given and received." },
+      { id: "inyeon", label: "inyeon", script: "인연", matches: ["inyeon"], definition: "Karmic connection: the causes and conditions that make a meeting feel destined rather than accidental." },
+      { id: "hwadu", label: "hwadu", script: "화두", matches: ["hwadu"], definition: "A Seon meditation question held without a fixed answer." },
+      { id: "samadhi", label: "samadhi", script: "삼매", matches: ["samadhi"], definition: "Absorbed meditative concentration." },
+      { id: "gong-kong", label: "gong / kong", script: "공", matches: ["gong", "kong"], definition: "Emptiness: not a void, but fullness beyond ordinary grasping." },
+      { id: "jeongmyeol", label: "jeongmyeol", script: "적멸", matches: ["jeongmyeol"], definition: "Absolute stillness: the extinction of afflictions." },
+      { id: "musoyu", label: "musoyu", script: "무소유", matches: ["musoyu"], definition: "Non-possession, the teaching associated with Venerable Beopjeong." },
+      { id: "hanbok-jeogori", label: "hanbok", script: "한복", matches: ["hanbok", "jeogori"], definition: "Traditional Korean clothing." },
+      { id: "cheongsim-hwan", label: "cheongsim-hwan", script: "청심환", matches: ["cheongsim-hwan"], definition: "A traditional heart-calming herbal pill." },
+      { id: "ten-ox-herding-pictures", label: "Ten Ox-Herding Pictures", script: "십우도", matches: ["ten ox-herding pictures", "ten oxherding pictures"], definition: "Ten Seon images for the stages of seeking and returning with truth." }
+    ];
+
+    const TERM_BY_ID = Object.fromEntries(GLOSSARY_TERMS.map(term => [term.id, term]));
+
+    function annotateGlossaryLink(link, term) {
+      link.classList.add("glossary-term");
+      link.title = `${term.label}: ${term.definition}`;
+      link.setAttribute("aria-label", `Glossary: ${term.label}. ${term.definition}`);
+    }
+
+    function enhanceGlossaryTerms(scope) {
+      const found = new Map();
+      scope.querySelectorAll('a[href^="glossary.html#"]').forEach(link => {
+        const id = link.getAttribute("href").split("#")[1];
+        const term = TERM_BY_ID[id];
+        if (!term) return;
+        annotateGlossaryLink(link, term);
+        found.set(id, term);
+      });
+
+      scope.querySelectorAll("em").forEach(em => {
+        if (em.closest("a")) return;
+        const text = em.textContent.trim();
+        const normalized = text.toLowerCase();
+        const term = GLOSSARY_TERMS.find(item => item.matches.includes(normalized));
+        if (!term || found.has(term.id)) return;
+        const link = document.createElement("a");
+        link.href = `glossary.html#${term.id}`;
+        annotateGlossaryLink(link, term);
+        em.replaceWith(link);
+        link.appendChild(em);
+        found.set(term.id, term);
+      });
+
+      const strip = document.getElementById("glossaryStrip");
+      const termsRoot = document.getElementById("glossaryTerms");
+      const terms = [...found.values()];
+      if (!terms.length) {
+        strip.hidden = true;
+        termsRoot.innerHTML = "";
+        return;
+      }
+
+      termsRoot.innerHTML = terms.map(term =>
+        `<a class="glossary-chip" href="glossary.html#${term.id}" title="${term.definition}">${term.label}<span>${term.script}</span></a>`
+      ).join("");
+      strip.hidden = false;
+    }
 
     (async function main() {
       document.getElementById("copyYear").textContent = new Date().getFullYear();
@@ -286,9 +402,8 @@
       }
 
       if (ch.date) {
-        const d = new Date(ch.date);
         const el = document.getElementById("pubDate");
-        el.dateTime = d.toISOString().slice(0, 10);
+        el.dateTime = ch.date;
         el.textContent = fmtLong(ch.date);
       }
 
@@ -305,14 +420,15 @@
       const root = document.getElementById("contentRoot");
       root.innerHTML = html || "<p>Chapter content coming soon.</p>";
       normalizeImages(root);
+      enhanceGlossaryTerms(root);
 
       const prev = list[idx - 1], next = list[idx + 1];
       const prevEl = document.getElementById("prevLink");
       const nextEl = document.getElementById("nextLink");
-      if (prev) { prevEl.href = prev.href || ("chapter.html?slug=" + encodeURIComponent(prev.slug)); prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${prev.title}`; }
-      else { prevEl.href = "index.html"; prevEl.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>Home`; }
-      if (next) { nextEl.href = next.href || ("chapter.html?slug=" + encodeURIComponent(next.slug)); nextEl.innerHTML = `${next.title}<i class="fas fa-arrow-right ml-2"></i>`; }
-      else { nextEl.href = "index.html"; nextEl.innerHTML = `Index<i class="fas fa-arrow-right ml-2"></i>`; }
+      if (prev) { prevEl.href = prev.href || ("chapter.html?slug=" + encodeURIComponent(prev.slug)); prevEl.innerHTML = `← ${prev.title}`; }
+      else { prevEl.href = "index.html"; prevEl.innerHTML = `← Home`; }
+      if (next) { nextEl.href = next.href || ("chapter.html?slug=" + encodeURIComponent(next.slug)); nextEl.innerHTML = `${next.title} →`; }
+      else { nextEl.href = "index.html"; nextEl.innerHTML = `Index →`; }
 
       const bar = document.getElementById("progress");
       function up() { const s = document.documentElement.scrollTop || document.body.scrollTop; const h = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1; bar.style.width = Math.round(s / h * 100) + "%"; }
