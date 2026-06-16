@@ -61,53 +61,56 @@
     .brand {
       font-family: 'DM Serif Display', Georgia, serif;
       font-weight: 400;
-      font-size: 1.4rem;
+      font-size: 1.25rem;
     }
 
-    .page-wrap { max-width: 880px; margin: 0 auto; padding: 1.25rem 1rem 4rem; }
+    .page-wrap { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 3rem; }
 
     .glossary-hero {
       border-bottom: 1px solid var(--border);
-      padding: .5rem 0 1.25rem;
-      margin-bottom: 1.25rem;
+      padding: .35rem 0 .8rem;
+      margin-bottom: .85rem;
     }
 
     .eyebrow {
       color: var(--muted);
-      font-size: .72rem;
+      font-size: .68rem;
       letter-spacing: .14em;
       text-transform: uppercase;
-      margin-bottom: .35rem;
+      margin-bottom: .2rem;
     }
 
     .page-title {
       font-family: 'DM Serif Display', Georgia, serif;
       font-weight: 400;
-      font-size: 2.2rem;
-      margin-bottom: .5rem;
+      font-size: 1.8rem;
+      line-height: 1.1;
+      margin-bottom: .35rem;
+    }
+
+    .glossary-intro {
+      font-size: .9rem;
+      line-height: 1.5;
+      max-width: 72ch;
     }
 
     .featured-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: .75rem;
-      margin: 1.25rem 0 1.5rem;
+      gap: .5rem;
+      margin: .75rem 0 .05rem;
     }
 
     @media (max-width: 760px) {
       .featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
-    @media (max-width: 460px) {
-      .featured-grid { grid-template-columns: 1fr; }
-    }
-
     .featured-card {
       border: 1px solid var(--border);
-      border-radius: .45rem;
-      padding: .75rem;
+      border-radius: .35rem;
+      padding: .55rem .6rem;
       color: var(--text);
-      min-height: 7.5rem;
+      min-height: 0;
       display: block;
       text-decoration: none;
     }
@@ -119,57 +122,75 @@
     }
 
     .featured-name {
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 1.25rem;
-      line-height: 1.15;
+      font-size: .98rem;
+      font-weight: 700;
+      line-height: 1.2;
     }
 
     .featured-script {
       color: var(--muted);
-      font-size: .82rem;
+      font-size: .75rem;
       margin-top: .1rem;
     }
 
-    .featured-def {
-      color: var(--muted);
-      font-size: .82rem;
-      line-height: 1.45;
-      margin-top: .45rem;
-    }
-
     .section-title {
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-weight: 400;
-      font-size: 1.5rem;
-      margin: 2.25rem 0 .25rem;
+      font-weight: 700;
+      font-size: 1.08rem;
+      margin: 1.45rem 0 .18rem;
       scroll-margin-top: 90px;
     }
 
-    .section-sub { color: var(--muted); font-size: .92rem; margin-bottom: .5rem; max-width: 68ch; }
+    .section-sub {
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.45;
+      margin-bottom: .25rem;
+      max-width: 78ch;
+    }
 
-    .toc { font-size: .9rem; margin-bottom: 1.25rem; }
+    .glossary-controls {
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+      gap: .75rem 1rem;
+      align-items: start;
+      margin-bottom: .75rem;
+      padding-bottom: .8rem;
+    }
+
+    .toc { font-size: .8rem; margin: 0; }
     .toc a {
       display: inline-block;
       border: 1px solid var(--border);
-      border-radius: .4rem;
-      padding: .15rem .6rem;
-      margin: 0 .3rem .3rem 0;
+      border-radius: .35rem;
+      padding: .1rem .45rem;
+      margin: 0 .22rem .25rem 0;
     }
     .toc a:hover { background: var(--card); text-decoration: none; }
+
+    .search-label {
+      display: block;
+      font-size: .75rem;
+      font-weight: 700;
+      margin-bottom: .25rem;
+    }
 
     .search {
       background: var(--bg);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: .5rem;
+      border-radius: .4rem;
       width: 100%;
-      padding: .55rem .8rem;
-      margin-bottom: 1.5rem;
+      padding: .42rem .6rem;
+      font-size: .88rem;
     }
 
     .term-row {
       border-top: 1px solid var(--border);
-      padding: .85rem 0;
+      display: grid;
+      grid-template-columns: minmax(10.5rem, 15rem) minmax(0, 1fr);
+      column-gap: 1rem;
+      padding: .58rem 0;
       scroll-margin-top: 90px;
     }
 
@@ -180,20 +201,34 @@
       padding-right: .75rem;
     }
 
+    .term-main { min-width: 0; }
+
     .term-name {
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-weight: 400;
-      font-size: 1.15rem;
-      display: inline;
+      font-weight: 700;
+      font-size: .95rem;
+      line-height: 1.25;
+      display: block;
     }
 
-    .term-script { color: var(--muted); font-size: .92rem; margin-left: .5rem; }
-    .term-def { font-size: .95rem; line-height: 1.6; margin-top: .25rem; max-width: 70ch; }
+    .term-script {
+      color: var(--muted);
+      display: block;
+      font-size: .76rem;
+      line-height: 1.35;
+      margin-top: .08rem;
+    }
+
+    .term-def {
+      font-size: .88rem;
+      line-height: 1.48;
+      margin-top: 0;
+      max-width: 74ch;
+    }
 
     .match-count {
       color: var(--muted);
-      font-size: .82rem;
-      margin: -.85rem 0 1.25rem;
+      font-size: .75rem;
+      margin: .3rem 0 0;
     }
 
     .empty-state {
@@ -202,21 +237,53 @@
       padding: 1rem 0;
     }
 
-    .ch-chips { margin-top: .4rem; font-size: .78rem; }
+    .ch-chips { margin-top: .35rem; font-size: .7rem; line-height: 1.8; }
     .ch-chips a {
       display: inline-block;
       border: 1px solid var(--border);
-      border-radius: .35rem;
-      padding: .03rem .4rem;
-      margin: 0 .2rem 0 0;
+      border-radius: .3rem;
+      padding: 0 .34rem;
+      margin: 0 .15rem .12rem 0;
     }
     .ch-chips a:hover { background: var(--card); text-decoration: none; }
+
+    @media (max-width: 760px) {
+      .glossary-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .term-row {
+        grid-template-columns: 1fr;
+        row-gap: .25rem;
+        padding: .68rem 0;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .featured-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .45rem;
+        margin-top: .7rem;
+      }
+
+      .featured-card {
+        padding: .45rem .5rem;
+      }
+
+      .featured-name {
+        font-size: .9rem;
+      }
+
+      .featured-script {
+        font-size: .72rem;
+      }
+    }
   </style>
 </head>
 
 <body>
   <header class="stickybar">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <h1 class="brand"><a href="index.html" style="color:var(--text);">Montafon Moonlight</a></h1>
       <button id="theme-toggle" class="p-2 rounded border k-meta" aria-label="Toggle dark mode"><span aria-hidden="true">☾</span></button>
     </div>
@@ -230,7 +297,7 @@
     <section class="glossary-hero">
       <p class="eyebrow">Reader Companion</p>
       <h2 class="page-title">Glossary</h2>
-      <p class="k-meta" style="max-width:70ch;">
+      <p class="k-meta glossary-intro">
         Certain Korean and Buddhist words stay in the translation because English would flatten
         them. These are the terms that carry the novel's emotional, musical, and contemplative
         logic.
@@ -238,16 +305,20 @@
       <div id="featuredTerms" class="featured-grid" aria-label="Core glossary terms"></div>
     </section>
 
-    <nav class="toc" aria-label="Sections">
-      <a href="#seon">Seon and Buddhist Concepts</a>
-      <a href="#heart">The Korean Heart</a>
-      <a href="#temple">Temple and Tradition</a>
-      <a href="#daily">Food, Dress, and Daily Life</a>
-    </nav>
+    <section class="glossary-controls" aria-label="Glossary controls">
+      <nav class="toc" aria-label="Sections">
+        <a href="#seon">Seon and Buddhist Concepts</a>
+        <a href="#heart">The Korean Heart</a>
+        <a href="#temple">Temple and Tradition</a>
+        <a href="#daily">Food, Dress, and Daily Life</a>
+      </nav>
 
-    <label class="block text-sm font-semibold mb-2" for="filter">Search</label>
-    <input id="filter" class="search" type="search" placeholder="Filter terms…" autocomplete="off" />
-    <p id="matchCount" class="match-count" aria-live="polite"></p>
+      <div>
+        <label class="search-label" for="filter">Search</label>
+        <input id="filter" class="search" type="search" placeholder="Filter terms…" autocomplete="off" />
+        <p id="matchCount" class="match-count" aria-live="polite"></p>
+      </div>
+    </section>
 
     <div id="glossary"></div>
     <p id="emptyState" class="empty-state" hidden>No matching terms.</p>
@@ -290,12 +361,6 @@
     };
 
     const CORE_TERMS = ["jeong", "inyeon", "hwadu", "absolute silence"];
-    const CORE_SUMMARIES = {
-      "jeong": "Warm, binding affection: the emotional current that gives and receives the heart.",
-      "inyeon": "Karmic connection: the causes and conditions that make a meeting feel destined.",
-      "hwadu": "A Seon question held in meditation without a fixed answer.",
-      "absolute silence": "The stillness from which Willi hears music begin."
-    };
 
     const SECTIONS = [
       {
@@ -448,7 +513,6 @@
           <a class="featured-card" href="#${slug(term.t)}">
             <h3 class="featured-name">${term.t}</h3>
             <p class="featured-script">${term.s}</p>
-            <p class="featured-def">${CORE_SUMMARIES[term.t.toLowerCase()] || term.d}</p>
           </a>`;
       }).join("");
     }
@@ -468,9 +532,12 @@
         ${sec.terms.map(term => `
           <article id="${slug(term.t)}" class="term-row"
                    data-search="${(term.t + " " + term.s + " " + term.d).toLowerCase().replace(/"/g, "&quot;")}">
-            <h4 class="term-name">${term.t}</h4><span class="term-script">${term.s}</span>
+            <div class="term-main">
+              <h4 class="term-name">${term.t}</h4>
+              <span class="term-script">${term.s}</span>
+              <p class="ch-chips k-meta">${chipLinks(term.ch)}</p>
+            </div>
             <p class="term-def">${term.d}</p>
-            <p class="ch-chips k-meta">${chipLinks(term.ch)}</p>
           </article>`).join("")}
       </section>`).join("");
 
