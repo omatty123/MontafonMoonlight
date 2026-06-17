@@ -6,222 +6,405 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Places • Montafon Moonlight</title>
 
-  <!-- Fonts / Tailwind / Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <meta name="description" content="Every place in Montafon Moonlight, mapped: the Montafon valley and the Austrian Alps, the Italian journey, and the Korean temples of the novel." />
+  <meta property="og:title" content="Places • Montafon Moonlight" />
+  <meta property="og:description" content="Every place in Montafon Moonlight, mapped: the Montafon valley and the Austrian Alps, the Italian journey, and the Korean temples of the novel." />
+  <meta property="og:image" content="https://omatty123.github.io/MontafonMoonlight/assets/book-cover.jpg" />
+  <meta property="og:url" content="https://omatty123.github.io/MontafonMoonlight/places.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="https://omatty123.github.io/MontafonMoonlight/assets/book-cover.jpg" />
 
-  <!-- Leaflet for map -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <style>
-    :root{ --bg:#ffffff; --text:#111827; --muted:#64748b; --card:#f8fafc; --border:#e5e7eb; --link:#2563eb; }
-    html[data-theme="dark"]{ --bg:#0b1220; --text:#e5e7eb; --muted:#94a3b8; --card:#111827; --border:#243244; --link:#8ab4ff; }
-    html,body{ background:var(--bg); color:var(--text); }
-    a{ color:var(--link); text-decoration:none; } a:hover{ text-decoration:underline; }
-    body,h1,h2,h3,h4,h5,h6,p,a,span,li,nav,div,small,button{ font-family:'Inter',sans-serif!important; }
+    :root {
+      --bg: #ffffff;
+      --text: #1a232b;
+      --muted: #5b6b77;
+      --card: #f7fafb;
+      --border: #e3e9ed;
+      --accent: #3d5f7a;
+      --accent-hover: #2e4a61;
+      --link: #3d5f7a;
+    }
 
-    header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
-    .content-wrap{ max-width:1000px; margin:0 auto; padding:2rem 1.25rem; }
-    .place-card{ background:var(--card); border:1px solid var(--border); border-radius:0.75rem; padding:1.5rem; margin-bottom:1.5rem; transition:all 0.2s ease; }
-    .place-card:hover{ transform:translateY(-2px); box-shadow:0 4px 6px rgba(0,0,0,0.1); }
-    .place-name{ font-size:1.5rem; font-weight:700; color:var(--text); margin-bottom:0.25rem; }
-    .place-korean{ color:var(--muted); font-size:1rem; margin-bottom:0.75rem; }
-    .place-desc{ color:var(--text); line-height:1.75; }
-    .section-title{ font-size:1.875rem; font-weight:700; margin-bottom:1.5rem; padding-bottom:0.75rem; border-bottom:2px solid var(--border); }
-    #map-austria, #map-korea{ height:400px; border-radius:0.5rem; border:1px solid var(--border); margin-bottom:0.5rem; }
+    html[data-theme="dark"] {
+      --bg: #0c151d;
+      --text: #e7edf1;
+      --muted: #93a7b5;
+      --card: #13202b;
+      --border: #24394a;
+      --accent: #3d5f7a;
+      --accent-hover: #4d738f;
+      --link: #a8cbdf;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .k-meta { color: var(--muted); }
+
+    .serif {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+    }
+
+    header.stickybar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.4rem;
+    }
+
+    .page-wrap { max-width: 1100px; margin: 0 auto; padding: 1.25rem 1rem 4rem; }
+
+    .page-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 2.2rem;
+      margin-bottom: .5rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.5rem;
+      margin: 2.5rem 0 .35rem;
+    }
+
+    .section-sub { color: var(--muted); font-size: .95rem; margin-bottom: 1rem; max-width: 70ch; }
+
+    .map-box {
+      height: 430px;
+      border-radius: .75rem;
+      border: 1px solid var(--border);
+      margin-bottom: 1.25rem;
+    }
+
+    .place-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 720px) {
+      .place-grid { grid-template-columns: 1fr; }
+      .map-box { height: 340px; }
+    }
+
+    .place-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+      padding: 1rem 1.1rem;
+    }
+
+    .place-name {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.2rem;
+      line-height: 1.25;
+    }
+
+    .place-name .dot {
+      display: inline-block;
+      width: .55rem;
+      height: .55rem;
+      border-radius: 50%;
+      margin-right: .45rem;
+      vertical-align: 2px;
+    }
+
+    .place-native { color: var(--muted); font-size: .9rem; margin-bottom: .35rem; }
+    .place-desc { font-size: .92rem; line-height: 1.55; }
+
+    .ch-chips { margin-top: .5rem; font-size: .8rem; color: var(--muted); }
+    .ch-chips a {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: .35rem;
+      padding: .05rem .4rem;
+      margin: 0 .2rem .2rem 0;
+      color: var(--link);
+    }
+    .ch-chips a:hover { background: var(--card); text-decoration: none; }
+
+    .ch-chips a.map-link {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+    .ch-chips a.map-link:hover { background: var(--accent-hover); }
+
+    .leaflet-popup-content { font-family: 'Inter', sans-serif; font-size: .85rem; }
+    .leaflet-popup-content strong { font-size: .95rem; }
+
+    html[data-theme="dark"] .leaflet-tile { filter: brightness(.75) saturate(.8); }
+    html[data-theme="dark"] .leaflet-container { background: #0c151d; }
   </style>
 </head>
 
 <body>
-  <!-- Header -->
   <header class="stickybar">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <div class="min-w-0">
-        <h1 class="font-bold text-2xl" style="color:#2563eb;">
-          <i class="fas fa-book mr-2"></i>
-          <a href="index.html" class="hover:underline" style="color:#2563eb;">Montafon Moonlight</a>
-        </h1>
-        <p class="text-sm" style="color:var(--muted);">Translated from Korean • Updates weekly</p>
-      </div>
-      <button id="theme-toggle" class="p-2 rounded border" style="color:var(--muted); border-color:var(--border);" aria-label="Toggle theme">
-        <i class="fas fa-moon"></i>
-      </button>
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="brand"><a href="index.html" style="color:var(--text);">Montafon Moonlight</a></h1>
+      <button id="theme-toggle" class="p-2 rounded border k-meta" aria-label="Toggle dark mode"><span aria-hidden="true">☾</span></button>
     </div>
   </header>
 
-  <!-- Main -->
-  <main class="content-wrap">
-    <nav class="text-sm mb-3" style="color:var(--muted);" aria-label="Breadcrumb">
-      <a href="index.html" class="hover:underline">Home</a> <span aria-hidden="true">›</span>
-      <span>Places</span>
+  <main class="page-wrap">
+    <nav class="text-sm k-meta mb-4" aria-label="Breadcrumb">
+      <a href="index.html">Home</a> <span aria-hidden="true">›</span> <span>Places</span>
     </nav>
 
-    <h2 class="section-title">Places in Montafon Moonlight</h2>
+    <h2 class="page-title">Places</h2>
+    <p class="k-meta mb-2" style="max-width:72ch;">
+      The novel moves between three worlds: the Montafon valley and the Alps where Herbert Willi
+      lives and listens, the cities of Europe where his music travels, and the Korean mountains
+      and temples that Author Jeong calls home. Every place below appears in the book; the chapter
+      links lead to where it does.
+    </p>
 
-    <!-- Austria Map -->
-    <div style="background:var(--card); padding:1.5rem; border-radius:0.75rem; border:1px solid var(--border); margin-bottom:2rem;">
-      <h3 style="font-size:1.25rem; font-weight:600; margin-bottom:1rem; color:var(--text);">
-        <i class="fas fa-mountain mr-2"></i>Austria
-      </h3>
-      <div id="map-austria"></div>
-      <p style="font-size:0.875rem; color:var(--muted); text-align:center; margin-top:0.5rem;">
-        <i class="fas fa-info-circle mr-1"></i>Click markers to see details about each location
-      </p>
-    </div>
+    <h3 class="section-title">The Montafon and the Austrian Alps</h3>
+    <p class="section-sub">The heart of the novel: a remote valley in Vorarlberg, "as much as six hundred kilometers west of Austria's capital."</p>
+    <div id="map-alps" class="map-box"></div>
+    <div class="place-grid" data-group="alps"></div>
 
-    <!-- Korea Map -->
-    <div style="background:var(--card); padding:1.5rem; border-radius:0.75rem; border:1px solid var(--border); margin-bottom:2rem;">
-      <h3 style="font-size:1.25rem; font-weight:600; margin-bottom:1rem; color:var(--text);">
-        <i class="fas fa-torii-gate mr-2"></i>Korea
-      </h3>
-      <div id="map-korea"></div>
-      <p style="font-size:0.875rem; color:var(--muted); text-align:center; margin-top:0.5rem;">
-        <i class="fas fa-info-circle mr-1"></i>Click markers to see details about each location
-      </p>
-    </div>
+    <h3 class="section-title">Across Europe</h3>
+    <p class="section-sub">Vienna and the Danube, Salzburg, the cities of the Rhee-Francesca story, and the long Italian journey of the middle chapters.</p>
+    <div id="map-europe" class="map-box"></div>
+    <h4 class="section-title" style="font-size:1.2rem; margin-top:1.5rem;">Austria and Central Europe</h4>
+    <div class="place-grid" data-group="central"></div>
+    <h4 class="section-title" style="font-size:1.2rem;">Italy</h4>
+    <div class="place-grid" data-group="italy"></div>
 
-    <!-- Austrian Places -->
-    <h3 style="font-size:1.25rem; font-weight:600; margin-bottom:1rem; color:var(--text);">
-      <i class="fas fa-mountain mr-2"></i>Austria
-    </h3>
+    <h3 class="section-title">Korea</h3>
+    <p class="section-sub">Author Jeong's world: a hermitage above a thousand-year-old temple, the teachers' temples, and the places where the Austrian and Korean threads meet.</p>
+    <div id="map-korea" class="map-box"></div>
+    <div class="place-grid" data-group="korea"></div>
 
-    <div class="place-card">
-      <h4 class="place-name">Montafon</h4>
-      <p class="place-korean">몬타폰</p>
-      <p class="place-desc">An alpine valley in western Austria (Vorarlberg), home to Herbert Willi. Known for its stunning mountain scenery and traditional Austrian culture. The namesake of the novel.</p>
-    </div>
+    <h3 class="section-title">Mentioned in passing</h3>
+    <p class="k-meta" style="max-width:72ch; font-size:.95rem; line-height:1.7;">
+      The novel also reaches, in memory or conversation, to Tokyo and the New Japan Philharmonic,
+      Carnegie Hall and the Montclair Hotel in New York, London's Royal Albert Hall, Dr. Rhee's
+      exile in Hawaii, the Stuttgart stadium of the 1988 semifinal, Lucerne, Milan, Goethe's road
+      through Frankfurt, Weimar, and Karlsbad, Napoleon's Corsica, Waterloo, and Saint Helena, the
+      Bodhi tree at Bodh Gaya, the unnamed Tuscan villa where Willi lived four years in silence,
+      and, in Korea, ancient Gyeongju, Boseong's Yulpo Beach, and the Jeokbyeok cliffs of Hwasun.
+    </p>
 
-    <div class="place-card">
-      <h4 class="place-name">Vienna</h4>
-      <p class="place-korean">빈</p>
-      <p class="place-desc">Capital of Austria. A city of classical music, imperial history, and coffeehouse culture. Connected to the story through Austrian characters and cultural exchange.</p>
-    </div>
-
-    <div class="place-card">
-      <h4 class="place-name">Ihwajang</h4>
-      <p class="place-korean">이화장</p>
-      <p class="place-desc">Dr. Syngman Rhee's residence, a historical location connected to Korean-Austrian relations.</p>
-    </div>
-
-    <!-- Korean Places -->
-    <h3 style="font-size:1.25rem; font-weight:600; margin:2rem 0 1rem 0; color:var(--text);">
-      <i class="fas fa-torii-gate mr-2"></i>Korea
-    </h3>
-
-    <div class="place-card">
-      <h4 class="place-name">Ibuljae</h4>
-      <p class="place-korean">이불재</p>
-      <p class="place-desc">Author Jeong Chanju's mountain retreat home in Korea. A place of contemplation and writing, surrounded by nature.</p>
-    </div>
-
-    <div class="place-card">
-      <h4 class="place-name">Ssangbong-sa</h4>
-      <p class="place-korean">쌍봉사</p>
-      <p class="place-desc">Buddhist temple located below Ibuljae. A place of spiritual practice and community.</p>
-    </div>
-
-    <div class="place-card">
-      <h4 class="place-name">Beomnyeon-sa</h4>
-      <p class="place-korean">범련사</p>
-      <p class="place-desc">Buddhist temple in Seoul, representing the urban Buddhist community.</p>
-    </div>
-
-    <div class="place-card">
-      <h4 class="place-name">Bulil-am</h4>
-      <p class="place-korean">불일암</p>
-      <p class="place-desc">Mountain hermitage where Venerable Beopjeong lived and practiced. A sacred place of meditation and simplicity, embodying the philosophy of <em>Musoyu</em> (non-possession).</p>
-    </div>
-
-    <div class="place-card">
-      <h4 class="place-name">Haein-sa</h4>
-      <p class="place-korean">해인사</p>
-      <p class="place-desc">One of Korea's most important Buddhist temples, known for housing the Tripitaka Koreana woodblocks.</p>
-    </div>
-
-    <div class="place-card">
-      <h4 class="place-name">Jeollanam-do</h4>
-      <p class="place-korean">전라남도</p>
-      <p class="place-desc">South Jeolla Province in southwestern Korea, a region rich in history and natural beauty.</p>
-    </div>
-
-    <footer class="border-t mt-10 pt-5" style="border-color:var(--border);">
-      <p class="text-center text-sm" style="color:var(--muted);">
-        <a href="cast.html" class="hover:underline">← View Cast</a> •
-        <a href="index.html" class="hover:underline">Back to Index</a>
+    <footer class="border-t mt-12 pt-6 text-sm k-meta" style="border-color:var(--border);">
+      <p>
+        <a href="index.html">Home</a> •
+        <a href="authors/jeong-chanju.html">About the Author</a> •
+        <a href="cast.html">Cast of Characters</a> •
+        <a href="glossary.html">Glossary</a>
       </p>
     </footer>
   </main>
 
-  <!-- Script -->
   <script>
-    /* Theme toggle */
-    (function(){
-      const KEY="theme", root=document.documentElement, btn=document.getElementById("theme-toggle");
-      function apply(t){ t==="dark" ? root.setAttribute("data-theme","dark") : root.removeAttribute("data-theme"); }
-      function initial(){ const s=localStorage.getItem(KEY); if(s==="dark"||s==="light") return s; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"; }
-      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); const i=btn.querySelector("i"); i.className = t==="dark"?"fas fa-sun":"fas fa-moon"; }
-      let cur=initial(); apply(cur); reflect(cur);
-      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e=>{ if(localStorage.getItem(KEY)) return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
-      btn?.addEventListener("click", ()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
+    (function () {
+      const KEY = "theme", root = document.documentElement, btn = document.getElementById("theme-toggle");
+      function apply(t) { t === "dark" ? root.setAttribute("data-theme", "dark") : root.removeAttribute("data-theme"); }
+      function reflect(t) { btn.querySelector("span").textContent = t === "dark" ? "☀" : "☾"; }
+      let cur = localStorage.getItem(KEY) || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      apply(cur); reflect(cur);
+      btn.addEventListener("click", () => { cur = cur === "dark" ? "light" : "dark"; localStorage.setItem(KEY, cur); apply(cur); reflect(cur); });
     })();
 
-    /* Austria Map */
-    const mapAustria = L.map('map-austria').setView([47.5, 10.5], 8);
+    const SLUGS = {
+      1: "vienna-bound-plane", 2: "three-phonecalls", 3: "determination", 4: "cheonmaneyo",
+      5: "absolutesilence", 6: "jeong", 7: "firstencounter", 8: "deep-conversations-part-1",
+      9: "deep-conversations-part-2", 10: "deep-conversations-part-3", 11: "deep-conversations-part-4",
+      12: "deep-conversations-part-5", 13: "deep-conversations-part-6", 14: "so-long-montafon",
+      15: "danube-taegeukgi", 16: "night-in-krems", 17: "warm-river-water", 18: "special-lecture",
+      19: "month-vacation", 20: "tuscan-villa", 21: "Abbado-Messiaen", 22: "roman-vacation-begins",
+      23: "goethes-italy", 24: "vatican-museum", 25: "gazing-at-elba",
+      26: "sculptor-giacometti-and-composer-willi", 27: "dantes-house", 28: "cinque-terre-to-siena",
+      29: "eternal-child-schiele", 30: "reunion-with-composer-willi", 31: "what-is-jeong",
+      32: "ten-ox-herding-pictures", 33: "vienna-streets", 34: "montafon-revisited-after-ten-years",
+      35: "deep-conversations-with-mr-willi-1", 36: "deep-conversations-with-mr-willi-2",
+      37: "the-figure-of-jesus", 38: "pater-von-lama", 39: "the-basilicas-baroque-concert",
+      40: "montafon-moonlight-house", 41: "montafons-nature-sounds", 42: "lonely-mr-willi",
+      43: "kairos-im-kronos-1756-1956"
+    };
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(mapAustria);
+    const GROUP_COLORS = { alps: "#3d5f7a", central: "#7d6b94", italy: "#a3674b", korea: "#4e7a5e" };
 
-    // Montafon location
-    const montafonMarker = L.marker([47.0333, 9.9667]).addTo(mapAustria);
-    montafonMarker.bindPopup('<strong>Montafon Valley</strong><br>Alpine valley in Vorarlberg, Austria<br>Home of Herbert Willi');
+    const PLACES = [
+      /* ---- The Montafon and the Austrian Alps ---- */
+      { group: "alps", name: "St. Anton im Montafon", native: "Sankt Anton im Montafon, Vorarlberg", lat: 47.1116, lng: 9.8664, ch: [4, 5, 14, 34, 35],
+        desc: "Herbert Willi's home village in the Montafon valley. The author's two stays here, in September 2015 and again ten years later, frame the novel." },
+      { group: "alps", name: "Schruns and the Posthotel Taube", native: "Schruns, Montafon", lat: 47.0802, lng: 9.9197, ch: [20, 34, 36],
+        desc: "The Montafon village where a young Willi met his wife Marianne at a festival dance. At the Posthotel Taube, where Hemingway once stayed and wrote, the party takes a commemorative photograph and returns for coffee and bread." },
+      { group: "alps", name: "Silbertal", native: "Silbertal, Montafon", lat: 47.0950, lng: 9.9777, ch: [40],
+        desc: "A mining village up its own side valley, with the Montafon Mining Museum and the St. Agatha Miners' Chapel. Willi secluded himself in a log house here for a year of composing; the mayor is a friend, and a cable car climbs to the quiet hillside." },
+      { group: "alps", name: "Kops Lake", native: "Kops Stausee, Gaschurn", lat: 46.9720, lng: 10.1232, ch: [10, 41],
+        desc: "A high alpine lake ringed by primeval forest, seldom visited. For Willi it is a place of absolute silence: \"absolute silence also existed within me.\"" },
+      { group: "alps", name: "Piz Buin", native: "3,312 m, Austrian-Swiss border", lat: 46.8441, lng: 10.1189, ch: [11],
+        desc: "The highest peak in Vorarlberg, where Willi says the music of Geräum Zeit resides, with its ice wall and the sound of raindrops." },
+      { group: "alps", name: "Bludenz", native: "Bludenz, Vorarlberg", lat: 47.1530, lng: 9.8219, ch: [34, 38],
+        desc: "The railway gateway at the mouth of the valley. When the party returns after ten years, Willi is waiting at Bludenz Station." },
+      { group: "alps", name: "Feldkirch", native: "Feldkirch, Vorarlberg", lat: 47.2524, lng: 9.5918, ch: [20],
+        desc: "The town where Marianne was attending Gymnasium when she and Willi met." },
+      { group: "alps", name: "Bregenz and the Bodensee", native: "Bregenz, Lake Constance", lat: 47.5026, lng: 9.7473, ch: [13, 33, 39],
+        desc: "Vorarlberg's capital on Lake Constance, \"like a great sea touching Austria, Germany, and Switzerland,\" with its floating opera stage on the water." },
+      { group: "alps", name: "Bildstein", native: "Basilika Maria Bildstein", lat: 47.4580, lng: 9.7722, ch: [39],
+        desc: "A hillside village above Bregenz whose pilgrimage basilica, facing the Bodensee, hosts the Baroque Concert with the Wiener Symphoniker." },
+      { group: "alps", name: "Propstei St. Gerold", native: "St. Gerold, Großes Walsertal", lat: 47.2187, lng: 9.8172, ch: [20],
+        desc: "The abbey where Father Nathaniel invited Willi to a concert in 1987, and where he met the conductor Rudolf Baumgartner." },
+      { group: "alps", name: "Innsbruck and the Inn River", native: "Innsbruck, Tyrol", lat: 47.2692, lng: 11.4041, ch: [9, 12, 37, 38],
+        desc: "The city of Willi's boyhood diagnosis. At seventeen, walking the Inn in despair, he heard the single raindrop that began his life in music. Decades later he returns to the monastery of Pater von Lama." },
 
-    // Vienna
-    const viennaMarker = L.marker([48.2082, 16.3738]).addTo(mapAustria);
-    viennaMarker.bindPopup('<strong>Vienna (Wien)</strong><br>Capital of Austria<br>Cultural center<br>Location of Ihwajang');
+      /* ---- Austria and Central Europe ---- */
+      { group: "central", name: "Vienna", native: "Wien", lat: 48.2082, lng: 16.3738, ch: [1, 18, 21, 33],
+        desc: "The recurring hub: Author Jeong's lecture at the Kardinal König Haus, Mrs. Park's ceramics exhibition at Galerie Am Park, the Musikverein's Golden Hall, the Konzerthaus where Willi keeps an office, the State Opera, and the cafés Imperial, Schwarzenberg, and Sperl." },
+      { group: "central", name: "Krems an der Donau", native: "Krems, Lower Austria", lat: 48.4108, lng: 15.6004, ch: [14, 15, 16, 29],
+        desc: "A Danube city older than Vienna that reminds the author of Gyeongju. Dr. Werner's house stands on its outskirts, past orchards and vineyards, opposite the banks of the river." },
+      { group: "central", name: "Stift Göttweig", native: "Benedictine monastery, UNESCO", lat: 48.3665, lng: 15.6124, ch: [29],
+        desc: "The monastery on its hill above Krems, visited with Dr. Werner." },
+      { group: "central", name: "Willendorf", native: "Willendorf in der Wachau", lat: 48.3228, lng: 15.4049, ch: [29],
+        desc: "The Wachau village where the Venus of Willendorf was unearthed." },
+      { group: "central", name: "Tulln", native: "Tulln an der Donau", lat: 48.3312, lng: 16.0518, ch: [29],
+        desc: "A small Danube town between Vienna and Krems, home of the Egon Schiele Museum." },
+      { group: "central", name: "Salzburg", native: "Salzburg", lat: 47.8095, lng: 13.0550, ch: [42, 43],
+        desc: "Mozart's birthplace and Willi's training ground at the Mozarteum. The party climbs Hohensalzburg Fortress above the Salzach, and the novel's musical secret, Kairos im Kronos 1756 / 1956, is revealed here." },
+      { group: "central", name: "Zurich", native: "Zürich, Switzerland", lat: 47.3769, lng: 8.5417, ch: [20, 36],
+        desc: "The Swiss hospital that confirmed the boyhood diagnosis; later, the city where Willi had his first long conversation with Rudolf Baumgartner." },
+      { group: "central", name: "Geneva", native: "Genève, Switzerland", lat: 46.2044, lng: 6.1432, ch: [6],
+        desc: "Where Dr. Syngman Rhee and Francesca Donner first met in 1933, in a hotel restaurant on Lake Geneva: the seed of the novel's Austrian-Korean thread." },
+      { group: "central", name: "Prague", native: "Praha, Czech Republic", lat: 50.0875, lng: 14.4214, ch: [29, 32],
+        desc: "Visited after Vienna at Chairwoman Kwon's urging; the Kafka Museum near the Vltava leaves a lasting impression." },
+      { group: "central", name: "Budapest", native: "Budapest, Hungary", lat: 47.4979, lng: 19.0402, ch: [29, 32],
+        desc: "Buda and Pest astride the Danube. Mrs. Park is moved at the Liszt Museum; the statue of Attila József sits stooped, looking down at the river." },
 
-    // Fit bounds for Austria
-    const groupAustria = L.featureGroup([montafonMarker, viennaMarker]);
-    mapAustria.fitBounds(groupAustria.getBounds().pad(0.2));
+      /* ---- Italy ---- */
+      { group: "italy", name: "Rome", native: "Roma", lat: 41.9028, lng: 12.4964, ch: [22, 23, 24],
+        desc: "The \"Roman vacation\": the Colosseum, the Pantheon, the Forum seen from the Campidoglio, the Vatican Museums, and the Goethe Museum on the Corso, retracing Goethe's Italian journey." },
+      { group: "italy", name: "Follonica", native: "Follonica, Tuscany", lat: 42.9263, lng: 10.7616, ch: [25, 26, 29],
+        desc: "A quiet coastal town in the Maremma, the couple's base for their Tuscan weeks at Golfo del Sole, the Gulf of the Sun." },
+      { group: "italy", name: "Elba", native: "Portoferraio, Isola d'Elba", lat: 42.7978, lng: 10.2993, ch: [25],
+        desc: "Napoleon's island of exile, gazed at across the water from the café beside the Torre Mozza watchtower." },
+      { group: "italy", name: "Massa Marittima", native: "Massa Marittima, Tuscany", lat: 43.0500, lng: 10.8880, ch: [25],
+        desc: "An old castle town forty minutes from Follonica, whose twelfth-century cathedral \"was itself a museum.\"" },
+      { group: "italy", name: "Vetulonia", native: "Vetulonia, Tuscany", lat: 42.8586, lng: 10.9722, ch: [26],
+        desc: "An ancient Etruscan hilltop settlement near Follonica." },
+      { group: "italy", name: "Pisa", native: "Pisa, Tuscany", lat: 43.7228, lng: 10.4017, ch: [26],
+        desc: "The Piazza del Duomo with its Leaning Tower, bronze-doored cathedral, and round baptistery." },
+      { group: "italy", name: "Florence", native: "Firenze, Tuscany", lat: 43.7696, lng: 11.2558, ch: [21, 27],
+        desc: "The cradle of the Renaissance: the Duomo, Santa Croce, and Dante's house. Years earlier, in front of the old Teatro Comunale, Willi spotted the poster for Messiaen's 80th-birthday concert." },
+      { group: "italy", name: "Siena", native: "Siena, Tuscany", lat: 43.3188, lng: 11.3308, ch: [20, 28],
+        desc: "The Piazza del Campo and the Palio horse race. During his Tuscan years, Siena rather than Florence was where Willi went when he needed the world again." },
+      { group: "italy", name: "Manarola, Cinque Terre", native: "Manarola, Liguria", lat: 44.1063, lng: 9.7275, ch: [28],
+        desc: "\"The most beautiful of the five villages,\" built like nests on the cliffs by Christians who crossed the Mediterranean to escape persecution." },
+      { group: "italy", name: "Venice", native: "Venezia", lat: 45.4408, lng: 12.3155, ch: [19, 23],
+        desc: "Departure port of the earlier Greek cruise, and a station on Goethe's road to Rome." },
 
-    /* Korea Map */
-    const mapKorea = L.map('map-korea').setView([36.0, 127.5], 7);
+      /* ---- Korea ---- */
+      { group: "korea", name: "Ibuljae", native: "이불재 · Hwasun, South Jeolla (approximate)", lat: 34.8600, lng: 127.0330, ch: [2, 18, 40],
+        desc: "The author's mountain retreat above Ssangbong-sa, where he and Mrs. Park are \"actively engaged in creative work.\" The Korean counterpart to Willi's Montafon: \"My studio is called Ibuljae 耳佛齋.\"" },
+      { group: "korea", name: "Ssangbong-sa", native: "쌍봉사 · Hwasun", lat: 34.8579, lng: 127.0303, ch: [2, 3, 18],
+        desc: "The thousand-year-old temple below Ibuljae, where Chairwoman Kwon stayed three nights on her first visit." },
+      { group: "korea", name: "Unju-sa", native: "운주사 · Hwasun", lat: 34.9255, lng: 126.8801, ch: [3],
+        desc: "A Hwasun temple among the scenic backdrops photographed for Mrs. Park's exhibition catalog." },
+      { group: "korea", name: "Bulil-am", native: "불일암 · Songgwang-sa, Suncheon", lat: 35.0018, lng: 127.2758, ch: [3],
+        desc: "The hermitage at Songgwang-sa where Venerable Beopjeong, the author's teacher, lived his teaching of musoyu, non-possession." },
+      { group: "korea", name: "Beomnyeon-sa", native: "범련사 · Seoul, beside Gyeongbok Palace", lat: 37.5769, lng: 126.9800, ch: [3],
+        desc: "Songgwang-sa's Seoul propagation center, a fifteen-minute drive from the author's old publishing job. Whenever Beopjeong came up from Suncheon, he would summon Jeong here." },
+      { group: "korea", name: "Bongeun-sa", native: "봉은사 · Gangnam, Seoul", lat: 37.5142, lng: 127.0602, ch: [6],
+        desc: "The Gangnam temple whose Yeongsanjeon Hall Willi visited to pray before the Buddha during his Korean journey." },
+      { group: "korea", name: "Haein-sa", native: "해인사 · Hapcheon", lat: 35.8010, lng: 128.0980, ch: [5, 6, 31],
+        desc: "The great temple where, in September 2004, Willi stood completely still in the Daejeokgwangjeon, the Hall of Great Silence and Light, gazing at the Palsangdo murals." },
+      { group: "korea", name: "Ihwajang", native: "이화장 · Jongno, Seoul", lat: 37.5782, lng: 127.0064, ch: [6, 31],
+        desc: "The Seoul home of Dr. Syngman Rhee and Francesca, the Austrian first lady who \"resolved to live as a Korean,\" and who passed away in 1992 wearing a blue hanbok." },
+      { group: "korea", name: "Incheon International Airport", native: "인천국제공항", lat: 37.4602, lng: 126.4407, ch: [1, 22],
+        desc: "The threshold of every journey; the novel opens in its departure lounge against the 35°C heat outside." },
+      { group: "korea", name: "Panmunjom", native: "판문점", lat: 37.9559, lng: 126.6770, ch: [30, 31],
+        desc: "Where Willi wishes his symphony Jeong to have its premiere: \"where true peace is needed most.\"" }
+    ];
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(mapKorea);
+    const chipLinks = chs => chs.map(n =>
+      `<a href="chapter.html?slug=${SLUGS[n]}" title="Chapter ${n}">Ch. ${n}</a>`).join("");
 
-    // Ibuljae - author's mountain retreat
-    const ibuljaeMkr = L.marker([34.887244, 127.063604]).addTo(mapKorea);
-    ibuljaeMkr.bindPopup('<strong>Ibuljae</strong> (이불재)<br>Author Jeong Chanju\'s mountain retreat<br>Place of contemplation and writing');
+    PLACES.forEach((p, i) => p._i = i);
 
-    // Ssangbong-sa - temple below Ibuljae
-    const ssangbongsaMkr = L.marker([34.883, 127.058]).addTo(mapKorea);
-    ssangbongsaMkr.bindPopup('<strong>Ssangbong-sa</strong> (쌍봉사)<br>Buddhist temple below Ibuljae<br>Place of spiritual practice');
+    /* Cards */
+    document.querySelectorAll(".place-grid").forEach(grid => {
+      const group = grid.dataset.group;
+      grid.innerHTML = PLACES.filter(p => p.group === group).map(p => `
+        <article class="place-card">
+          <h4 class="place-name"><span class="dot" style="background:${GROUP_COLORS[p.group]}"></span>${p.name}</h4>
+          <p class="place-native">${p.native}</p>
+          <p class="place-desc">${p.desc}</p>
+          <p class="ch-chips"><a href="#" class="map-link" data-i="${p._i}">Show on map</a>${chipLinks(p.ch)}</p>
+        </article>`).join("");
+    });
 
-    // Seoul (Beomnyeon-sa)
-    const seoulMkr = L.marker([37.5665, 126.9780]).addTo(mapKorea);
-    seoulMkr.bindPopup('<strong>Beomnyeon-sa</strong> (범련사)<br>Buddhist temple in Seoul<br>Urban Buddhist community');
+    /* Maps */
+    const TILES = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    const ATTR = "© OpenStreetMap contributors";
+    const MARKERS = {};
 
-    // Bulil-am hermitage (Gangwon Province)
-    const bulilamMkr = L.marker([37.736, 128.462]).addTo(mapKorea);
-    bulilamMkr.bindPopup('<strong>Bulil-am</strong> (불일암)<br>Mountain hermitage of Venerable Beopjeong<br>Sacred place of meditation and simplicity');
+    function makeMap(id, places, extra) {
+      const map = L.map(id, { scrollWheelZoom: false });
+      L.tileLayer(TILES, { attribution: ATTR, maxZoom: 19 }).addTo(map);
+      const markers = places.map(p => {
+        const m = L.circleMarker([p.lat, p.lng], {
+          radius: 8, color: "#ffffff", weight: 2,
+          fillColor: GROUP_COLORS[p.group], fillOpacity: .95
+        }).addTo(map);
+        m.bindPopup(`<strong>${p.name}</strong><br>${p.native}<br>${chipLinks(p.ch)}`);
+        MARKERS[p._i] = m;
+        return m;
+      });
+      (extra || []).forEach(m => markers.push(m.addTo(map)));
+      map.fitBounds(L.featureGroup(markers).getBounds().pad(0.18));
+      return map;
+    }
 
-    // Haein-sa temple
-    const haheinsaMkr = L.marker([35.798, 128.098]).addTo(mapKorea);
-    haheinsaMkr.bindPopup('<strong>Haein-sa</strong> (해인사)<br>One of Korea\'s most important temples<br>Houses the Tripitaka Koreana woodblocks');
+    const mapAlps = makeMap("map-alps", PLACES.filter(p => p.group === "alps"));
 
-    // Jeollanam-do province marker (approximate center)
-    const jeollanamMkr = L.marker([34.816, 126.463]).addTo(mapKorea);
-    jeollanamMkr.bindPopup('<strong>Jeollanam-do</strong> (전라남도)<br>South Jeolla Province<br>Southwestern Korea');
+    const montafonRef = L.circleMarker([47.1116, 9.8664], {
+      radius: 8, color: "#ffffff", weight: 2, fillColor: GROUP_COLORS.alps, fillOpacity: .95
+    }).bindPopup("<strong>The Montafon valley</strong><br>See the map above for the valley in detail.");
+    const mapEurope = makeMap("map-europe", PLACES.filter(p => p.group === "central" || p.group === "italy"), [montafonRef]);
 
-    // Fit bounds for Korea
-    const groupKorea = L.featureGroup([ibuljaeMkr, ssangbongsaMkr, seoulMkr, bulilamMkr, haheinsaMkr, jeollanamMkr]);
-    mapKorea.fitBounds(groupKorea.getBounds().pad(0.1));
+    const mapKorea = makeMap("map-korea", PLACES.filter(p => p.group === "korea"));
+
+    /* Card -> map: scroll to the right map, fly to the dot, open its popup */
+    const GROUP_MAP = { alps: mapAlps, central: mapEurope, italy: mapEurope, korea: mapKorea };
+    const GROUP_ZOOM = { alps: 11, central: 8, italy: 8, korea: 9 };
+
+    document.addEventListener("click", e => {
+      const link = e.target.closest(".map-link");
+      if (!link) return;
+      e.preventDefault();
+      const p = PLACES[+link.dataset.i];
+      const map = GROUP_MAP[p.group];
+      map.getContainer().scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => {
+        map.flyTo([p.lat, p.lng], GROUP_ZOOM[p.group], { duration: .8 });
+        MARKERS[p._i].openPopup();
+      }, 450);
+    });
   </script>
 </body>
 </html>
