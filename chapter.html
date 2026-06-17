@@ -142,17 +142,6 @@
       border-radius: 6px !important;
     }
 
-    .progress-rail {
-      height: 4px;
-      background: var(--border);
-    }
-
-    #progress {
-      height: 4px;
-      background: var(--accent);
-      width: 0%;
-      transition: width .2s linear;
-    }
   </style>
 
   <!-- Dynamic Open Graph / Twitter Injection -->
@@ -201,19 +190,11 @@
 <body>
   <!-- Header -->
   <header class="stickybar">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <div class="min-w-0">
-        <h1 class="brand">
-          <a href="index.html" style="color:var(--text);">Montafon Moonlight</a>
-        </h1>
-        <p class="text-sm meta">Translated from Korean • Updates weekly</p>
-      </div>
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="brand"><a href="index.html" style="color:var(--text);">Montafon Moonlight</a></h1>
       <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle dark mode">
         <span aria-hidden="true">☾</span>
       </button>
-    </div>
-    <div class="progress-rail">
-      <div id="progress"></div>
     </div>
   </header>
 
@@ -403,9 +384,6 @@
       if (next) { nextEl.href = next.href || ("chapter.html?slug=" + encodeURIComponent(next.slug)); nextEl.innerHTML = `${next.title} →`; }
       else { nextEl.href = "index.html"; nextEl.innerHTML = `Index →`; }
 
-      const bar = document.getElementById("progress");
-      function up() { const s = document.documentElement.scrollTop || document.body.scrollTop; const h = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1; bar.style.width = Math.round(s / h * 100) + "%"; }
-      window.addEventListener("scroll", up, { passive: true }); up();
     })();
   </script>
 </body>

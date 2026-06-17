@@ -16,7 +16,7 @@
   <meta name="twitter:image" content="https://omatty123.github.io/MontafonMoonlight/assets/book-cover.jpg" />
 
   <!-- Fonts / Tailwind / Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
@@ -28,6 +28,8 @@
     body,h1,h2,h3,h4,h5,h6,p,a,span,li,nav,div,small,button{ font-family:'Inter',sans-serif!important; }
 
     header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
+    header.stickybar .brand,
+    header.stickybar .brand a{ font-family:'DM Serif Display',Georgia,serif!important; font-weight:400; font-size:1.4rem; color:var(--text); }
     .content-wrap{ max-width:1000px; margin:0 auto; padding:2rem 1.25rem; }
     .character-card{ background:var(--card); border:1px solid var(--border); border-radius:0.5rem; padding:1rem; margin-bottom:1rem; transition:all 0.2s ease; display:flex; gap:1rem; align-items:start; }
     .character-card:hover{ transform:translateY(-2px); box-shadow:0 4px 6px rgba(0,0,0,0.1); }
@@ -47,16 +49,10 @@
 <body>
   <!-- Header -->
   <header class="stickybar">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <div class="min-w-0">
-        <h1 class="font-bold text-2xl" style="color:#2563eb;">
-          <i class="fas fa-book mr-2"></i>
-          <a href="index.html" class="hover:underline" style="color:#2563eb;">Montafon Moonlight</a>
-        </h1>
-        <p class="text-sm" style="color:var(--muted);">Translated from Korean • Updates weekly</p>
-      </div>
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="brand"><a href="index.html">Montafon Moonlight</a></h1>
       <button id="theme-toggle" class="p-2 rounded border" style="color:var(--muted); border-color:var(--border);" aria-label="Toggle theme">
-        <i class="fas fa-moon"></i>
+        <span aria-hidden="true">☾</span>
       </button>
     </div>
   </header>
@@ -183,7 +179,7 @@
       const KEY="theme", root=document.documentElement, btn=document.getElementById("theme-toggle");
       function apply(t){ t==="dark" ? root.setAttribute("data-theme","dark") : root.removeAttribute("data-theme"); }
       function initial(){ const s=localStorage.getItem(KEY); if(s==="dark"||s==="light") return s; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"; }
-      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); const i=btn.querySelector("i"); i.className = t==="dark"?"fas fa-sun":"fas fa-moon"; }
+      function reflect(t){ if(!btn) return; btn.setAttribute("aria-pressed",t==="dark"?"true":"false"); btn.querySelector("span").textContent = t==="dark"?"☀":"☾"; }
       let cur=initial(); apply(cur); reflect(cur);
       matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", e=>{ if(localStorage.getItem(KEY)) return; cur=e.matches?"dark":"light"; apply(cur); reflect(cur); });
       btn?.addEventListener("click", ()=>{ cur=cur==="dark"?"light":"dark"; localStorage.setItem(KEY,cur); apply(cur); reflect(cur); });
