@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Chapter • Montafon Moonlight</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
   <!-- Default Open Graph / Twitter Card -->
@@ -61,15 +61,16 @@
     }
 
     .brand {
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-weight: 400;
-      font-size: 1.4rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1.2;
     }
 
     .chapter-wrap {
       max-width: 820px;
       margin: 0 auto;
-      padding: 1.25rem;
+      padding: 1rem 1.25rem 1.25rem;
     }
 
     .meta {
@@ -79,9 +80,9 @@
     .chapter-title {
       font-family: 'Inter', sans-serif;
       font-weight: 700;
-      font-size: 2.1rem;
-      line-height: 1.2;
-      margin-bottom: .5rem;
+      font-size: 1.8rem;
+      line-height: 1.15;
+      margin-bottom: .4rem;
     }
 
     .gdoc {
@@ -190,9 +191,9 @@
 <body>
   <!-- Header -->
   <header class="stickybar">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <h1 class="brand"><a href="index.html" style="color:var(--text);">Montafon Moonlight</a></h1>
-      <button id="theme-toggle" class="p-2 rounded border meta" aria-label="Toggle dark mode">
+      <button id="theme-toggle" class="p-1 rounded border meta" aria-label="Toggle dark mode">
         <span aria-hidden="true">☾</span>
       </button>
     </div>

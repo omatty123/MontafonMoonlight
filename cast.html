@@ -16,7 +16,7 @@
   <meta name="twitter:image" content="https://omatty123.github.io/MontafonMoonlight/assets/book-cover.jpg" />
 
   <!-- Fonts / Tailwind / Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
 
@@ -29,7 +29,7 @@
 
     header.stickybar{ position:sticky; top:0; z-index:40; background:var(--bg); border-bottom:1px solid var(--border); }
     header.stickybar .brand,
-    header.stickybar .brand a{ font-family:'DM Serif Display',Georgia,serif!important; font-weight:400; font-size:1.4rem; color:var(--text); }
+    header.stickybar .brand a{ font-family:'Inter',sans-serif!important; font-weight:700; font-size:1rem; line-height:1.2; color:var(--text); }
     .content-wrap{ max-width:1000px; margin:0 auto; padding:2rem 1.25rem; }
     .character-card{ background:var(--card); border:1px solid var(--border); border-radius:0.5rem; padding:1rem; margin-bottom:1rem; transition:all 0.2s ease; display:flex; gap:1rem; align-items:start; }
     .character-card:hover{ transform:translateY(-2px); box-shadow:0 4px 6px rgba(0,0,0,0.1); }
@@ -49,9 +49,9 @@
 <body>
   <!-- Header -->
   <header class="stickybar">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <h1 class="brand"><a href="index.html">Montafon Moonlight</a></h1>
-      <button id="theme-toggle" class="p-2 rounded border" style="color:var(--muted); border-color:var(--border);" aria-label="Toggle theme">
+      <button id="theme-toggle" class="p-1 rounded border" style="color:var(--muted); border-color:var(--border);" aria-label="Toggle theme">
         <span aria-hidden="true">☾</span>
       </button>
     </div>
