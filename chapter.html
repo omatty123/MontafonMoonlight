@@ -77,8 +77,8 @@
     }
 
     .chapter-title {
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-weight: 400;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
       font-size: 2.1rem;
       line-height: 1.2;
       margin-bottom: .5rem;
@@ -110,50 +110,6 @@
       border-bottom-style: solid;
       background: var(--card);
       outline: none;
-    }
-
-    .glossary-strip {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: .75rem 0;
-      margin: 1rem 0 1.5rem;
-    }
-
-    .glossary-strip[hidden] {
-      display: none;
-    }
-
-    .glossary-strip-title {
-      color: var(--muted);
-      font-size: .72rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      margin-bottom: .45rem;
-    }
-
-    .glossary-chip {
-      display: inline-flex;
-      align-items: baseline;
-      gap: .35rem;
-      border: 1px solid var(--border);
-      border-radius: .35rem;
-      padding: .18rem .55rem;
-      margin: 0 .35rem .35rem 0;
-      color: var(--text);
-      font-size: .86rem;
-      text-decoration: none;
-    }
-
-    .glossary-chip:hover,
-    .glossary-chip:focus {
-      background: var(--card);
-      color: var(--link);
-      text-decoration: none;
-    }
-
-    .glossary-chip span {
-      color: var(--muted);
-      font-size: .78rem;
     }
 
     #heroBlock[hidden] {
@@ -276,11 +232,6 @@
       </div>
     </header>
 
-    <section id="glossaryStrip" class="glossary-strip" aria-label="Glossary terms in this chapter" hidden>
-      <p class="glossary-strip-title">Reader Terms</p>
-      <div id="glossaryTerms"></div>
-    </section>
-
     <figure id="heroBlock" hidden class="mb-6">
       <img id="heroImg" src="" alt="Chapter image">
       <figcaption id="heroCaption"></figcaption>
@@ -400,19 +351,6 @@
         found.set(term.id, term);
       });
 
-      const strip = document.getElementById("glossaryStrip");
-      const termsRoot = document.getElementById("glossaryTerms");
-      const terms = [...found.values()];
-      if (!terms.length) {
-        strip.hidden = true;
-        termsRoot.innerHTML = "";
-        return;
-      }
-
-      termsRoot.innerHTML = terms.map(term =>
-        `<a class="glossary-chip" href="glossary.html#${term.id}" title="${term.definition}">${term.label}<span>${term.script}</span></a>`
-      ).join("");
-      strip.hidden = false;
     }
 
     (async function main() {
