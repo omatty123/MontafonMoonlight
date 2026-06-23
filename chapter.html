@@ -143,6 +143,10 @@
       border-radius: 6px !important;
     }
 
+    #contentRoot [id] {
+      scroll-margin-top: 6rem;
+    }
+
   </style>
 
   <!-- Dynamic Open Graph / Twitter Injection -->
@@ -376,6 +380,13 @@
       root.innerHTML = html || "<p>Chapter content coming soon.</p>";
       normalizeImages(root);
       enhanceGlossaryTerms(root);
+      if (location.hash) {
+        const hashId = decodeURIComponent(location.hash.slice(1));
+        const target = hashId ? document.getElementById(hashId) : null;
+        if (target && root.contains(target)) {
+          requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+        }
+      }
 
       const prev = list[idx - 1], next = list[idx + 1];
       const prevEl = document.getElementById("prevLink");
