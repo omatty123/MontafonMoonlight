@@ -366,10 +366,12 @@
         el.textContent = fmtLong(ch.date);
       }
 
+      let heroImg = null;
       if (ch.hero) {
         const fig = document.getElementById("heroBlock");
         fig.hidden = false;
-        document.getElementById("heroImg").src = ch.hero;
+        heroImg = document.getElementById("heroImg");
+        heroImg.src = ch.hero;
         document.getElementById("heroCaption").innerHTML = "<em>Illustration by artist Jeong Yun-gyeong</em>";
       }
 
@@ -380,12 +382,19 @@
       root.innerHTML = html || "<p>Chapter content coming soon.</p>";
       normalizeImages(root);
       enhanceGlossaryTerms(root);
-      if (location.hash) {
+      const scrollToHashTarget = () => {
+        if (!location.hash) return;
         const hashId = decodeURIComponent(location.hash.slice(1));
         const target = hashId ? document.getElementById(hashId) : null;
         if (target && root.contains(target)) {
-          requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+          target.scrollIntoView({ block: "start" });
         }
+      };
+      if (location.hash) {
+        requestAnimationFrame(scrollToHashTarget);
+        setTimeout(scrollToHashTarget, 250);
+        setTimeout(scrollToHashTarget, 900);
+        if (heroImg) heroImg.addEventListener("load", scrollToHashTarget, { once: true });
       }
 
       const prev = list[idx - 1], next = list[idx + 1];
