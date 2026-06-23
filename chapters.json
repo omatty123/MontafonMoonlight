@@ -530,5 +530,17 @@
     "status": "published",
     "contentHtml": "content/chapter-44.html",
     "koreanLink": ""
+  },
+  {
+    "title": "No Time Left",
+    "slug": "no-time-left",
+    "href": "chapter.html?slug=no-time-left",
+    "date": "2026-06-23",
+    "cover": "assets/ch45-cover.jpg",
+    "hero": "assets/ch45-hero.jpg",
+    "summary": "A last day of tourism in Vienna opens more questions than it closes.",
+    "status": "published",
+    "contentHtml": "content/chapter-45.html",
+    "koreanLink": ""
   }
 ]
