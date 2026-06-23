@@ -245,7 +245,7 @@
       35: "deep-conversations-with-mr-willi-1", 36: "deep-conversations-with-mr-willi-2",
       37: "the-figure-of-jesus", 38: "pater-von-lama", 39: "the-basilicas-baroque-concert",
       40: "montafon-moonlight-house", 41: "montafons-nature-sounds", 42: "lonely-mr-willi",
-      43: "kairos-im-kronos-1756-1956"
+      43: "kairos-im-kronos-1756-1956", 44: "salzburg-concert", 45: "no-time-left"
     };
 
     const GROUP_COLORS = { alps: "#3d5f7a", central: "#7d6b94", italy: "#a3674b", korea: "#4e7a5e" };
@@ -276,8 +276,8 @@
         desc: "The city of Willi's boyhood diagnosis. At seventeen, walking the Inn in despair, he heard the single raindrop that began his life in music. Decades later he returns to the monastery of Pater von Lama." },
 
       /* ---- Austria and Central Europe ---- */
-      { group: "central", name: "Vienna", native: "Wien", lat: 48.2082, lng: 16.3738, ch: [1, 18, 21, 33],
-        desc: "The recurring hub: Author Jeong's lecture at the Kardinal König Haus, Mrs. Park's ceramics exhibition at Galerie Am Park, the Musikverein's Golden Hall, the Konzerthaus where Willi keeps an office, the State Opera, and the cafés Imperial, Schwarzenberg, and Sperl." },
+      { group: "central", name: "Vienna", native: "Wien", lat: 48.2082, lng: 16.3738, ch: [1, 18, 21, 33, 45],
+        desc: "The recurring hub: Author Jeong's lecture at the Kardinal König Haus, Mrs. Park's ceramics exhibition at Galerie Am Park, the Musikverein's Golden Hall, the Konzerthaus where Willi keeps an office, the State Opera, the cafés Imperial, Schwarzenberg, and Sperl, and the final dinner above the Danube." },
       { group: "central", name: "Krems an der Donau", native: "Krems, Lower Austria", lat: 48.4108, lng: 15.6004, ch: [14, 15, 16, 29],
         desc: "A Danube city older than Vienna that reminds the author of Gyeongju. Dr. Werner's house stands on its outskirts, past orchards and vineyards, opposite the banks of the river." },
       { group: "central", name: "Stift Göttweig", native: "Benedictine monastery, UNESCO", lat: 48.3665, lng: 15.6124, ch: [29],
@@ -286,8 +286,8 @@
         desc: "The Wachau village where the Venus of Willendorf was unearthed." },
       { group: "central", name: "Tulln", native: "Tulln an der Donau", lat: 48.3312, lng: 16.0518, ch: [29],
         desc: "A small Danube town between Vienna and Krems, home of the Egon Schiele Museum." },
-      { group: "central", name: "Salzburg", native: "Salzburg", lat: 47.8095, lng: 13.0550, ch: [42, 43],
-        desc: "Mozart's birthplace and Willi's training ground at the Mozarteum. The party climbs Hohensalzburg Fortress above the Salzach, and the novel's musical secret, Kairos im Kronos 1756 / 1956, is revealed here." },
+      { group: "central", name: "Salzburg", native: "Salzburg", lat: 47.8095, lng: 13.0550, ch: [42, 43, 44],
+        desc: "Mozart's birthplace and Willi's training ground at the Mozarteum. The party climbs Hohensalzburg Fortress above the Salzach, the novel's musical secret, Kairos im Kronos 1756 / 1956, is revealed here, and Author Jeong and Mrs. Park attend the Camerata Salzburg concert." },
       { group: "central", name: "Zurich", native: "Zürich, Switzerland", lat: 47.3769, lng: 8.5417, ch: [20, 36],
         desc: "The Swiss hospital that confirmed the boyhood diagnosis; later, the city where Willi had his first long conversation with Rudolf Baumgartner." },
       { group: "central", name: "Geneva", native: "Genève, Switzerland", lat: 46.2044, lng: 6.1432, ch: [6],
@@ -342,7 +342,7 @@
         desc: "Where Willi wishes his symphony Jeong to have its premiere: \"where true peace is needed most.\"" }
     ];
 
-    const chipLinks = chs => chs.map(n =>
+    const chipLinks = chs => chs.filter(n => SLUGS[n]).map(n =>
       `<a href="chapter.html?slug=${SLUGS[n]}" title="Chapter ${n}">Ch. ${n}</a>`).join("");
 
     PLACES.forEach((p, i) => p._i = i);
