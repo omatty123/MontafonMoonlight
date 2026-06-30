@@ -125,32 +125,20 @@
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
       align-items: stretch;
     }
 
     .tile {
       position: relative;
       display: block;
-      min-height: 220px;
-      grid-column: span 4;
+      aspect-ratio: 4 / 3;
       overflow: hidden;
       border-radius: 8px;
       background: #d8dedf;
       border: 1px solid var(--border);
       isolation: isolate;
-    }
-
-    .tile:nth-child(7n + 1),
-    .tile:nth-child(9n + 4) {
-      grid-column: span 6;
-      min-height: 300px;
-    }
-
-    .tile:nth-child(11n + 6) {
-      grid-column: span 8;
-      min-height: 330px;
     }
 
     .tile img {
@@ -216,13 +204,7 @@
     }
 
     @media (max-width: 900px) {
-      .tile,
-      .tile:nth-child(7n + 1),
-      .tile:nth-child(9n + 4),
-      .tile:nth-child(11n + 6) {
-        grid-column: span 6;
-        min-height: 240px;
-      }
+      .gallery { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
     }
 
     @media (max-width: 620px) {
@@ -230,13 +212,6 @@
       .nav { gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
       .wrap { padding-top: 22px; }
       .gallery { grid-template-columns: 1fr; gap: 12px; }
-      .tile,
-      .tile:nth-child(7n + 1),
-      .tile:nth-child(9n + 4),
-      .tile:nth-child(11n + 6) {
-        grid-column: 1;
-        min-height: 285px;
-      }
     }
   </style>
 </head>
