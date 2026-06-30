@@ -183,10 +183,6 @@
       right: 12px;
       bottom: 12px;
       z-index: 2;
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 12px;
       color: #fff;
       text-shadow: 0 1px 8px rgba(0, 0, 0, .45);
     }
@@ -204,16 +200,6 @@
       font-size: 11px;
       opacity: .88;
       line-height: 1.25;
-    }
-
-    .number {
-      flex: 0 0 auto;
-      padding: 5px 7px;
-      border: 1px solid rgba(255, 255, 255, .42);
-      border-radius: 6px;
-      background: var(--overlay);
-      font-size: 12px;
-      font-weight: 700;
     }
 
     .empty {
@@ -337,8 +323,8 @@
           <a class="tile" href="${href}" aria-label="Open Chapter ${number}: ${title}">
             <img src="${img}" alt="Chapter ${number}: ${title}" loading="${number <= 6 ? "eager" : "lazy"}">
             <span class="caption">
-              <span><strong>${title}</strong><span>Chapter ${number}</span></span>
-              <span class="number">${String(number).padStart(2, "0")}</span>
+              <strong>${title}</strong>
+              <span>Chapter ${number}</span>
             </span>
           </a>`;
       }).join("");
