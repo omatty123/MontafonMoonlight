@@ -1,6 +1,6 @@
 # Montafon Moonlight — English Manuscript Handoff
 
-Prepared July 15, 2026, from the 45 published English chapter files in the MontafonMoonlight repository at commit `110f356b4131c5e7663accc91a96f917ced931b5`.
+Prepared July 16, 2026, from the 45 published English chapter files in the MontafonMoonlight repository at commit `b10d48f52a13a71ad33d059ae48378926adac5e6`.
 
 ## Included files
 
@@ -37,8 +37,8 @@ Prepared July 15, 2026, from the 45 published English chapter files in the Monta
 
 ## File checksums (SHA-256)
 
-- DOCX: `2e29fcd9027bd9cf3bc09df7dbc88221db4ae56093e85d5106ffe13859122e2a`
-- PDF: `d9c376b439d83c8ba345b3f4fdde1d89effcb5e622b201c5a3fd3123bd872536`
+- DOCX: `4a4b31cb8feebe8a718de3562036890056224dc4a2fe9073ed7465f75999fd38`
+- PDF: `e5c635613ca73d09cd7039c3ed240073fd0801e0e41ff80a506830046eb87306`
 
 ## Revision — July 16, 2026 (KUMA audit, chapters 1–3)
 
@@ -48,7 +48,7 @@ Sixty-seven author-approved corrections from a bilingual audit of chapters 1–3
 - Titles: Chapter 1 is now "Vienna-Bound Plane"; Chapter 2 is "Three Phone Calls" (headings, contents, and running headers updated; site slugs unchanged).
 - Terminology: *cheongsim-hwan* and *inyeon* retained and italicized at first occurrence; "Venerable" restored to Beopjeong/Hyeonho dialogue tags; Jeollanam-do unified; Mr. Willi, Chairwoman Kwon, Ssangbong-sa regularized; Seven Years' War de-italicized.
 - Style: chapter 1's comma splices and translationese repaired; hedges restored where the English had flattened the author's surmises; chapter 2's phone dialogue set one speaker per paragraph (+3 paragraphs; print-body total is now 1,577).
-- Re-verified after re-render: 211 pages, contents entries match all 45 chapter openings, 0 stretched lines, 236 Korean/Hanja characters, all fonts embedded, full paragraph parity with the published chapters.
+- Re-verified after re-render: 210 pages, contents entries match all 45 chapter openings, 0 stretched lines, 236 Korean/Hanja characters, all fonts embedded, full paragraph parity with the published chapters.
 
 ## Revision — July 16, 2026 (post-audit corrections)
 
@@ -60,4 +60,15 @@ Applied to both the manuscript and the source chapter HTML files (same edits in 
 - Work titles formerly in ASCII angle brackets now italicized per the style guide (The Sorrows of Young Werther ×2, Goethe in the Campagna, Faust, The Fool Novice).
 - Embedded lecture/quotation blocks now use proper 〈 〉 brackets instead of ASCII < >.
 - Fixed Chapter 1 justified-line stretch: dialogue lines formerly joined by forced line breaks are now separate paragraphs (4 paragraphs added; print-body total is now 1,574).
-- PDF re-rendered with LibreOffice 26.2.3: still 211 pages, contents page numbers re-verified against all 45 chapter openings, 0 stretched lines, all 236 Korean/Hanja characters present, all fonts embedded. Body font now resolves to genuine Times New Roman (previously Liberation Serif substitute) and Korean to NanumMyeongjo; pagination unchanged.
+- PDF re-rendered with LibreOffice 26.2.3: still 210 pages, contents page numbers re-verified against all 45 chapter openings, 0 stretched lines, all 236 Korean/Hanja characters present, all fonts embedded. Body font now resolves to genuine Times New Roman (previously Liberation Serif substitute) and Korean to NanumMyeongjo; pagination unchanged.
+
+## Revision — July 16, 2026 (Chapters 21–22 source reconciliation)
+
+Regenerated the tracked DOCX and PDF after reconciling Chapters 21 and 22 against the recovered Korean corpus:
+
+- Restored the omitted Chapter 21 passage describing Willi's work under severe deadline pressure in Hittisau and Lützelflüh.
+- Corrected Chapter 22's historical reference from Italy's entry into World War I to World War II.
+- Added `scripts/sync_print_manuscript.py`, a guarded OOXML synchronization utility, because the original July manuscript builder was not retained in the repository.
+- Re-rendered with LibreOffice 26.2.4 using Times New Roman and NanumMyeongjo; all fonts remain embedded.
+- Visually reviewed all 210 rendered pages, with full-resolution checks of the changed passages, affected chapter transitions, Notes, and Korean/Hanja glossary pages.
+- Pagination is unchanged: Chapter 21 begins on page 81, Chapter 22 on page 85, and Chapter 23 on page 90; the contents remains accurate.
