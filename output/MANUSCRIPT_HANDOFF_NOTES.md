@@ -1,6 +1,6 @@
 # Montafon Moonlight — English Manuscript Handoff
 
-Prepared July 16, 2026, from the 45 published English chapter files in the MontafonMoonlight repository at commit `b10d48f52a13a71ad33d059ae48378926adac5e6`.
+Prepared July 16, 2026, from the 45 published English chapter files in the MontafonMoonlight repository at commit `be21d4750c12e014693a3a2b3dcee21ed22dde3d`.
 
 ## Included files
 
@@ -11,10 +11,10 @@ Prepared July 16, 2026, from the 45 published English chapter files in the Monta
 
 - 45 chapters
 - Approximately 76,000 words including front matter, notes, and glossary
-- 210 PDF pages total; the main text begins on numbered page 1
+- 209 PDF pages total; the main text begins on numbered page 1
 - Contents pages with verified chapter-opening page numbers
 - Running headers and continuous page numbers
-- Translator/editorial notes collected in a Notes section
+- Four translator/editorial notes placed as true footnotes on the relevant pages
 - Glossary of names, places, and Korean/Buddhist terms, with the original Korean forms
 
 ## Production decisions
@@ -29,7 +29,7 @@ Prepared July 16, 2026, from the 45 published English chapter files in the Monta
 ## Verification completed
 
 - All 1,570 print-body paragraphs from the 45 published chapters are present.
-- All 236 Korean/Hanja characters in the included chapter text, notes, and glossary are present; every page containing them was visually checked after rendering.
+- All 234 Korean/Hanja characters in the included chapter text, footnotes, and glossary are present; every page containing them was visually checked after rendering.
 - All 45 chapter headings are present and ordered correctly.
 - Contents page numbers match the rendered chapter openings.
 - The PDF was rendered page by page and visually inspected, including the Chapter 28 verse layout.
@@ -37,8 +37,8 @@ Prepared July 16, 2026, from the 45 published English chapter files in the Monta
 
 ## File checksums (SHA-256)
 
-- DOCX: `4a4b31cb8feebe8a718de3562036890056224dc4a2fe9073ed7465f75999fd38`
-- PDF: `e5c635613ca73d09cd7039c3ed240073fd0801e0e41ff80a506830046eb87306`
+- DOCX: `f7ed6276688a17dc245f55f58a7b9f1f79c71e909bd5d0359264acfa8a765714`
+- PDF: `d047c0874f22a0ec050146a03683447a9d325006f039b62e335fb92049b79a8c`
 
 ## Revision — July 16, 2026 (KUMA audit, chapters 1–3)
 
@@ -72,3 +72,11 @@ Regenerated the tracked DOCX and PDF after reconciling Chapters 21 and 22 agains
 - Re-rendered with LibreOffice 26.2.4 using Times New Roman and NanumMyeongjo; all fonts remain embedded.
 - Visually reviewed all 210 rendered pages, with full-resolution checks of the changed passages, affected chapter transitions, Notes, and Korean/Hanja glossary pages.
 - Pagination is unchanged: Chapter 21 begins on page 81, Chapter 22 on page 85, and Chapter 23 on page 90; the contents remains accurate.
+
+## Revision — July 16, 2026 (honorific consistency and true footnotes)
+
+- Standardized the three isolated Chapter 8 direct addresses from “Teacher Willi” to the book-wide “Mr. Willi”; removed the obsolete note defending the inconsistent rendering.
+- Recast the four remaining useful notes as true Word footnotes attached to their relevant text: *inyeon* on page 31, *Musoyu* on page 67, Francesca Donner-Rhee on page 69, and *DSONG* on page 176.
+- Removed the standalone Notes section. The glossary now follows the novel directly, reducing the PDF from 210 to 209 physical pages; chapter-opening pagination and all 45 contents entries remain unchanged.
+- Retained 234 Korean/Hanja characters across the chapter text, footnotes, and glossary. All fonts are embedded, including the Korean/Hanja fonts used in the footnotes.
+- Visually reviewed all 209 rendered pages, with full-resolution checks of every footnote, all contents pages, the final chapter transition, and both glossary pages.
