@@ -65,6 +65,7 @@ function cleanOldChapters() {
     "cast.html",
     "places.html",
     "glossary.html",
+    "gallery.html",
     "404.html",
     "read.html"
   ];
