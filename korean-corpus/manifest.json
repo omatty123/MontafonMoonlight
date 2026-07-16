@@ -1,0 +1,868 @@
+{
+  "corpus": "몬타폰의 달빛",
+  "author": "정찬주",
+  "corpus_version": "2026-07-16",
+  "status": "coverage_complete_mixed_authority",
+  "coverage": {
+    "available": 45,
+    "total": 45,
+    "pending": 0
+  },
+  "normalization": {
+    "encoding": "UTF-8",
+    "unicode": "NFC",
+    "paragraph_separator": "one blank line",
+    "terminal_serial_marker_removed": true,
+    "hanja_policy": "preserved exactly as present in the selected Korean source",
+    "translation_policy": "no Korean text reconstructed from English"
+  },
+  "chapters": [
+    {
+      "chapter": 1,
+      "english_title": "Vienna-Bound Plane",
+      "file": "chapters/chapter-01.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_doc",
+      "source_locator": "document 1Th66D9cnOmPOfg4vzLuXUxGEHdOqiSFaNQ3ToyluFRo, primary tab",
+      "paragraph_count": 26,
+      "character_count": 4097,
+      "script_counts": {
+        "hangul": 2860,
+        "hanja": 8
+      },
+      "sha256": "fe55e69fbe1919e06206f3ced252541a5ea7704d10e6702a58b3bd8d01d0f1be",
+      "source_url": "https://docs.google.com/document/d/1Th66D9cnOmPOfg4vzLuXUxGEHdOqiSFaNQ3ToyluFRo/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=34752",
+      "notes": "Korean text extracted from the linked source document; English date gloss removed."
+    },
+    {
+      "chapter": 2,
+      "english_title": "Three Phone Calls",
+      "file": "chapters/chapter-02.txt",
+      "status": "available",
+      "authority": "author_corrected_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/2/몬타폰의 달빛2.hwp",
+      "paragraph_count": 24,
+      "character_count": 4107,
+      "script_counts": {
+        "hangul": 2902,
+        "hanja": 8
+      },
+      "sha256": "2b2e32b3ddd2f179d1d9929eca4cf32037bd02626e23ca1383f2ea92de825b83",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=34786",
+      "source_sha256": "6f80ec1be2a01dae42a5937661bb6ffab4efa019d9c476f5afe2e0f9833198ff",
+      "notes": "Author-corrected HWP takes precedence over the older Google working source."
+    },
+    {
+      "chapter": 3,
+      "english_title": "Determination",
+      "file": "chapters/chapter-03.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_doc",
+      "source_locator": "document 1Th66D9cnOmPOfg4vzLuXUxGEHdOqiSFaNQ3ToyluFRo, primary tab",
+      "paragraph_count": 31,
+      "character_count": 4169,
+      "script_counts": {
+        "hangul": 2881,
+        "hanja": 4
+      },
+      "sha256": "a90246354eca8cebb1f3dde349c4b0e410d0b8ea8e7bc46b2c9a5c0c1ff316d6",
+      "source_url": "https://docs.google.com/document/d/1Th66D9cnOmPOfg4vzLuXUxGEHdOqiSFaNQ3ToyluFRo/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=34812",
+      "notes": "Korean text extracted from the linked source document."
+    },
+    {
+      "chapter": 4,
+      "english_title": "Cheonmaneyo",
+      "file": "chapters/chapter-04.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 4",
+      "paragraph_count": 35,
+      "character_count": 3704,
+      "script_counts": {
+        "hangul": 2571,
+        "hanja": 0
+      },
+      "sha256": "76d1a47469cc7138ad651a90875063fce3e157b3a3d3d780f4bd57660ac87145",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=34842",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 5,
+      "english_title": "Absolute Silence",
+      "file": "chapters/chapter-05.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 5",
+      "paragraph_count": 27,
+      "character_count": 4292,
+      "script_counts": {
+        "hangul": 2968,
+        "hanja": 7
+      },
+      "sha256": "c83429f072cd33db94eb3a554bf6afc3a1af9cf64c1b7d1521690be283cc6e16",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=34873",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 6,
+      "english_title": "Jeong",
+      "file": "chapters/chapter-06.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 6",
+      "paragraph_count": 32,
+      "character_count": 3985,
+      "script_counts": {
+        "hangul": 2753,
+        "hanja": 9
+      },
+      "sha256": "4aee458ae8a84d55a994a41aa7528f9a12921f008811005e6e2f9d6e12c3ba8a",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=34905",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 7,
+      "english_title": "First Encounter",
+      "file": "chapters/chapter-07.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 7",
+      "paragraph_count": 36,
+      "character_count": 3873,
+      "script_counts": {
+        "hangul": 2713,
+        "hanja": 2
+      },
+      "sha256": "fd8b5c9f87b869b2e1f4d52061935d7a1950fe8e9f0288c51bd399d5188921cc",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=34941",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 8,
+      "english_title": "Deep Conversations Part 1 - The World Unseen",
+      "file": "chapters/chapter-08.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 8",
+      "paragraph_count": 37,
+      "character_count": 4076,
+      "script_counts": {
+        "hangul": 2825,
+        "hanja": 6
+      },
+      "sha256": "03a01576729ca103b88e7d47a46aa6eaef56160c2014fa32183e8937af297c0e",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=34973",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 9,
+      "english_title": "Deep Conversations Part 2 - The Raindrop Hwadu",
+      "file": "chapters/chapter-09.txt",
+      "status": "available",
+      "authority": "author_corrected_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/몬타폰의 달빛9.hwp",
+      "paragraph_count": 34,
+      "character_count": 4618,
+      "script_counts": {
+        "hangul": 3250,
+        "hanja": 6
+      },
+      "sha256": "600ccb06ba66afad0c871e236b2d72a44f3a54c954471f84008cbd5a8921ec2e",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35011",
+      "source_sha256": "f748c53ed83e0cc552aff5c887903e16fa1bcd1af0c0588f528ad1a742f473f3",
+      "notes": "Author-corrected HWP takes precedence over the older Google working source."
+    },
+    {
+      "chapter": 10,
+      "english_title": "Deep Conversations Part 3 - The Absolute Silence Within",
+      "file": "chapters/chapter-10.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 10",
+      "paragraph_count": 27,
+      "character_count": 4518,
+      "script_counts": {
+        "hangul": 3180,
+        "hanja": 7
+      },
+      "sha256": "fb1e7ddc98027fe29646a6bf3afe7dc7ade6f733b0c398697886ed0c4314b67c",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35049",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 11,
+      "english_title": "Deep Conversations Part 4 - 1,600 Meters Above Sea Level",
+      "file": "chapters/chapter-11.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 11",
+      "paragraph_count": 28,
+      "character_count": 4488,
+      "script_counts": {
+        "hangul": 3180,
+        "hanja": 2
+      },
+      "sha256": "b8b75092e70332c36ba783d446877a27b3ebf63da016a9f36dae513ae2ab8729",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35083",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 12,
+      "english_title": "Deep Conversations Part 5 - Asceticism and Suffering",
+      "file": "chapters/chapter-12.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 12",
+      "paragraph_count": 39,
+      "character_count": 4227,
+      "script_counts": {
+        "hangul": 2941,
+        "hanja": 7
+      },
+      "sha256": "c398d7f5b1a1082f2253b4dd3a4edfea3ca2fe4af6dca6fce06fdd24f660bd47",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35124",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 13,
+      "english_title": "Deep Conversations Part 6 - The Last Supper",
+      "file": "chapters/chapter-13.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 13",
+      "paragraph_count": 34,
+      "character_count": 4360,
+      "script_counts": {
+        "hangul": 3076,
+        "hanja": 5
+      },
+      "sha256": "e5ec6ada1dfdb01291a00886a0c441cb6239723eb0ff179be134e852a64fb6e5",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35156",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 14,
+      "english_title": "So Long, Montafon",
+      "file": "chapters/chapter-14.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 14",
+      "paragraph_count": 30,
+      "character_count": 4442,
+      "script_counts": {
+        "hangul": 3082,
+        "hanja": 31
+      },
+      "sha256": "1ffdb6952e849868762e289297377d0c68d41dc4216b88f10caba77f6bd20bef",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35191",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 15,
+      "english_title": "Taegeukgi on the Danube",
+      "file": "chapters/chapter-15.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 15",
+      "paragraph_count": 45,
+      "character_count": 4089,
+      "script_counts": {
+        "hangul": 2870,
+        "hanja": 6
+      },
+      "sha256": "136936880a525e4df5ee12e49f510f5dc8613d38ca16c6cfadbfb4af6dc99b3b",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35234",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 16,
+      "english_title": "A Night in Krems",
+      "file": "chapters/chapter-16.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 16",
+      "paragraph_count": 17,
+      "character_count": 3730,
+      "script_counts": {
+        "hangul": 2642,
+        "hanja": 28
+      },
+      "sha256": "b97585f29a9f852c14f5480ec4947e1c6617da5938e481eeddd149644c3e3800",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35278",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 17,
+      "english_title": "The Sound of Warm River Water",
+      "file": "chapters/chapter-17.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 17",
+      "paragraph_count": 31,
+      "character_count": 3950,
+      "script_counts": {
+        "hangul": 2620,
+        "hanja": 13
+      },
+      "sha256": "8c3f0119f809eb8e8342879885cf3c6b00a78c4543d22053051f631aa5e65933",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35305",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 18,
+      "english_title": "A Special Lecture and Recital",
+      "file": "chapters/chapter-18.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 18",
+      "paragraph_count": 31,
+      "character_count": 3964,
+      "script_counts": {
+        "hangul": 2761,
+        "hanja": 15
+      },
+      "sha256": "ff33d9e571a9175089f6410899b17a3763acb7352af48928ea8fa5a6b57080b0",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35335",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 19,
+      "english_title": "A Month Long Vacation",
+      "file": "chapters/chapter-19.txt",
+      "status": "available",
+      "authority": "working_google_source",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 19",
+      "paragraph_count": 25,
+      "character_count": 4103,
+      "script_counts": {
+        "hangul": 2865,
+        "hanja": 15
+      },
+      "sha256": "79c40e65f62a486264acbf556eb1872bd6ae8a34fc77c20a879f266b753bf14f",
+      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35373",
+      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+    },
+    {
+      "chapter": 20,
+      "english_title": "Tuscan Villa",
+      "file": "chapters/chapter-20.txt",
+      "status": "available",
+      "authority": "working_bilingual_sheet",
+      "source_type": "google_sheet",
+      "source_locator": "spreadsheet 1fvcloeYWyDuvEo4B5BWFIocJCJJU_h1JfzBalcK1PJ0, tab Sheet1, column A",
+      "paragraph_count": 21,
+      "character_count": 4352,
+      "script_counts": {
+        "hangul": 3007,
+        "hanja": 0
+      },
+      "sha256": "bf01ed395f664a79d717b4be655ecfe37b7615fae2653365d88fb8cde1fd4c3f",
+      "source_url": "https://docs.google.com/spreadsheets/d/1fvcloeYWyDuvEo4B5BWFIocJCJJU_h1JfzBalcK1PJ0/edit",
+      "publisher_url": "http://www.mediabuddha.net/news/view.php?number=35407",
+      "notes": "Korean column extracted from the bilingual Chapter 20 working sheet; its English column matches the repository's published Chapter 20."
+    },
+    {
+      "chapter": 21,
+      "english_title": "Meeting Abbado and Messiaen",
+      "file": "chapters/chapter-21.txt",
+      "status": "available",
+      "authority": "publisher_page_transcription",
+      "source_type": "text_extraction",
+      "source_locator": "~/workspaces/MontafonMoonlight/korean-corpus/source-transcriptions/chapter-21-mediabuddha.txt",
+      "paragraph_count": 36,
+      "character_count": 3753,
+      "script_counts": {
+        "hangul": 2607,
+        "hanja": 0
+      },
+      "sha256": "675203ba685c2dda206e36680088a92d7b93ae69636fd498acc80c02682b1bf5",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35438",
+      "source_sha256": "37715d2c7122f2969925e11c7f21b40cc89d7e36932e9dc18205df4849421c25",
+      "notes": "Manually verified transcription of the attached full-page MediaBuddha screenshot. Evidence image: source-images/chapter-21-mediabuddha-page.png; evidence SHA-256: 1141563d9b44fb89d42f35e7ef1779644e027a27ec4d1890758719f58b63916e."
+    },
+    {
+      "chapter": 22,
+      "english_title": "Roman Vacation Begins",
+      "file": "chapters/chapter-22.txt",
+      "status": "available",
+      "authority": "publisher_page_transcription",
+      "source_type": "text_extraction",
+      "source_locator": "~/workspaces/MontafonMoonlight/korean-corpus/source-transcriptions/chapter-22-mediabuddha.txt",
+      "paragraph_count": 32,
+      "character_count": 4456,
+      "script_counts": {
+        "hangul": 3129,
+        "hanja": 2
+      },
+      "sha256": "eda12259820ff9c5126c10b7df571bdcb017d537ccf965854767281630ecdd7d",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35450",
+      "source_sha256": "6bc9fb5dcaaa838273df5a0ca2d932d038b3354d4e4aa80b9a263ec23e3e352b",
+      "notes": "Manually verified transcription of the attached full-page MediaBuddha screenshot. Evidence image: source-images/chapter-22-mediabuddha-page.png; evidence SHA-256: 5406d0a579b61d9f6bfaf213d76d3338e5dd4e4f8ae776fe24843e49a91659f6.",
+      "editorial_changes": [
+        {
+          "source": "바시리아인들아",
+          "edited": "아시리아인들아",
+          "reason": "Corrects an apparent typographical error in Martial's reference to Assyria and Babylon."
+        },
+        {
+          "source": "제1차 세계대전",
+          "edited": "제2차 세계대전",
+          "reason": "Corrects the war associated with Mussolini's June 10, 1940 Piazza Venezia declaration."
+        }
+      ]
+    },
+    {
+      "chapter": 23,
+      "english_title": "Goethe's Italian Journey",
+      "file": "chapters/chapter-23.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/몬타폰의 달빛23.hwp",
+      "paragraph_count": 19,
+      "character_count": 4153,
+      "script_counts": {
+        "hangul": 2908,
+        "hanja": 5
+      },
+      "sha256": "0c838e0a27520a6e3247931b8f7f6a584cf2d4e7a3e547d74a0f7d714d41ebfc",
+      "source_sha256": "4fff227be543a60e53cbd78f03393c4ac0d5ebf49370e003bcd065b2a8eb1c86",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 24,
+      "english_title": "Vatican Museum",
+      "file": "chapters/chapter-24.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/몬타폰의 달빛24.hwp",
+      "paragraph_count": 19,
+      "character_count": 4207,
+      "script_counts": {
+        "hangul": 2969,
+        "hanja": 12
+      },
+      "sha256": "5c63089f8cedccd5354a5c11b6eacac1e92a7e2f0a77a3bd80400afc23640a17",
+      "source_sha256": "14b57afca72c4b8eefa58a3fc22a2ef091de6a7409a7b28a74edbb06a2c2550d",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 25,
+      "english_title": "Gazing at Elba",
+      "file": "chapters/chapter-25.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/chapter25-images/몬타폰의 달빛25.hwp",
+      "paragraph_count": 20,
+      "character_count": 4362,
+      "script_counts": {
+        "hangul": 3080,
+        "hanja": 7
+      },
+      "sha256": "8cef5185181375a525ebdaefd35f7ededfe1b01723a5c8db5c92dbfe2f5455e1",
+      "source_sha256": "aae4fbb71647e83b47cff691b7fd237057cf54c43be11a9586e98cd1eb1f6245",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 26,
+      "english_title": "Sculptor Giacometti and Composer Willi",
+      "file": "chapters/chapter-26.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/Montafon Moonlight Images/몬타폰의 달빛26.hwp",
+      "paragraph_count": 23,
+      "character_count": 4522,
+      "script_counts": {
+        "hangul": 3160,
+        "hanja": 14
+      },
+      "sha256": "79150db67f9d7a46993ab0b07b9a3d18a9bd85f65c74518da8b155e19b0e1934",
+      "source_sha256": "0bdccf401f0b5d82eed5f204eb3d7818f5eb5ddb8fb30948068398a9360147e0",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 27,
+      "english_title": "In Search of Dante's House",
+      "file": "chapters/chapter-27.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/Montafon Moonlight Images/27/몬타폰의 달빛27.hwp",
+      "paragraph_count": 14,
+      "character_count": 4481,
+      "script_counts": {
+        "hangul": 3172,
+        "hanja": 5
+      },
+      "sha256": "7287a9533de9defeeda67f899f0d6a860386f13d1c052f87cfa596eb00dea56d",
+      "source_sha256": "90b7d44e2bde45a0f80645a6ce226bab7709620d5899f023afa5c7c6af4b5745",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 28,
+      "english_title": "From Cinque Terre to Siena",
+      "file": "chapters/chapter-28.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/28/몬타폰의 달빛28.hwp",
+      "paragraph_count": 24,
+      "character_count": 4422,
+      "script_counts": {
+        "hangul": 3058,
+        "hanja": 7
+      },
+      "sha256": "4b6e985487a65ebfaa2a87253ff1a5789b6e1abe029a0fcc5ecf1d40bf8c7984",
+      "source_sha256": "b0e924d89f8f9536958690cb4ad703b008492c9898972f3561edc00e35dbb289",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 29,
+      "english_title": "The Eternal Child, Schiele",
+      "file": "chapters/chapter-29.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/29/몬타폰의 달빛29.hwp",
+      "paragraph_count": 22,
+      "character_count": 4670,
+      "script_counts": {
+        "hangul": 3182,
+        "hanja": 0
+      },
+      "sha256": "f899a988f7bcbf15c9319be40fa4899f0e1fa474eb42a5b090be95e4ee721174",
+      "source_sha256": "dc9d31bd12a9fd4fc482cff43d05d771836419521e0b91e83c46dbbab8c5d095",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 30,
+      "english_title": "Reunion with Composer Willi",
+      "file": "chapters/chapter-30.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/30/몬타폰의 달빛30.hwp",
+      "paragraph_count": 33,
+      "character_count": 4119,
+      "script_counts": {
+        "hangul": 2846,
+        "hanja": 8
+      },
+      "sha256": "7c70ecbdfa1c0b6e58d2f6e7b25fb7511f804279ae897276d21888c26a34d693",
+      "source_sha256": "6f7953bc5b0ece05b6ad479784dd5a4202b1cf6d31f59e0d0ada8a7ad7c626bf",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 31,
+      "english_title": "What is Jeong?",
+      "file": "chapters/chapter-31.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/31/몬타폰의 달빛31.hwp",
+      "paragraph_count": 44,
+      "character_count": 4578,
+      "script_counts": {
+        "hangul": 3119,
+        "hanja": 24
+      },
+      "sha256": "8ff9a555366e9f61879befe0061828fd3ed7cd5848ed826cae0cbc9fbd9d2308",
+      "source_sha256": "f8593d2b11e97331e3fdd1a68b865cb994f8598a677ea704a37605dce59f5d54",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 32,
+      "english_title": "Ten Ox-Herding Pictures",
+      "file": "chapters/chapter-32.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/32/몬타폰의 달빛32.hwp",
+      "paragraph_count": 32,
+      "character_count": 4868,
+      "script_counts": {
+        "hangul": 3349,
+        "hanja": 6
+      },
+      "sha256": "71dd14aca69b92b90f0adb69b14aa4abe63290484d4a47be638b2f813a414e94",
+      "source_sha256": "93eb12242794188edcb489dec38fb72843b82b728acab094bb3269aa515d764e",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 33,
+      "english_title": "Vienna Streets",
+      "file": "chapters/chapter-33.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/33/몬타폰의 달빛33.hwp",
+      "paragraph_count": 49,
+      "character_count": 4344,
+      "script_counts": {
+        "hangul": 2991,
+        "hanja": 2
+      },
+      "sha256": "aea99397a728fe1d53af6cb33ab84da3c307fc4e46eed51c21705550079a66d4",
+      "source_sha256": "23947be2228e74a2410b8f4b01e7332ef80804735b267821ca9be728f2c64b67",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 34,
+      "english_title": "Montafon Revisited After Ten Years",
+      "file": "chapters/chapter-34.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/34/몬타폰의 달빛34.hwp",
+      "paragraph_count": 58,
+      "character_count": 5264,
+      "script_counts": {
+        "hangul": 3615,
+        "hanja": 8
+      },
+      "sha256": "9a51b4c54b64aec7c29d1267e5d01242bcd5312c008605009af2229135ff5648",
+      "source_sha256": "25b22ea7057a1076ae727922b5e21c9b6214e12d782efee336eb2f6ec6e1796d",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 35,
+      "english_title": "Deep Conversations with Mr. Willi 1",
+      "file": "chapters/chapter-35.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/35/chapter35.hwp",
+      "paragraph_count": 53,
+      "character_count": 4641,
+      "script_counts": {
+        "hangul": 3191,
+        "hanja": 19
+      },
+      "sha256": "df067fdc22c77987d48172d2aa18c23bd31780d188822ff9fd988478f1cc876f",
+      "source_sha256": "5affae2922e43f3bd4bfdfea103ebb2b552b3c4a321563eb969a3fbbe4705228",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 36,
+      "english_title": "Deep Conversations with Mr. Willi 2",
+      "file": "chapters/chapter-36.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/repo-cleanup-2026-06-02/36/몬타폰의 달빛36.hwp",
+      "paragraph_count": 48,
+      "character_count": 4637,
+      "script_counts": {
+        "hangul": 3205,
+        "hanja": 4
+      },
+      "sha256": "ccdb2a7568edc2a40fd51755f88c7b4ffa80e4428d4a75adddad0d12571870e1",
+      "source_sha256": "0a2ea72735a9a1779b1bc7ea9327445801587ecae22ff06289aa63accfdbae28",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 37,
+      "english_title": "The Figure of Jesus",
+      "file": "chapters/chapter-37.txt",
+      "status": "available",
+      "authority": "review_extraction",
+      "source_type": "text_extraction",
+      "source_locator": "~/Desktop/MONTAFON/37/chapter-37-source.txt",
+      "paragraph_count": 57,
+      "character_count": 4965,
+      "script_counts": {
+        "hangul": 3424,
+        "hanja": 5
+      },
+      "sha256": "fa749accb961685cad184175902fc0dfa2c65b372ccd5cd1b18b8514ae759bc3",
+      "source_sha256": "b7a0f9a4aa5b88ac275aad6d26b289e11a3de4b4b459b9b6834396d115328ffc",
+      "notes": "Korean source retained from the chapter review workflow."
+    },
+    {
+      "chapter": 38,
+      "english_title": "Pater von Lama",
+      "file": "chapters/chapter-38.txt",
+      "status": "available",
+      "authority": "approved_bilingual_review",
+      "source_type": "approved_review_csv",
+      "source_locator": "~/Desktop/MONTAFON/38/chapter-38-approved.csv",
+      "paragraph_count": 53,
+      "character_count": 4974,
+      "script_counts": {
+        "hangul": 3440,
+        "hanja": 5
+      },
+      "sha256": "1b0953f7041bac39165e0e044c35939d0e527218d6d2b65192bd8f71e8c9a54e",
+      "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=35971",
+      "source_sha256": "c0625fe7ca8862c145ea916bc74b8078f8b068a8a0a0f4816d574e76dd8f6c67",
+      "notes": "Korean column extracted from the approved bilingual review file."
+    },
+    {
+      "chapter": 39,
+      "english_title": "The Basilica’s Baroque Concert",
+      "file": "chapters/chapter-39.txt",
+      "status": "available",
+      "authority": "image_transcription",
+      "source_type": "text_extraction",
+      "source_locator": "~/Desktop/MONTAFON/39/chapter-39-source-from-image.txt",
+      "paragraph_count": 62,
+      "character_count": 5171,
+      "script_counts": {
+        "hangul": 3554,
+        "hanja": 2
+      },
+      "sha256": "926d1a7edbcb0f8ee6dcb8ee711dee997872e5df51d0c9f120d8b0de1558ec06",
+      "publisher_url": "https://testlocal.ly/tests/6a045223de2a776090019c7a#seoul",
+      "source_sha256": "ccc98d0bed1960bafe40c21db6bef121e3d20b21e25ba7694a7f12c23031228a",
+      "notes": "Korean source transcribed from chapter images; requires comparison with an author HWP if one is found."
+    },
+    {
+      "chapter": 40,
+      "english_title": "Montafon Moonlight House",
+      "file": "chapters/chapter-40.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/40 2/몬타폰의 달빛40.hwp",
+      "paragraph_count": 43,
+      "character_count": 5224,
+      "script_counts": {
+        "hangul": 3577,
+        "hanja": 5
+      },
+      "sha256": "65d62836f10a5c703acb1c29a011ecb83db42bc7e561aed717600af3936c9150",
+      "publisher_url": "https://testlocal.ly/tests/f378271b1c9202fd0aefd766c571e74a5ece4ff3#seoul",
+      "source_sha256": "e33f461df13d605e3479cc6de1cf57ccbb83e1973f335dfdf8d6fcf5b59ce84d",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 41,
+      "english_title": "Montafon's Nature Sounds",
+      "file": "chapters/chapter-41.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/MONTAFON/41/몬타폰의 달빛41.hwp",
+      "paragraph_count": 59,
+      "character_count": 5154,
+      "script_counts": {
+        "hangul": 3469,
+        "hanja": 23
+      },
+      "sha256": "f33b050aeb58bb43957efa8124d44edf7f31f6ee7ecf48e16b573cb99b18528c",
+      "source_sha256": "1b901189c4ea7a38edaef7fe6886f0f711354a0300b2d74262532de27d98ddb0",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 42,
+      "english_title": "Lonely Mr. Willi",
+      "file": "chapters/chapter-42.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/42/source/chapter-42.hwp",
+      "paragraph_count": 62,
+      "character_count": 5050,
+      "script_counts": {
+        "hangul": 3516,
+        "hanja": 0
+      },
+      "sha256": "69a33ad86ae8bf9b2979dfa36d1d4c9435476bb39c48734a4f36c531b76c4322",
+      "source_sha256": "94ef4423af6c7f18cd50a9d44204c9cfe309b7ec2c4dfbcc46dc643ea04c2c22",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 43,
+      "english_title": "Kairos im Kronos 1756 / 1956",
+      "file": "chapters/chapter-43.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/43/source/chapter-43.hwp",
+      "paragraph_count": 57,
+      "character_count": 5485,
+      "script_counts": {
+        "hangul": 3835,
+        "hanja": 3
+      },
+      "sha256": "2a5a62e1435a5c5ed1cd415f9a9700dc8fa1d8e4bb1e6d90d632330ac254641f",
+      "source_sha256": "04a9139f5809162063a2f3e947c11b7156c73c41ee9d3ec7d0db4d284457d50a",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 44,
+      "english_title": "Salzburg Concert",
+      "file": "chapters/chapter-44.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/몬타폰의 달빛44.hwp",
+      "paragraph_count": 49,
+      "character_count": 5069,
+      "script_counts": {
+        "hangul": 3568,
+        "hanja": 0
+      },
+      "sha256": "914a65c7300fd7111000fce475562845fec627742c2fbcc13db47269b7b5ca55",
+      "source_sha256": "ab7db9f3aa931fa25a917ab46e813fc558efa8cc30872ef1c240a349ea110e33",
+      "notes": "Extracted directly from the author-supplied HWP."
+    },
+    {
+      "chapter": 45,
+      "english_title": "No Time Left",
+      "file": "chapters/chapter-45.txt",
+      "status": "available",
+      "authority": "author_supplied_hwp",
+      "source_type": "hwp",
+      "source_locator": "~/Desktop/45/몬타폰의 달빛45.hwp",
+      "paragraph_count": 56,
+      "character_count": 5122,
+      "script_counts": {
+        "hangul": 3546,
+        "hanja": 5
+      },
+      "sha256": "4ca26b890a8c7d9a66bc63559f5fd36304732786c1aec514ae5b8f098b88cdb6",
+      "source_sha256": "4f71ae8ce13458260d88617b1cff87d33223ae848447acb64791cdef0421df4a",
+      "notes": "Extracted directly from the author-supplied HWP."
+    }
+  ]
+}
