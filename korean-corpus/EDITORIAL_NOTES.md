@@ -45,3 +45,18 @@ References:
 
 - https://www.archivioluce.com/10-giugno-1940-litalia-e-in-guerra/
 - https://www.raicultura.it/storia/accadde-oggi/LItalia-in-guerra-63391ff9-60e2-404a-95f8-75f6d60a60cf.html
+
+
+## Chapter 6 — author revision received September 7, 2026
+
+The author’s revised HWP adds one underlined paragraph after Willi’s account
+of conceiving three movements on the way to Incheon Airport:
+
+> 물론 이때 구상한 3악장은 시간이 지나면서 전곡 10악장으로 완성되었다.
+
+The English now explains that these three movements later became a complete
+work of ten movements. The preceding dialogue now says “three movements”
+instead of “third movement,” and follows the translator’s reviewed wording,
+“I felt jeong with Mrs. Francesca, too.” Both the chapter HTML and print
+manuscript include the revision. The Korean corpus preserves the added
+paragraph separately; its manifest and checksum have been refreshed.

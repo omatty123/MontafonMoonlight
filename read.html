@@ -633,6 +633,11 @@
             `;
             tocList.appendChild(coverItem);
 
+            const prefaceItem = document.createElement('li');
+            prefaceItem.className = 'toc-item';
+            prefaceItem.innerHTML = '<a href="preface.html" class="toc-link"><span class="toc-num"></span>Author’s Preface</a>';
+            tocList.appendChild(prefaceItem);
+
             chapters.forEach((chapter, index) => {
                 const li = document.createElement('li');
                 li.className = 'toc-item';
@@ -645,7 +650,7 @@
             });
 
             // Add click handlers
-            tocList.querySelectorAll('.toc-link').forEach(link => {
+            tocList.querySelectorAll('.toc-link[data-chapter]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const idx = parseInt(link.dataset.chapter);
@@ -673,7 +678,7 @@
                     <p class="cover-subtitle">A Journey of Friendship, Music, and Silence</p>
                     <p class="cover-author">Jeong Chanju</p>
                     <button class="start-reading-btn" onclick="loadChapter(0)">Start Reading</button>
-                    <p class="cover-info">${chapters.length} chapters available</p>
+                    <p class="cover-info"><a href="preface.html">Author’s Preface</a> · ${chapters.length} chapters available</p>
                 </div>
             `;
         }
@@ -772,7 +777,7 @@
 
         // Update TOC active state
         function updateTocActive() {
-            tocList.querySelectorAll('.toc-link').forEach(link => {
+            tocList.querySelectorAll('.toc-link[data-chapter]').forEach(link => {
                 const idx = parseInt(link.dataset.chapter);
                 link.classList.toggle('active', idx === currentChapter);
             });

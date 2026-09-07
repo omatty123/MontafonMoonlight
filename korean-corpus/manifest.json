@@ -1,7 +1,7 @@
 {
   "corpus": "몬타폰의 달빛",
   "author": "정찬주",
-  "corpus_version": "2026-07-16",
+  "corpus_version": "2026-09-07",
   "status": "coverage_complete_mixed_authority",
   "coverage": {
     "available": 45,
@@ -117,19 +117,19 @@
       "english_title": "Jeong",
       "file": "chapters/chapter-06.txt",
       "status": "available",
-      "authority": "working_google_source",
-      "source_type": "google_sheet",
-      "source_locator": "spreadsheet 1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw, tab 6",
-      "paragraph_count": 32,
-      "character_count": 3985,
+      "authority": "author_corrected_hwp",
+      "source_type": "hwp",
+      "source_locator": "몬타폰의 달빛6.hwp — author revision received September 7, 2026",
+      "paragraph_count": 33,
+      "character_count": 4027,
       "script_counts": {
-        "hangul": 2753,
+        "hangul": 2781,
         "hanja": 9
       },
-      "sha256": "4aee458ae8a84d55a994a41aa7528f9a12921f008811005e6e2f9d6e12c3ba8a",
-      "source_url": "https://docs.google.com/spreadsheets/d/1RRWoHrc2HVBmsjkKYIfWQNwuhF0UByGhM9wrktn0YXw/edit",
+      "sha256": "fb266539d9bad2b8ebe3460e415583cd9d688779e1deeba024ca2b1636b554b5",
       "publisher_url": "http://www.mediabuddha.net/m/news/view.php?number=34905",
-      "notes": "Korean-rich cell selected from each populated row; English translation cells omitted."
+      "notes": "Author’s September 7, 2026 HWP adds one underlined paragraph explaining that the three movements conceived during the airport journey later became a complete work of ten movements. All other body text is unchanged. Serial continuation marker omitted in the reading corpus.",
+      "source_sha256": "c8700d84cb8bd145f5e8f16adbb0601110ecfda0263386e5fb13309a267a06d2"
     },
     {
       "chapter": 7,

@@ -80,3 +80,22 @@ Regenerated the tracked DOCX and PDF after reconciling Chapters 21 and 22 agains
 - Removed the standalone Notes section. The glossary now follows the novel directly, reducing the PDF from 210 to 209 physical pages; chapter-opening pagination and all 45 contents entries remain unchanged.
 - Retained 234 Korean/Hanja characters across the chapter text, footnotes, and glossary. All fonts are embedded, including the Korean/Hanja fonts used in the footnotes.
 - Visually reviewed all 209 rendered pages, with full-resolution checks of every footnote, all contents pages, the final chapter transition, and both glossary pages.
+
+
+## Revision — September 7, 2026 (preface and author correspondence)
+
+Prepared from the translator’s edited bilingual review workbook:
+https://docs.google.com/spreadsheets/d/144fUkhCDSq4MNUsSfG7CAYPtj_86ge-yJOWa8ZCpZgc/edit
+
+- Added the author’s preface after the contents, preserving its paragraph structure and reviewed wording. It occupies three unnumbered pages.
+- Updated Chapter 6 with “three movements,” the translator’s “with Mrs. Francesca” wording, and the author’s added paragraph about the eventual ten-movement work.
+- Added the reviewed author biography and the shorter, history-led translator biography after the glossary.
+- The manuscript now has 214 physical pages. Chapter 1 still begins on numbered page 1; all 45 chapter-opening numbers match the existing contents. The biographies occupy numbered pages 202 and 203.
+- Verified every newly reviewed paragraph against the manuscript, all 243 Korean/Hanja characters against PDF extraction, and embedding of all PDF fonts. Reviewed the full-book page overview and inspected the new pages, revised passage, and glossary at full resolution.
+- The bundled LibreOffice renderer needed explicit access to installed macOS fonts through FONTCONFIG_FILE and SAL_FONTPATH. Korean runs use Apple SD Gothic Neo and Hanja runs use Noto Sans SC; the main body resolves to Times New Roman. Preserve access to these fonts on future renders.
+- The user approved publication of this revision on September 7, 2026.
+
+Current SHA-256 checksums:
+
+- DOCX: `64fb07d90f2e98ad937306a6f5b42b8edd7495b55dc17569fe3693a85734b3e4`
+- PDF: `58dba63a69a239ed13d65546b999e4880ed88bfe163274bcdc942d1f397d2738`
