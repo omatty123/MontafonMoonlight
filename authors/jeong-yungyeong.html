@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jeong Yungyeong • Montafon Moonlight</title>
+
+  <meta name="description" content="Biography of Jeong Yungyeong, illustrator of Montafon Moonlight." />
+  <meta property="og:title" content="Jeong Yungyeong • Montafon Moonlight" />
+  <meta property="og:description" content="Jeong Yungyeong, Seoul-based illustrator of Montafon Moonlight." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://omatty123.github.io/MontafonMoonlight/authors/jeong-yungyeong.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1a232b;
+      --muted: #5b6b77;
+      --card: #f7fafb;
+      --border: #e3e9ed;
+      --accent: #3d5f7a;
+      --link: #3d5f7a;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0c151d;
+      --text: #e7edf1;
+      --muted: #93a7b5;
+      --card: #13202b;
+      --border: #24394a;
+      --accent: #3d5f7a;
+      --link: #a8cbdf;
+    }
+
+    html,
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    em { font-style: italic; }
+    .k-meta { color: var(--muted); }
+
+    header.stickybar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .page-wrap { max-width: 1000px; margin: 0 auto; padding: 1.25rem 1rem 4rem; }
+    .page-title { font-weight: 700; font-size: 2rem; line-height: 1.15; margin-bottom: .35rem; }
+    .page-subtitle { color: var(--muted); font-size: .98rem; line-height: 1.65; max-width: 72ch; }
+    .section-title { border-bottom: 1px solid var(--border); font-size: 1.35rem; font-weight: 700; margin: 2.5rem 0 1rem; padding-bottom: .5rem; }
+    .body-copy { font-size: .96rem; line-height: 1.75; max-width: 76ch; }
+    .body-copy p + p { margin-top: 1rem; }
+
+  </style>
+</head>
+
+<body>
+  <header class="stickybar">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <h1 class="brand"><a href="../index.html" style="color:var(--text);">Montafon Moonlight</a></h1>
+      <button id="theme-toggle" class="p-1 rounded border k-meta" aria-label="Toggle dark mode"><span aria-hidden="true">☾</span></button>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <nav class="text-sm k-meta mb-4" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a> <span aria-hidden="true">›</span> <span>Jeong Yungyeong</span>
+    </nav>
+
+    <section aria-labelledby="illustrator-name">
+      <h2 id="illustrator-name" class="page-title">Jeong Yungyeong <span class="k-meta" lang="ko">정윤경</span></h2>
+      <p class="page-subtitle">Illustrator of <em>Montafon Moonlight</em></p>
+      <section class="body-copy" aria-labelledby="bio-title">
+        <h3 id="bio-title" class="section-title">Biography</h3>
+        <p>Illustrator Jeong Yungyeong was born in Seoul, South Korea. After graduating in sculpture from Kyungwon University, she pursued graduate studies in illustration at Kingston University in England. Through gentle, simple lines and colors, she seeks to connect with people everywhere. She illustrated <em>The Joy of Non-Possession</em> and <em>Venerable Beopjeong’s Songs of Encouragement for Life</em>, and her picture books include <em>A Vessel for the Heart</em> and <em>The Fool Novice</em>. She currently runs an art academy in Seoul and provides illustrations for the online Buddhist newspaper <em>Media Buddha</em>.</p>
+      </section>
+    </section>
+
+    <footer class="border-t mt-12 pt-6 text-sm k-meta" style="border-color:var(--border);">
+      <p>
+        <a href="../index.html">Home</a> •
+        <a href="jeong-chanju.html">About the Author</a> •
+        <a href="../gallery.html">Illustration Gallery</a> •
+        <a href="../places.html">Places</a> •
+        <a href="../glossary.html">Glossary</a>
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      const KEY = "theme", root = document.documentElement, btn = document.getElementById("theme-toggle");
+      function apply(t) { t === "dark" ? root.setAttribute("data-theme", "dark") : root.removeAttribute("data-theme"); }
+      function reflect(t) { btn.querySelector("span").textContent = t === "dark" ? "☀" : "☾"; }
+      let cur = localStorage.getItem(KEY) || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      apply(cur); reflect(cur);
+      btn.addEventListener("click", () => { cur = cur === "dark" ? "light" : "dark"; localStorage.setItem(KEY, cur); apply(cur); reflect(cur); });
+    })();
+  </script>
+</body>
+
+</html>
